@@ -16,35 +16,27 @@ That serves at <http://localhost:8080>. `npm run build` writes to `_site/`.
 ```
 src/
   index.md            all-modules landing page
-  module-3/           the module: index, six parts, and an unlisted workshop page
-  activities/         self-contained interactive HTML, one file per activity
+  module-3/           the module: index
+  activities/         self-contained interactive HTML one file per activity
   assets/             css and js
   data/               the CSVs the notebooks load
   _includes/          layouts
   _data/              site name and footer
-notebooks/            Colab notebooks, generated (see below)
-scripts/              generators for the notebooks and the cleaned CSV
+notebooks/            Colab notebooks, edited directly
 ```
 
 Pages are markdown with a set of shortcodes defined in `eleventy.config.js`: `{% section %}`, `{% activity %}`, `{% slot %}`, `{% check %}` / `{% q %}`, `{% notebook %}`, `{% todo %}`, `{% callout %}`, `{% feedback %}`.
 
-## Regenerating notebooks and data
+## If the repo is renamed or moved
 
-Notebooks are JSON, and hand-editing JSON invites drift, so they are generated and committed.
+Three places hardcode `owner/repo`, because Colab and the notebooks reach these files over HTTP and need absolute URLs:
 
-```bash
-python3 scripts/make_notebooks.py
-python3 scripts/make_clean_csv.py
-```
+- `eleventy.config.js` — `GITHUB_REPO`, which builds every "Open in Colab" link
+- `notebooks/m3-explore.ipynb` and `notebooks/m3-build.ipynb` — the raw-CSV URL in each setup cell
 
-## Where the repo name lives
+Miss one and the button opens a notebook that cannot find its data.
 
-Two files hardcode `owner/repo` so that Colab and the notebooks can reach files over HTTP:
-
-- `eleventy.config.js` — `GITHUB_REPO`, used to build every "Open in Colab" link
-- `scripts/make_notebooks.py` — the same value in the raw-CSV URLs baked into notebook setup cells
-
-Renaming or moving the repo means changing both, then re-running the notebook generator.
+`src/data/outpatient_visits_clean.csv` is not loaded by anything yet. It is the cleaned file the Analyze and Share notebooks will want once those are written.
 
 ## Status
 
