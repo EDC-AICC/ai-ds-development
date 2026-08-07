@@ -1,32 +1,45 @@
 # Writing an activity
 
-One HTML file in this folder. Every activity includes both shared files, with relative paths so they resolve from the dev server, the Pages deploy and disk alike:
+An activity is a small interactive page: a simulation, a sorting task, something to click through. Each one is a single self-contained HTML file in this folder, carrying its own markup, styles and script, and making no external requests.
+
+A lesson page embeds it in an iframe:
+
+```
+{% activity "p2c-analysts-toolkit.html", "The analyst's toolkit", "660px" %}
+```
+
+That draws a card — a title bar linking to the activity on its own, a fullscreen button, and the iframe beneath. The third argument is the frame's height before any JavaScript runs. The activity corrects it on load, so it only has to be close.
+
+Start from the closest existing activity.
+
+## The two shared files
+
+Include both, with relative paths so they resolve from the dev server, the deployed site and the file system alike:
 
 ```html
 <link rel="stylesheet" href="../assets/activity/base.css">  <!-- before your <style> -->
 <script src="../assets/activity/embed.js"></script>         <!-- before </body> -->
 ```
 
-**base.css** is the palette variables, `box-sizing`, and the transparent `html,body` reset. Activities are light-themed whatever the page around them is doing. Never reference a variable from the site stylesheet; it does not reach inside the iframe.
+**base.css** gives you the colour variables, `box-sizing`, and the transparent `html,body` reset that lets the activity sit flush in its frame. Activities are light-themed whatever the page around them is doing. Variables from the site stylesheet do not cross into an iframe, so never reference one.
 
-**embed.js** reports the height so the frame sizes to the content. Its only requirement is `class="activity"` on your outer element.
+**embed.js** measures the activity and tells the page how tall to make the frame. It needs `class="activity"` on your outer element, and nothing else.
 
-Everything else is yours.
+The rest is yours.
 
 ## Height locking
 
-The frame must not resize while a student clicks around, so measure every state at load and reserve the tallest. See `lockHeight()` in `p2c-analysts-toolkit.html`.
+The frame must not change size while a student clicks around. At load, render each thing the activity can display, find the tallest, and reserve that much room. `lockHeight()` in `p2c-analysts-toolkit.html` is the working example.
 
-- Retry on `requestAnimationFrame` while `document.body.clientWidth` is 0, or you freeze a garbage height.
-- Re-run on resize and after `document.fonts.ready`.
-- Which state is tallest changes with width, so measure at the current width and never cache across widths.
+- While `document.body.clientWidth` is 0 the page has no layout yet. Retry on `requestAnimationFrame` instead of measuring, or you will lock in a garbage height.
+- Re-run on resize and after `document.fonts.ready`. Both change how text wraps.
+- Narrow text wraps taller, and unevenly, so the tallest state on a desktop may not be the tallest on a phone. Always measure at the current width.
 
 ## Before it ships
 
-- Reads at 571px, degrades cleanly at 335px
-- No horizontal overflow and no inner scrollbar at either width
+- Reads well at 571px, the real width of the embed on a lesson page
+- Still works at 335px, a small phone
+- No sideways scrollbar, and no scrollbar inside the frame, at either width
 - Clicking between states never changes the frame height
-- No title inside the activity; the embed header carries it
-- Clickable things are real buttons with focus states
-
-Test by loading at the width you care about. The editor's browser pane fires no `resize` or `ResizeObserver` callbacks, so resizing into a width proves nothing there.
+- No title inside the activity, since the card's title bar already shows it
+- Anything clickable is a real `<button>` with a visible focus state
