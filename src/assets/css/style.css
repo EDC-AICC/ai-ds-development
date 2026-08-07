@@ -29,9 +29,7 @@
   --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
   --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 
-  --prov-a:#b45309; --prov-a-soft:#fdf3e7;
-  --prov-b:#6d28d9; --prov-b-soft:#f1ecfd;
-  --prov-c:#0e7490; --prov-c-soft:#e3f1f5;
+  --violet:#6d28d9; --violet-soft:#f1ecfd;
 }
 
 @media (prefers-color-scheme: dark){
@@ -50,9 +48,7 @@
     --chrome:#1f262d;
     --shadow:rgba(0,0,0,.4);
 
-    --prov-a:#e0a763; --prov-a-soft:#2b2116;
-    --prov-b:#b79bec; --prov-b-soft:#231d33;
-    --prov-c:#58bed6; --prov-c-soft:#14303a;
+    --violet:#b79bec; --violet-soft:#231d33;
   }
 }
 :root[data-theme="dark"]{
@@ -70,9 +66,7 @@
   --chrome:#1f262d;
   --shadow:rgba(0,0,0,.4);
 
-  --prov-a:#e0a763; --prov-a-soft:#2b2116;
-  --prov-b:#b79bec; --prov-b-soft:#231d33;
-  --prov-c:#58bed6; --prov-c-soft:#14303a;
+  --violet:#b79bec; --violet-soft:#231d33;
 }
 
 *{box-sizing:border-box}
@@ -124,13 +118,6 @@ td{color:var(--ink)}
 }
 .sectiontitle{font-family:var(--serif); font-size:1.75rem; line-height:1.2; font-weight:600; text-wrap:balance}
 .sectiontime{margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--slate)}
-
-.beat{
-  display:flex; justify-content:space-between; align-items:baseline; gap:1rem;
-  font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--slate); margin:3rem 0 1rem;
-}
-.beat .n{color:var(--accent); font-weight:600}
 
 /* ---------- activity card ----------
    The header is its own rounded bar floating above the frame. The frame
@@ -184,18 +171,6 @@ a.activity-title:hover{color:var(--accent); text-decoration:underline}
   padding:1.6rem 1.2rem; color:var(--slate); font-size:.92rem; max-width:34rem; margin:0 auto;
 }
 
-/* ---------- bare placeholder ---------- */
-.ph{
-  border:1px dashed var(--line); border-radius:10px; background:var(--card);
-  margin:1.5rem 0; padding:.9rem 1rem;
-  display:flex; flex-direction:column; gap:.3rem;
-}
-.ph-label{
-  font-family:var(--mono); font-size:.72rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--slate);
-}
-.ph-note{font-family:var(--mono); font-size:.72rem; color:var(--slate); opacity:.85}
-
 /* ---------- check-yourself ---------- */
 .check{margin:2rem 0 2.5rem}
 .check .check-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 .8rem}
@@ -213,12 +188,6 @@ details.q summary::before{content:"?"; font-family:var(--mono); color:var(--acce
 details.q[open] summary::before{content:"→"}
 details.q .answer{padding:0 1rem 1rem; color:var(--ink); font-size:.95rem; border-top:1px dashed var(--line)}
 details.q .answer p:first-child{margin-top:.9rem}
-
-/* ---------- checklist — a label and a list ---------- */
-.checklist{margin:1.6rem 0 2rem}
-.checklist .check-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 .6rem}
-.checklist ul{margin:0}
-.checklist li{color:var(--ink); font-size:.95rem}
 
 /* ---------- notebook handoff — an action, so it gets a card ---------- */
 .notebook{
@@ -238,22 +207,10 @@ details.q .answer p:first-child{margin-top:.9rem}
   background:var(--card); color:var(--slate); border-color:var(--line); cursor:not-allowed;
 }
 
-/* ---------- comparison — a label and a table ---------- */
-.compare{margin:1.6rem 0 2rem}
-.compare .check-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 .6rem}
-.compare table{min-width:32rem}
-
-/* ---------- callout / instructor — left rule, no fill ---------- */
+/* ---------- callout — left rule, no fill ---------- */
 .callout{border-left:3px solid var(--accent); padding-left:1rem; margin:1.6rem 0}
 .callout > :last-child{margin-bottom:0}
 .callout.warn{border-left-color:var(--warn)}
-.instructor{border-left:3px solid var(--line); padding-left:1rem; margin:2rem 0}
-.instructor .ilabel{
-  font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--slate); margin:0 0 .5rem;
-}
-.instructor p,.instructor li{color:var(--slate); font-size:.92rem}
-.instructor > :last-child{margin-bottom:0}
 
 pre.prompt{white-space:pre-wrap; background:var(--card); border-left:3px solid var(--accent)}
 
@@ -315,37 +272,6 @@ footer.endcap{border-top:1px solid var(--line); padding:2rem 0 4rem; color:var(-
 }
 button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 
-/* ---------- provenance ---------- */
-.prov{border-left:3px solid transparent; padding-left:.9rem; margin-left:-1.15rem}
-.prov::before{
-  content:attr(data-prov); font-family:var(--mono); font-size:.62rem;
-  letter-spacing:.1em; text-transform:uppercase; font-weight:600;
-  display:inline-block; padding:.1rem .4rem; border-radius:3px; margin-bottom:.4rem;
-}
-.prov-habiba{border-left-color:var(--prov-a)}
-.prov-habiba::before{background:var(--prov-a-soft); color:var(--prov-a)}
-.prov-susan{border-left-color:var(--prov-b)}
-.prov-susan::before{background:var(--prov-b-soft); color:var(--prov-b)}
-.prov-new{border-left-color:var(--prov-c)}
-.prov-new::before{background:var(--prov-c-soft); color:var(--prov-c)}
-body.prov-off .prov{border-left-color:transparent; padding-left:0; margin-left:0}
-body.prov-off .prov::before{display:none}
-body.prov-off #prov-legend{display:none}
-#prov-toggle{
-  position:fixed; right:1.1rem; bottom:1.1rem; z-index:70;
-  font-family:var(--mono); font-size:.75rem;
-  background:var(--ink); color:var(--paper); border:none; cursor:pointer;
-  padding:.55rem .8rem; border-radius:7px;
-}
-#prov-legend{
-  background:var(--card); border:1px solid var(--line); border-radius:8px;
-  padding:.7rem .9rem; margin:1.5rem 0 0; font-size:.82rem; color:var(--slate);
-  display:flex; gap:1.1rem; flex-wrap:wrap; align-items:center;
-}
-#prov-legend .dot{width:.65rem; height:.65rem; border-radius:2px; display:inline-block; margin-right:.35rem}
-#prov-legend .swatch{display:inline-flex; align-items:center}
-#prov-legend .lbl{font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase}
-
 /* ---------- teaching-model page ---------- */
 .whoblock{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:2rem 0; box-shadow:0 1px 3px var(--shadow)}
 .whohead{padding:.55rem .9rem; background:var(--chrome); border-bottom:1px solid var(--line);
@@ -360,7 +286,7 @@ body.prov-off #prov-legend{display:none}
 .who{font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; font-weight:600;
   padding:.16rem .45rem; border-radius:4px; flex:none; width:5.5rem; text-align:center}
 .who.us{background:var(--warn-soft); color:var(--warn)}
-.who.ai{background:var(--prov-b-soft); color:var(--prov-b)}
+.who.ai{background:var(--violet-soft); color:var(--violet)}
 .who.them{background:var(--accent-soft); color:var(--accent)}
 .steps .what{font-size:.92rem}
 .tally{margin:.9rem 0 0; padding:.7rem .85rem; border-radius:0 7px 7px 0; font-size:.92rem}
@@ -371,15 +297,11 @@ body.prov-off #prov-legend{display:none}
   body{font-size:16px}
   .masthead h1{font-size:1.95rem}
   .sectiontitle{font-size:1.5rem}
-  .prov{margin-left:0}
   #theme-toggle{top:auto; bottom:1.1rem; right:auto; left:1.1rem}
-  #prov-legend{flex-direction:column; align-items:flex-start; gap:.4rem}
   .who{width:4.6rem}
 }
 @media print{
-  #theme-toggle,#prov-toggle,#prov-legend{display:none}
-  .prov{border-left-color:transparent; padding-left:0; margin-left:0}
-  .prov::before{display:none}
+  #theme-toggle{display:none}
 }
 
 /* The frame is now sized to its content, so the only space under an

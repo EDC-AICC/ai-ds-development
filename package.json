@@ -14,7 +14,6 @@
     "@11ty/eleventy": "^3.0.0"
   },
   "dependencies": {
-    "markdown-it": "^14.3.0",
-    "markdown-it-attrs": "^5.0.1"
+    "markdown-it": "^14.3.0"
   }
 }

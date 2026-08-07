@@ -1,11 +1,9 @@
 import markdownIt from "markdown-it";
-import markdownItAttrs from "markdown-it-attrs";
 
 /* One markdown instance, used both for the page pipeline and for rendering
    markdown that appears *inside* paired shortcodes. Without the second use,
    CommonMark would leave anything wrapped in a <div> unprocessed.          */
-const md = markdownIt({ html: true, breaks: false, linkify: true })
-  .use(markdownItAttrs);
+const md = markdownIt({ html: true, breaks: false, linkify: true });
 
 const inline = (s) => md.renderInline((s || "").trim());
 const block  = (s) => md.render((s || "").trim());
@@ -20,8 +18,8 @@ const withPrefix = (p) =>
 
 /* owner/repo on GitHub. Colab opens notebooks straight out of the repo, so
    this is the one place that knows where the repo lives. Change it here and
-   every "Open in Colab" button follows. scripts/make_notebooks.py holds the
-   same value for the raw-CSV URLs it bakes into notebook setup cells. */
+   every "Open in Colab" button follows. The notebooks themselves hold the
+   same value in the raw-CSV URL of their setup cell. */
 const GITHUB_REPO = "kellerflint/AI-DS-development";
 const colabUrl = (notebook) =>
   `https://colab.research.google.com/github/${GITHUB_REPO}/blob/main/notebooks/${notebook}`;
@@ -32,13 +30,13 @@ export default function (eleventyConfig) {
   /* ---- static passthrough ----
      Activities are hand-written, self-contained HTML. They must be copied
      verbatim, never run through the template engine — their inline JS is not
-     Nunjucks and must not be parsed as such.                                */
-  eleventyConfig.ignores.add("src/**/activities/**");
+     Nunjucks and must not be parsed as such. The ignore is what keeps them
+     out of the template pipeline; the copy is html-only so AUTHORING.md
+     stays a source document rather than something the site serves.          */
+  eleventyConfig.ignores.add("src/activities/**");
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "src/activities": "activities" });
-  eleventyConfig.addPassthroughCopy("src/**/activities/**");
+  eleventyConfig.addPassthroughCopy({ "src/activities/*.html": "activities" });
   eleventyConfig.addPassthroughCopy("src/**/*.csv");
-  eleventyConfig.addPassthroughCopy("src/**/*.ipynb");
 
   eleventyConfig.addWatchTarget("src/assets/");
 
@@ -71,16 +69,6 @@ export default function (eleventyConfig) {
 </div>`;
   });
 
-  /* {% beat "01", "Cold open", "~3 min" %} */
-  eleventyConfig.addShortcode("beat", function (n, title, time = "") {
-    return `<div class="beat"><span><span class="n">${n}</span> &nbsp;${title}</span><span>${time}</span></div>`;
-  });
-
-  /* =========================================================
-     WIREFRAME COMPONENTS — scaffolding while the module is
-     being written. All of these are meant to be replaced.
-     ========================================================= */
-
   /* {% section "Do it for real", "~35 min" %} — student-facing divider.
      The six phases shape these pages but are never named on them; phase
      numbers live in HTML comments in the source, for authors only.        */
@@ -112,41 +100,6 @@ export default function (eleventyConfig) {
 </div>`;
   });
 
-  /* {% ph "activity" %} — bare labelled block, kept for anywhere it's still used */
-  eleventyConfig.addShortcode("ph", function (kind, note = "") {
-    const K = {
-      prose:     { label: "Prose",      h: 84 },
-      activity:  { label: "Activity",   h: 260 },
-      video:     { label: "Video",      h: 150 },
-      notebook:  { label: "Notebook",   h: 130 },
-      questions: { label: "Questions",  h: 130 },
-      checklist: { label: "Checklist",  h: 110 },
-      table:     { label: "Table",      h: 130 },
-      cards:     { label: "Cards",      h: 150 },
-    };
-    const k = K[kind] || { label: kind, h: 110 };
-    return `<div class="ph" style="min-height:${k.h}px">
-  <span class="ph-label">${k.label}</span>${note ? `<span class="ph-note">${inline(note)}</span>` : ""}
-</div>`;
-  });
-
-  /* {% checklist "Verification checklist" %} markdown list {% endchecklist %} */
-  eleventyConfig.addPairedShortcode("checklist", function (content, title = "Before you move on") {
-    return `<div class="checklist"><p class="check-label">${inline(title)}</p>\n${block(content)}\n</div>`;
-  });
-
-  /* {% status "scaffold" %} — inline pill */
-  eleventyConfig.addShortcode("status", function (s) {
-    return `<span class="pill pill-${s}">${s}</span>`;
-  });
-
-  /* {% prov "habiba", "Habiba · scenario" %} … {% endprov %}
-     who = habiba | susan | new                                   */
-  eleventyConfig.addPairedShortcode("prov", function (content, who, label) {
-    const lbl = label || who;
-    return `<div class="prov prov-${who}" data-prov="${lbl}">\n${block(content)}\n</div>`;
-  });
-
   /* {% check %} … {% endcheck %}  — wraps a group of {% q %} blocks */
   eleventyConfig.addPairedShortcode("check", function (content, hint) {
     const h = hint
@@ -173,17 +126,6 @@ export default function (eleventyConfig) {
       ? `<a class="btn-colab" href="${colabUrl(notebook)}">Open in Colab →</a>`
       : `<a class="btn-colab is-placeholder" href="#" onclick="return false;">Open in Colab →</a>`;
     return `<div class="notebook"><h4>${inline(title)}</h4>\n${block(content)}\n${link}</div>`;
-  });
-
-  /* {% instructor %} … {% endinstructor %} */
-  eleventyConfig.addPairedShortcode("instructor", function (content) {
-    return `<div class="instructor"><p class="ilabel">Facilitation notes</p>\n${block(content)}\n</div>`;
-  });
-
-  /* {% compare %} markdown table {% endcompare %} — wraps in a scroll box */
-  eleventyConfig.addPairedShortcode("compare", function (content, label = "Workflow comparison") {
-    return `<div class="compare"><p class="check-label">${inline(label)}</p>
-<div class="tablescroll">\n${block(content)}\n</div></div>`;
   });
 
   /* Tally feedback form. `module` and `part` are hidden fields on the form,
