@@ -1,0 +1,20 @@
+{
+  "name": "ai-in-data-science",
+  "version": "0.1.0",
+  "description": "AI in Data Science — course site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve",
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rm -rf _site"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  },
+  "dependencies": {
+    "markdown-it": "^14.3.0",
+    "markdown-it-attrs": "^5.0.1"
+  }
+}

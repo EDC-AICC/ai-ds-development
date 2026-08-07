@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The map with holes — interactive activity</title>
+<meta name="description" content="Every clinic visit lands on a county tile, except the 242 that land nowhere. Look inside the hole.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  @media (max-width:560px){ .activity-instructions{flex-wrap:wrap} .a-actions{margin-left:auto} }
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p4b-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem; margin:0 0 .9rem}
+  @media (max-width:480px){ .p4b-tiles{grid-template-columns:repeat(2,1fr)} }
+  .p4b-tile{border:1px solid var(--line); border-radius:8px; padding:.5rem .6rem; background:#fcfdfe}
+  .p4b-tile .name{font-family:var(--mono); font-size:.66rem; letter-spacing:.05em; text-transform:uppercase; color:var(--slate)}
+  .p4b-tile .count{font-family:var(--serif); font-size:1.35rem; font-weight:600}
+  .p4b-tile .fillrow{height:.45rem; background:var(--chrome); border-radius:3px; margin-top:.3rem; overflow:hidden}
+  .p4b-tile .fill{height:100%; background:#8bb8c6}
+  .p4b-tile.hole{border-color:#f0d9b8; background:var(--warn-soft)}
+  .p4b-tile.hole .count{color:var(--warn)}
+  .p4b-tile.hole .fill{background:#d97742}
+
+  .p4b-panel{min-height:10.5rem}
+  .p4b-bars{margin:0 0 .7rem}
+  .p4b-bar{display:flex; align-items:center; gap:.5rem; margin:.22rem 0}
+  .p4b-bar .lbl{font-family:var(--mono); font-size:.72rem; width:6.8rem; flex:none; color:var(--ink)}
+  .p4b-bar .bar{height:.8rem; border-radius:2px; min-width:2px}
+  .p4b-bar .b1{background:#8bb8c6}
+  .p4b-bar .b2{background:#d97742}
+  .p4b-bar .val{font-family:var(--mono); font-size:.68rem; color:var(--slate); flex:none}
+  .p4b-legend{font-family:var(--mono); font-size:.64rem; color:var(--slate); margin:0 0 .5rem}
+  .p4b-legend .sw{display:inline-block; width:.7rem; height:.7rem; border-radius:2px; vertical-align:-1px; margin-right:.25rem}
+  .p4b-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p4b-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p4b">
+  <div class="activity-instructions">
+    <span class="a-instr">Every visit lands on its county tile, except the 242 that land nowhere.
+    The biggest tile on the board has no name on it.
+    <strong>Open the hole to see who is in it.</strong></span>
+    <div class="a-actions">
+      <button class="btn primary" id="p4b-open" type="button">Open the hole</button>
+    </div>
+  </div>
+  <div class="activity-body">
+    <div class="p4b-tiles" id="p4b-tiles"></div>
+    <div class="p4b-panel" id="p4b-panel"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* Counts from outpatient_visits_clean.csv, 793 visits. */
+  const COUNTIES = [
+    ["county unknown",242,true],
+    ["Los Angeles",85],["San Francisco",81],["Sacramento",75],["Riverside",70],
+    ["San Diego",67],["Fresno",61],["Orange",61],["Alameda",51]
+  ];
+  /* Insurance mix: share of the whole file vs share of the missing pile. */
+  const MIX = [
+    ["Medicaid",37,44],["Private",26,30],["Medicare",21,19],["Uninsured",15,8]
+  ];
+
+  function tiles(){
+    const max = COUNTIES[0][1];
+    $("p4b-tiles").innerHTML = COUNTIES.map(([n,c,hole])=>`
+      <div class="p4b-tile ${hole?'hole':''}">
+        <span class="name">${n}</span>
+        <span class="count">${c}</span>
+        <div class="fillrow"><div class="fill" style="width:${(c/max*100).toFixed(0)}%"></div></div>
+      </div>`).join("");
+  }
+
+  function closedPanel(){
+    return `<p class="p4b-verdict">Los Angeles leads the counties you can see, and the tile that
+      leads everything is the one with no name on it. Any ranking, any map, any per-county number
+      from this file describes the blue tiles only. Whether that is fine depends entirely on who
+      is inside the orange one.</p>`;
+  }
+
+  function openPanel(){
+    return `<p class="p4b-legend"><span class="sw" style="background:#8bb8c6"></span>share of the whole file
+      &nbsp;&nbsp;<span class="sw" style="background:#d97742"></span>share of the missing pile</p>
+      <div class="p4b-bars">` + MIX.map(([n,f,m])=>`
+        <div class="p4b-bar">
+          <span class="lbl">${n}</span>
+          <div class="bar b1" style="width:${f*0.9}%"></div>
+          <span class="val">${f}%</span>
+          <div class="bar b2" style="width:${m*0.9}%"></div>
+          <span class="val">${m}%</span>
+        </div>`).join("") + `</div>
+      <p class="p4b-verdict"><b>The hole has a shape.</b> Medicaid visits are 37% of the file and 44%
+      of the missing pile. Uninsured visits are 15% of the file and 8% of the pile. If the missing
+      counties were an accident, the orange bars would match the blue ones. They lean, which means
+      some workflow skips the county box for some patients, and every county number now
+      underweights the clinic's largest group. The data can show you the lean. Only somebody at
+      the clinic can tell you the workflow.</p>`;
+  }
+
+  let open = false;
+  $("p4b-open").addEventListener("click", ()=>{
+    open = !open;
+    $("p4b-open").textContent = open ? "Close the hole" : "Open the hole";
+    $("p4b-panel").innerHTML = open ? openPanel() : closedPanel();
+  });
+
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const p = $("p4b-panel");
+    const keep = p.innerHTML;
+    p.style.minHeight = "0";
+    p.innerHTML = openPanel();
+    let tallest = p.scrollHeight;
+    p.innerHTML = closedPanel();
+    tallest = Math.max(tallest, p.scrollHeight);
+    p.innerHTML = keep;
+    p.style.minHeight = tallest + "px";
+  }
+
+  tiles();
+  $("p4b-panel").innerHTML = closedPanel();
+  lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p4b-map-with-holes", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

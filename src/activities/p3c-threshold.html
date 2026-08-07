@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the flag stops working — interactive activity</title>
+<meta name="description" content="A high-utilizer flag needs a threshold. Slide it and watch the flag mean more, and cover less, until it fits the job.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+
+  .p3c-thresholds{display:flex; gap:.3rem; flex-wrap:wrap; margin:0 0 1rem}
+  .p3c-t{
+    font-family:var(--mono); font-size:.8rem; font-weight:700;
+    border:1px solid var(--line); color:var(--slate); background:var(--card);
+    border-radius:6px; padding:.35rem .75rem; cursor:pointer;
+  }
+  .p3c-t:hover{border-color:var(--accent); color:var(--accent)}
+  .p3c-t.active{border-color:var(--accent); background:var(--accent); color:#fff}
+  .p3c-t:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p3c-meter{margin:0 0 .9rem}
+  .p3c-mlabel{display:flex; justify-content:space-between; font-family:var(--mono); font-size:.7rem; color:var(--slate); margin:0 0 .25rem}
+  .p3c-mlabel b{color:var(--ink)}
+  .p3c-track{position:relative; height:1.05rem; background:var(--chrome); border-radius:4px; overflow:hidden}
+  .p3c-fill{height:100%; background:#8bb8c6; border-radius:4px 0 0 4px; transition:width .3s}
+  .p3c-fill.over{background:#d97742}
+  .p3c-cap{position:absolute; top:-2px; bottom:-2px; width:2px; background:var(--ink)}
+  .p3c-capnote{font-family:var(--mono); font-size:.62rem; color:var(--slate); margin:.2rem 0 0}
+
+  .p3c-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p3c-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p3c">
+  <div class="activity-instructions">
+    <span class="a-instr">The clinic is hiring a care coordinator who can manage about
+    <strong>45 patients</strong>, and the high-utilizer flag decides who lands on their list.
+    The flag needs a threshold. <strong>Pick one.</strong></span>
+  </div>
+  <div class="activity-body">
+    <div class="p3c-thresholds" id="p3c-thresholds"></div>
+    <div class="p3c-meter">
+      <div class="p3c-mlabel"><span>patients flagged</span><b id="p3c-pn"></b></div>
+      <div class="p3c-track">
+        <div class="p3c-fill" id="p3c-pfill"></div>
+        <div class="p3c-cap" style="left:22.5%"></div>
+      </div>
+      <p class="p3c-capnote">the black line is the coordinator's capacity, 45 of 200 patients</p>
+    </div>
+    <div class="p3c-meter">
+      <div class="p3c-mlabel"><span>share of all visits made by flagged patients</span><b id="p3c-vn"></b></div>
+      <div class="p3c-track"><div class="p3c-fill" id="p3c-vfill" style="background:#a6c8b4"></div></div>
+    </div>
+    <p class="p3c-verdict" id="p3c-verdict"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* Real counts from the cleaned clinic file: 793 visits, 200 patients. */
+  const TABLE = {
+    2:{pats:183, visits:776}, 3:{pats:156, visits:722}, 4:{pats:110, visits:584},
+    5:{pats:74,  visits:440}, 6:{pats:42,  visits:280}, 7:{pats:21,  visits:154},
+    8:{pats:7,   visits:56}
+  };
+  const CAPACITY = 45, TOTAL_P = 200, TOTAL_V = 793;
+  let k = 4;
+
+  const VERDICTS = {
+    2: "183 of 200 patients are flagged. The list is the phone book. A flag nearly everyone wears carries almost no information, and the coordinator is four times over capacity before they start.",
+    3: "156 patients flagged, three and a half times what one coordinator can manage. The flag still is not selecting, it is describing the clinic, which mostly serves repeat visitors.",
+    4: "This is the threshold the course dataset ships with, and look at it. 110 patients, over half the panel, 2.4 times capacity. It felt like a reasonable default when somebody typed it, and the purpose it was typed for is not this purpose.",
+    5: "74 patients. Closer, still 29 over what the coordinator can take. You could rank within the flag to trim it, and at that point the ranking is doing the work, and the flag is just a first cut.",
+    6: "<b>42 patients, and the flag finally fits the job.</b> Under capacity with room for judgment calls, and those 42 patients account for 280 visits, a third of everything the clinic does. Notice what picked this number. The coordinator's capacity did, a fact about the clinic that appears nowhere in the data.",
+    7: "21 patients, half the coordinator's capacity unused. Every one of these patients genuinely needs coordination, and the clinic paid for capacity it is not using. Too strict wastes the hire.",
+    8: "7 patients, the extreme tail. This threshold answers a different question, something like who should the medical director personally review, and it leaves the coordinator nearly idle."
+  };
+
+  function render(){
+    $("p3c-thresholds").innerHTML = Object.keys(TABLE).map(t=>
+      `<button type="button" class="p3c-t ${+t===k?'active':''}" data-k="${t}">${t}+ visits</button>`).join("");
+    $("p3c-thresholds").querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click", ()=>{ k = +b.dataset.k; render(); });
+    });
+    const row = TABLE[k];
+    $("p3c-pn").textContent = `${row.pats} of ${TOTAL_P}`;
+    $("p3c-vn").textContent = `${Math.round(row.visits/TOTAL_V*100)}%`;
+    const pf = $("p3c-pfill");
+    pf.style.width = (row.pats/TOTAL_P*100)+"%";
+    pf.classList.toggle("over", row.pats > CAPACITY);
+    $("p3c-vfill").style.width = (row.visits/TOTAL_V*100)+"%";
+    $("p3c-verdict").innerHTML = VERDICTS[k];
+  }
+
+  /* Reserve the tallest verdict so switching thresholds never resizes the activity. */
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const v = $("p3c-verdict");
+    const keep = v.innerHTML;
+    v.style.minHeight = "0";
+    let tallest = 0;
+    Object.values(VERDICTS).forEach(h=>{ v.innerHTML = h; tallest = Math.max(tallest, v.scrollHeight); });
+    v.innerHTML = keep;
+    v.style.minHeight = tallest + "px";
+  }
+
+  render(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p3c-threshold", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

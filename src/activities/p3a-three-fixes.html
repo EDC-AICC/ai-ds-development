@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three ways to fix a date — interactive activity</title>
+<meta name="description" content="Four impossible dates, one ambiguous format, and every policy has a price. Pick yours and watch the consequences.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+
+  .p3a-cases{display:flex; flex-wrap:wrap; gap:.35rem; margin:0 0 .9rem}
+  .p3a-case{font-family:var(--mono); font-size:.68rem; border:1px solid #f0d9b8; background:var(--warn-soft);
+    color:var(--warn); border-radius:6px; padding:.2rem .5rem}
+  .p3a-case b{color:var(--ink); font-weight:600}
+
+  .p3a-controls{display:flex; flex-wrap:wrap; gap:1.2rem; margin:0 0 .9rem}
+  .p3a-group .glabel{font-family:var(--mono); font-size:.66rem; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--slate); display:block; margin:0 0 .3rem}
+  .p3a-opts{display:flex; gap:.3rem; flex-wrap:wrap}
+  .p3a-opt{
+    font-family:var(--sans); font-size:.8rem; font-weight:600;
+    border:1px solid var(--line); color:var(--slate); background:var(--card);
+    border-radius:6px; padding:.3rem .65rem; cursor:pointer;
+  }
+  .p3a-opt:hover{border-color:var(--accent); color:var(--accent)}
+  .p3a-opt.active{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .p3a-opt:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p3a-stats{font-family:var(--mono); font-size:.75rem; color:var(--slate); margin:0 0 .6rem}
+  .p3a-stats b{color:var(--ink)}
+  .p3a-chartbox{min-height:9.5rem; margin:0 0 .8rem}
+  .p3a-chart{display:flex; align-items:flex-end; gap:2px; height:7.2rem}
+  .p3a-col{flex:1; height:100%; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:.2rem}
+  .p3a-colbar{width:100%; background:#8bb8c6; border-radius:2px 2px 0 0; transition:height .35s}
+  .p3a-col.diff .p3a-colbar{background:#d97742}
+  .p3a-collbl{font-family:var(--mono); font-size:.58rem; color:var(--slate)}
+  .p3a-crash{font-family:var(--mono); font-size:.72rem; background:var(--warn-soft); border:1px solid #f0d9b8;
+    border-radius:8px; padding:.7rem .85rem; color:var(--warn); white-space:pre-wrap}
+  .p3a-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p3a-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p3a">
+  <div class="activity-instructions">
+    <span class="a-instr">After removing duplicates, 797 visits remain and four of their dates are
+    broken beyond parsing. <strong>Pick a policy for the four, then pick a reading</strong> for dates
+    like 08-04-2023, and watch what each choice does to the file.</span>
+  </div>
+  <div class="activity-body">
+    <div class="p3a-cases">
+      <span class="p3a-case"><b>Feb 30 2023</b> · telehealth, $29</span>
+      <span class="p3a-case"><b>not recorded</b> · telehealth, $0</span>
+      <span class="p3a-case"><b>13/45/2023</b> · follow-up, $0</span>
+      <span class="p3a-case"><b>2023-00-00</b> · urgent care, $0</span>
+    </div>
+    <div class="p3a-controls">
+      <div class="p3a-group">
+        <span class="glabel">the four broken dates</span>
+        <div class="p3a-opts" id="p3a-policy"></div>
+      </div>
+      <div class="p3a-group">
+        <span class="glabel">two-part dates read as</span>
+        <div class="p3a-opts" id="p3a-reading"></div>
+      </div>
+    </div>
+    <p class="p3a-stats" id="p3a-stats"></p>
+    <div class="p3a-chartbox" id="p3a-chartbox"></div>
+    <p class="p3a-verdict" id="p3a-verdict"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* Monthly visit counts of the deduplicated file (797 rows, 793 parseable),
+     computed from outpatient_visits.csv under each reading of two-part dates. */
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MONTH_FIRST = [69,60,78,62,60,69,64,65,50,70,80,66];
+  const DAY_FIRST   = [61,65,79,71,74,72,55,71,43,61,77,64];
+  const FLIPPED = 174;
+
+  const POLICIES = [
+    {id:"drop", label:"Drop the rows"},
+    {id:"nan",  label:"Set date to missing"},
+    {id:"text", label:"Leave the column as text"}
+  ];
+  const READINGS = [
+    {id:"mf", label:"Month first"},
+    {id:"df", label:"Day first"}
+  ];
+  let policy = "drop", reading = "mf";
+
+  function chartHTML(data){
+    const max = Math.max(...MONTH_FIRST, ...DAY_FIRST);
+    const other = (reading==="mf" ? DAY_FIRST : MONTH_FIRST);
+    return `<div class="p3a-chart">` + data.map((v,i)=>`
+      <div class="p3a-col ${v!==other[i]?'diff':''}">
+        <div class="p3a-colbar" style="height:${(v/max*100).toFixed(0)}%"></div>
+        <span class="p3a-collbl">${MONTHS[i]}</span>
+      </div>`).join("") + `</div>`;
+  }
+
+  function render(){
+    ["p3a-policy","p3a-reading"].forEach((id, gi)=>{
+      const opts = gi===0 ? POLICIES : READINGS;
+      const cur = gi===0 ? policy : reading;
+      $(id).innerHTML = opts.map(o=>
+        `<button type="button" class="p3a-opt ${o.id===cur?'active':''}" data-o="${o.id}">${o.label}</button>`).join("");
+      $(id).querySelectorAll("button").forEach(b=>{
+        b.addEventListener("click", ()=>{
+          if(gi===0) policy = b.dataset.o; else reading = b.dataset.o;
+          render();
+        });
+      });
+    });
+
+    const data = reading==="mf" ? MONTH_FIRST : DAY_FIRST;
+
+    if(policy==="text"){
+      $("p3a-stats").innerHTML = `rows kept <b>797</b> · dates usable <b>0</b>`;
+      $("p3a-chartbox").innerHTML = `<div class="p3a-crash">ValueError: time data "08-04-2023" doesn't match format "%Y-%m-%d", at position 1.
+
+Every date operation fails here: visits per month, days between
+visits, "last year", all of it. The column looks fine in a table
+and is unusable in every calculation.</div>`;
+      $("p3a-verdict").innerHTML = `<b>Keeping the column as text postpones the decision to the worst possible moment,</b> mid-analysis, when a chart cell crashes and whoever runs it has no idea a date policy was never made. The other two policies cost something now. This one costs more later.`;
+      return;
+    }
+
+    if(policy==="drop"){
+      $("p3a-stats").innerHTML = `rows kept <b>793</b> · dates missing <b>0</b> · real visits lost <b>4</b>`;
+      $("p3a-verdict").innerHTML = `<b>Four real visits are gone,</b> diagnoses, copays and all, which is 0.5% of the file. Clean and honest, as long as the loss is written down. ` + readingNote();
+    } else {
+      $("p3a-stats").innerHTML = `rows kept <b>797</b> · dates missing <b>4</b> · real visits lost <b>0</b>`;
+      $("p3a-verdict").innerHTML = `<b>Every visit survives, and four of them now sit outside time.</b> They are in every count except anything involving a date, so "total visits" and "visits per month" now disagree by four, and whoever reads both numbers deserves to know why. ` + readingNote();
+    }
+    $("p3a-chartbox").innerHTML = chartHTML(data);
+  }
+
+  function readingNote(){
+    return `The orange months are where the other reading disagrees. <b>${FLIPPED} visits change month</b> depending on whether 08-04-2023 means August 4th or April 8th, and nothing in the file says which is right. The person who typed it knew. That is who to ask.`;
+  }
+
+  /* Reserve the tallest state so switching policies never resizes the activity. */
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const box = $("p3a-chartbox"), verdict = $("p3a-verdict");
+    const keepB = box.innerHTML, keepV = verdict.innerHTML, keepS = $("p3a-stats").innerHTML;
+    const savedP = policy, savedR = reading;
+    box.style.minHeight = "0"; verdict.style.minHeight = "0";
+    let tb = 0, tv = 0;
+    POLICIES.forEach(p=>{ policy = p.id; render();
+      tb = Math.max(tb, box.scrollHeight); tv = Math.max(tv, verdict.scrollHeight); });
+    policy = savedP; reading = savedR;
+    box.innerHTML = keepB; verdict.innerHTML = keepV; $("p3a-stats").innerHTML = keepS;
+    box.style.minHeight = tb + "px"; verdict.style.minHeight = tv + "px";
+    render();
+  }
+
+  render(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p3a-three-fixes", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

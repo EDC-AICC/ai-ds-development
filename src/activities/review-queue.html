@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review queue — interactive activity</title>
+<meta name="description" content="Five AI answers about a tiny orders table. Some are solid, some aren't. You're the reviewer.">
+<style>
+  /* ---- shared activity chrome (self-contained: no external dependencies) ---- */
+  :root{
+    --paper:#fafbfc;
+    --ink:#1c2733;
+    --slate:#5d6b7a;
+    --line:#dde3e9;
+    --accent:#0e7490;
+    --accent-soft:#e3f1f5;
+    --good:#15803d;
+    --good-soft:#e9f5ec;
+    --warn:#b45309;
+    --warn-soft:#fdf3e7;
+    --card:#ffffff;
+    --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0}
+  html,body{background:transparent}
+  body{
+    background:transparent; color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.65;
+  }
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden;
+    box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  .activity-instructions{display:flex; align-items:center; gap:1rem; 
+    padding:.7rem .9rem; font-size:.92rem; color:var(--slate);
+    border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  @media (max-width:560px){
+    .activity-instructions{flex-wrap:wrap}
+    .a-actions{margin-left:auto}
+  }
+  .activity-body{padding:1rem .9rem 1.2rem}
+  .activity-status{
+    font-family:var(--mono); font-size:.82rem; padding:.6rem .9rem;
+    border-top:1px solid var(--line); background:var(--chrome); color:var(--slate);
+    min-height:2.2rem;
+  }
+  .activity-status strong{color:var(--ink)}
+
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn.quiet{border-color:var(--line); color:var(--slate)}
+  button.btn.quiet:hover{background:var(--chrome)}
+  button.btn:disabled{opacity:.45; cursor:default}
+
+  /* ---- data table ---- */
+  table.a1-table{border-collapse:collapse; font-variant-numeric:tabular-nums; font-family:var(--mono); font-size:.76rem; margin:.2rem 0 .6rem}
+  table.a1-table th, table.a1-table td{border:1px solid var(--line); padding:.28rem .55rem; text-align:left; white-space:nowrap}
+  table.a1-table th{background:var(--chrome); font-weight:600}
+  table.a1-table td.nullv{color:var(--warn)}
+
+  /* ---- activity-specific ---- */
+  .a2-grid{display:grid; grid-template-columns: minmax(0,auto) minmax(0,1fr); gap:1.4rem}
+  @media (max-width:44rem){ .a2-grid{grid-template-columns:1fr} }
+  .a2-caption{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); margin:.2rem 0 .5rem}
+  /* The table cannot wrap, so give it its own scroller rather than
+     letting it push the whole activity sideways on a phone. */
+  .a2-data{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  .a2-data table{font-family:var(--mono); font-size:.76rem}
+  tr.a2-hl td{background:var(--warn-soft)}
+  tr.a2-hl-good td{background:var(--good-soft)}
+  .a2-progress{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); margin:.2rem 0 .6rem}
+  .a2-q{font-weight:600; margin:0 0 .7rem}
+  .a2-q::before{content:"Question asked: "; font-weight:400; color:var(--slate)}
+  .a2-bubble{
+    border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:0 8px 8px 0; background:#fcfdfe;
+    padding:.8rem .95rem; font-size:.93rem; margin:0 0 1rem;
+  }
+  .a2-bubble .who{font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:.35rem}
+  .a2-buttons{display:flex; gap:.6rem; flex-wrap:wrap}
+  .a2-feedback{
+    margin-top:1rem; border-radius:8px; padding:.85rem 1rem; font-size:.92rem;
+  }
+  .a2-feedback.good{background:var(--good-soft); border:1px solid #bfe0c8}
+  .a2-feedback.bad{background:var(--warn-soft); border:1px solid #f0d9b8}
+  .a2-feedback .verdict{font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:.3rem}
+  .a2-feedback.good .verdict{color:var(--good)}
+  .a2-feedback.bad .verdict{color:var(--warn)}
+  .a2-nextrow{margin-top:.8rem; display:flex; justify-content:flex-end}
+</style>
+</head>
+<body>
+
+<div class="activity" id="act2">
+    <div class="activity-instructions">
+  <span class="a-instr">Read the question, read the AI's answer, then <strong>check it against the table</strong> before you decide. The table never changes. Every answer can be verified from it.</span>
+  <div class="a-actions">
+        <button class="btn quiet" id="a2-reset" type="button">Start over</button>
+      </div>
+</div>
+  <div class="activity-body">
+    <div class="a2-grid">
+      <div class="a2-data">
+        <p class="a2-caption">the whole orders table, 8 rows</p>
+        <table class="a1-table" id="a2-table">
+          <thead><tr><th>order_id</th><th>customer</th><th>region</th><th>amount</th><th>status</th></tr></thead>
+          <tbody>
+            <tr id="a2-r0"><td>O-1</td><td>ana</td><td>US</td><td>40</td><td>paid</td></tr>
+            <tr id="a2-r1"><td>O-2</td><td>ben</td><td>EU</td><td>25</td><td>paid</td></tr>
+            <tr id="a2-r2"><td>O-3</td><td>ana</td><td>US</td><td>60</td><td>refunded</td></tr>
+            <tr id="a2-r3"><td>O-4</td><td>cho</td><td>EU</td><td>30</td><td>paid</td></tr>
+            <tr id="a2-r4"><td>O-5</td><td>dev</td><td>US</td><td>40</td><td>paid</td></tr>
+            <tr id="a2-r5"><td>O-6</td><td>ben</td><td>EU</td><td>45</td><td>paid</td></tr>
+            <tr id="a2-r6"><td>O-7</td><td>eli</td><td class="nullv">∅</td><td>40</td><td>paid</td></tr>
+            <tr id="a2-r7"><td>O-8</td><td>cho</td><td>EU</td><td>20</td><td>refunded</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="a2-case">
+        <p class="a2-progress" id="a2-progress">Case 1 of 5</p>
+        <p class="a2-q" id="a2-q"></p>
+        <div class="a2-bubble" id="a2-bubble" aria-live="polite"></div>
+        <div class="a2-buttons" id="a2-buttons">
+          <button class="btn primary" id="a2-ship" type="button">Looks right, ship it</button>
+          <button class="btn" id="a2-flag" type="button">Something's off, flag it</button>
+        </div>
+        <div class="a2-feedback" id="a2-feedback" hidden></div>
+        <div class="a2-nextrow"><button class="btn quiet" id="a2-next" type="button" hidden>Next case →</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="activity-status" id="a2-status">Score: nothing decided yet. Take your time. Reviewers who rush are the ones who ship the bad ones.</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  const cases = [
+    {
+      q:"What was our total paid revenue?",
+      a:"Total revenue is <b>$300</b>. I summed the amount column across all 8 orders in the table.",
+      wrong:true,
+      rows:[2,7],
+      explainFlag:"<span class='verdict'>Good catch</span>It summed <em>everything</em>, including the two refunded orders (O-3 and O-8, highlighted). \"Total of the amount column\" and \"paid revenue\" are different questions. Paid revenue is $220. Notice that the answer told you its method. The method just didn't match the question.",
+      explainShip:"<span class='verdict'>This one shipped wrong</span>It summed <em>everything</em>, including the two refunded orders (highlighted). Paid revenue is $220, not $300. Its own explanation gave it away. It said \"across all 8 orders.\" Reading how an answer was computed is half of reviewing it."
+    },
+    {
+      q:"How many distinct customers have placed an order?",
+      a:"<b>5 customers</b>: ana, ben, cho, dev, and eli. (Ana, ben, and cho appear on two orders each.)",
+      wrong:false,
+      rows:[],
+      explainFlag:"<span class='verdict'>This one was fine</span>Count them: ana, ben, cho, dev, eli. That's five, and the parenthetical is accurate too. Flagging correct work has a cost in the real world. It slows the team down and teaches people to ignore your flags. Review means checking, not reflexively distrusting.",
+      explainShip:"<span class='verdict'>Correctly shipped</span>Five distinct customers, and its side note about repeat customers checks out against the table. Solid answer, cleanly stated."
+    },
+    {
+      q:"What's the average paid order value by region?",
+      a:"US averages <b>$40.00</b> across 2 paid orders. EU averages <b>$33.33</b> across 3. One note. Order O-7 has no region recorded, so I excluded it from both groups. That's a judgment call you may want to revisit.",
+      wrong:false,
+      rows:[6],
+      explainFlag:"<span class='verdict'>This one was fine</span>The math checks out. US paid = 40, 40 → $40.00. EU paid = 25, 30, 45 → $33.33. More importantly, it <em>told you about the judgment call</em> it made, excluding the region-less order (highlighted). That disclosure is exactly what good analysis looks like, from a human or a machine. When output hides its choices, that's when to worry.",
+      explainShip:"<span class='verdict'>Correctly shipped</span>The math checks out. And notice what made this one trustworthy. It disclosed its judgment call about the region-less order (highlighted) instead of silently deciding for you. That's the trait to demand from every answer, human or machine."
+    },
+    {
+      q:"What's our refund rate?",
+      a:"The refund rate is <b>12.5%</b>. Exactly 1 of the 8 orders was refunded.",
+      wrong:true,
+      rows:[2,7],
+      explainFlag:"<span class='verdict'>Good catch</span>There are <em>two</em> refunded orders, O-3 and O-8 (highlighted). The real rate is 25%, double what it claimed. Nothing about the sentence sounded unsure. It even said \"exactly.\" Confidence is a writing style, not evidence.",
+      explainShip:"<span class='verdict'>This one shipped wrong</span>Look at the highlighted rows. O-3 <em>and</em> O-8 are both refunded. The real rate is 25%, double the number you just shipped. It said \"exactly 1\" with total confidence, and that confidence did the convincing. Confidence is a writing style, not evidence."
+    },
+    {
+      q:"Which customer has spent the most, counting only paid orders?",
+      a:"<b>Ben</b>, with $70 in paid orders ($25 + $45). He's also flagged as loyalty_tier \"gold\" in this table, so he may be a good candidate for the rewards program.",
+      wrong:true,
+      rows:[1,5],
+      explainFlag:"<span class='verdict'>Good catch on the subtle one</span>Ben and the $70 are correct (highlighted). But look at the table's columns. There is no <code>loyalty_tier</code> column. That detail was invented, stated confidently, right next to math that checks out. Partly-right answers are the most dangerous kind, because verifying the part you can see makes you trust the part you didn't.",
+      explainShip:"<span class='verdict'>Half of this shipped wrong</span>Ben and the $70 are real (highlighted). But check the table's columns. There is no <code>loyalty_tier</code> column anywhere. That detail was invented, and it rode into your report on the back of math that checked out. Verifying one claim in an answer is not verifying the answer."
+    }
+  ];
+
+  let idx = 0, shippedWrong = 0, flaggedWrong = 0, caught = 0, correctShips = 0, decided = false;
+
+  function clearHighlights(){
+    for(let i=0;i<8;i++){ $("a2-r"+i).classList.remove("a2-hl","a2-hl-good"); }
+  }
+  function highlight(rows, good){
+    rows.forEach(r=>$("a2-r"+r).classList.add(good ? "a2-hl-good" : "a2-hl"));
+  }
+  function renderCase(){
+    decided = false;
+    clearHighlights();
+    const c = cases[idx];
+    $("a2-progress").textContent = "Case " + (idx+1) + " of " + cases.length;
+    $("a2-q").textContent = c.q;
+    $("a2-bubble").innerHTML = '<span class="who">AI assistant</span>' + c.a;
+    $("a2-feedback").hidden = true;
+    $("a2-next").hidden = true;
+    $("a2-ship").disabled = false;
+    $("a2-flag").disabled = false;
+  }
+  function decide(shipped){
+    if(decided) return;
+    decided = true;
+    const c = cases[idx];
+    const fb = $("a2-feedback");
+    $("a2-ship").disabled = true;
+    $("a2-flag").disabled = true;
+    highlight(c.rows, !c.wrong);
+    if(shipped){
+      fb.className = "a2-feedback " + (c.wrong ? "bad" : "good");
+      fb.innerHTML = c.explainShip;
+      if(c.wrong) shippedWrong++; else correctShips++;
+    } else {
+      fb.className = "a2-feedback " + (c.wrong ? "good" : "bad");
+      fb.innerHTML = c.explainFlag;
+      if(c.wrong) caught++; else flaggedWrong++;
+    }
+    fb.hidden = false;
+    if(idx < cases.length-1){
+      $("a2-next").hidden = false;
+    } else { finish(); }
+    updateStatus();
+  }
+  function updateStatus(){
+    $("a2-status").innerHTML = "Score: <strong>" + caught + "</strong> bad answer" + (caught===1?"":"s") + " caught · <strong>" + correctShips + "</strong> good answer" + (correctShips===1?"":"s") + " shipped · <strong>" + shippedWrong + "</strong> shipped wrong · <strong>" + flaggedWrong + "</strong> false alarm" + (flaggedWrong===1?"":"s");
+  }
+  function finish(){
+    let msg;
+    if(shippedWrong === 0 && flaggedWrong === 0){
+      msg = "Perfect review. Every bad answer caught, every good answer shipped. Notice <em>how</em> you did it. Not by sensing tone, but by checking claims against the table. That's the whole skill.";
+    } else if(shippedWrong > 0){
+      msg = "You shipped " + shippedWrong + " wrong answer" + (shippedWrong===1?"":"s") + ". Worth sitting with. None of the wrong answers <em>sounded</em> wrong. The only thing that separates good from bad AI output is checking. Tone tells you nothing.";
+    } else {
+      msg = "You caught every bad answer, but flagged " + flaggedWrong + " good one" + (flaggedWrong===1?"":"s") + " too. Real review has two failure modes: trusting everything and trusting nothing. The second one is safer, but it has a cost. Teams learn to ignore reviewers who cry wolf.";
+    }
+    const fb = $("a2-feedback");
+    fb.innerHTML += '<hr style="border:none;border-top:1px dashed var(--line);margin:.8rem 0"><p style="margin:0"><b>Review complete.</b> ' + msg + '</p>';
+  }
+
+  $("a2-ship").addEventListener("click", ()=>decide(true));
+  $("a2-flag").addEventListener("click", ()=>decide(false));
+  $("a2-next").addEventListener("click", ()=>{ idx++; renderCase(); });
+  $("a2-reset").addEventListener("click", ()=>{
+    idx = 0; shippedWrong = 0; flaggedWrong = 0; caught = 0; correctShips = 0;
+    renderCase();
+    $("a2-status").textContent = "Score: nothing decided yet. Take your time. Reviewers who rush are the ones who ship the bad ones.";
+  });
+
+  /* Reserve the tallest state's height up front. The case panel grows when
+     feedback appears and shrinks on the next case, and the embed around this
+     is a fixed height, so unreserved growth would either jump the page or
+     scroll. Measures every case against both decisions and keeps the largest.
+     Re-measured on resize, because the text rewraps at a different width. */
+  function lockCaseHeight(){
+    const panel = document.querySelector(".a2-case");
+    const fb = $("a2-feedback"), next = $("a2-next");
+    panel.style.minHeight = "0";
+    const wasHiddenFb = fb.hidden, wasHiddenNext = next.hidden;
+    fb.hidden = false; next.hidden = false;
+    let tallest = 0;
+    cases.forEach((c,i)=>{
+      $("a2-progress").textContent = "Case " + (i+1) + " of " + cases.length;
+      $("a2-q").textContent = c.q;
+      $("a2-bubble").innerHTML = '<span class="who">AI assistant</span>' + c.a;
+      [c.explainShip, c.explainFlag].forEach(html=>{
+        fb.innerHTML = html;
+        tallest = Math.max(tallest, panel.scrollHeight);
+      });
+    });
+    fb.hidden = wasHiddenFb; next.hidden = wasHiddenNext;
+    panel.style.minHeight = tallest + "px";
+  }
+
+  let resizeTimer;
+  window.addEventListener("resize", ()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(lockCaseHeight, 120);
+  });
+
+  lockCaseHeight();
+  /* Web fonts land after first paint and change how text wraps, so measure again. */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockCaseHeight);
+  renderCase();
+})();
+</script>
+
+<script>
+/* Embed helper: tells a parent page how tall this activity is, so an iframe
+   can be sized to fit. Harmless when the page is opened directly. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const ID = "review-queue";
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    /* Measure the card, not documentElement: scrollHeight is clamped to the
+       iframe's own height, so it can grow but never report a shrink. */
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:ID, height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  /* The parent may attach its listener after we've already loaded, so it can
+     ask us to report again. */
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+---
+layout: base.njk
+---
+{{ content | safe }}
+
+<nav class="lessonnav">
+  {% if prev %}<a href="{{ prev.url | url }}">← {{ prev.label }}</a>{% else %}<span></span>{% endif %}
+  <span class="spacer"></span>
+  {% if next %}<a href="{{ next.url | url }}">{{ next.label }} →</a>{% endif %}
+</nav>

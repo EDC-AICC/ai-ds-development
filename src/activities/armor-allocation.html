@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Armor allocation — interactive activity</title>
+<meta name="description" content="Wald's bombers. Study the hit map from the planes that came back and choose where to add armor.">
+<style>
+  /* ---- shared activity chrome (self-contained: no external dependencies) ---- */
+  :root{
+    --paper:#fafbfc;
+    --ink:#1c2733;
+    --slate:#5d6b7a;
+    --line:#dde3e9;
+    --accent:#0e7490;
+    --accent-soft:#e3f1f5;
+    --good:#15803d;
+    --good-soft:#e9f5ec;
+    --warn:#b45309;
+    --warn-soft:#fdf3e7;
+    --card:#ffffff;
+    --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0}
+  html,body{background:transparent}
+  body{
+    background:transparent; color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.65;
+  }
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden;
+    box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  .activity-instructions{display:flex; align-items:center; gap:1rem; 
+    padding:.7rem .9rem; font-size:.92rem; color:var(--slate);
+    border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  @media (max-width:560px){
+    .activity-instructions{flex-wrap:wrap}
+    .a-actions{margin-left:auto}
+  }
+  .activity-body{padding:1rem .9rem 1.2rem}
+  .activity-status{
+    font-family:var(--mono); font-size:.82rem; padding:.6rem .9rem;
+    border-top:1px solid var(--line); background:var(--chrome); color:var(--slate);
+    min-height:2.2rem;
+  }
+  .activity-status strong{color:var(--ink)}
+
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn.quiet{border-color:var(--line); color:var(--slate)}
+  button.btn.quiet:hover{background:var(--chrome)}
+  button.btn:disabled{opacity:.45; cursor:default}
+
+  /* ---- activity-specific ---- */
+  .a5-layout{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1.1rem; align-items:start}
+  @media (max-width:30rem){ .a5-layout{grid-template-columns:1fr} }
+  .a5-zone{fill:transparent; stroke:transparent; cursor:pointer}
+  .a5-zone.hover{fill:rgba(14,116,144,.08); stroke:var(--accent); stroke-dasharray:4 3}
+  .a5-zone.armored{fill:rgba(14,116,144,.16); stroke:var(--accent); stroke-width:2}
+  .a5-zonelabel{font-family:var(--mono); font-size:11px; fill:var(--slate); pointer-events:none}
+  .a5-hit{fill:#c2410c; opacity:.75}
+  .a5-hit.ghost{fill:#1c2733; opacity:.55}
+  .a5-tally{font-family:var(--mono); font-size:.78rem}
+  .a5-tally table{border-collapse:collapse; width:100%}
+  .a5-tally td, .a5-tally th{border-bottom:1px solid var(--line); padding:.35rem .4rem; text-align:left}
+  .a5-tally th{font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate)}
+  .a5-tally td.num{text-align:right; font-variant-numeric:tabular-nums}
+  .a5-tally tr.armored td{color:var(--accent); font-weight:700}
+  .a5-actionrow{margin:1rem 0}
+  /* Spans the full row under both columns rather than being squeezed
+     into the one beside the diagram. */
+  .a5-result{grid-column:1 / -1; font-size:.92rem; border-radius:8px; padding:.85rem 1rem}
+  .a5-result.meh{background:var(--warn-soft); border:1px solid #f0d9b8}
+  .a5-result.good{background:var(--good-soft); border:1px solid #bfe0c8}
+  .a5-result .rate{font-family:var(--mono); font-size:1.05rem; display:block; margin-bottom:.4rem}
+</style>
+</head>
+<body>
+
+<div class="activity" id="act5">
+    <div class="activity-instructions">
+  <span class="a-instr">The diagram maps every hit recorded on the <strong>120 bombers that returned</strong> last month. Click <strong>two</strong> zones to armor, then send out the next wave.</span>
+  <div class="a-actions">
+        <button class="btn quiet" id="a5-reset" type="button">Reset</button>
+      </div>
+</div>
+  <div class="activity-body">
+    <div class="a5-layout">
+      <svg id="a5-plane" viewBox="0 0 300 300" width="100%" style="max-width:20rem" aria-label="Top-down bomber diagram with hit locations">
+        <ellipse cx="150" cy="150" rx="26" ry="130" fill="#e8edf2" stroke="#b8c2cc"/>
+        <rect x="30" y="120" width="240" height="34" rx="14" fill="#e8edf2" stroke="#b8c2cc"/>
+        <rect x="115" y="255" width="70" height="16" rx="8" fill="#e8edf2" stroke="#b8c2cc"/>
+        <g id="a5-zones"></g>
+        <g id="a5-hits" pointer-events="none"></g>
+      </svg>
+      <div class="a5-side">
+        <div id="a5-tally" class="a5-tally"></div>
+        <div class="a5-actionrow">
+          <button class="btn primary" id="a5-fly" type="button" disabled>Send out the next wave</button>
+        </div>
+      </div>
+      <div class="a5-result" id="a5-result" hidden></div>
+    </div>
+  </div>
+  <div class="activity-status" id="a5-status">Armor chosen: none yet. Pick two zones.</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+  const SVGNS = "http://www.w3.org/2000/svg";
+
+  /* zones: recorded hits are from RETURNING planes only.
+     True vulnerability is the inverse: engines/cockpit hits usually downed the plane. */
+  const zones = [
+    { id:"cockpit",  label:"Cockpit",  hits:9,  lift:9,  shape:{x:126,y:28,w:48,h:52},  labelPos:[178,50] },
+    { id:"engines",  label:"Engines",  hits:4,  lift:13, shape:{x:72,y:112,w:156,h:50}, labelPos:[180,112] },
+    { id:"fuselage", label:"Fuselage", hits:74, lift:1,  shape:{x:120,y:86,w:60,h:160}, labelPos:[184,220] },
+    { id:"wings",    label:"Wing tips",hits:58, lift:2,  shape:{x:30,y:112,w:40,h:50, x2:230,y2:112,w2:40,h2:50}, labelPos:[30,102] }
+  ];
+  const BASE_RETURN = 70;
+
+  let armored, flown;
+
+  function rng(seed){ let s = seed; return ()=>{ s = (s*1103515245+12345) % 2147483648; return s/2147483648; }; }
+
+  function scatterHits(){
+    const g = $("a5-hits");
+    g.innerHTML = "";
+    const rand = rng(42);
+    zones.forEach(z=>{
+      const boxes = [{x:z.shape.x,y:z.shape.y,w:z.shape.w,h:z.shape.h}];
+      if(z.shape.x2 !== undefined) boxes.push({x:z.shape.x2,y:z.shape.y2,w:z.shape.w2,h:z.shape.h2});
+      for(let i=0;i<z.hits;i++){
+        const b = boxes[i % boxes.length];
+        const c = document.createElementNS(SVGNS,"circle");
+        c.setAttribute("class","a5-hit");
+        c.setAttribute("r","2.4");
+        c.setAttribute("cx", b.x + 4 + rand()*(b.w-8));
+        c.setAttribute("cy", b.y + 4 + rand()*(b.h-8));
+        g.appendChild(c);
+      }
+    });
+  }
+
+  function ghostHits(){
+    /* hits on the planes that never returned: clustered on engines + cockpit */
+    const g = $("a5-hits");
+    const rand = rng(7);
+    const clusters = [
+      {x:72,y:112,w:156,h:50,n:46},
+      {x:126,y:28,w:48,h:52,n:28}
+    ];
+    clusters.forEach(cl=>{
+      for(let i=0;i<cl.n;i++){
+        const c = document.createElementNS(SVGNS,"circle");
+        c.setAttribute("class","a5-hit ghost");
+        c.setAttribute("r","2.4");
+        c.setAttribute("cx", cl.x + 4 + rand()*(cl.w-8));
+        c.setAttribute("cy", cl.y + 4 + rand()*(cl.h-8));
+        g.appendChild(c);
+      }
+    });
+  }
+
+  function buildZones(){
+    const g = $("a5-zones");
+    g.innerHTML = "";
+    zones.forEach(z=>{
+      const boxes = [{x:z.shape.x,y:z.shape.y,w:z.shape.w,h:z.shape.h}];
+      if(z.shape.x2 !== undefined) boxes.push({x:z.shape.x2,y:z.shape.y2,w:z.shape.w2,h:z.shape.h2});
+      boxes.forEach(b=>{
+        const r = document.createElementNS(SVGNS,"rect");
+        r.setAttribute("class","a5-zone");
+        r.dataset.zone = z.id;
+        r.setAttribute("x",b.x); r.setAttribute("y",b.y);
+        r.setAttribute("width",b.w); r.setAttribute("height",b.h);
+        r.setAttribute("rx","8");
+        r.setAttribute("tabindex","0");
+        r.setAttribute("role","button");
+        r.setAttribute("aria-label","Armor the "+z.label);
+        r.addEventListener("click", ()=>toggle(z.id));
+        r.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(z.id);} });
+        r.addEventListener("mouseenter", ()=>zoneEls(z.id).forEach(el=>el.classList.add("hover")));
+        r.addEventListener("mouseleave", ()=>zoneEls(z.id).forEach(el=>el.classList.remove("hover")));
+        g.appendChild(r);
+      });
+      const t = document.createElementNS(SVGNS,"text");
+      t.setAttribute("class","a5-zonelabel");
+      t.setAttribute("x",z.labelPos[0]); t.setAttribute("y",z.labelPos[1]);
+      t.textContent = z.label;
+      g.appendChild(t);
+    });
+  }
+
+  function zoneEls(id){ return Array.from(document.querySelectorAll('#a5-zones .a5-zone[data-zone="'+id+'"]')); }
+
+  function toggle(id){
+    if(flown) return;
+    if(armored.includes(id)) armored = armored.filter(a=>a!==id);
+    else if(armored.length < 2) armored = armored.concat([id]);
+    else return;
+    zones.forEach(z=>zoneEls(z.id).forEach(el=>el.classList.toggle("armored", armored.includes(z.id))));
+    renderTally();
+    $("a5-fly").disabled = (armored.length !== 2);
+    $("a5-status").textContent = armored.length===0 ? "Armor chosen: none yet. Pick two zones."
+      : "Armor chosen: " + armored.map(a=>zones.find(z=>z.id===a).label).join(" + ") + (armored.length<2 ? ". Pick one more." : ". Ready to fly.");
+  }
+
+  function renderTally(){
+    let h = '<table><tr><th>Zone</th><th style="text-align:right">Hits recorded<br>(returning planes)</th></tr>';
+    zones.forEach(z=>{
+      h += '<tr'+(armored.includes(z.id)?' class="armored"':'')+'><td>'+z.label+(armored.includes(z.id)?' ▸ armored':'')+'</td><td class="num">'+z.hits+'</td></tr>';
+    });
+    $("a5-tally").innerHTML = h + "</table>";
+  }
+
+  function fly(){
+    if(armored.length!==2 || flown) return;
+    flown = true;
+    const lift = armored.reduce((s,a)=> s + zones.find(z=>z.id===a).lift, 0);
+    const rate = BASE_RETURN + lift;
+    const best = armored.includes("engines") && armored.includes("cockpit");
+    const followedHits = armored.includes("fuselage") && armored.includes("wings");
+    const res = $("a5-result");
+    res.hidden = false;
+    res.className = "a5-result " + (lift >= 15 ? "good" : "meh");
+    let story;
+    if(followedHits){
+      story = "You armored where the dots were thickest. That's the obvious move, and the one the military was about to make. Return rate barely moved. Here's the trap. Every dot in your data came from a plane that <em>made it home</em>. Hits to the fuselage and wings were survivable, which is why you had so many records of them. The planes hit in the engines and cockpit are missing from your data because they're at the bottom of the English Channel. The dark dots now on the diagram are the hits you never got to see. <strong>Wald's answer was to armor where the returning planes show no holes.</strong>";
+    } else if(best){
+      story = "Return rate up 22 points. You made Wald's call. You armored the zones with the <em>fewest</em> recorded hits, reasoning that planes hit there never came home to be counted. The dark dots now on the diagram are those missing hits, the evidence that was never in your dataset. The deepest lesson in all of data work lives here. <strong>Ask what the data can't contain, not just what it does.</strong>";
+    } else {
+      story = "A partial win. One of your zones mattered, one didn't. The zones with the most recorded hits were the <em>safest</em>. Every dot came from a plane that survived being hit there. The planes hit in the engines and cockpit never came home to be counted. Their hits, now shown dark, were missing from your data. Wald's rule was to armor where the returning planes show <strong>no</strong> holes.";
+    }
+    res.innerHTML = '<span class="rate">Return rate: ' + BASE_RETURN + '% → <b>' + rate + '%</b></span>' + story;
+    ghostHits();
+    $("a5-fly").disabled = true;
+    $("a5-status").innerHTML = "<strong>Wave complete.</strong> Dark dots are hits on the planes that never returned. That's the data you didn't have.";
+  }
+
+  function init(){
+    armored = []; flown = false;
+    buildZones(); scatterHits(); renderTally();
+    $("a5-result").hidden = true;
+    $("a5-fly").disabled = true;
+    $("a5-status").textContent = "Armor chosen: none yet. Pick two zones.";
+  }
+
+  $("a5-fly").addEventListener("click", fly);
+  $("a5-reset").addEventListener("click", init);
+  init();
+})();
+</script>
+
+<script>
+/* Embed helper: tells a parent page how tall this activity is, so an iframe
+   can be sized to fit. Harmless when the page is opened directly. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const ID = "armor-allocation";
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    /* Measure the card, not documentElement: scrollHeight is clamped to the
+       iframe's own height, so it can grow but never report a shrink. */
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:ID, height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  /* The parent may attach its listener after we've already loaded, so it can
+     ask us to report again. */
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

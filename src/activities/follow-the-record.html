@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Follow the record — interactive activity</title>
+<meta name="description" content="One record, five stops. Watch how a single purchase gets reshaped on its way to a chart.">
+<style>
+  /* ---- shared activity chrome (self-contained: no external dependencies) ---- */
+  :root{
+    --paper:#fafbfc;
+    --ink:#1c2733;
+    --slate:#5d6b7a;
+    --line:#dde3e9;
+    --accent:#0e7490;
+    --accent-soft:#e3f1f5;
+    --good:#15803d;
+    --good-soft:#e9f5ec;
+    --warn:#b45309;
+    --warn-soft:#fdf3e7;
+    --card:#ffffff;
+    --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0}
+  html,body{background:transparent}
+  body{
+    background:transparent; color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.65;
+  }
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden;
+    box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  .activity-instructions{display:flex; align-items:center; gap:1rem; 
+    padding:.7rem .9rem; font-size:.92rem; color:var(--slate);
+    border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  @media (max-width:560px){
+    .activity-instructions{flex-wrap:wrap}
+    .a-actions{margin-left:auto}
+  }
+  .activity-body{padding:1rem .9rem 1.2rem}
+
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn.quiet{border-color:var(--line); color:var(--slate)}
+  button.btn.quiet:hover{background:var(--chrome)}
+  button.btn:disabled{opacity:.45; cursor:default}
+
+  /* ---- activity-specific ---- */
+  .a1-rail{display:flex; gap:.35rem; margin:0 0 1.1rem; flex-wrap:wrap}
+  .a1-stop{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.04em;
+    border:1px solid var(--line); border-radius:99px; padding:.22rem .7rem;
+    color:var(--slate); background:var(--card);
+    cursor:pointer; transition:border-color .12s, color .12s;
+  }
+  .a1-stop:hover{border-color:var(--accent); color:var(--accent)}
+  .a1-stop:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .a1-stop.here{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:700}
+  .a1-stop.past{border-color:var(--accent); color:var(--ink)}
+  .a1-stage{min-height:15rem}
+  .a1-stage h4{font-family:var(--serif); font-size:1.05rem; margin:.2rem 0 .5rem}
+  .a1-stage p{font-size:.93rem; margin:0 0 .8rem; max-width:38rem}
+  .a1-reccard{
+    font-family:var(--mono); font-size:.78rem; border:1.5px solid var(--accent);
+    border-radius:8px; padding:.6rem .8rem; display:inline-block; background:#fcfdfe;
+    margin:.2rem 0 .6rem;
+  }
+  .a1-reccard .lbl{font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:.3rem}
+  .a1-reccard .f{display:block; padding:.06rem 0}
+  .a1-reccard .f b{color:var(--ink); font-weight:600}
+  .a1-reccard .f .was{
+    color:var(--warn); margin-right:.4rem;
+    text-decoration:line-through; text-decoration-thickness:2px;
+    text-decoration-color:var(--warn); text-decoration-skip-ink:none;
+  }
+  .a1-reccard .f .now{color:var(--good); font-weight:700}
+  .a1-reccard .f.new .now{color:var(--good)}
+  table.a1-table{border-collapse:collapse; font-variant-numeric:tabular-nums; font-family:var(--mono); font-size:.76rem; margin:.2rem 0 .6rem}
+  table.a1-table th, table.a1-table td{border:1px solid var(--line); padding:.28rem .55rem; text-align:left; white-space:nowrap}
+  table.a1-table th{background:var(--chrome); font-weight:600}
+  table.a1-table td.nullv{color:var(--warn)}
+  table.a1-table tr.you td{background:var(--accent-soft); font-weight:700}
+  .a1-chart{max-width:22rem; margin:.2rem 0 .6rem}
+  .a1-chart .row{display:flex; align-items:center; gap:.6rem; margin:.3rem 0}
+  .a1-chart .rlab{font-family:var(--mono); font-size:.72rem; width:4rem; flex:none; color:var(--slate)}
+  .a1-chart .rbar{height:.95rem; background:#8bb8c6; border-radius:3px; min-width:4px}
+  .a1-chart .row.you .rbar{background:var(--accent)}
+  .a1-chart .rval{font-family:var(--mono); font-size:.72rem; color:var(--ink)}
+  .a1-callout{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent); padding:.15rem 0 .15rem .7rem; max-width:36rem}
+</style>
+</head>
+<body>
+
+<div class="activity" id="act1">
+    <div class="activity-instructions">
+  <span class="a-instr">One record, five stops. Watch what changes at each one. Pay closest attention to the stops where <strong>nothing broke, but somebody's choice changed the data</strong>.</span>
+  <div class="a-actions">
+        <button class="btn quiet" id="a1-back" type="button" disabled>← Back</button>
+        <button class="btn primary" id="a1-next" type="button">Next stop →</button>
+      </div>
+</div>
+  <div class="activity-body">
+    <div class="a1-rail" id="a1-rail"></div>
+    <div class="a1-stage" id="a1-stage" aria-live="polite"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  const stops = ["The tap","Store's database","Cleaning","Summing up","The chart"];
+
+  function card(fields){
+    let h = '<div class="a1-reccard"><span class="lbl">your record</span>';
+    fields.forEach(f=>{
+      h += '<span class="f'+(f.isNew?' new':'')+'">'+f.k+': ';
+      if(f.was !== undefined) h += '<span class="was">'+f.was+'</span><span class="now">'+f.now+'</span>';
+      else if(f.isNew) h += '<span class="now">'+f.now+' ← added</span>';
+      else h += '<b>'+f.v+'</b>';
+      h += '</span>';
+    });
+    return h + '</div>';
+  }
+
+  const steps = [
+    { title:"A customer taps Buy at 08:02",
+      body: '<p>The moment the payment clears, the web store writes this down. A record is born.</p>'
+        + card([{k:"order_id",v:"W-2210"},{k:"user",v:"U-441"},{k:"amount",v:"\"$120.00\""},{k:"time",v:"2026-07-21 08:02 CEST"}]) },
+    { title:"The store's own database",
+      body: '<p>Your record sits with every other order in a database. Overnight, a scheduled job copies the day\'s orders somewhere built for analysis, so that heavy questions never slow the store down. Your record makes that trip unchanged.</p>'
+        + '<table class="a1-table"><tr><th>order_id</th><th>user</th><th>amount</th><th>time</th></tr>'
+        + '<tr><td>W-2209</td><td>U-102</td><td>"$8.99"</td><td>2026-07-21 07:55 CEST</td></tr>'
+        + '<tr class="you"><td>W-2210</td><td>U-441</td><td>"$120.00"</td><td>2026-07-21 08:02 CEST</td></tr>'
+        + '<tr><td>W-2211</td><td>U-583</td><td>"$66.00"</td><td>2026-07-21 08:09 CEST</td></tr></table>' },
+    { title:"Cleaning is where the choices live",
+      body: '<p>Now code written by an analyst reshapes your record so it can stand next to orders from the mobile app, the phone line, and everywhere else. Watch the fields.</p>'
+        + card([
+            {k:"order_id",v:"W-2210"},
+            {k:"user",was:"U-441",now:"u_441"},
+            {k:"amount",was:"\"$120.00\"",now:"120.00"},
+            {k:"time",was:"08:02 CEST",now:"06:02 UTC"},
+            {k:"region",isNew:true,now:"EU"}
+          ])
+        + '<p class="a1-callout">Four of those are <b>judgment calls</b> somebody coded. One style of ID, money as a plain number in one currency, every timestamp moved to UTC, and a region looked up from a customer file. All reasonable, all invisible to whoever reads the final chart.</p>' },
+    { title:"Summing up",
+      body: '<p>Your record joins every other EU order from today and becomes part of a single row in a small summary table. It is tiny, fast, and shaped like the question people keep asking.</p>'
+        + '<table class="a1-table"><tr><th>region</th><th>orders</th><th>revenue</th></tr>'
+        + '<tr><td>US</td><td>2</td><td>212.00</td></tr>'
+        + '<tr class="you"><td>EU</td><td>3</td><td>195.00</td></tr></table>'
+        + '<p class="a1-callout">Your $120 is in there, but it no longer exists as itself. You can\'t see individual taps from up here.</p>' },
+    { title:"Weeks later, the chart",
+      body: '<p>A manager glances at this for four seconds and decides where next quarter\'s budget goes.</p>'
+        + '<div class="a1-chart">'
+        + '<div class="row"><span class="rlab">US</span><div class="rbar" style="width:66%"></div><span class="rval">$212</span></div>'
+        + '<div class="row you"><span class="rlab">EU</span><div class="rbar" style="width:61%"></div><span class="rval">$195 ← your tap is in here</span></div>'
+        + '</div>'
+        + '<p class="a1-callout">The chart looks like a fact. It\'s really the last stop of everything you just watched. A store database, a cleaning step full of choices, and an aggregation.</p>' }
+  ];
+
+  let idx = 0;
+  const rail = $("a1-rail");
+  stops.forEach((s,i)=>{
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = "a1-stop"; el.id = "a1-stop-"+i; el.textContent = s;
+    el.setAttribute("aria-label", "Jump to stop " + (i+1) + ": " + s);
+    el.addEventListener("click", ()=>{ idx = i; render(); });
+    rail.appendChild(el);
+  });
+
+  function render(){
+    stops.forEach((s,i)=>{
+      const el = $("a1-stop-"+i);
+      el.className = "a1-stop" + (i===idx ? " here" : (i<idx ? " past" : ""));
+    });
+    const st = steps[idx];
+    $("a1-stage").innerHTML = "<h4>"+st.title+"</h4>"+st.body;
+    $("a1-back").disabled = (idx===0);
+    $("a1-next").disabled = (idx===steps.length-1);
+  }
+  /* Reserve the tallest stop's height up front, so moving between stops never
+     changes how tall this activity is. The embed around it is a fixed height,
+     so content that grows and shrinks would either jump the page or scroll.
+     Re-measured on resize, because the text rewraps at a different width. */
+  function lockStageHeight(){
+    const stage = $("a1-stage");
+    stage.style.minHeight = "0";
+    let tallest = 0;
+    steps.forEach(st=>{
+      stage.innerHTML = "<h4>"+st.title+"</h4>"+st.body;
+      tallest = Math.max(tallest, stage.scrollHeight);
+    });
+    stage.style.minHeight = tallest + "px";
+  }
+
+  $("a1-next").addEventListener("click", ()=>{ if(idx<steps.length-1){ idx++; render(); } });
+  $("a1-back").addEventListener("click", ()=>{ if(idx>0){ idx--; render(); } });
+
+  let resizeTimer;
+  window.addEventListener("resize", ()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(()=>{ lockStageHeight(); render(); }, 120);
+  });
+
+  lockStageHeight();
+  /* Web fonts land after first paint and change how text wraps, so measure again. */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockStageHeight);
+  render();
+})();
+</script>
+
+<script>
+/* Embed helper: tells a parent page how tall this activity is, so an iframe
+   can be sized to fit. Harmless when the page is opened directly. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const ID = "follow-the-record";
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    /* Measure the card, not documentElement: scrollHeight is clamped to the
+       iframe's own height, so it can grow but never report a shrink. */
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:ID, height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  /* The parent may attach its listener after we've already loaded, so it can
+     ask us to report again. */
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four sentences — interactive activity</title>
+<meta name="description" content="Build the director's summary from a bank of candidate sentences. Four claims and one limitation, all defensible.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  @media (max-width:560px){ .activity-instructions{flex-wrap:wrap} .a-actions{margin-left:auto} }
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn:disabled{opacity:.45; cursor:default}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p5c-count{font-family:var(--mono); font-size:.72rem; color:var(--slate); margin:0 0 .6rem}
+  .p5c-count b{color:var(--ink)}
+  .p5c-s{
+    border:1px solid var(--line); border-radius:8px; padding:.5rem .7rem; margin:0 0 .45rem;
+    background:#fcfdfe; cursor:pointer; font-size:.9rem; display:flex; gap:.55rem; align-items:baseline;
+  }
+  .p5c-s:hover{border-color:var(--accent)}
+  .p5c-s.on{border-color:var(--accent); background:var(--accent-soft)}
+  .p5c-s .tag{font-family:var(--mono); font-size:.6rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--slate); flex:none}
+  .p5c-s:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .p5c-s.good-reveal{border-color:#bfe0c8; background:var(--good-soft)}
+  .p5c-s.bad-reveal{border-color:#f0d9b8; background:var(--warn-soft)}
+  .p5c-why{font-size:.8rem; color:var(--slate); margin:.35rem 0 0; width:100%}
+  .p5c-why b{color:var(--ink)}
+  .p5c-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:.5rem 0 0; max-width:38rem}
+  .p5c-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p5c">
+  <div class="activity-instructions">
+    <span class="a-instr">Nine candidate sentences, drafted from the clinic analysis. The director gets
+    <strong>four sentences and one limitation.</strong> Choose the five that survive a fact-check.</span>
+    <div class="a-actions">
+      <button class="btn primary" id="p5c-send" type="button" disabled>Send to the director</button>
+    </div>
+  </div>
+  <div class="activity-body">
+    <p class="p5c-count" id="p5c-count"></p>
+    <div id="p5c-list"></div>
+    <p class="p5c-verdict" id="p5c-verdict"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  const BANK = [
+    {t:"The clinic recorded 793 visits from 200 patients between January 2022 and December 2023.", kind:"claim", good:true,
+     why:"<b>Belongs in.</b> Verified counts, quiet verbs, and it sizes everything that follows."},
+    {t:"A small core of patients drives 74% of all visits.", kind:"claim", good:false,
+     why:"<b>True numbers, false impression.</b> The flagged group is 110 patients, more than half the panel. Nothing about it is small, and <i>drives</i> claims a mechanism the data does not contain."},
+    {t:"Essential Hypertension was the most common diagnosis, with 94 visits.", kind:"claim", good:true,
+     why:"<b>Belongs in.</b> One measurement, one receipt, and it tells the director what kind of clinic this is."},
+    {t:"Chronic conditions dominated the top diagnoses, which supports investing in ongoing care coordination.", kind:"claim", good:false,
+     why:"<b>Half observation, half recommendation.</b> The top-diagnosis list is real. <i>Supports investing</i> is a budget argument wearing a data sentence's clothes, and the director deserves to see the seam."},
+    {t:"Follow-up was required on 46% of visits.", kind:"claim", good:true,
+     why:"<b>Belongs in.</b> Verified, plainly stated, and directly relevant to coordination workload."},
+    {t:"Patient satisfaction remained high across both years.", kind:"claim", good:false,
+     why:"<b>No satisfaction data exists in this file.</b> The sentence is unfalsifiable from the notebook, which is exactly why it has to go."},
+    {t:"A quarter of visits happened by telehealth.", kind:"claim", good:true,
+     why:"<b>Belongs in.</b> 24.7%, rounded honestly, no story attached about why."},
+    {t:"Because a third of visits are missing a county, county-level breakdowns should not drive decisions until intake recording is fixed.", kind:"limitation", good:true,
+     why:"<b>The limitation that earns its place.</b> It is a measurement, it names the consequence, and it says what has to change."},
+    {t:"Results may be subject to minor data quality limitations, as with any dataset.", kind:"limitation", good:false,
+     why:"<b>A limitation that limits nothing.</b> It is true of every dataset ever collected, so it tells the director nothing about this one. The real caveat has a number in it."}
+  ];
+  const picked = new Set();
+  let sent = false;
+
+  function counts(){
+    const claims = [...picked].filter(i=>BANK[i].kind==="claim").length;
+    const lims = [...picked].filter(i=>BANK[i].kind==="limitation").length;
+    return {claims, lims};
+  }
+
+  function draw(){
+    const {claims, lims} = counts();
+    $("p5c-count").innerHTML = `chosen: <b>${claims}</b> of 4 sentences · <b>${lims}</b> of 1 limitation`;
+    $("p5c-list").innerHTML = BANK.map((s,i)=>{
+      let cls = picked.has(i) ? "on" : "";
+      if(sent && picked.has(i)) cls += s.good ? " good-reveal" : " bad-reveal";
+      if(sent && !picked.has(i) && s.good) cls += " bad-reveal";
+      return `<div class="p5c-s ${cls}" data-i="${i}" tabindex="0" role="button">
+        <span class="tag">${s.kind}</span><span>${s.t}</span>
+        ${sent && (picked.has(i) || s.good) ? `<p class="p5c-why">${s.why}</p>` : ""}
+      </div>`;
+    }).join("");
+    $("p5c-list").querySelectorAll(".p5c-s").forEach(el=>{
+      const toggle = ()=>{
+        if(sent) return;
+        const i = +el.dataset.i;
+        if(picked.has(i)) picked.delete(i); else picked.add(i);
+        draw();
+      };
+      el.addEventListener("click", toggle);
+      el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); } });
+    });
+    $("p5c-send").disabled = sent || !(claims===4 && lims===1);
+    if(!sent){
+      $("p5c-verdict").innerHTML = claims===4 && lims===1
+        ? "Five chosen. Send it."
+        : "Pick exactly four sentences and one limitation. The constraint is the point, a summary is what you leave out.";
+    }
+  }
+
+  $("p5c-send").addEventListener("click", ()=>{
+    sent = true;
+    const wrong = [...picked].filter(i=>!BANK[i].good).length;
+    $("p5c-verdict").innerHTML = wrong===0
+      ? "<b>This one survives a fact-check.</b> Every sentence points at a number, every verb stays inside the data, and the limitation tells the director something they can act on. Notice what you left out, and that leaving it out was most of the work."
+      : `<b>${wrong} of your five would come back to bite.</b> The explanations above say how. The pattern in every dud is the same, real numbers keeping bad company, a verb, a story, or a claim your notebook never produced.`;
+    draw();
+  });
+
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const list = $("p5c-list"), v = $("p5c-verdict");
+    const keepSent = sent, keepPicked = new Set(picked);
+    const keepL = list.innerHTML, keepV = v.innerHTML;
+    sent = true; picked.clear(); BANK.forEach((s,i)=>picked.add(i));
+    draw();
+    const tl = list.scrollHeight;
+    sent = keepSent; picked.clear(); keepPicked.forEach(x=>picked.add(x));
+    list.innerHTML = keepL; v.innerHTML = keepV;
+    draw();
+    list.style.minHeight = tl + "px";
+    v.style.minHeight = "4.2rem";
+  }
+
+  draw(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p5c-four-sentences", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

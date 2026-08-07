@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The fork — interactive activity</title>
+<meta name="description" content="One request forks into readings, and every reading ends in a different deliverable. Walk the paths.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+
+  .p1b-root{
+    font-family:var(--mono); font-size:.74rem; border:1.5px solid var(--accent); border-radius:8px;
+    padding:.5rem .7rem; background:#fcfdfe; margin:0 0 .7rem; max-width:34rem;
+  }
+  .p1b-cols{display:grid; grid-template-columns:1fr 1.15fr; gap:.7rem; margin:0 0 .8rem}
+  @media (max-width:480px){ .p1b-cols{grid-template-columns:1fr} }
+  .p1b-collabel{font-family:var(--mono); font-size:.62rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--slate); margin:0 0 .3rem}
+  .p1b-node{
+    border:1px solid var(--line); border-radius:8px; padding:.45rem .6rem; margin:0 0 .4rem;
+    background:#fcfdfe; cursor:pointer; font-size:.84rem; transition:all .15s;
+  }
+  .p1b-node:hover{border-color:var(--accent)}
+  .p1b-node.lit{border-color:var(--accent); background:var(--accent-soft)}
+  .p1b-node:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .p1b-end{
+    border:1px solid var(--line); border-radius:8px; padding:.45rem .6rem; margin:0 0 .4rem;
+    background:#fcfdfe; font-size:.8rem; color:var(--slate); opacity:.55; transition:all .15s;
+  }
+  .p1b-end.lit{opacity:1; border-color:var(--good); background:var(--good-soft); color:var(--ink)}
+  .p1b-end b{color:var(--ink)}
+  .p1b-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p1b-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p1b">
+  <div class="activity-instructions">
+    <span class="a-instr">One request, four ways to read it, four things that could land on the
+    director's desk. <strong>Tap a reading</strong> to light the path it commits you to.</span>
+  </div>
+  <div class="activity-body">
+    <div class="p1b-root">"pull together something on our visit patterns... whatever you think is most useful"</div>
+    <div class="p1b-cols">
+      <div>
+        <p class="p1b-collabel">the reading you choose</p>
+        <div id="p1b-readings"></div>
+      </div>
+      <div>
+        <p class="p1b-collabel">the month of work it buys</p>
+        <div id="p1b-ends"></div>
+      </div>
+    </div>
+    <p class="p1b-verdict" id="p1b-verdict">Every path starts at the same sentence. Tap one.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  const PATHS = [
+    {r:"Patterns means how busy we are", e:"<b>A volume deck.</b> Visits by month and type, year over year.",
+     v:"A fine month of work, if volume was the question. The email cannot tell you, and the deck cannot answer the board's question about repeat patients."},
+    {r:"Patterns means who our patients are", e:"<b>A patient-mix deck.</b> Demographics, insurance, repeat visitors.",
+     v:"This is the path the director turns out to want, and you only learn that by asking. Nothing in the email marks it as the right fork."},
+    {r:"Really going on means money", e:"<b>A revenue deck.</b> Copays, payer mix, the uninsured caseload.",
+     v:"Built on a mood inferred from four words. If the guess is wrong, a month of careful work answers a worry she never had."},
+    {r:"Patterns means quality of care", e:"<b>A care-gaps deck.</b> Follow-up rates, time between visits, who disappears.",
+     v:"The noblest reading, and the file supports it least. The data records visits, and says nothing about whether anyone got better. This path ends at a promise the data cannot keep."}
+  ];
+  let sel = null;
+
+  function draw(){
+    $("p1b-readings").innerHTML = PATHS.map((p,i)=>
+      `<div class="p1b-node ${sel===i?'lit':''}" data-i="${i}" tabindex="0" role="button">${p.r}</div>`).join("");
+    $("p1b-ends").innerHTML = PATHS.map((p,i)=>
+      `<div class="p1b-end ${sel===i?'lit':''}">${p.e}</div>`).join("");
+    $("p1b-readings").querySelectorAll(".p1b-node").forEach(el=>{
+      const pick = ()=>{ sel = +el.dataset.i; draw(); };
+      el.addEventListener("click", pick);
+      el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); pick(); } });
+    });
+    $("p1b-verdict").innerHTML = sel===null
+      ? "Every path starts at the same sentence. Tap one."
+      : PATHS[sel].v + " An AI walks whichever path you point it down, at full speed, with full confidence. The pointing is the job.";
+  }
+
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const v = $("p1b-verdict");
+    const keep = v.innerHTML;
+    v.style.minHeight = "0";
+    let tallest = 0;
+    PATHS.forEach(p=>{ v.innerHTML = p.v + " An AI walks whichever path you point it down, at full speed, with full confidence. The pointing is the job."; tallest = Math.max(tallest, v.scrollHeight); });
+    v.innerHTML = keep;
+    v.style.minHeight = tallest + "px";
+  }
+
+  draw(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p1b-the-fork", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

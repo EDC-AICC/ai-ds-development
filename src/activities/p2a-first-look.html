@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First look — interactive activity</title>
+<meta name="description" content="Ten rows of the clinic file look almost fine. The counts say otherwise. Click each column to census it.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+
+  .p2a-tablewrap{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 0 .9rem}
+  table.p2a{border-collapse:collapse; font-family:var(--mono); font-size:.72rem; font-variant-numeric:tabular-nums}
+  table.p2a th, table.p2a td{border:1px solid var(--line); padding:.26rem .5rem; text-align:left; white-space:nowrap}
+  table.p2a td{color:var(--ink)}
+  table.p2a th{
+    background:var(--chrome); font-weight:600; cursor:pointer; user-select:none;
+    transition:background .12s, color .12s; position:relative; padding-right:1.3rem;
+  }
+  table.p2a th::after{content:"▾"; position:absolute; right:.4rem; color:var(--slate); font-size:.65rem}
+  table.p2a th:hover{color:var(--accent)}
+  table.p2a th.active{background:var(--accent); color:#fff}
+  table.p2a th.active::after{color:#fff}
+  table.p2a th.seen:not(.active){color:var(--accent)}
+  table.p2a th:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+
+  .p2a-hint{font-size:.85rem; color:var(--slate); margin:0 0 .9rem}
+  .p2a-hint b{color:var(--ink)}
+
+  .p2a-panel{border:1px solid var(--line); border-radius:8px; padding:.8rem .95rem; background:#fcfdfe}
+  .p2a-panel h4{font-family:var(--serif); font-size:1rem; margin:0 0 .55rem}
+  .p2a-bars{margin:0 0 .6rem}
+  .p2a-bar{display:flex; align-items:center; gap:.5rem; margin:.12rem 0}
+  .p2a-bar .lbl{font-family:var(--mono); font-size:.72rem; width:7.2rem; flex:none; color:var(--ink);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .p2a-bar .bar{height:.72rem; background:#8bb8c6; border-radius:2px; min-width:2px}
+  .p2a-bar.bad .bar{background:#d97742}
+  .p2a-bar .val{font-family:var(--mono); font-size:.72rem; color:var(--slate); flex:none}
+  .p2a-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent); padding:.15rem 0 .15rem .7rem; margin:0}
+  .p2a-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p2a">
+  <div class="activity-instructions">
+    <span class="a-instr">Ten rows from the clinic file, exactly as they arrived. You can already see
+    something is off. <strong>Click each column header</strong> to count that column across all 812 rows
+    and find out how big the problem really is.</span>
+  </div>
+  <div class="activity-body">
+    <div class="p2a-tablewrap">
+      <table class="p2a" id="p2a-table"></table>
+    </div>
+    <p class="p2a-hint" id="p2a-progress"><b>0 of 6</b> columns counted.</p>
+    <div class="p2a-panel" id="p2a-panel"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* Ten real rows from outpatient_visits.csv (seed 7 sample). */
+  const rows = [
+    ["P063","02/28/2022","MALE","61","Medicaid","5.00"],
+    ["P121","03/08/2023","female","54","Medicaid","0.00"],
+    ["P097","08/15/2023","Female","68","uninsured","178.00"],
+    ["P097","2022-09-27","Female","68","uninsured","168.00"],
+    ["P025","12-06-2022","Non-binary","46","mcd","0.00"],
+    ["P187","11/18/2023","other","64","Private","59.00"],
+    ["P150","06/30/2022","F","30","medicaid","0.00"],
+    ["P200","01/17/2022","FEMALE","81","MEDICARE","28.00"],
+    ["P030","01-16-2022","male","36","MEDICARE","24.00"],
+    ["P179","12/27/2022","Male","64","PRIVATE","57.00"]
+  ];
+  const headers = ["patient_id","visit_date","gender","age","insurance_type","copay_amount"];
+
+  /* Real censuses of the full 812-row file. */
+  const census = {
+    patient_id: {
+      title: "patient_id · 812 rows, 200 patients",
+      bars: [["1 visit",17],["2-3 visits",71],["4-5 visits",67],["6-8 visits",45]],
+      barNote: "patients by how often they appear",
+      verdict: "<b>Fine, and worth knowing.</b> The same patient appears on up to 8 rows, because one row is one visit. P097 above is a repeat visitor, and so is most of the panel. A repeated patient is normal. A repeated <b>visit</b> is a duplicate, and the file has 15 of those hiding in it."
+    },
+    visit_date: {
+      title: "visit_date · one column, three shapes",
+      bars: [["MM-DD-YYYY",273],["MM/DD/YYYY",269],["YYYY-MM-DD",268],["fits nothing",2,"bad"]],
+      barNote: "count of values matching each shape",
+      verdict: "<b>Three date formats, coexisting.</b> You can see all three in the ten rows above. The census adds what you could never see by scrolling. Two values fit no date shape at all, and one of them reads <b>Feb 30 2023</b>, a date that has never existed."
+    },
+    gender: {
+      title: "gender · 14 spellings of 3 things",
+      bars: [["female",119],["F",97],["M",88],["male",78],["Female",72],["f",66],["8 more spellings",292,"bad"]],
+      barNote: "every distinct value, with counts",
+      verdict: "<b>14 spellings, and every row recorded correctly.</b> Ask this file how many patients are female and it gives you five different partial answers. Any count, filter, or chart that touches this column inherits all 14 spellings until somebody standardizes them."
+    },
+    age: {
+      title: "age · mostly fine, ten rows impossible",
+      bars: [["18 to 85",769],["missing",33,"bad"],["-5",7,"bad"],["999",3,"bad"]],
+      barNote: "plausible, missing, impossible",
+      verdict: "<b>Ten rows hold an age no human has.</b> Seven patients are -5 years old and three are 999. The ten rows above showed you none of this, because ten impossible values in 812 rows are almost never on screen. This is what only a census catches."
+    },
+    insurance_type: {
+      title: "insurance_type · 18 spellings of 4 things",
+      bars: [["mcd",88],["medicaid",82],["MEDICAID",80],["Medicaid",56],["MEDICARE",55],["Private",55],["12 more spellings",396,"bad"]],
+      barNote: "every distinct value, with counts",
+      verdict: "<b>18 spellings, and some need clinic knowledge to merge.</b> Does <b>Commercial</b> mean the same thing as <b>Private</b>? Does <b>self-pay</b> mean Uninsured? A person who knows the clinic answers in seconds. A program, or an AI, can only guess."
+    },
+    copay_amount: {
+      title: "copay_amount · money flowing backward",
+      bars: [["$0 to $178",754],["missing",44,"bad"],["negative",14,"bad"]],
+      barNote: "valid, missing, negative",
+      verdict: "<b>Fourteen visits charged a negative copay,</b> the worst of them -$127. Probably a data entry slip, possibly a refund coded into the wrong column. Which one it is changes the fix, and the data cannot tell you. Somebody at the clinic can."
+    }
+  };
+
+  const seen = new Set();
+
+  function drawTable(active){
+    let h = "<tr>" + headers.map(c =>
+      `<th tabindex="0" role="button" data-col="${c}" class="${c===active?'active':''} ${seen.has(c)?'seen':''}"
+        aria-label="Count the ${c} column">${c}</th>`).join("") + "</tr>";
+    h += rows.map(r => "<tr>" + r.map(v=>`<td>${v}</td>`).join("") + "</tr>").join("");
+    $("p2a-table").innerHTML = h;
+    headers.forEach(c=>{
+      const th = document.querySelector(`th[data-col="${c}"]`);
+      th.addEventListener("click", ()=>select(c));
+      th.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); select(c);} });
+    });
+  }
+
+  function panelHTML(c){
+    const d = census[c];
+    const max = Math.max(...d.bars.map(b=>b[1]));
+    const bars = d.bars.map(b=>`<div class="p2a-bar ${b[2]||''}">
+      <span class="lbl">${b[0]}</span>
+      <div class="bar" style="width:${Math.max(2, b[1]/max*52)}%"></div>
+      <span class="val">${b[1]}</span></div>`).join("");
+    return `<h4>${d.title}</h4>
+      <div class="p2a-bars">${bars}</div>
+      <p class="p2a-verdict">${d.verdict}</p>`;
+  }
+
+  function select(c){
+    seen.add(c);
+    drawTable(c);
+    $("p2a-panel").innerHTML = panelHTML(c);
+    $("p2a-progress").innerHTML = seen.size === headers.length
+      ? "<b>All 6 counted.</b> The ten rows above showed you almost none of what the census found."
+      : `<b>${seen.size} of 6</b> columns counted.`;
+  }
+
+  /* Reserve the tallest panel so clicking through never resizes the activity. */
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const panel = $("p2a-panel");
+    const keep = panel.innerHTML;
+    panel.style.minHeight = "0";
+    let tallest = 0;
+    headers.forEach(c=>{ panel.innerHTML = panelHTML(c); tallest = Math.max(tallest, panel.scrollHeight); });
+    panel.innerHTML = keep;
+    panel.style.minHeight = tallest + "px";
+  }
+
+  drawTable(null);
+  $("p2a-panel").innerHTML =
+    '<h4>Nothing counted yet</h4><p class="p2a-verdict">Pick a column. Each census runs over the full file, so you see what all 812 rows hold, and the ten above were hiding.</p>';
+  lockHeight();
+
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p2a-first-look", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

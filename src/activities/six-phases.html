@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The six phases — AI in Data Science</title>
+<meta name="description" content="How a unit of work runs: build the vocabulary, look at the data, prompt and verify, compare with a practitioner, review, build it yourself.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5;
+    --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7;
+    --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html,body{background:transparent}
+  body{
+    background:transparent; color:var(--ink);
+    font-family:var(--sans); font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:46rem; margin:0 auto; padding:.85rem .85rem 1.1rem}
+
+  .stepper{
+    background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+
+  /* ---- horizontal tab strip: six equal tabs, always fits, never scrolls ---- */
+  .steptabs{display:flex; background:var(--chrome); border-bottom:1px solid var(--line)}
+  .steptab{
+    flex:1 1 0; min-width:0; cursor:pointer; border:none; background:none;
+    padding:.42rem .25rem .4rem; text-align:center;
+    border-right:1px solid var(--line); border-top:3px solid transparent;
+    font-family:var(--sans); color:var(--slate); transition:background .13s, color .13s;
+  }
+  .steptab:last-child{border-right:none}
+  .steptab:hover{background:var(--accent-soft); color:var(--ink)}
+  .steptab:focus-visible{outline:2px solid var(--accent); outline-offset:-3px}
+  .steptab .n{
+    font-family:var(--mono); font-size:.62rem; letter-spacing:.08em;
+    display:block; line-height:1.4;
+  }
+  .steptab .t{
+    font-size:.74rem; font-weight:600; display:block; line-height:1.25;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .steptab.on{background:var(--card); color:var(--ink); border-top-color:var(--accent)}
+  .steptab.on .n{color:var(--accent)}
+
+  /* ---- panel ---- */
+  .steppanel{padding:.95rem 1rem 1.05rem}
+  .where{
+    font-family:var(--mono); font-size:.63rem; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 .35rem;
+  }
+  .tags{margin:0 0 .45rem}
+  .steppanel h2{font-family:var(--serif); font-size:1.14rem; margin:0 0 .45rem; font-weight:600}
+  .why{font-size:.88rem; margin:0 0 .85rem}
+
+  .grid3{display:flex; flex-direction:column; gap:.5rem}
+  .box{border:1px solid var(--line); border-radius:7px; padding:.55rem .7rem; background:var(--card)}
+  .box .bl{font-family:var(--mono); font-size:.59rem; letter-spacing:.09em; text-transform:uppercase;
+    margin:0 0 .3rem; font-weight:700}
+  .box.provide{border-color:var(--warn); background:var(--warn-soft)}
+  .box.provide .bl{color:var(--warn)}
+  .box.student{border-color:var(--accent); background:var(--accent-soft)}
+  .box.student .bl{color:var(--accent)}
+  .box.away{border-color:var(--good); background:var(--good-soft)}
+  .box.away .bl{color:var(--good)}
+  .box ul{margin:0; padding-left:.95rem; font-size:.81rem}
+  .box li{margin:.15rem 0}
+
+  .looptag{
+    display:inline-block; font-family:var(--mono); font-size:.57rem; letter-spacing:.09em;
+    text-transform:uppercase; background:var(--accent); color:#fff;
+    padding:.1rem .4rem; border-radius:3px;
+  }
+  .looptag.grey{background:var(--slate)}
+
+  /* ---- prev / next ---- */
+  .pager{
+    display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+    margin:.85rem 0 0; padding-top:.65rem; border-top:1px solid var(--line);
+  }
+  .pagerbtn{
+    font-family:var(--mono); font-size:.7rem; cursor:pointer;
+    background:none; border:1px solid var(--line); border-radius:5px;
+    padding:.28rem .6rem; color:var(--slate); transition:color .13s, border-color .13s;
+  }
+  .pagerbtn:hover:not(:disabled){color:var(--accent); border-color:var(--accent)}
+  .pagerbtn:disabled{opacity:.35; cursor:default}
+  .pagercount{font-family:var(--mono); font-size:.66rem; color:var(--slate); letter-spacing:.06em}
+
+  /* narrow: drop the labels, keep the numbers */
+  @media (max-width:530px){
+    .steptab .t{display:none}
+    .steptab{padding:.5rem .2rem}
+    .steptab .n{font-size:.68rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stepper">
+    <div class="steptabs" id="tabs" role="tablist" aria-label="The six phases"></div>
+    <div class="steppanel">
+      <div id="panel" role="tabpanel" aria-live="polite"></div>
+      <div class="pager">
+        <button class="pagerbtn" id="prev" type="button">← Previous</button>
+        <span class="pagercount" id="count"></span>
+        <button class="pagerbtn" id="next" type="button">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+
+  var PHASES = [
+    {
+      n:1, short:"Learn", t:"Learn the vocabulary",
+      where:"Interactive lesson · no code · 30–45 min",
+      why:"Students meet the concept somewhere that has nothing to do with pandas, so what transfers is the idea rather than a syntax pattern they can copy. They commit to an answer, find out they were wrong, and come away with the words for what just happened.",
+      provide:["An interactive activity with a real decision in it","Two or three discussion questions with no clean answer","The vocabulary: non-random missingness, silent coercion, category collapse"],
+      student:["Predict what an operation will do","Commit to an answer before seeing the result","Argue a judgment call","Answer the discussion questions"],
+      away:["The words for what can go wrong","A felt sense of why it matters, enough to know what to ask for later"]
+    },
+    {
+      n:2, short:"Orient", t:"Orient yourself in the data",
+      where:"Notebook · most scaffolded part of the module · 15 min",
+      why:"Students meet the real dataset and orient themselves before being asked to change anything. This is the most hand-held part of the module, and the support is withdrawn deliberately from here on.",
+      provide:["The dataset and the stakeholder question","A short intro video on what they're looking at","The ground-rules prompt","One worked prompt, labelled as the only one they'll be given"],
+      student:["Load the data","Prompt the AI for a first look at shape, types, distributions","Read the output and notice what looks wrong"],
+      away:["Orientation to this dataset","One concrete example of what a considered prompt looks like"]
+    },
+    {
+      n:3, short:"Prompt", t:"Prompt and verify",
+      where:"Notebook · student-led · 40–60 min per unit of work",
+      why:"The core of the module. We name the step that has to happen and say nothing about how. Students draw on Phase 1 to work out what to ask for, prompt a real AI, and then decide for themselves how to check what came back.",
+      provide:["The name of the step only, such as “the data needs cleaning”","A reminder of the Phase 1 concepts","A checklist of verification methods, not answers"],
+      student:["Write the prompt","Paste and run the code","Decide how to verify it","Record what they checked and what they found"],
+      away:["A prompt they wrote themselves","A way of checking work when nobody hands them an answer"]
+    },
+    {
+      n:4, short:"Compare", t:"Compare with a practitioner",
+      where:"Video + notebook · immediately after each unit of work",
+      why:"Only now do students see how a professional approached it, after committing to their own attempt, so they have something to compare. Framed explicitly as one defensible path rather than the answer.",
+      provide:["A short embedded video on why this call and not that one","The practitioner's cells, which also serve as a recovery path","The five-axis comparison: correctness, effort, transparency, adaptability, failure modes"],
+      student:["Compare their approach to the practitioner's","Identify a decision they made differently","Defend it or revise it"],
+      away:["Calibration on where their judgment matched a professional's and where it didn't"]
+    },
+    {
+      n:5, short:"Review", t:"Review and discuss",
+      where:"In class or async · 20–30 min",
+      why:"Having done the theory and then the practice, students should now be able to talk about it. This is where the module finds out whether they can, and where a student who clicked through without engaging becomes visible to themselves.",
+      provide:["Questions that require explaining decisions rather than restating steps","A format that works either as a class discussion or as written responses"],
+      student:["Explain what they decided and why","Name a tradeoff they made","Say what they would ask a stakeholder if they could"],
+      away:["The ability to articulate the work, not just perform it"]
+    },
+    {
+      n:6, short:"Build", t:"Build it yourself", opt:true,
+      where:"Solo · async · unguided",
+      why:"Everything up to here is a lesson, well scaffolded but scaffolded. This is a new dataset, a stakeholder question, and no guidance at all. It is the only part of the module that tests whether any of it transferred.",
+      provide:["A new dataset and a real question about it","No walkthrough, no named steps, no prompts","A worked example released afterwards"],
+      student:["Run the whole loop unaided","Decide what needs doing, prompt for it, verify it","Produce something for the stakeholder"],
+      away:["Evidence, to themselves and to anyone else, that they can do this without scaffolding"]
+    }
+  ];
+
+  var cur = 0;
+
+  function list(items){
+    return "<ul>" + items.map(function(s){ return "<li>" + s + "</li>"; }).join("") + "</ul>";
+  }
+
+  function drawTabs(){
+    $("tabs").innerHTML = PHASES.map(function(x, k){
+      return '<button class="steptab' + (k === cur ? " on" : "") + '"' +
+        ' type="button" role="tab" aria-selected="' + (k === cur) + '"' +
+        ' title="Phase ' + x.n + ' — ' + x.t + '" data-i="' + k + '">' +
+        '<span class="n">' + x.n + '</span>' +
+        '<span class="t">' + x.short + '</span>' +
+        '</button>';
+    }).join("");
+  }
+
+  function draw(i){
+    cur = i;
+    var p = PHASES[i];
+    drawTabs();
+
+    var tags =
+      (p.opt ? '<span class="looptag grey">once, at the end</span>' : "");
+
+    $("panel").innerHTML =
+      '<p class="where">' + p.where + '</p>' +
+      (tags ? '<p class="tags">' + tags + '</p>' : "") +
+      '<h2>' + p.t + '</h2>' +
+      '<p class="why">' + p.why + '</p>' +
+      '<div class="grid3">' +
+        '<div class="box provide"><p class="bl">We provide</p>' + list(p.provide) + '</div>' +
+        '<div class="box student"><p class="bl">Student does</p>' + list(p.student) + '</div>' +
+        '<div class="box away"><p class="bl">They come away with</p>' + list(p.away) + '</div>' +
+      '</div>';
+
+    $("count").textContent = "Phase " + p.n + " of " + PHASES.length;
+    $("prev").disabled = (i === 0);
+    $("next").disabled = (i === PHASES.length - 1);
+  }
+
+  $("tabs").addEventListener("click", function(e){
+    var b = e.target.closest(".steptab");
+    if (b) draw(+b.getAttribute("data-i"));
+  });
+
+  $("tabs").addEventListener("keydown", function(e){
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    e.preventDefault();
+    var i = e.key === "ArrowRight"
+      ? (cur + 1) % PHASES.length
+      : (cur - 1 + PHASES.length) % PHASES.length;
+    draw(i);
+    $("tabs").querySelector('.steptab[data-i="' + i + '"]').focus();
+  });
+
+  $("prev").addEventListener("click", function(){ if (cur > 0) draw(cur - 1); });
+  $("next").addEventListener("click", function(){ if (cur < PHASES.length - 1) draw(cur + 1); });
+
+  draw(0);
+})();
+</script>
+</body>
+</html>

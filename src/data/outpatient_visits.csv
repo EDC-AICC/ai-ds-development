@@ -1,0 +1,813 @@
+visit_id,patient_id,visit_date,icd_code,icd_description,visit_type,gender,age,insurance_type,provider_id,county,copay_amount,follow_up_required
+V0452,P111,2022-12-21,I10,Essential Hypertension,Follow-Up,M,37.0,Uninsured,DR04,Los Angeles,177.0,1
+V0787,P196,08-04-2023,,,Tele-health,Male,69.0,private,DR07,Fresno,40.0,YES
+V0633,P153,2022-07-30,E11.9,Type 2 Diabetes without complications,telehealth,m,27.0,PRIVATE,DR05,San Francisco,36.0,YES
+V0278,P066,08/26/2023,J45.909,Unspecified Asthma,office visit,Male,71.0,PRIVATE,DR07,,55.0,Y
+V0154,P035,12/10/2022,M54.5,Low Back Pain,Telehealth,MALE,42.0,mcd,DR01,,0.0,0
+V0515,P127,2022-12-28,J20.9,Acute Bronchitis,office visit,MALE,,MEDICAID,DR06,Alameda,0.0,YES
+V0380,P094,2022-07-10,Z00.00,General Adult Medical Exam,followup,female,34.0,mcd,DR03,,5.0,1
+V0508,P125,2023-01-08,Z23,Encounter for Immunization,followup,Male,65.0,MEDICARE,DR08,Fresno,19.0,0
+V0626,P152,01-13-2023,,,Urgent Care,f,21.0,Private,DR02,Alameda,43.0,No
+V0486,P122,11/29/2022,J45.909,Unspecified Asthma,Telehealth,male,18.0,Medicare,DR06,Sacramento,38.0,1
+V0245,P058,2022-11-30,Z23,Encounter for Immunization,follow-up,FEMALE,27.0,self-pay,DR07,San Diego,,YES
+V0035,P009,02/02/2022,F41.1,Generalized Anxiety Disorder,office visit,MALE,82.0,uninsured,DR07,,129.0,no
+V0327,P080,12-24-2023,R51,Headache,Office visit,M,57.0,medicaid,DR07,Riverside,0.0,0
+V0453,P111,06-26-2022,F32.9,Major Depressive Disorder,office visit,M,37.0,Uninsured,DR07,Los Angeles,89.0,NO
+V0169,P039,2023-03-30,E78.5,Hyperlipidemia,OFFICE VISIT,f,,medicaid,DR07,Fresno,0.0,NO
+V0776,P193,2023-02-19,N39.0,Urinary Tract Infection,Follow-Up,male,,Medicare,DR08,,36.0,Yes
+V0431,P106,2023-09-13,Z23,Encounter for Immunization,Follow Up,male,53.0,mcd,DR01,Los Angeles,0.0,1
+V0128,P030,01/25/2023,Z00.00,General Adult Medical Exam,TELEHEALTH,male,36.0,MEDICARE,DR05,Orange,,Yes
+V0789,P197,11-04-2023,F32.9,Major Depressive Disorder,Telehealth,m,47.0,self-pay,DR04,Sacramento,115.0,NO
+V0308,P075,10/10/2022,F32.9,Major Depressive Disorder,Tele-health,NB,29.0,UNINSURED,DR01,Riverside,73.0,No
+V0418,P102,07-08-2022,Z00.00,General Adult Medical Exam,Follow-Up,Female,69.0,UNINSURED,DR02,Sacramento,89.0,no
+V0546,P134,12/21/2022,E11.9,Type 2 Diabetes without complications,Office visit,Male,68.0,private,DR05,,32.0,no
+V0750,P187,05/29/2022,I10,Essential Hypertension,office visit,other,64.0,Private,DR01,Los Angeles,56.0,0
+V0062,P013,05/18/2022,,,office visit,F,73.0,MCR,DR04,Los Angeles,34.0,YES
+V0141,P033,2022-02-28,F32.9,Major Depressive Disorder,follow-up,male,41.0,MCR,DR06,Riverside,39.0,NO
+V0149,P034,2023-01-21,E78.5,Hyperlipidemia,Urgent Care,Female,31.0,medicaid,DR04,Fresno,0.0,yes
+V0262,P061,02-02-2022,F41.1,Generalized Anxiety Disorder,Tele-health,female,71.0,Private,DR03,,43.0,NO
+V0135,P032,2023-05-31,E78.5,Hyperlipidemia,Follow-Up,male,57.0,medicare,DR06,Alameda,19.0,yes
+V0531,P131,03/01/2022,J20.9,Acute Bronchitis,follow-up,MALE,68.0,mcd,DR02,,0.0,1
+V0230,P054,2023-01-08,Z23,Encounter for Immunization,telehealth,M,81.0,Commercial,DR06,San Francisco,40.0,No
+V0780,P193,2022-03-03,I10,Essential Hypertension,followup,male,46.0,Medicare,DR04,,24.0,0
+V0284,P067,04/14/2023,R51,Headache,followup,female,23.0,UNINSURED,DR07,San Diego,183.0,N
+V0354,P088,2022-07-23,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,male,39.0,commercial,DR06,,41.0,NO
+V0596,P145,04-17-2023,Z00.00,General Adult Medical Exam,Office visit,female,61.0,mcd,DR03,,0.0,no
+V0328,P081,08-05-2022,F41.1,Generalized Anxiety Disorder,follow-up,m,75.0,MCR,DR06,Riverside,25.0,0
+V0485,P122,09/24/2023,Z00.00,General Adult Medical Exam,office visit,male,18.0,Medicare,DR07,Sacramento,28.0,N
+V0160,P036,11/11/2023,Z23,Encounter for Immunization,office visit,F,65.0,Commercial,DR01,,45.0,yes
+V0189,P043,02-27-2023,UNKNOWN,Unknown,FOLLOW UP,female,58.0,self-pay,DR06,San Francisco,69.0,No
+V0738,P184,07-12-2023,J45.909,Unspecified Asthma,Follow-Up,m,29.0,MCR,DR01,Los Angeles,35.0,YES
+V0488,P122,2022-10-01,Z00.00,General Adult Medical Exam,URGENT CARE,male,18.0,Medicare,DR05,Sacramento,29.0,YES
+V0193,P044,06/25/2022,I10,Essential Hypertension,follow-up,female,77.0,medicare,DR07,Los Angeles,27.0,1
+V0060,P013,01/11/2023,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,F,73.0,MCR,DR01,Los Angeles,26.0,1
+V0014,P004,10-06-2023,E11.9,Type 2 Diabetes without complications,followup,Female,24.0,medicare,DR05,,18.0,0
+V0611,P150,04/20/2023,I10,Essential Hypertension,Office visit,F,30.0,medicaid,DR03,San Diego,0.0,no
+V0253,P060,01/11/2022,N39.0,Urinary Tract Infection,office visit,Female,83.0,medicaid,DR03,Orange,5.0,YES
+V0577,P141,10/16/2022,R51,Headache,Tele-health,m,44.0,Commercial,DR07,Sacramento,20.0,N
+V0054,P012,06/10/2023,F32.9,Major Depressive Disorder,Telehealth,Female,29.0,Medicare,DR08,San Diego,24.0,NO
+V0607,P149,12-27-2023,UNKNOWN,Unknown,telehealth,m,37.0,MCR,DR08,Alameda,25.0,1
+V0240,P057,2023-06-04,J45.909,Unspecified Asthma,Office Visit,FEMALE,54.0,Self-Pay,DR07,Sacramento,78.0,1
+V0111,P025,10-05-2023,E11.9,Type 2 Diabetes without complications,URGENT CARE,Non-binary,46.0,mcd,DR05,San Diego,5.0,Y
+V0252,P060,2023-04-17,J20.9,Acute Bronchitis,Office Visit,Female,83.0,medicaid,DR01,Orange,0.0,Yes
+V0730,P182,10-28-2023,E11.9,Type 2 Diabetes without complications,Telehealth,F,85.0,Medicaid,DR02,Riverside,0.0,1
+V0126,P030,2023-09-11,J20.9,Acute Bronchitis,OFFICE VISIT,male,,MEDICARE,DR02,Orange,16.0,NO
+V0737,P184,2023-09-27,F41.1,Generalized Anxiety Disorder,Tele-health,m,29.0,MCR,DR01,Los Angeles,24.0,no
+V0727,P182,09-30-2023,J45.909,Unspecified Asthma,urgent care,F,85.0,Medicaid,DR02,Riverside,0.0,no
+V0396,P097,2023-12-09,Z00.00,General Adult Medical Exam,office visit,Female,68.0,uninsured,DR01,Orange,196.0,Yes
+V0659,P161,06/13/2023,F32.9,Major Depressive Disorder,FOLLOW UP,f,33.0,private,DR08,,30.0,no
+V0506,P125,09/01/2022,E78.5,Hyperlipidemia,Office Visit,Male,65.0,MEDICARE,DR03,Fresno,27.0,No
+V0450,P111,2022-03-12,E78.5,Hyperlipidemia,Tele-health,M,37.0,Uninsured,DR07,Los Angeles,139.0,No
+V0210,P050,02-22-2023,J06.9,Acute Upper Respiratory Infection,Office visit,F,49.0,MCR,DR08,Alameda,37.0,NO
+V0672,P164,05-11-2023,R51,Headache,FOLLOW UP,F,77.0,mcd,DR08,,,No
+V0358,P088,06-24-2022,I10,Essential Hypertension,FOLLOW UP,male,39.0,commercial,DR05,,30.0,Y
+V0442,P108,04-04-2022,I10,Essential Hypertension,Telehealth,f,63.0,Medicare,DR04,Fresno,29.0,no
+V0638,P154,2023-03-08,J06.9,Acute Upper Respiratory Infection,URGENT CARE,f,44.0,MEDICAID,DR02,Sacramento,0.0,0
+V0565,P138,2022-03-27,Z23,Encounter for Immunization,urgent care,female,25.0,PRIVATE,DR04,Orange,26.0,Y
+V0566,P138,2023-06-18,E78.5,Hyperlipidemia,office visit,female,25.0,PRIVATE,DR03,Orange,54.0,no
+V0271,P064,07/26/2023,E78.5,Hyperlipidemia,TELEHEALTH,M,37.0,medicaid,DR07,,0.0,No
+V0467,P116,2023-05-26,Z00.00,General Adult Medical Exam,Follow-Up,F,47.0,mcd,DR04,San Francisco,0.0,N
+V0533,P132,2023-06-29,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,Male,68.0,self-pay,DR06,,-54.0,no
+V0666,P162,03/22/2022,N39.0,Urinary Tract Infection,telehealth,M,32.0,Private,DR07,Los Angeles,27.0,NO
+V0254,P060,2022-02-28,I10,Essential Hypertension,office visit,Female,83.0,medicaid,DR04,Orange,0.0,Yes
+V0049,P011,07-23-2022,E11.9,Type 2 Diabetes without complications,followup,FEMALE,22.0,Medicaid,DR08,San Francisco,5.0,YES
+V0309,P075,06/14/2023,Z23,Encounter for Immunization,Office Visit,NB,29.0,UNINSURED,DR04,Riverside,199.0,yes
+V0784,P195,2023-07-06,F32.9,Major Depressive Disorder,follow-up,m,48.0,Commercial,DR07,,37.0,no
+V0139,P032,05-29-2023,F32.9,Major Depressive Disorder,Office Visit,male,57.0,medicare,DR01,Alameda,19.0,1
+V0686,P167,11-21-2023,F32.9,Major Depressive Disorder,followup,F,57.0,MEDICAID,DR07,San Francisco,0.0,YES
+V0464,P115,05/21/2022,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,female,47.0,mcd,DR06,,0.0,Y
+V0388,P096,09/11/2022,J06.9,Acute Upper Respiratory Infection,FOLLOW UP,M,68.0,Medicare,DR01,San Diego,22.0,YES
+V0016,P004,2023-02-28,M54.5,Low Back Pain,URGENT CARE,Female,24.0,medicare,DR03,,39.0,Yes
+V0061,P013,11-25-2022,E11.9,Type 2 Diabetes without complications,followup,F,73.0,MCR,DR01,Los Angeles,24.0,no
+V0047,P011,11-17-2023,J45.909,Unspecified Asthma,Office visit,FEMALE,22.0,Medicaid,DR03,San Francisco,0.0,No
+V0095,P021,05-15-2022,Z00.00,General Adult Medical Exam,URGENT CARE,Other,46.0,Commercial,DR08,Los Angeles,57.0,no
+V0775,P193,03-26-2022,E78.5,Hyperlipidemia,OFFICE VISIT,male,46.0,Medicare,DR08,,39.0,Y
+V0622,P152,06-08-2023,UNKNOWN,Unknown,follow-up,f,21.0,Private,DR05,Alameda,24.0,yes
+V0694,P170,2022-06-05,M54.5,Low Back Pain,Urgent Care,M,31.0,UNINSURED,DR07,,196.0,Yes
+V0499,P124,06-03-2023,N39.0,Urinary Tract Infection,Office visit,other,71.0,UNINSURED,DR03,Los Angeles,188.0,Yes
+V0058,P012,05-21-2022,Z23,Encounter for Immunization,Follow-Up,Female,29.0,Medicare,DR05,San Diego,,0
+V0328,P081,08-05-2022,F41.1,Generalized Anxiety Disorder,follow-up,m,75.0,MCR,DR06,Riverside,25.0,0
+V0366,P091,05/14/2023,Z00.00,General Adult Medical Exam,Follow Up,f,25.0,private,DR07,Sacramento,48.0,Yes
+V0559,P137,2023-01-01,N39.0,Urinary Tract Infection,FOLLOW UP,Male,69.0,private,DR02,Alameda,50.0,no
+V0745,P186,02-14-2022,M79.3,Panniculitis,Office visit,F,84.0,private,DR03,San Francisco,45.0,Y
+V0279,P067,2022-06-28,E11.9,Type 2 Diabetes without complications,urgent care,female,23.0,UNINSURED,DR01,San Diego,56.0,No
+V0352,P088,08/25/2023,E11.9,Type 2 Diabetes without complications,Telehealth,male,39.0,commercial,DR01,,38.0,Y
+V0356,P088,04-12-2022,M54.5,Low Back Pain,URGENT CARE,male,39.0,commercial,DR08,,-38.0,no
+V0109,P025,2022-06-15,I10,Essential Hypertension,TELEHEALTH,Non-binary,46.0,mcd,DR05,San Diego,0.0,yes
+V0771,P192,2023-02-14,Z00.00,General Adult Medical Exam,TELEHEALTH,NB,,MEDICARE,DR05,,34.0,Y
+V0479,P120,06/21/2022,J45.909,Unspecified Asthma,Office Visit,Non-binary,51.0,mcd,DR06,,0.0,Y
+V0415,P102,11/08/2023,F32.9,Major Depressive Disorder,Office visit,Female,69.0,UNINSURED,DR01,Sacramento,98.0,yes
+V0654,P158,02/08/2022,K21.0,GERD with Esophagitis,office visit,M,62.0,medicaid,DR03,Riverside,5.0,YES
+V0319,P078,10-06-2023,N39.0,Urinary Tract Infection,OFFICE VISIT,F,26.0,Private,DR05,Alameda,51.0,N
+V0408,P101,2022-01-20,R51,Headache,Office visit,NB,75.0,mcd,DR02,,,N
+V0243,P058,03/23/2022,I10,Essential Hypertension,follow-up,FEMALE,27.0,self-pay,DR03,San Diego,160.0,1
+V0147,P034,07-01-2022,J06.9,Acute Upper Respiratory Infection,Follow-Up,Female,31.0,medicaid,DR01,Fresno,0.0,yes
+V0621,P152,07-05-2022,F32.9,Major Depressive Disorder,Tele-health,f,21.0,Private,DR03,Alameda,25.0,N
+V0143,P033,06/27/2023,,,OFFICE VISIT,male,41.0,MCR,DR07,Riverside,26.0,0
+V0306,P075,06/18/2022,M54.5,Low Back Pain,office visit,NB,29.0,UNINSURED,DR06,Riverside,63.0,Y
+V0583,P142,2023-03-07,K21.0,GERD with Esophagitis,Follow-Up,M,999.0,private,DR03,San Diego,30.0,yes
+V0297,P072,2023-11-24,M54.5,Low Back Pain,followup,MALE,81.0,MEDICAID,DR04,,5.0,No
+V0611,P150,04/20/2023,I10,Essential Hypertension,Office visit,F,30.0,medicaid,DR03,San Diego,0.0,no
+V0206,P047,2023-11-04,E11.9,Type 2 Diabetes without complications,follow-up,Female,56.0,MEDICAID,DR07,Riverside,0.0,no
+V0044,P010,06-16-2023,I10,Essential Hypertension,office visit,f,45.0,PRIVATE,DR04,Sacramento,56.0,NO
+V0597,P146,12/23/2023,E11.9,Type 2 Diabetes without complications,URGENT CARE,f,24.0,Uninsured,DR03,San Diego,116.0,yes
+V0051,P011,01-18-2023,R51,Headache,Office visit,FEMALE,22.0,Medicaid,DR02,San Francisco,0.0,no
+V0644,P157,10/24/2023,UNKNOWN,Unknown,Follow Up,female,50.0,medicaid,DR08,,0.0,no
+V0427,P104,02/28/2023,Z00.00,General Adult Medical Exam,follow-up,female,35.0,UNINSURED,DR07,Orange,110.0,no
+V0710,P176,11-04-2022,J45.909,Unspecified Asthma,Follow Up,f,20.0,Medicare,DR08,,33.0,NO
+V0494,P123,03/17/2023,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,Male,36.0,Medicaid,DR08,San Francisco,0.0,Y
+V0671,P163,12-08-2022,M54.5,Low Back Pain,Urgent Care,female,80.0,Private,DR08,Los Angeles,59.0,YES
+V0553,P136,2022-11-12,Z00.00,General Adult Medical Exam,Office visit,MALE,79.0,MEDICAID,DR02,Orange,0.0,YES
+V0064,P013,2022-05-07,F41.1,Generalized Anxiety Disorder,TELEHEALTH,F,,MCR,DR02,Los Angeles,18.0,0
+V0099,P022,11-11-2023,R51,Headache,Office visit,MALE,25.0,self-pay,DR01,Sacramento,168.0,NO
+V0780,P193,2022-03-03,I10,Essential Hypertension,followup,male,46.0,Medicare,DR04,,24.0,0
+V0742,P185,06-25-2023,F32.9,Major Depressive Disorder,Office visit,MALE,51.0,mcd,DR03,Los Angeles,5.0,0
+V0635,P154,10-19-2023,E11.9,Type 2 Diabetes without complications,Follow Up,f,44.0,MEDICAID,DR02,Sacramento,5.0,0
+V0658,P160,07-12-2022,F32.9,Major Depressive Disorder,Telehealth,NB,78.0,medicaid,DR06,,,No
+V0593,P145,08/01/2022,,,Office Visit,female,61.0,mcd,DR03,,0.0,NO
+V0301,P073,02/23/2022,I10,Essential Hypertension,FOLLOW UP,male,76.0,Medicaid,DR05,San Francisco,0.0,1
+V0067,P014,2023-11-28,M79.3,Panniculitis,Office visit,F,71.0,Private,DR01,Fresno,43.0,YES
+V0579,P141,01-19-2022,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,m,44.0,Commercial,DR02,Sacramento,25.0,Y
+V0010,P003,12-31-2023,F41.1,Generalized Anxiety Disorder,Office visit,female,68.0,Commercial,DR08,,,0
+V0761,P189,03/31/2023,J06.9,Acute Upper Respiratory Infection,urgent care,F,63.0,Commercial,DR07,San Francisco,49.0,0
+V0609,P150,05-18-2022,E11.9,Type 2 Diabetes without complications,followup,F,30.0,medicaid,DR01,San Diego,,1
+V0361,P090,2023-01-18,Z00.00,General Adult Medical Exam,Telehealth,m,81.0,UNINSURED,DR05,Riverside,178.0,yes
+V0303,P074,11-06-2023,I10,Essential Hypertension,followup,MALE,26.0,MEDICAID,DR01,Los Angeles,0.0,Yes
+V0421,P103,04/03/2022,F32.9,Major Depressive Disorder,Telehealth,F,53.0,Private,DR01,San Francisco,43.0,Y
+V0696,P171,11/17/2023,J06.9,Acute Upper Respiratory Infection,Tele-health,female,61.0,private,DR05,,44.0,No
+V0591,P144,11-29-2023,K21.0,GERD with Esophagitis,Tele-health,m,32.0,MEDICARE,DR07,Riverside,24.0,NO
+V0446,P109,2023-01-27,Z00.00,General Adult Medical Exam,office visit,Female,,MEDICAID,DR02,Fresno,0.0,1
+V0065,P013,2023-08-10,J45.909,Unspecified Asthma,Follow-Up,F,73.0,MCR,DR01,Los Angeles,35.0,1
+V0526,P131,2023-04-29,E11.9,Type 2 Diabetes without complications,followup,MALE,68.0,mcd,DR07,,0.0,0
+V0376,P094,12-10-2022,I10,Essential Hypertension,TELEHEALTH,female,34.0,mcd,DR05,,0.0,N
+V0509,P126,2023-12-24,E78.5,Hyperlipidemia,Telehealth,M,58.0,Self-Pay,DR01,Los Angeles,136.0,no
+V0575,P140,01-27-2022,J06.9,Acute Upper Respiratory Infection,Office visit,M,26.0,Medicare,DR05,,36.0,Yes
+V0420,P103,2023-10-09,I10,Essential Hypertension,follow-up,F,53.0,Private,DR04,San Francisco,45.0,Y
+V0223,P052,12-05-2022,I10,Essential Hypertension,Telehealth,M,56.0,Private,DR04,,38.0,0
+V0689,P168,12/13/2023,E11.9,Type 2 Diabetes without complications,Office visit,F,28.0,Medicaid,DR01,Alameda,0.0,1
+V0601,P147,2022-07-07,I10,Essential Hypertension,OFFICE VISIT,Male,31.0,Medicaid,DR02,Fresno,0.0,1
+V0669,P163,04/04/2022,J06.9,Acute Upper Respiratory Infection,URGENT CARE,female,80.0,Private,DR02,Los Angeles,58.0,N
+V0272,P064,03-17-2022,F32.9,Major Depressive Disorder,followup,M,37.0,medicaid,DR08,,0.0,N
+V0419,P102,07/19/2023,M54.5,Low Back Pain,Urgent Care,Female,69.0,UNINSURED,DR05,Sacramento,-127.0,Y
+V0796,P200,2022-10-09,E11.9,Type 2 Diabetes without complications,urgent care,FEMALE,81.0,MEDICARE,DR04,Sacramento,16.0,1
+V0752,P187,2022-07-24,F41.1,Generalized Anxiety Disorder,Office visit,other,64.0,Private,DR07,Los Angeles,37.0,0
+V0335,P083,10/23/2023,J20.9,Acute Bronchitis,Follow Up,Other,67.0,PRIVATE,DR06,Sacramento,30.0,no
+V0410,P101,2023-11-04,J45.909,Unspecified Asthma,office visit,NB,75.0,mcd,DR02,,0.0,No
+V0628,P153,03-16-2022,M54.5,Low Back Pain,OFFICE VISIT,m,27.0,PRIVATE,DR08,San Francisco,33.0,0
+V0656,P160,06/08/2022,I10,Essential Hypertension,follow-up,NB,78.0,medicaid,DR08,,5.0,N
+V0380,P094,2022-07-10,Z00.00,General Adult Medical Exam,followup,female,34.0,mcd,DR03,,5.0,1
+V0295,P072,12-16-2022,J20.9,Acute Bronchitis,Office visit,MALE,81.0,MEDICAID,DR01,,0.0,N
+V0587,P144,2022-10-17,E78.5,Hyperlipidemia,Follow-Up,m,32.0,MEDICARE,DR05,Riverside,24.0,No
+V0180,P041,2023-09-03,E11.9,Type 2 Diabetes without complications,Office Visit,male,81.0,MEDICARE,DR08,San Francisco,22.0,NO
+V0233,P055,07/02/2023,UNKNOWN,Unknown,Follow Up,m,61.0,self-pay,DR08,,174.0,N
+V0351,P087,2023-03-10,M54.5,Low Back Pain,Office visit,male,63.0,MEDICAID,DR04,Los Angeles,5.0,YES
+V0754,P187,2022-01-20,E11.9,Type 2 Diabetes without complications,urgent care,other,64.0,Private,DR03,Los Angeles,24.0,Y
+V0436,P107,2022-10-23,I10,Essential Hypertension,OFFICE VISIT,Male,71.0,PRIVATE,DR08,Riverside,23.0,Y
+V0075,P016,07-27-2022,F32.9,Major Depressive Disorder,TELEHEALTH,female,48.0,PRIVATE,DR02,,50.0,No
+V0413,P101,10-08-2022,M54.5,Low Back Pain,urgent care,NB,75.0,mcd,DR07,,0.0,0
+V0129,P031,03/18/2022,UNKNOWN,Unknown,Tele-health,female,33.0,MEDICAID,DR08,Orange,0.0,Yes
+V0557,P136,2022-11-12,J20.9,Acute Bronchitis,Tele-health,MALE,79.0,MEDICAID,DR05,Orange,0.0,YES
+V0110,P025,12-06-2022,J20.9,Acute Bronchitis,telehealth,Non-binary,46.0,mcd,DR08,San Diego,0.0,NO
+V0026,P007,10-06-2022,N39.0,Urinary Tract Infection,Office Visit,M,-5.0,MEDICAID,DR08,Riverside,0.0,YES
+V0636,P154,11-29-2022,J06.9,Acute Upper Respiratory Infection,Telehealth,f,44.0,MEDICAID,DR03,Sacramento,0.0,N
+V0527,P131,2022-06-13,E11.9,Type 2 Diabetes without complications,Office Visit,MALE,68.0,mcd,DR04,,0.0,no
+V0273,P065,2023-00-00,M54.5,Low Back Pain,urgent care,FEMALE,80.0,Medicaid,DR07,Fresno,0.0,yes
+V0363,P091,2022-02-02,Z00.00,General Adult Medical Exam,Telehealth,f,25.0,private,DR08,Sacramento,42.0,N
+V0500,P124,2022-11-07,F32.9,Major Depressive Disorder,OFFICE VISIT,other,71.0,UNINSURED,DR04,Los Angeles,153.0,0
+V0558,P137,07/15/2023,I10,Essential Hypertension,Urgent Care,Male,69.0,private,DR02,Alameda,46.0,NO
+V0264,P062,11-18-2022,J20.9,Acute Bronchitis,office visit,female,39.0,self-pay,DR07,Orange,56.0,yes
+V0595,P145,2022-03-05,J06.9,Acute Upper Respiratory Infection,office visit,female,61.0,mcd,DR03,,0.0,Y
+V0100,P023,09-16-2023,E11.9,Type 2 Diabetes without complications,office visit,female,68.0,Self-Pay,DR07,San Francisco,60.0,YES
+V0025,P007,2022-08-04,Z00.00,General Adult Medical Exam,Tele-health,M,-5.0,MEDICAID,DR05,Riverside,,YES
+V0187,P042,04/14/2022,J45.909,Unspecified Asthma,Office Visit,F,72.0,medicaid,DR05,,0.0,yes
+V0391,P096,2022-10-16,J06.9,Acute Upper Respiratory Infection,Telehealth,M,68.0,Medicare,DR06,San Diego,28.0,NO
+V0603,P148,01/22/2022,J06.9,Acute Upper Respiratory Infection,follow-up,FEMALE,18.0,mcd,DR04,Los Angeles,0.0,No
+V0722,P181,2022-10-14,J45.909,Unspecified Asthma,URGENT CARE,M,21.0,MEDICAID,DR04,,5.0,N
+V0760,P189,10-03-2022,K21.0,GERD with Esophagitis,FOLLOW UP,F,63.0,Commercial,DR07,San Francisco,46.0,Yes
+V0578,P141,09/13/2022,E78.5,Hyperlipidemia,office visit,m,44.0,Commercial,DR06,Sacramento,44.0,0
+V0581,P142,12/06/2022,R51,Headache,follow-up,M,999.0,private,DR04,San Diego,29.0,1
+V0353,P088,02/19/2023,Z00.00,General Adult Medical Exam,Office Visit,male,39.0,commercial,DR07,,36.0,yes
+V0071,P015,2023-07-14,J45.909,Unspecified Asthma,followup,female,26.0,Medicaid,DR04,Alameda,5.0,NO
+V0545,P134,07-14-2022,E11.9,Type 2 Diabetes without complications,Tele-health,Male,68.0,private,DR02,,21.0,NO
+V0471,P117,02/25/2023,K21.0,GERD with Esophagitis,follow-up,FEMALE,19.0,MEDICAID,DR05,,5.0,no
+V0386,P095,03-27-2023,R51,Headache,Follow Up,M,49.0,private,DR01,San Francisco,23.0,Y
+V0483,P121,11/28/2022,R51,Headache,urgent care,female,54.0,Medicaid,DR04,Alameda,0.0,no
+V0599,P146,2022-11-04,E11.9,Type 2 Diabetes without complications,office visit,f,24.0,Uninsured,DR05,San Diego,175.0,NO
+V0372,P092,2022-09-04,E78.5,Hyperlipidemia,TELEHEALTH,Female,45.0,medicaid,DR05,Los Angeles,0.0,N
+V0713,P177,05/27/2023,Z23,Encounter for Immunization,follow-up,female,44.0,MEDICAID,DR08,San Diego,5.0,Y
+V0205,P047,2023-02-08,I10,Essential Hypertension,Telehealth,Female,56.0,MEDICAID,DR03,Riverside,0.0,Yes
+V0791,P198,10-30-2022,I10,Essential Hypertension,followup,M,43.0,self-pay,DR03,Riverside,87.0,YES
+V0493,P123,12-21-2022,J45.909,Unspecified Asthma,follow-up,Male,36.0,Medicaid,DR02,San Francisco,,YES
+V0707,P174,2022-04-20,E11.9,Type 2 Diabetes without complications,Urgent Care,FEMALE,38.0,MEDICAID,DR01,Orange,5.0,0
+V0286,P068,12-22-2023,I10,Essential Hypertension,Follow Up,Female,27.0,Commercial,DR07,Los Angeles,40.0,1
+V0172,P040,2022-03-08,F32.9,Major Depressive Disorder,Office Visit,m,44.0,Medicare,DR01,Fresno,36.0,1
+V0390,P096,2022-07-08,I10,Essential Hypertension,urgent care,M,68.0,Medicare,DR04,San Diego,35.0,Y
+V0221,P051,2022-08-18,J45.909,Unspecified Asthma,office visit,Male,28.0,MEDICARE,DR06,Sacramento,15.0,YES
+V0398,P098,2022-04-21,,,follow-up,male,81.0,Uninsured,DR04,San Diego,103.0,yes
+V0456,P112,10-08-2022,E11.9,Type 2 Diabetes without complications,office visit,Other,28.0,private,DR06,,44.0,N
+V0541,P133,08-15-2023,I10,Essential Hypertension,TELEHEALTH,Non-binary,69.0,Commercial,DR01,,54.0,Y
+V0023,P007,03/19/2022,M54.5,Low Back Pain,telehealth,M,-5.0,MEDICAID,DR01,Riverside,,NO
+V0661,P161,05/16/2022,N39.0,Urinary Tract Infection,Urgent Care,f,33.0,private,DR05,,51.0,yes
+V0229,P054,2022-12-30,M54.5,Low Back Pain,Office Visit,M,81.0,Commercial,DR06,San Francisco,46.0,no
+V0003,P001,05-10-2022,J20.9,Acute Bronchitis,telehealth,M,59.0,medicare,DR06,Sacramento,33.0,yes
+V0274,P065,01-15-2023,F32.9,Major Depressive Disorder,FOLLOW UP,FEMALE,80.0,Medicaid,DR08,Fresno,0.0,Yes
+V0640,P155,2023-04-01,F32.9,Major Depressive Disorder,Office Visit,F,66.0,MEDICARE,DR02,,32.0,No
+V0777,P193,09/08/2023,E11.9,Type 2 Diabetes without complications,telehealth,male,46.0,Medicare,DR01,,38.0,0
+V0697,P171,2022-06-18,Z00.00,General Adult Medical Exam,Tele-health,female,61.0,private,DR06,,27.0,NO
+V0133,P032,2022-07-24,E11.9,Type 2 Diabetes without complications,telehealth,male,57.0,medicare,DR06,Alameda,40.0,No
+V0200,P046,08/26/2022,E11.9,Type 2 Diabetes without complications,Office visit,F,64.0,Commercial,DR04,,51.0,N
+V0116,P028,2023-03-08,J06.9,Acute Upper Respiratory Infection,office visit,F,55.0,medicare,DR03,Riverside,38.0,yes
+V0755,P188,2023-08-12,I10,Essential Hypertension,OFFICE VISIT,M,39.0,Commercial,DR08,San Diego,45.0,No
+V0460,P114,03-30-2023,J06.9,Acute Upper Respiratory Infection,Telehealth,female,37.0,Commercial,DR05,,54.0,Yes
+V0718,P178,04/18/2022,UNKNOWN,Unknown,Follow Up,male,85.0,medicaid,DR06,Riverside,0.0,Y
+V0393,P096,03/24/2023,N39.0,Urinary Tract Infection,Follow-Up,M,68.0,Medicare,DR07,San Diego,20.0,Yes
+V0066,P014,2022-12-13,M54.5,Low Back Pain,OFFICE VISIT,F,71.0,Private,DR07,Fresno,56.0,no
+V0774,P192,2023-11-23,F32.9,Major Depressive Disorder,Office visit,NB,60.0,MEDICARE,DR03,,40.0,N
+V0052,P012,01/10/2023,J06.9,Acute Upper Respiratory Infection,office visit,Female,29.0,Medicare,DR03,San Diego,37.0,no
+V0359,P089,06-09-2022,Z00.00,General Adult Medical Exam,follow-up,Female,32.0,mcd,DR02,Alameda,0.0,Yes
+V0300,P073,08-08-2022,Z23,Encounter for Immunization,Office Visit,male,76.0,Medicaid,DR02,San Francisco,0.0,N
+V0447,P110,2023-08-27,J06.9,Acute Upper Respiratory Infection,Telehealth,male,47.0,mcd,DR03,,0.0,no
+V0307,P075,12/31/2023,F41.1,Generalized Anxiety Disorder,Telehealth,NB,29.0,UNINSURED,DR04,Riverside,86.0,Y
+V0317,P077,01-28-2022,E78.5,Hyperlipidemia,Office visit,M,78.0,medicare,DR08,San Francisco,30.0,N
+V0465,P115,06-23-2023,J45.909,Unspecified Asthma,follow-up,female,47.0,mcd,DR06,,0.0,0
+V0373,P092,10/02/2023,E11.9,Type 2 Diabetes without complications,FOLLOW UP,Female,45.0,medicaid,DR07,Los Angeles,0.0,YES
+V0383,P095,02-03-2022,E78.5,Hyperlipidemia,URGENT CARE,M,49.0,private,DR03,San Francisco,37.0,1
+V0334,P083,02/05/2022,E11.9,Type 2 Diabetes without complications,Tele-health,Other,67.0,PRIVATE,DR02,Sacramento,38.0,No
+V0741,P185,03/20/2022,Z00.00,General Adult Medical Exam,Follow-Up,MALE,51.0,mcd,DR08,Los Angeles,5.0,No
+V0257,P061,01/14/2023,F41.1,Generalized Anxiety Disorder,Office visit,female,71.0,Private,DR08,,51.0,no
+V0082,P018,2022-06-24,M54.5,Low Back Pain,office visit,MALE,72.0,MEDICAID,DR05,San Diego,5.0,NO
+V0693,P170,2023-10-16,,,OFFICE VISIT,M,31.0,UNINSURED,DR05,,150.0,No
+V0615,P150,09/03/2023,M54.5,Low Back Pain,telehealth,F,30.0,medicaid,DR07,San Diego,0.0,Y
+V0178,P041,02-22-2022,I10,Essential Hypertension,office visit,male,81.0,MEDICARE,DR07,San Francisco,33.0,Yes
+V0466,P115,2022-09-08,I10,Essential Hypertension,telehealth,female,47.0,mcd,DR04,,0.0,1
+V0038,P009,03/15/2023,N39.0,Urinary Tract Infection,Office visit,MALE,82.0,uninsured,DR04,,165.0,YES
+V0098,P022,10/23/2022,I10,Essential Hypertension,FOLLOW UP,MALE,25.0,self-pay,DR05,Sacramento,141.0,No
+V0534,P132,04-25-2022,,,telehealth,Male,68.0,self-pay,DR02,,,1
+V0203,P047,04-23-2023,M54.5,Low Back Pain,OFFICE VISIT,Female,56.0,MEDICAID,DR02,Riverside,0.0,no
+V0529,P131,2022-01-02,E78.5,Hyperlipidemia,office visit,MALE,68.0,mcd,DR07,,,No
+V0237,P056,08-13-2022,E11.9,Type 2 Diabetes without complications,Office visit,other,75.0,mcd,DR05,Fresno,0.0,Y
+V0150,P034,03-12-2023,J06.9,Acute Upper Respiratory Infection,Office visit,Female,31.0,medicaid,DR04,Fresno,5.0,NO
+V0544,P134,2023-04-29,E78.5,Hyperlipidemia,FOLLOW UP,Male,68.0,private,DR03,,27.0,N
+V0192,P044,07-02-2023,I10,Essential Hypertension,office visit,female,77.0,medicare,DR01,Los Angeles,18.0,0
+V0218,P051,2022-08-07,F32.9,Major Depressive Disorder,FOLLOW UP,Male,28.0,MEDICARE,DR02,Sacramento,,No
+V0569,P139,2022-06-29,,,Telehealth,M,,self-pay,DR02,San Diego,74.0,0
+V0744,P185,2023-02-11,F32.9,Major Depressive Disorder,OFFICE VISIT,MALE,51.0,mcd,DR03,Los Angeles,0.0,1
+V0389,P096,10-02-2023,F32.9,Major Depressive Disorder,Follow Up,M,68.0,Medicare,DR07,San Diego,21.0,no
+V0055,P012,09/01/2022,F32.9,Major Depressive Disorder,Office visit,Female,29.0,Medicare,DR03,San Diego,16.0,No
+V0684,P167,2022-12-13,J45.909,Unspecified Asthma,OFFICE VISIT,F,57.0,MEDICAID,DR02,San Francisco,5.0,0
+V0260,P061,08/06/2022,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,female,71.0,Private,DR08,,49.0,yes
+V0564,P138,2023-04-13,F41.1,Generalized Anxiety Disorder,Telehealth,female,25.0,PRIVATE,DR03,Orange,29.0,N
+V0747,P186,09/20/2022,K21.0,GERD with Esophagitis,office visit,F,84.0,private,DR06,San Francisco,57.0,N
+V0265,P062,05-19-2023,I10,Essential Hypertension,URGENT CARE,female,39.0,self-pay,DR04,Orange,99.0,yes
+V0573,P140,11-18-2022,,,Tele-health,M,26.0,Medicare,DR02,,24.0,Y
+V0194,P044,08/28/2022,F41.1,Generalized Anxiety Disorder,telehealth,female,77.0,medicare,DR04,Los Angeles,17.0,N
+V0236,P055,08/23/2022,J45.909,Unspecified Asthma,Office Visit,m,61.0,self-pay,DR01,,112.0,N
+V0678,P165,2022-04-29,F32.9,Major Depressive Disorder,Tele-health,F,79.0,uninsured,DR08,Riverside,68.0,0
+V0056,P012,12-16-2022,,,office visit,Female,29.0,Medicare,DR05,San Diego,20.0,yes
+V0619,P151,04/05/2022,J06.9,Acute Upper Respiratory Infection,office visit,f,64.0,medicare,DR03,Orange,16.0,NO
+V0510,P126,02/16/2022,M54.5,Low Back Pain,telehealth,M,58.0,Self-Pay,DR07,Los Angeles,132.0,N
+V0142,P033,11-21-2022,R51,Headache,Follow Up,male,,MCR,DR01,Riverside,28.0,NO
+V0708,P175,2023-04-05,M54.5,Low Back Pain,Telehealth,Male,,MEDICAID,DR03,Sacramento,5.0,no
+V0700,P172,12-26-2023,I10,Essential Hypertension,Urgent Care,female,51.0,MEDICARE,DR03,,30.0,NO
+V0524,P130,2022-11-29,I10,Essential Hypertension,Office visit,male,76.0,medicaid,DR03,Sacramento,0.0,yes
+V0759,P189,11-19-2023,J06.9,Acute Upper Respiratory Infection,FOLLOW UP,F,63.0,Commercial,DR08,San Francisco,27.0,no
+V0121,P029,10/28/2023,Z23,Encounter for Immunization,OFFICE VISIT,female,71.0,mcd,DR08,,0.0,1
+V0329,P081,10/09/2022,M54.5,Low Back Pain,telehealth,m,75.0,MCR,DR03,Riverside,28.0,NO
+V0586,P144,05/20/2023,J45.909,Unspecified Asthma,office visit,m,32.0,MEDICARE,DR06,Riverside,,N
+V0614,P150,2022-09-04,E78.5,Hyperlipidemia,Telehealth,F,30.0,medicaid,DR02,San Diego,0.0,Yes
+V0290,P070,07/25/2023,R51,Headache,office visit,other,61.0,MEDICAID,DR05,Orange,-5.0,NO
+V0004,P002,09-21-2022,Z23,Encounter for Immunization,OFFICE VISIT,Non-binary,37.0,mcd,DR08,,5.0,Yes
+V0059,P012,2022-12-22,F32.9,Major Depressive Disorder,Office visit,Female,29.0,Medicare,DR02,San Diego,15.0,No
+V0224,P053,2022-10-02,I10,Essential Hypertension,OFFICE VISIT,f,85.0,mcd,DR02,,5.0,1
+V0711,P176,03-19-2022,I10,Essential Hypertension,Office visit,f,,Medicare,DR08,,27.0,No
+V0102,P023,04-25-2022,E78.5,Hyperlipidemia,office visit,female,68.0,Self-Pay,DR01,San Francisco,112.0,YES
+V0222,P052,05/31/2023,F32.9,Major Depressive Disorder,URGENT CARE,M,56.0,Private,DR01,,22.0,no
+V0610,P150,06/30/2022,I10,Essential Hypertension,Tele-health,F,30.0,medicaid,DR01,San Diego,0.0,No
+V0424,P103,12-25-2023,M54.5,Low Back Pain,URGENT CARE,F,53.0,Private,DR05,San Francisco,37.0,no
+V0053,P012,06/09/2022,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,Female,29.0,Medicare,DR06,San Diego,40.0,NO
+V0018,P005,01/07/2023,F32.9,Major Depressive Disorder,Urgent Care,Male,27.0,MCR,DR01,Alameda,17.0,No
+V0156,P035,05/28/2023,K21.0,GERD with Esophagitis,Tele-health,MALE,42.0,mcd,DR02,,0.0,No
+V0548,P134,07/09/2022,Z00.00,General Adult Medical Exam,Office visit,Male,68.0,private,DR06,,40.0,Yes
+V0249,P059,01/29/2022,Z23,Encounter for Immunization,Follow-Up,female,33.0,Medicaid,DR05,,5.0,0
+V0250,P059,2023-02-05,I10,Essential Hypertension,office visit,female,33.0,Medicaid,DR01,,0.0,Y
+V0675,P164,01-25-2023,F32.9,Major Depressive Disorder,Office visit,F,77.0,mcd,DR06,,0.0,1
+V0690,P169,05/14/2023,I10,Essential Hypertension,telehealth,FEMALE,36.0,medicaid,DR07,,5.0,Yes
+V0031,P008,08-05-2023,E78.5,Hyperlipidemia,office visit,male,25.0,Private,DR07,Sacramento,56.0,Y
+V0631,P153,07-07-2023,N39.0,Urinary Tract Infection,Office visit,m,,PRIVATE,DR06,San Francisco,56.0,no
+V0779,P193,09/04/2022,I10,Essential Hypertension,Telehealth,male,46.0,Medicare,DR02,,19.0,Y
+V0118,P028,03-03-2022,J20.9,Acute Bronchitis,followup,F,55.0,medicare,DR05,Riverside,33.0,no
+V0448,P110,2023-07-04,K21.0,GERD with Esophagitis,Office Visit,male,47.0,mcd,DR07,,0.0,Yes
+V0117,P028,04/26/2023,N39.0,Urinary Tract Infection,Tele-health,F,55.0,medicare,DR07,Riverside,32.0,no
+V0337,P083,11-17-2022,I10,Essential Hypertension,Office visit,Other,67.0,PRIVATE,DR04,Sacramento,49.0,No
+V0031,P008,08-05-2023,E78.5,Hyperlipidemia,office visit,male,25.0,Private,DR07,Sacramento,56.0,Y
+V0736,P183,06-08-2022,K21.0,GERD with Esophagitis,Urgent Care,FEMALE,56.0,commercial,DR03,Fresno,53.0,N
+V0028,P007,03-03-2022,N39.0,Urinary Tract Infection,URGENT CARE,M,-5.0,MEDICAID,DR07,Riverside,5.0,0
+V0324,P080,06/29/2022,J20.9,Acute Bronchitis,Office Visit,M,57.0,medicaid,DR06,Riverside,5.0,1
+V0201,P046,2023-12-01,M54.5,Low Back Pain,FOLLOW UP,F,64.0,Commercial,DR02,,34.0,NO
+V0716,P178,01-10-2022,F41.1,Generalized Anxiety Disorder,Office Visit,male,85.0,medicaid,DR08,Riverside,0.0,Y
+V0797,P200,07-04-2023,Z00.00,General Adult Medical Exam,telehealth,FEMALE,,MEDICARE,DR03,Sacramento,35.0,Yes
+V0646,P157,02-05-2023,I10,Essential Hypertension,Follow-Up,female,50.0,medicaid,DR04,,5.0,0
+V0382,P095,11-24-2022,R51,Headache,OFFICE VISIT,M,49.0,private,DR08,San Francisco,48.0,Y
+V0756,P188,2022-08-31,J06.9,Acute Upper Respiratory Infection,Office Visit,M,39.0,Commercial,DR01,San Diego,31.0,No
+V0281,P067,09/27/2022,J06.9,Acute Upper Respiratory Infection,Follow Up,female,23.0,UNINSURED,DR06,San Diego,178.0,1
+V0767,P191,01-12-2023,M54.5,Low Back Pain,Follow-Up,FEMALE,82.0,Medicare,DR07,,32.0,NO
+V0617,P151,09-18-2023,I10,Essential Hypertension,urgent care,f,64.0,medicare,DR08,Orange,28.0,no
+V0208,P049,2023-04-04,N39.0,Urinary Tract Infection,Follow-Up,F,41.0,medicaid,DR08,,0.0,N
+V0643,P156,11/04/2022,N39.0,Urinary Tract Infection,follow-up,f,37.0,medicaid,DR08,,0.0,Yes
+V0024,P007,05/28/2022,N39.0,Urinary Tract Infection,Office visit,M,-5.0,MEDICAID,DR03,Riverside,0.0,NO
+V0563,P138,2023-02-02,R51,Headache,TELEHEALTH,female,25.0,PRIVATE,DR02,Orange,28.0,No
+V0516,P128,2022-03-06,,,TELEHEALTH,Female,83.0,UNINSURED,DR04,Fresno,178.0,yes
+V0155,P035,11/21/2022,F32.9,Major Depressive Disorder,follow-up,MALE,,mcd,DR08,,0.0,Yes
+V0740,P185,04/25/2022,M54.5,Low Back Pain,OFFICE VISIT,MALE,51.0,mcd,DR08,Los Angeles,5.0,N
+V0725,P181,2023-04-27,I10,Essential Hypertension,telehealth,M,21.0,MEDICAID,DR06,,0.0,no
+V0724,P181,09-05-2023,Z23,Encounter for Immunization,Office Visit,M,21.0,MEDICAID,DR08,,0.0,N
+V0554,P136,09/26/2023,Z00.00,General Adult Medical Exam,telehealth,MALE,79.0,MEDICAID,DR06,Orange,0.0,NO
+V0368,P092,2023-06-07,Z00.00,General Adult Medical Exam,Urgent Care,Female,45.0,medicaid,DR01,Los Angeles,0.0,Y
+V0454,P112,05/08/2022,I10,Essential Hypertension,OFFICE VISIT,Other,28.0,private,DR01,,45.0,yes
+V0625,P152,05/22/2023,Z23,Encounter for Immunization,followup,f,21.0,Private,DR03,Alameda,30.0,Yes
+V0263,P062,07-06-2022,F41.1,Generalized Anxiety Disorder,Office visit,female,39.0,self-pay,DR02,Orange,165.0,yes
+V0083,P018,03-07-2023,K21.0,GERD with Esophagitis,OFFICE VISIT,MALE,72.0,MEDICAID,DR04,San Diego,5.0,Y
+V0404,P100,07-03-2022,E11.9,Type 2 Diabetes without complications,Office visit,Female,39.0,Medicare,DR02,,18.0,yes
+V0473,P118,02-14-2022,J20.9,Acute Bronchitis,Office visit,f,80.0,Commercial,DR08,San Diego,58.0,Y
+V0039,P009,2022-02-13,J06.9,Acute Upper Respiratory Infection,followup,MALE,82.0,uninsured,DR03,,120.0,0
+V0703,P173,2022-06-04,J45.909,Unspecified Asthma,office visit,MALE,79.0,Private,DR07,San Francisco,36.0,NO
+V0011,P003,2023-11-02,E78.5,Hyperlipidemia,FOLLOW UP,female,68.0,Commercial,DR08,,,No
+V0400,P099,08-05-2022,N39.0,Urinary Tract Infection,Office Visit,M,28.0,medicaid,DR08,Fresno,5.0,0
+V0320,P079,11/15/2022,I10,Essential Hypertension,Office visit,MALE,25.0,UNINSURED,DR05,Riverside,81.0,N
+V0033,P008,11/17/2023,E78.5,Hyperlipidemia,urgent care,male,,Private,DR04,Sacramento,27.0,1
+V0412,P101,2023-06-13,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,NB,75.0,mcd,DR02,,0.0,NO
+V0552,P136,2022-11-05,Z23,Encounter for Immunization,Follow Up,MALE,79.0,MEDICAID,DR08,Orange,5.0,YES
+V0282,P067,2023-03-09,N39.0,Urinary Tract Infection,office visit,female,23.0,UNINSURED,DR04,San Diego,129.0,N
+V0501,P124,04-07-2022,M54.5,Low Back Pain,telehealth,other,71.0,UNINSURED,DR05,Los Angeles,74.0,yes
+V0728,P182,06-28-2022,,,OFFICE VISIT,F,85.0,Medicaid,DR08,Riverside,,NO
+V0472,P118,2022-07-12,M54.5,Low Back Pain,Office Visit,f,80.0,Commercial,DR06,San Diego,57.0,N
+V0735,P183,03/15/2023,J06.9,Acute Upper Respiratory Infection,Office visit,FEMALE,56.0,commercial,DR06,Fresno,58.0,YES
+V0448,P110,2023-07-04,K21.0,GERD with Esophagitis,Office Visit,male,47.0,mcd,DR07,,0.0,Yes
+V0677,P165,12/10/2023,Z00.00,General Adult Medical Exam,Follow Up,F,79.0,uninsured,DR08,Riverside,142.0,N
+V0090,P020,03/11/2022,J45.909,Unspecified Asthma,followup,female,33.0,MEDICAID,DR04,Sacramento,0.0,no
+V0214,P050,11-09-2023,E11.9,Type 2 Diabetes without complications,FOLLOW UP,F,49.0,MCR,DR02,Alameda,23.0,no
+V0322,P080,02/27/2022,J45.909,Unspecified Asthma,office visit,M,,medicaid,DR06,Riverside,5.0,yes
+V0680,P166,11-14-2022,,,follow-up,f,79.0,PRIVATE,DR04,,56.0,N
+V0134,P032,01-07-2023,E78.5,Hyperlipidemia,Follow-Up,male,57.0,medicare,DR06,Alameda,32.0,YES
+V0347,P086,2022-05-17,M54.5,Low Back Pain,Urgent Care,Male,77.0,MCR,DR05,Riverside,32.0,Yes
+V0663,P161,10-13-2023,F41.1,Generalized Anxiety Disorder,Office Visit,f,33.0,private,DR03,,31.0,YES
+V0008,P002,04/20/2023,K21.0,GERD with Esophagitis,Office visit,Non-binary,37.0,mcd,DR01,,5.0,0
+V0709,P175,2023-04-14,Z00.00,General Adult Medical Exam,URGENT CARE,Male,84.0,MEDICAID,DR04,Sacramento,5.0,Y
+V0409,P101,03/14/2022,N39.0,Urinary Tract Infection,Office visit,NB,75.0,mcd,DR08,,0.0,Y
+V0734,P183,2023-12-06,Z23,Encounter for Immunization,Follow-Up,FEMALE,,commercial,DR02,Fresno,-45.0,N
+V0188,P042,11/02/2022,J06.9,Acute Upper Respiratory Infection,FOLLOW UP,F,72.0,medicaid,DR02,,5.0,0
+V0123,P029,04-17-2023,E78.5,Hyperlipidemia,Office Visit,female,71.0,mcd,DR04,,5.0,YES
+V0041,P010,2022-01-10,K21.0,GERD with Esophagitis,telehealth,f,45.0,PRIVATE,DR06,Sacramento,24.0,NO
+V0305,P074,03/03/2023,I10,Essential Hypertension,OFFICE VISIT,MALE,26.0,MEDICAID,DR03,Los Angeles,0.0,No
+V0465,P115,06-23-2023,J45.909,Unspecified Asthma,follow-up,female,47.0,mcd,DR06,,0.0,0
+V0468,P116,2022-05-01,UNKNOWN,Unknown,Office Visit,F,47.0,mcd,DR02,San Francisco,5.0,No
+V0173,P040,2023-02-01,E11.9,Type 2 Diabetes without complications,Office Visit,m,44.0,Medicare,DR02,Fresno,33.0,Y
+V0285,P068,2023-12-09,E11.9,Type 2 Diabetes without complications,Telehealth,Female,27.0,Commercial,DR04,Los Angeles,39.0,No
+V0715,P177,2023-08-17,E11.9,Type 2 Diabetes without complications,followup,female,44.0,MEDICAID,DR07,San Diego,0.0,1
+V0241,P057,04/14/2022,M54.5,Low Back Pain,OFFICE VISIT,FEMALE,54.0,Self-Pay,DR05,Sacramento,125.0,NO
+V0588,P144,03-20-2022,J06.9,Acute Upper Respiratory Infection,FOLLOW UP,m,32.0,MEDICARE,DR07,Riverside,32.0,Y
+V0455,P112,2022-06-13,J20.9,Acute Bronchitis,Urgent Care,Other,28.0,private,DR03,,58.0,0
+V0770,P191,2022-01-16,M79.3,Panniculitis,FOLLOW UP,FEMALE,82.0,Medicare,DR05,,16.0,YES
+V0568,P138,04/30/2023,J20.9,Acute Bronchitis,telehealth,female,25.0,PRIVATE,DR04,Orange,33.0,Yes
+V0246,P058,2022-09-02,R51,Headache,followup,FEMALE,27.0,self-pay,DR03,San Diego,,no
+V0057,P012,07-04-2022,I10,Essential Hypertension,Follow-Up,Female,29.0,Medicare,DR04,San Diego,-34.0,1
+V0397,P097,2022-09-27,I10,Essential Hypertension,office visit,Female,68.0,uninsured,DR05,Orange,168.0,yes
+V0072,P015,2023-04-26,F32.9,Major Depressive Disorder,OFFICE VISIT,female,26.0,Medicaid,DR04,Alameda,0.0,1
+V0606,P148,05-14-2023,J45.909,Unspecified Asthma,Follow-Up,FEMALE,18.0,mcd,DR07,Los Angeles,0.0,Y
+V0146,P034,04/03/2022,J20.9,Acute Bronchitis,telehealth,Female,31.0,medicaid,DR01,Fresno,5.0,No
+V0091,P020,2022-06-24,E11.9,Type 2 Diabetes without complications,office visit,female,33.0,MEDICAID,DR05,Sacramento,0.0,1
+V0167,P039,not recorded,E78.5,Hyperlipidemia,telehealth,f,25.0,medicaid,DR05,Fresno,0.0,1
+V0492,P123,07/10/2022,J06.9,Acute Upper Respiratory Infection,urgent care,Male,36.0,Medicaid,DR04,San Francisco,0.0,NO
+V0171,P039,2023-03-01,E11.9,Type 2 Diabetes without complications,URGENT CARE,f,25.0,medicaid,DR01,Fresno,0.0,no
+V0311,P076,10/17/2023,E78.5,Hyperlipidemia,Urgent Care,male,52.0,uninsured,DR07,Fresno,112.0,yes
+V0668,P163,2022-01-12,J45.909,Unspecified Asthma,Office Visit,female,80.0,Private,DR04,Los Angeles,59.0,No
+V0360,P089,2023-08-28,E11.9,Type 2 Diabetes without complications,followup,Female,32.0,mcd,DR08,Alameda,5.0,0
+V0094,P021,2023-01-12,Z00.00,General Adult Medical Exam,Office visit,Other,46.0,Commercial,DR07,Los Angeles,60.0,yes
+V0481,P121,03/08/2023,J45.909,Unspecified Asthma,TELEHEALTH,female,54.0,Medicaid,DR07,Alameda,0.0,1
+V0706,P174,2022-11-18,Z23,Encounter for Immunization,Tele-health,FEMALE,38.0,MEDICAID,DR06,Orange,5.0,yes
+V0762,P189,08-05-2023,Z00.00,General Adult Medical Exam,telehealth,F,63.0,Commercial,DR03,San Francisco,29.0,0
+V0377,P094,13/45/2023,M54.5,Low Back Pain,follow-up,female,34.0,mcd,DR06,,0.0,NO
+V0244,P058,2022-09-16,R51,Headache,follow-up,FEMALE,27.0,self-pay,DR06,San Diego,147.0,yes
+V0088,P019,08/20/2023,J06.9,Acute Upper Respiratory Infection,Office visit,F,25.0,MEDICARE,DR07,San Diego,,0
+V0215,P050,2022-09-23,Z00.00,General Adult Medical Exam,follow-up,F,49.0,MCR,DR05,Alameda,26.0,Yes
+V0345,P085,04/15/2022,I10,Essential Hypertension,Urgent Care,Other,20.0,Commercial,DR06,Orange,44.0,N
+V0174,P040,11/29/2023,M79.3,Panniculitis,FOLLOW UP,m,44.0,Medicare,DR01,Fresno,32.0,1
+V0639,P155,12-31-2022,M79.3,Panniculitis,follow-up,F,66.0,MEDICARE,DR08,,23.0,NO
+V0292,P071,03-13-2023,N39.0,Urinary Tract Infection,office visit,F,62.0,commercial,DR04,Alameda,49.0,YES
+V0624,P152,05/07/2022,I10,Essential Hypertension,office visit,f,,Private,DR08,Alameda,28.0,no
+V0119,P029,10/11/2023,I10,Essential Hypertension,Follow-Up,female,71.0,mcd,DR08,,-5.0,NO
+V0120,P029,09-04-2022,J45.909,Unspecified Asthma,TELEHEALTH,female,71.0,mcd,DR02,,0.0,0
+V0164,P037,04/17/2023,J06.9,Acute Upper Respiratory Infection,telehealth,Female,30.0,self-pay,DR06,Fresno,147.0,no
+V0792,P199,07/15/2023,E78.5,Hyperlipidemia,URGENT CARE,female,84.0,Medicaid,DR08,Orange,0.0,yes
+V0385,P095,03/15/2022,E11.9,Type 2 Diabetes without complications,telehealth,M,49.0,private,DR01,San Francisco,30.0,NO
+V0423,P103,08-10-2023,M54.5,Low Back Pain,Tele-health,F,53.0,Private,DR04,San Francisco,38.0,1
+V0395,P097,04-15-2022,F32.9,Major Depressive Disorder,TELEHEALTH,Female,68.0,uninsured,DR04,Orange,196.0,Y
+V0402,P099,05-27-2022,F32.9,Major Depressive Disorder,office visit,M,28.0,medicaid,DR05,Fresno,0.0,0
+V0405,P100,2022-07-24,M54.5,Low Back Pain,Tele-health,Female,39.0,Medicare,DR07,,31.0,Y
+V0474,P118,10/05/2022,F32.9,Major Depressive Disorder,Telehealth,f,80.0,Commercial,DR04,San Diego,35.0,0
+V0490,P123,2022-02-19,J20.9,Acute Bronchitis,Follow Up,Male,36.0,Medicaid,DR03,San Francisco,5.0,YES
+V0163,P037,05/26/2022,Z00.00,General Adult Medical Exam,URGENT CARE,Female,30.0,self-pay,DR06,Fresno,184.0,YES
+V0321,P080,2022-06-02,Z00.00,General Adult Medical Exam,follow-up,M,57.0,medicaid,DR08,Riverside,5.0,Yes
+V0115,P027,2023-03-27,E78.5,Hyperlipidemia,OFFICE VISIT,M,35.0,PRIVATE,DR01,Los Angeles,22.0,0
+V0159,P036,02/24/2023,J20.9,Acute Bronchitis,follow-up,F,65.0,Commercial,DR04,,58.0,0
+V0151,P034,2022-04-01,J20.9,Acute Bronchitis,Office Visit,Female,31.0,medicaid,DR03,Fresno,0.0,no
+V0432,P106,09-10-2023,Z00.00,General Adult Medical Exam,OFFICE VISIT,male,53.0,mcd,DR04,Los Angeles,5.0,N
+V0739,P184,2022-03-21,,,telehealth,m,29.0,MCR,DR02,Los Angeles,33.0,Y
+V0676,P164,01-14-2022,I10,Essential Hypertension,followup,F,77.0,mcd,DR02,,0.0,YES
+V0369,P092,05-10-2022,Z23,Encounter for Immunization,Office Visit,Female,45.0,medicaid,DR04,Los Angeles,0.0,No
+V0032,P008,11/07/2023,E11.9,Type 2 Diabetes without complications,Tele-health,male,25.0,Private,DR02,Sacramento,25.0,Yes
+V0378,P094,07-22-2022,,,TELEHEALTH,female,34.0,mcd,DR07,,0.0,no
+V0511,P126,04-01-2023,F32.9,Major Depressive Disorder,OFFICE VISIT,M,58.0,Self-Pay,DR08,Los Angeles,105.0,Y
+V0021,P006,07/23/2023,Z23,Encounter for Immunization,Office Visit,Non-binary,30.0,MEDICARE,DR03,,30.0,yes
+V0114,P027,05-27-2023,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,M,35.0,PRIVATE,DR02,Los Angeles,29.0,yes
+V0699,P172,08-22-2023,M54.5,Low Back Pain,telehealth,female,51.0,MEDICARE,DR01,,15.0,Yes
+V0001,P001,04-23-2022,I10,Essential Hypertension,FOLLOW UP,M,59.0,medicare,DR02,Sacramento,35.0,yes
+V0519,P129,12/13/2022,K21.0,GERD with Esophagitis,TELEHEALTH,Female,24.0,Medicaid,DR06,,0.0,yes
+V0687,P168,11/16/2023,E11.9,Type 2 Diabetes without complications,Office Visit,F,28.0,Medicaid,DR05,Alameda,0.0,NO
+V0768,P191,07-25-2022,Z00.00,General Adult Medical Exam,Office Visit,FEMALE,82.0,Medicare,DR04,,33.0,Y
+V0438,P107,06/04/2023,J45.909,Unspecified Asthma,telehealth,Male,71.0,PRIVATE,DR04,Riverside,29.0,Y
+V0539,P133,12-12-2023,Z00.00,General Adult Medical Exam,office visit,Non-binary,69.0,Commercial,DR03,,59.0,no
+V0259,P061,06/06/2023,J06.9,Acute Upper Respiratory Infection,Telehealth,female,71.0,Private,DR07,,,Y
+V0781,P194,11-05-2022,M54.5,Low Back Pain,Telehealth,M,,UNINSURED,DR08,Los Angeles,94.0,YES
+V0315,P077,02-12-2022,Z00.00,General Adult Medical Exam,Tele-health,M,78.0,medicare,DR07,San Francisco,34.0,N
+V0685,P167,08/16/2022,J45.909,Unspecified Asthma,OFFICE VISIT,F,57.0,MEDICAID,DR08,San Francisco,0.0,NO
+V0136,P032,06-22-2022,F32.9,Major Depressive Disorder,OFFICE VISIT,male,57.0,medicare,DR05,Alameda,23.0,NO
+V0542,P133,01/21/2022,J20.9,Acute Bronchitis,telehealth,Non-binary,69.0,Commercial,DR05,,43.0,Y
+V0005,P002,09/25/2023,J06.9,Acute Upper Respiratory Infection,Follow-Up,Non-binary,37.0,mcd,DR06,,5.0,YES
+V0478,P120,2023-05-05,E11.9,Type 2 Diabetes without complications,Follow-Up,Non-binary,51.0,mcd,DR07,,0.0,No
+V0325,P080,07-15-2023,E78.5,Hyperlipidemia,Office visit,M,57.0,medicaid,DR01,Riverside,5.0,0
+V0331,P082,05-21-2023,Z23,Encounter for Immunization,office visit,f,54.0,medicaid,DR05,San Francisco,0.0,1
+V0443,P109,2023-08-25,I10,Essential Hypertension,FOLLOW UP,Female,66.0,MEDICAID,DR06,Fresno,5.0,N
+V0340,P084,2022-07-02,J06.9,Acute Upper Respiratory Infection,Follow Up,other,62.0,Medicaid,DR04,Los Angeles,0.0,YES
+V0298,P072,2023-11-03,Z23,Encounter for Immunization,OFFICE VISIT,MALE,81.0,MEDICAID,DR03,,0.0,Y
+V0081,P018,08/11/2023,F32.9,Major Depressive Disorder,FOLLOW UP,MALE,72.0,MEDICAID,DR08,San Diego,0.0,0
+V0645,P157,09/29/2023,F41.1,Generalized Anxiety Disorder,Office Visit,female,50.0,medicaid,DR08,,5.0,NO
+V0027,P007,2022-02-11,I10,Essential Hypertension,FOLLOW UP,M,-5.0,MEDICAID,DR01,Riverside,0.0,Yes
+V0532,P132,01-17-2022,Z23,Encounter for Immunization,FOLLOW UP,Male,68.0,self-pay,DR03,,,no
+V0217,P051,2022-12-16,Z23,Encounter for Immunization,OFFICE VISIT,Male,28.0,MEDICARE,DR06,Sacramento,20.0,1
+V0602,P148,2023-05-03,Z00.00,General Adult Medical Exam,office visit,FEMALE,18.0,mcd,DR02,Los Angeles,0.0,NO
+V0344,P085,08-06-2023,J20.9,Acute Bronchitis,Office visit,Other,20.0,Commercial,DR06,Orange,57.0,1
+V0692,P169,11-25-2022,E11.9,Type 2 Diabetes without complications,follow-up,FEMALE,36.0,medicaid,DR06,,5.0,no
+V0504,P125,2023-04-06,M54.5,Low Back Pain,office visit,Male,65.0,MEDICARE,DR05,Fresno,-35.0,yes
+V0365,P091,2023-11-18,F32.9,Major Depressive Disorder,Follow-Up,f,25.0,private,DR06,Sacramento,41.0,No
+V0502,P124,2023-03-08,E11.9,Type 2 Diabetes without complications,Office Visit,other,71.0,UNINSURED,DR05,Los Angeles,81.0,Yes
+V0148,P034,2023-02-03,I10,Essential Hypertension,office visit,Female,31.0,medicaid,DR02,Fresno,5.0,yes
+V0015,P004,04/19/2023,J20.9,Acute Bronchitis,office visit,Female,24.0,medicare,DR04,,30.0,No
+V0175,P040,10/04/2023,I10,Essential Hypertension,Office Visit,m,44.0,Medicare,DR01,Fresno,20.0,YES
+V0087,P019,03-05-2022,N39.0,Urinary Tract Infection,OFFICE VISIT,F,25.0,MEDICARE,DR03,San Diego,37.0,Y
+V0371,P092,2023-03-28,E11.9,Type 2 Diabetes without complications,Urgent Care,Female,45.0,medicaid,DR01,Los Angeles,0.0,No
+V0166,P038,05-05-2023,J20.9,Acute Bronchitis,followup,f,26.0,medicare,DR03,,15.0,1
+V0712,P176,12/17/2022,M54.5,Low Back Pain,telehealth,f,20.0,Medicare,DR03,,17.0,0
+V0336,P083,03/04/2022,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,Other,67.0,PRIVATE,DR02,Sacramento,60.0,no
+V0060,P013,01/11/2023,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,F,73.0,MCR,DR01,Los Angeles,26.0,1
+V0701,P172,12/16/2023,I10,Essential Hypertension,follow-up,female,51.0,MEDICARE,DR05,,15.0,YES
+V0535,P132,08/15/2022,N39.0,Urinary Tract Infection,followup,Male,68.0,self-pay,DR01,,182.0,0
+V0165,P038,01-01-2023,I10,Essential Hypertension,followup,f,26.0,medicare,DR05,,29.0,YES
+V0355,P088,03/18/2023,I10,Essential Hypertension,office visit,male,39.0,commercial,DR01,,54.0,Y
+V0514,P127,07-10-2022,E11.9,Type 2 Diabetes without complications,follow-up,MALE,34.0,MEDICAID,DR08,Alameda,0.0,1
+V0425,P103,04-23-2022,F32.9,Major Depressive Disorder,telehealth,F,53.0,Private,DR04,San Francisco,28.0,YES
+V0293,P071,2023-01-31,R51,Headache,Office Visit,F,62.0,commercial,DR05,Alameda,49.0,Yes
+V0042,P010,08/27/2023,F41.1,Generalized Anxiety Disorder,Office Visit,f,45.0,PRIVATE,DR02,Sacramento,31.0,1
+V0362,P090,10/10/2022,E78.5,Hyperlipidemia,FOLLOW UP,m,81.0,UNINSURED,DR06,Riverside,182.0,0
+V0330,P082,05/17/2022,F32.9,Major Depressive Disorder,office visit,f,54.0,medicaid,DR07,San Francisco,0.0,N
+V0550,P136,07-28-2023,M54.5,Low Back Pain,URGENT CARE,MALE,79.0,MEDICAID,DR03,Orange,5.0,N
+V0430,P105,2022-04-11,Z00.00,General Adult Medical Exam,FOLLOW UP,female,73.0,mcd,DR07,Orange,5.0,1
+V0080,P018,2023-02-03,Z00.00,General Adult Medical Exam,OFFICE VISIT,MALE,72.0,MEDICAID,DR08,San Diego,0.0,N
+V0570,P139,07-20-2022,J20.9,Acute Bronchitis,telehealth,M,42.0,self-pay,DR02,San Diego,75.0,N
+V0029,P008,10/03/2023,UNKNOWN,Unknown,Office Visit,male,25.0,Private,DR01,Sacramento,46.0,N
+V0426,P103,05/09/2023,I10,Essential Hypertension,Telehealth,F,53.0,Private,DR01,San Francisco,31.0,Y
+V0512,P127,11/14/2023,K21.0,GERD with Esophagitis,urgent care,MALE,34.0,MEDICAID,DR04,Alameda,0.0,YES
+V0543,P134,2022-09-27,K21.0,GERD with Esophagitis,Office Visit,Male,68.0,private,DR01,,52.0,no
+V0594,P145,10-07-2023,K21.0,GERD with Esophagitis,TELEHEALTH,female,61.0,mcd,DR02,,0.0,No
+V0323,P080,11/20/2023,I10,Essential Hypertension,Office visit,M,57.0,medicaid,DR06,Riverside,0.0,yes
+V0238,P057,06/26/2023,F41.1,Generalized Anxiety Disorder,TELEHEALTH,FEMALE,54.0,Self-Pay,DR02,Sacramento,180.0,N
+V0379,P094,03/01/2022,I10,Essential Hypertension,OFFICE VISIT,female,34.0,mcd,DR07,,,No
+V0255,P060,06/30/2022,R51,Headache,OFFICE VISIT,Female,83.0,medicaid,DR06,Orange,0.0,No
+V0604,P148,2023-01-19,,,TELEHEALTH,FEMALE,18.0,mcd,DR07,Los Angeles,0.0,1
+V0459,P114,2022-08-03,F32.9,Major Depressive Disorder,Urgent Care,female,37.0,Commercial,DR04,,40.0,YES
+V0794,P200,10/22/2022,Z00.00,General Adult Medical Exam,office visit,FEMALE,81.0,MEDICARE,DR07,Sacramento,34.0,no
+V0384,P095,03-31-2022,E11.9,Type 2 Diabetes without complications,Telehealth,M,49.0,private,DR03,San Francisco,32.0,0
+V0314,P076,01/28/2023,Z00.00,General Adult Medical Exam,TELEHEALTH,male,52.0,uninsured,DR07,Fresno,135.0,no
+V0085,P018,01-16-2022,R51,Headache,Office Visit,MALE,72.0,MEDICAID,DR08,San Diego,5.0,0
+V0063,P013,12-17-2023,J45.909,Unspecified Asthma,office visit,F,,MCR,DR08,Los Angeles,31.0,YES
+V0790,P197,09-06-2022,J45.909,Unspecified Asthma,TELEHEALTH,m,,self-pay,DR05,Sacramento,191.0,no
+V0137,P032,08/22/2023,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,male,57.0,medicare,DR08,Alameda,26.0,N
+V0112,P026,10-16-2023,M54.5,Low Back Pain,Follow-Up,m,23.0,medicare,DR02,,40.0,1
+V0195,P045,2022-03-28,Z23,Encounter for Immunization,Telehealth,MALE,76.0,MEDICARE,DR01,,25.0,yes
+V0341,P084,2023-01-07,J45.909,Unspecified Asthma,URGENT CARE,other,62.0,Medicaid,DR04,Los Angeles,5.0,No
+V0179,P041,08-30-2023,N39.0,Urinary Tract Infection,Tele-health,male,81.0,MEDICARE,DR04,San Francisco,,Y
+V0044,P010,06-16-2023,I10,Essential Hypertension,office visit,f,45.0,PRIVATE,DR04,Sacramento,56.0,NO
+V0592,P144,07-25-2023,F41.1,Generalized Anxiety Disorder,followup,m,,MEDICARE,DR02,Riverside,-30.0,NO
+V0348,P086,11-13-2022,I10,Essential Hypertension,telehealth,Male,77.0,MCR,DR08,Riverside,28.0,N
+V0458,P114,01-11-2022,N39.0,Urinary Tract Infection,follow-up,female,37.0,Commercial,DR07,,60.0,Yes
+V0497,P124,04-24-2022,Z00.00,General Adult Medical Exam,Office Visit,other,71.0,UNINSURED,DR06,Los Angeles,181.0,yes
+V0681,P166,03/31/2023,Z23,Encounter for Immunization,Telehealth,f,79.0,PRIVATE,DR02,,38.0,no
+V0505,P125,07-22-2023,E11.9,Type 2 Diabetes without complications,office visit,Male,65.0,MEDICARE,DR03,Fresno,22.0,yes
+V0294,P072,2023-06-10,R51,Headache,follow-up,MALE,81.0,MEDICAID,DR05,,5.0,No
+V0130,P031,12-04-2022,F41.1,Generalized Anxiety Disorder,Office Visit,female,33.0,MEDICAID,DR01,Orange,0.0,yes
+V0732,P183,10/25/2022,F32.9,Major Depressive Disorder,TELEHEALTH,FEMALE,56.0,commercial,DR01,Fresno,60.0,Yes
+V0338,P083,2023-07-22,R51,Headache,Telehealth,Other,67.0,PRIVATE,DR03,Sacramento,50.0,0
+V0219,P051,10-08-2022,J45.909,Unspecified Asthma,Follow-Up,Male,28.0,MEDICARE,DR03,Sacramento,22.0,0
+V0097,P022,2022-08-26,E11.9,Type 2 Diabetes without complications,office visit,MALE,25.0,self-pay,DR02,Sacramento,193.0,NO
+V0125,P030,12/30/2022,E78.5,Hyperlipidemia,OFFICE VISIT,male,36.0,MEDICARE,DR01,Orange,23.0,1
+V0769,P191,2022-11-08,N39.0,Urinary Tract Infection,followup,FEMALE,82.0,Medicare,DR06,,26.0,N
+V0227,P053,07-22-2022,Z23,Encounter for Immunization,Follow Up,f,85.0,mcd,DR04,,5.0,NO
+V0269,P063,10-03-2022,F41.1,Generalized Anxiety Disorder,telehealth,MALE,61.0,Medicaid,DR07,Fresno,0.0,N
+V0783,P195,03/26/2023,K21.0,GERD with Esophagitis,followup,m,48.0,Commercial,DR04,,36.0,yes
+V0104,P023,12-06-2023,F32.9,Major Depressive Disorder,telehealth,female,68.0,Self-Pay,DR04,San Francisco,159.0,No
+V0691,P169,2023-11-30,M79.3,Panniculitis,office visit,FEMALE,36.0,medicaid,DR06,,0.0,no
+V0228,P053,09-20-2023,Z23,Encounter for Immunization,OFFICE VISIT,f,85.0,mcd,DR04,,,0
+V0714,P177,02-19-2022,Z23,Encounter for Immunization,OFFICE VISIT,female,44.0,MEDICAID,DR06,San Diego,5.0,No
+V0302,P074,12-27-2022,F41.1,Generalized Anxiety Disorder,URGENT CARE,MALE,26.0,MEDICAID,DR02,Los Angeles,0.0,Yes
+V0276,P066,05-09-2023,K21.0,GERD with Esophagitis,Office Visit,Male,71.0,PRIVATE,DR07,,43.0,NO
+V0127,P030,2023-08-19,M54.5,Low Back Pain,office visit,male,,MEDICARE,DR08,Orange,-18.0,Yes
+V0406,P100,07/27/2022,J45.909,Unspecified Asthma,TELEHEALTH,Female,39.0,Medicare,DR06,,19.0,Yes
+V0719,P179,12/27/2022,F32.9,Major Depressive Disorder,URGENT CARE,Male,64.0,PRIVATE,DR08,Los Angeles,57.0,no
+V0037,P009,10-06-2022,Z00.00,General Adult Medical Exam,OFFICE VISIT,MALE,82.0,uninsured,DR01,,135.0,N
+V0140,P032,07-04-2023,M54.5,Low Back Pain,Follow Up,male,57.0,medicare,DR01,Alameda,21.0,N
+V0304,P074,06-12-2023,F32.9,Major Depressive Disorder,Office Visit,MALE,26.0,MEDICAID,DR01,Los Angeles,0.0,no
+V0268,P063,02/28/2022,I10,Essential Hypertension,Office Visit,MALE,61.0,Medicaid,DR02,Fresno,5.0,NO
+V0213,P050,2023-01-30,E11.9,Type 2 Diabetes without complications,Office Visit,F,49.0,MCR,DR08,Alameda,31.0,NO
+V0469,P117,2023-05-06,J45.909,Unspecified Asthma,Follow-Up,FEMALE,19.0,MEDICAID,DR06,,0.0,No
+V0199,P046,11-28-2023,F41.1,Generalized Anxiety Disorder,Office visit,F,64.0,Commercial,DR05,,57.0,N
+V0528,P131,05/27/2022,Z00.00,General Adult Medical Exam,OFFICE VISIT,MALE,68.0,mcd,DR02,,0.0,no
+V0641,P155,2023-07-03,,,Urgent Care,F,66.0,MEDICARE,DR08,,17.0,Y
+V0242,P057,04-27-2022,,,followup,FEMALE,54.0,Self-Pay,DR04,Sacramento,183.0,0
+V0343,P084,08-31-2022,Z00.00,General Adult Medical Exam,OFFICE VISIT,other,62.0,Medicaid,DR02,Los Angeles,0.0,N
+V0387,P096,2022-05-27,E78.5,Hyperlipidemia,FOLLOW UP,M,68.0,Medicare,DR07,San Diego,40.0,No
+V0695,P170,09-10-2022,J45.909,Unspecified Asthma,Office Visit,M,,UNINSURED,DR03,,108.0,1
+V0207,P048,2023-01-06,E78.5,Hyperlipidemia,FOLLOW UP,f,49.0,medicaid,DR01,San Francisco,5.0,Y
+V0296,P072,2022-02-08,Z23,Encounter for Immunization,OFFICE VISIT,MALE,,MEDICAID,DR05,,0.0,no
+V0620,P151,04-01-2023,I10,Essential Hypertension,office visit,f,64.0,medicare,DR02,Orange,36.0,N
+V0074,P016,11/05/2023,Z00.00,General Adult Medical Exam,Tele-health,female,48.0,PRIVATE,DR06,,26.0,No
+V0105,P023,2023-07-27,Z00.00,General Adult Medical Exam,Office Visit,female,68.0,Self-Pay,DR04,San Francisco,189.0,No
+V0733,P183,03/16/2023,J45.909,Unspecified Asthma,URGENT CARE,FEMALE,56.0,commercial,DR05,Fresno,26.0,Y
+V0772,P192,04-25-2023,,,telehealth,NB,60.0,MEDICARE,DR02,,,N
+V0017,P005,2022-07-10,M54.5,Low Back Pain,OFFICE VISIT,Male,27.0,MCR,DR06,Alameda,22.0,yes
+V0440,P107,09-15-2022,M79.3,Panniculitis,Telehealth,Male,71.0,PRIVATE,DR06,Riverside,29.0,N
+V0092,P020,2022-05-07,F41.1,Generalized Anxiety Disorder,Follow Up,female,33.0,MEDICAID,DR04,Sacramento,0.0,Yes
+V0089,P019,09/02/2022,UNKNOWN,Unknown,Office Visit,F,25.0,MEDICARE,DR03,San Diego,,no
+V0451,P111,2023-03-13,R51,Headache,OFFICE VISIT,M,37.0,Uninsured,DR08,Los Angeles,,0
+V0103,P023,2022-03-30,I10,Essential Hypertension,FOLLOW UP,female,68.0,Self-Pay,DR04,San Francisco,121.0,yes
+V0239,P057,03-29-2022,,,telehealth,FEMALE,54.0,Self-Pay,DR01,Sacramento,189.0,N
+V0582,P142,2022-03-25,Z00.00,General Adult Medical Exam,Follow-Up,M,999.0,private,DR03,San Diego,51.0,YES
+V0247,P059,06/14/2022,M54.5,Low Back Pain,Telehealth,female,33.0,Medicaid,DR07,,5.0,N
+V0653,P158,08-22-2022,E78.5,Hyperlipidemia,Follow-Up,M,62.0,medicaid,DR03,Riverside,0.0,1
+V0158,P036,10-16-2022,UNKNOWN,Unknown,Office visit,F,65.0,Commercial,DR05,,45.0,no
+V0480,P121,06-13-2023,Z23,Encounter for Immunization,telehealth,female,54.0,Medicaid,DR05,Alameda,,no
+V0683,P167,2022-02-21,J06.9,Acute Upper Respiratory Infection,Office Visit,F,57.0,MEDICAID,DR07,San Francisco,0.0,No
+V0665,P162,02-01-2022,J06.9,Acute Upper Respiratory Infection,Office Visit,M,32.0,Private,DR07,Los Angeles,22.0,NO
+V0019,P005,11/05/2023,Z00.00,General Adult Medical Exam,office visit,Male,27.0,MCR,DR05,Alameda,23.0,No
+V0572,P139,2023-08-15,F41.1,Generalized Anxiety Disorder,URGENT CARE,M,42.0,self-pay,DR07,San Diego,,0
+V0122,P029,08/04/2023,K21.0,GERD with Esophagitis,follow-up,female,71.0,mcd,DR08,,0.0,N
+V0571,P139,01-23-2023,Z23,Encounter for Immunization,Office visit,M,42.0,self-pay,DR01,San Diego,198.0,yes
+V0275,P065,02-20-2023,F41.1,Generalized Anxiety Disorder,telehealth,FEMALE,80.0,Medicaid,DR08,Fresno,5.0,1
+V0434,P106,12/20/2023,,,Follow-Up,male,53.0,mcd,DR01,Los Angeles,5.0,yes
+V0723,P181,2023-12-14,Z23,Encounter for Immunization,telehealth,M,21.0,MEDICAID,DR04,,5.0,yes
+V0312,P076,10/13/2023,M54.5,Low Back Pain,Telehealth,male,52.0,uninsured,DR04,Fresno,200.0,No
+V0612,P150,2023-02-11,J20.9,Acute Bronchitis,followup,F,30.0,medicaid,DR04,San Diego,0.0,Y
+V0674,P164,2023-05-13,M79.3,Panniculitis,FOLLOW UP,F,77.0,mcd,DR06,,,1
+V0547,P134,06/27/2023,I10,Essential Hypertension,OFFICE VISIT,Male,68.0,private,DR03,,60.0,Yes
+V0182,P041,2023-12-04,E78.5,Hyperlipidemia,office visit,male,81.0,MEDICARE,DR03,San Francisco,16.0,Yes
+V0185,P042,08-04-2022,I10,Essential Hypertension,URGENT CARE,F,72.0,medicaid,DR02,,0.0,yes
+V0407,P101,03/03/2023,F41.1,Generalized Anxiety Disorder,Office visit,NB,75.0,mcd,DR05,,5.0,N
+V0521,P129,01-26-2022,J45.909,Unspecified Asthma,telehealth,Female,24.0,Medicaid,DR03,,0.0,1
+V0381,P094,05-10-2023,F41.1,Generalized Anxiety Disorder,Telehealth,female,34.0,mcd,DR05,,0.0,1
+V0411,P101,2023-05-24,J45.909,Unspecified Asthma,Office visit,NB,75.0,mcd,DR01,,0.0,1
+V0370,P092,09/04/2022,J06.9,Acute Upper Respiratory Infection,TELEHEALTH,Female,45.0,medicaid,DR02,Los Angeles,0.0,0
+V0657,P160,2023-12-13,UNKNOWN,Unknown,OFFICE VISIT,NB,78.0,medicaid,DR03,,5.0,0
+V0608,P149,01-31-2023,E11.9,Type 2 Diabetes without complications,TELEHEALTH,m,37.0,MCR,DR01,Alameda,24.0,no
+V0079,P018,01/11/2022,I10,Essential Hypertension,Office visit,MALE,72.0,MEDICAID,DR05,San Diego,5.0,no
+V0574,P140,05/27/2023,Z00.00,General Adult Medical Exam,OFFICE VISIT,M,26.0,Medicare,DR03,,24.0,No
+V0642,P155,06/08/2022,J45.909,Unspecified Asthma,telehealth,F,66.0,MEDICARE,DR03,,18.0,0
+V0795,P200,01/17/2022,J06.9,Acute Upper Respiratory Infection,Follow Up,FEMALE,81.0,MEDICARE,DR05,Sacramento,28.0,No
+V0670,P163,11/24/2022,I10,Essential Hypertension,office visit,female,80.0,Private,DR07,Los Angeles,58.0,1
+V0743,P185,02-24-2022,E78.5,Hyperlipidemia,Tele-health,MALE,51.0,mcd,DR01,Los Angeles,0.0,NO
+V0417,P102,03/25/2022,Z23,Encounter for Immunization,follow-up,Female,69.0,UNINSURED,DR03,Sacramento,142.0,yes
+V0598,P146,2023-06-18,F32.9,Major Depressive Disorder,Office Visit,f,24.0,Uninsured,DR03,San Diego,190.0,YES
+V0562,P138,04/17/2023,E78.5,Hyperlipidemia,Telehealth,female,25.0,PRIVATE,DR04,Orange,54.0,Y
+V0068,P014,2022-05-23,F32.9,Major Depressive Disorder,Urgent Care,F,,Private,DR01,Fresno,,NO
+V0537,P132,05/24/2023,M54.5,Low Back Pain,followup,Male,68.0,self-pay,DR01,,101.0,yes
+V0078,P017,2022-05-29,M54.5,Low Back Pain,Telehealth,Male,29.0,private,DR02,Sacramento,41.0,No
+V0106,P023,11/15/2022,M54.5,Low Back Pain,Office visit,female,68.0,Self-Pay,DR08,San Francisco,110.0,yes
+V0714,P177,02-19-2022,Z23,Encounter for Immunization,OFFICE VISIT,female,44.0,MEDICAID,DR06,San Diego,5.0,No
+V0650,P157,2022-06-30,F41.1,Generalized Anxiety Disorder,office visit,female,50.0,medicaid,DR04,,0.0,yes
+V0560,P137,07-26-2022,I10,Essential Hypertension,Telehealth,Male,69.0,private,DR04,Alameda,50.0,yes
+V0702,P173,2022-10-30,J06.9,Acute Upper Respiratory Infection,Telehealth,MALE,79.0,Private,DR07,San Francisco,43.0,yes
+V0753,P187,11/18/2023,M79.3,Panniculitis,Tele-health,other,64.0,Private,DR07,Los Angeles,59.0,no
+V0627,P153,09/26/2022,R51,Headache,office visit,m,27.0,PRIVATE,DR03,San Francisco,60.0,Y
+V0491,P123,2023-12-17,N39.0,Urinary Tract Infection,Telehealth,Male,36.0,Medicaid,DR03,San Francisco,0.0,0
+V0558,P137,07/15/2023,I10,Essential Hypertension,Urgent Care,Male,69.0,private,DR02,Alameda,46.0,NO
+V0682,P166,2023-12-14,E11.9,Type 2 Diabetes without complications,Urgent Care,f,79.0,PRIVATE,DR08,,58.0,No
+V0364,P091,2022-08-28,Z23,Encounter for Immunization,Follow Up,f,25.0,private,DR06,Sacramento,21.0,YES
+V0070,P015,2023-06-11,E78.5,Hyperlipidemia,Office Visit,female,26.0,Medicaid,DR08,Alameda,0.0,no
+V0549,P135,08-12-2023,,,urgent care,male,31.0,uninsured,DR02,Orange,144.0,0
+V0161,P037,2023-10-25,J06.9,Acute Upper Respiratory Infection,Tele-health,Female,,self-pay,DR04,Fresno,146.0,1
+V0012,P003,12/23/2022,K21.0,GERD with Esophagitis,FOLLOW UP,female,68.0,Commercial,DR04,,50.0,NO
+V0145,P034,10/08/2022,F32.9,Major Depressive Disorder,Office visit,Female,31.0,medicaid,DR02,Fresno,5.0,No
+V0518,P129,03/03/2023,J06.9,Acute Upper Respiratory Infection,Urgent Care,Female,,Medicaid,DR01,,,1
+V0428,P105,2023-09-14,E78.5,Hyperlipidemia,OFFICE VISIT,female,73.0,mcd,DR01,Orange,0.0,yes
+V0177,P041,07-04-2023,J06.9,Acute Upper Respiratory Infection,Office visit,male,81.0,MEDICARE,DR08,San Francisco,37.0,YES
+V0441,P108,10-16-2022,,,Telehealth,f,63.0,Medicare,DR08,Fresno,18.0,Yes
+V0522,P129,07/12/2023,J06.9,Acute Upper Respiratory Infection,Office visit,Female,24.0,Medicaid,DR03,,,0
+V0785,P195,04/05/2023,Z00.00,General Adult Medical Exam,office visit,m,48.0,Commercial,DR06,,28.0,1
+V0757,P189,12/23/2023,UNKNOWN,Unknown,Office Visit,F,63.0,Commercial,DR02,San Francisco,55.0,Yes
+V0232,P055,03/24/2023,K21.0,GERD with Esophagitis,office visit,m,61.0,self-pay,DR04,,199.0,Y
+V0211,P050,2023-06-30,I10,Essential Hypertension,Follow-Up,F,49.0,MCR,DR01,Alameda,20.0,NO
+V0144,P033,08-24-2022,I10,Essential Hypertension,Tele-health,male,41.0,MCR,DR01,Riverside,39.0,0
+V0520,P129,2023-06-30,F32.9,Major Depressive Disorder,Urgent Care,Female,24.0,Medicaid,DR08,,5.0,1
+V0143,P033,06/27/2023,,,OFFICE VISIT,male,41.0,MCR,DR07,Riverside,26.0,0
+V0299,P073,05-23-2022,M79.3,Panniculitis,followup,male,76.0,Medicaid,DR01,San Francisco,5.0,no
+V0429,P105,01/18/2023,F41.1,Generalized Anxiety Disorder,TELEHEALTH,female,73.0,mcd,DR01,Orange,0.0,Y
+V0613,P150,2023-11-27,J20.9,Acute Bronchitis,followup,F,30.0,medicaid,DR08,San Diego,0.0,1
+V0758,P189,07/24/2022,F41.1,Generalized Anxiety Disorder,followup,F,63.0,Commercial,DR06,San Francisco,44.0,0
+V0009,P003,10-31-2023,E78.5,Hyperlipidemia,Follow-Up,female,68.0,Commercial,DR03,,27.0,Y
+V0157,P035,2022-09-28,Z23,Encounter for Immunization,office visit,MALE,42.0,mcd,DR04,,,NO
+V0540,P133,12-14-2022,M54.5,Low Back Pain,Telehealth,Non-binary,69.0,Commercial,DR08,,36.0,NO
+V0507,P125,2023-08-13,M79.3,Panniculitis,Urgent Care,Male,65.0,MEDICARE,DR01,Fresno,40.0,1
+V0437,P107,2022-03-07,M54.5,Low Back Pain,Office Visit,Male,71.0,PRIVATE,DR07,Riverside,28.0,N
+V0267,P062,05-02-2023,I10,Essential Hypertension,Tele-health,female,39.0,self-pay,DR03,Orange,116.0,yes
+V0462,P115,2023-06-12,I10,Essential Hypertension,Office visit,female,47.0,mcd,DR05,,5.0,NO
+V0577,P141,10/16/2022,R51,Headache,Tele-health,m,44.0,Commercial,DR07,Sacramento,20.0,N
+V0339,P083,2023-08-27,M54.5,Low Back Pain,office visit,Other,67.0,PRIVATE,DR06,Sacramento,44.0,No
+V0256,P061,01/31/2022,I10,Essential Hypertension,Telehealth,female,71.0,Private,DR07,,43.0,NO
+V0652,P158,01-02-2022,F41.1,Generalized Anxiety Disorder,Office Visit,M,62.0,medicaid,DR01,Riverside,0.0,Yes
+V0688,P168,05/17/2023,E78.5,Hyperlipidemia,TELEHEALTH,F,28.0,Medicaid,DR07,Alameda,5.0,NO
+V0561,P137,06-06-2023,J06.9,Acute Upper Respiratory Infection,office visit,Male,69.0,private,DR05,Alameda,58.0,Yes
+V0209,P050,08-14-2023,F41.1,Generalized Anxiety Disorder,Office visit,F,49.0,MCR,DR03,Alameda,38.0,No
+V0288,P069,11/15/2022,F41.1,Generalized Anxiety Disorder,office visit,male,58.0,Private,DR07,,47.0,1
+V0002,P001,10/24/2023,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,M,59.0,medicare,DR05,Sacramento,28.0,no
+V0342,P084,12/28/2023,M54.5,Low Back Pain,followup,other,62.0,Medicaid,DR02,Los Angeles,,No
+V0270,P064,2023-06-27,J20.9,Acute Bronchitis,followup,M,37.0,medicaid,DR02,,0.0,0
+V0266,P062,2022-02-02,J06.9,Acute Upper Respiratory Infection,Office visit,female,39.0,self-pay,DR01,Orange,195.0,Y
+V0660,P161,08/08/2023,E78.5,Hyperlipidemia,TELEHEALTH,f,33.0,private,DR03,,55.0,No
+V0664,P161,03-14-2023,R51,Headache,follow-up,f,33.0,private,DR02,,-46.0,Yes
+V0096,P022,06/10/2023,I10,Essential Hypertension,TELEHEALTH,MALE,25.0,self-pay,DR07,Sacramento,57.0,NO
+V0778,P193,2023-02-23,M54.5,Low Back Pain,office visit,male,46.0,Medicare,DR03,,38.0,Yes
+V0043,P010,06/02/2022,J45.909,Unspecified Asthma,Office visit,f,45.0,PRIVATE,DR06,Sacramento,26.0,N
+V0651,P158,11-22-2022,K21.0,GERD with Esophagitis,OFFICE VISIT,M,62.0,medicaid,DR01,Riverside,0.0,NO
+V0210,P050,02-22-2023,J06.9,Acute Upper Respiratory Infection,Office visit,F,49.0,MCR,DR08,Alameda,37.0,NO
+V0673,P164,2022-12-14,UNKNOWN,Unknown,Telehealth,F,77.0,mcd,DR06,,0.0,0
+V0629,P153,2022-10-03,M54.5,Low Back Pain,telehealth,m,27.0,PRIVATE,DR02,San Francisco,53.0,NO
+V0046,P011,2023-12-24,UNKNOWN,Unknown,telehealth,FEMALE,22.0,Medicaid,DR07,San Francisco,0.0,YES
+V0162,P037,03-15-2022,J06.9,Acute Upper Respiratory Infection,Follow-Up,Female,30.0,self-pay,DR05,Fresno,117.0,NO
+V0630,P153,2022-06-24,Z00.00,General Adult Medical Exam,Follow Up,m,27.0,PRIVATE,DR05,San Francisco,27.0,N
+V0289,P069,2023-12-31,I10,Essential Hypertension,Follow Up,male,58.0,Private,DR08,,40.0,yes
+V0590,P144,2023-01-03,J06.9,Acute Upper Respiratory Infection,office visit,m,32.0,MEDICARE,DR08,Riverside,39.0,N
+V0721,P180,2022-08-14,R51,Headache,Office Visit,female,36.0,MEDICARE,DR02,Orange,34.0,Yes
+V0765,P190,2022-10-17,Z00.00,General Adult Medical Exam,follow-up,M,46.0,UNINSURED,DR01,Orange,82.0,yes
+V0576,P140,04/16/2022,Z23,Encounter for Immunization,OFFICE VISIT,M,26.0,Medicare,DR01,,24.0,no
+V0316,P077,2023-02-13,J20.9,Acute Bronchitis,Telehealth,M,78.0,medicare,DR06,San Francisco,40.0,no
+V0231,P054,02/03/2023,M79.3,Panniculitis,office visit,M,81.0,Commercial,DR04,San Francisco,37.0,no
+V0667,P163,06-24-2023,J45.909,Unspecified Asthma,Office visit,female,80.0,Private,DR02,Los Angeles,46.0,1
+V0077,P017,2022-12-28,M79.3,Panniculitis,Office visit,Male,29.0,private,DR06,Sacramento,20.0,no
+V0634,P154,2023-03-22,N39.0,Urinary Tract Infection,TELEHEALTH,f,44.0,MEDICAID,DR01,Sacramento,0.0,no
+V0782,P194,2022-10-18,J06.9,Acute Upper Respiratory Infection,Follow-Up,M,42.0,UNINSURED,DR05,Los Angeles,120.0,Yes
+V0248,P059,01-14-2022,E78.5,Hyperlipidemia,office visit,female,33.0,Medicaid,DR03,,5.0,NO
+V0477,P119,01-08-2023,E11.9,Type 2 Diabetes without complications,Office Visit,FEMALE,41.0,mcd,DR04,,,YES
+V0086,P019,05/29/2022,I10,Essential Hypertension,telehealth,F,25.0,MEDICARE,DR01,San Diego,-18.0,no
+V0470,P117,2023-12-07,I10,Essential Hypertension,Follow-Up,FEMALE,19.0,MEDICAID,DR02,,0.0,1
+V0226,P053,04/11/2023,F32.9,Major Depressive Disorder,Office Visit,f,85.0,mcd,DR02,,0.0,N
+V0332,P082,08-09-2023,R51,Headache,Follow Up,f,54.0,medicaid,DR08,San Francisco,5.0,yes
+V0234,P055,04/17/2022,J06.9,Acute Upper Respiratory Infection,Telehealth,m,61.0,self-pay,DR04,,162.0,no
+V0589,P144,05-25-2023,M54.5,Low Back Pain,Office Visit,m,32.0,MEDICARE,DR01,Riverside,,NO
+V0476,P119,06/29/2022,F32.9,Major Depressive Disorder,FOLLOW UP,FEMALE,41.0,mcd,DR03,,5.0,YES
+V0720,P179,02-20-2023,J20.9,Acute Bronchitis,Follow Up,Male,64.0,PRIVATE,DR06,Los Angeles,41.0,Yes
+V0766,P191,11-26-2023,UNKNOWN,Unknown,TELEHEALTH,FEMALE,82.0,Medicare,DR06,,22.0,no
+V0600,P147,2023-03-16,J45.909,Unspecified Asthma,office visit,Male,31.0,Medicaid,DR08,Fresno,0.0,NO
+V0422,P103,Feb 30 2023,Z23,Encounter for Immunization,Telehealth,F,53.0,Private,DR07,San Francisco,29.0,NO
+V0183,P042,2022-11-13,N39.0,Urinary Tract Infection,Office Visit,F,72.0,medicaid,DR03,,5.0,Y
+V0618,P151,03-22-2023,E11.9,Type 2 Diabetes without complications,Tele-health,f,64.0,medicare,DR01,Orange,21.0,1
+V0333,P082,2023-11-27,UNKNOWN,Unknown,Office Visit,f,54.0,medicaid,DR06,San Francisco,5.0,NO
+V0439,P107,2022-07-06,E11.9,Type 2 Diabetes without complications,TELEHEALTH,Male,71.0,PRIVATE,DR03,Riverside,31.0,No
+V0050,P011,03/28/2023,M54.5,Low Back Pain,follow-up,FEMALE,22.0,Medicaid,DR08,San Francisco,5.0,No
+V0006,P002,04/15/2022,J20.9,Acute Bronchitis,urgent care,Non-binary,37.0,mcd,DR04,,0.0,YES
+V0530,P131,2022-08-03,I10,Essential Hypertension,Telehealth,MALE,68.0,mcd,DR05,,0.0,Yes
+V0235,P055,04/27/2023,Z23,Encounter for Immunization,Telehealth,m,61.0,self-pay,DR08,,170.0,yes
+V0487,P122,06-29-2022,E11.9,Type 2 Diabetes without complications,telehealth,male,18.0,Medicare,DR08,Sacramento,18.0,YES
+V0729,P182,02/15/2023,M54.5,Low Back Pain,urgent care,F,,Medicaid,DR02,Riverside,5.0,0
+V0498,P124,03/30/2022,F41.1,Generalized Anxiety Disorder,Follow-Up,other,,UNINSURED,DR01,Los Angeles,65.0,YES
+V0726,P182,04-04-2023,R51,Headache,office visit,F,85.0,Medicaid,DR04,Riverside,0.0,Y
+V0107,P024,12/26/2023,E78.5,Hyperlipidemia,Telehealth,f,24.0,Private,DR06,,60.0,No
+V0444,P109,2022-08-08,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,Female,66.0,MEDICAID,DR04,Fresno,5.0,1
+V0489,P122,08/25/2023,K21.0,GERD with Esophagitis,Telehealth,male,18.0,Medicare,DR06,Sacramento,20.0,no
+V0647,P157,04/14/2023,E11.9,Type 2 Diabetes without complications,telehealth,female,50.0,medicaid,DR07,,0.0,YES
+V0013,P004,12/02/2023,F32.9,Major Depressive Disorder,office visit,Female,24.0,medicare,DR06,,,yes
+V0191,P043,2022-05-01,I10,Essential Hypertension,Telehealth,female,58.0,self-pay,DR01,San Francisco,179.0,NO
+V0283,P067,2023-04-09,E11.9,Type 2 Diabetes without complications,Follow-Up,female,23.0,UNINSURED,DR02,San Diego,170.0,Yes
+V0030,P008,07-30-2023,M54.5,Low Back Pain,OFFICE VISIT,male,25.0,Private,DR03,Sacramento,,1
+V0170,P039,09/26/2023,J06.9,Acute Upper Respiratory Infection,URGENT CARE,f,25.0,medicaid,DR06,Fresno,0.0,Y
+V0181,P041,07-31-2022,N39.0,Urinary Tract Infection,office visit,male,81.0,MEDICARE,DR04,San Francisco,40.0,Yes
+V0101,P023,10-07-2023,I10,Essential Hypertension,URGENT CARE,female,68.0,Self-Pay,DR04,San Francisco,195.0,no
+V0198,P046,12-24-2022,M79.3,Panniculitis,Office visit,F,64.0,Commercial,DR08,,28.0,NO
+V0496,P124,07-11-2022,E11.9,Type 2 Diabetes without complications,TELEHEALTH,other,71.0,UNINSURED,DR04,Los Angeles,92.0,0
+V0648,P157,09-08-2022,M54.5,Low Back Pain,OFFICE VISIT,female,50.0,medicaid,DR03,,5.0,0
+V0786,P196,07/17/2022,Z23,Encounter for Immunization,Office visit,Male,69.0,private,DR06,Fresno,20.0,no
+V0751,P187,01/22/2022,K21.0,GERD with Esophagitis,TELEHEALTH,other,64.0,Private,DR03,Los Angeles,26.0,yes
+V0374,P092,2022-04-04,Z23,Encounter for Immunization,Telehealth,Female,45.0,medicaid,DR01,Los Angeles,0.0,YES
+V0679,P165,03/23/2023,J45.909,Unspecified Asthma,OFFICE VISIT,F,79.0,uninsured,DR03,Riverside,85.0,NO
+V0717,P178,12/05/2023,N39.0,Urinary Tract Infection,telehealth,male,85.0,medicaid,DR06,Riverside,0.0,1
+V0649,P157,2022-05-28,F41.1,Generalized Anxiety Disorder,FOLLOW UP,female,50.0,medicaid,DR08,,0.0,no
+V0461,P114,2022-10-31,J20.9,Acute Bronchitis,urgent care,female,,Commercial,DR03,,31.0,YES
+V0414,P102,07/26/2023,I10,Essential Hypertension,Office Visit,Female,69.0,UNINSURED,DR06,Sacramento,116.0,no
+V0132,P031,2022-10-07,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,female,33.0,MEDICAID,DR06,Orange,5.0,No
+V0040,P010,2023-07-21,R51,Headache,Follow-Up,f,45.0,PRIVATE,DR04,Sacramento,39.0,no
+V0435,P107,11-30-2022,Z23,Encounter for Immunization,telehealth,Male,71.0,PRIVATE,DR04,Riverside,48.0,YES
+V0216,P051,02-27-2023,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,Male,28.0,MEDICARE,DR03,Sacramento,35.0,N
+V0556,P136,10-20-2023,F32.9,Major Depressive Disorder,Telehealth,MALE,79.0,MEDICAID,DR06,Orange,,0
+V0567,P138,03/30/2022,N39.0,Urinary Tract Infection,TELEHEALTH,female,25.0,PRIVATE,DR01,Orange,35.0,N
+V0475,P119,2023-03-22,Z00.00,General Adult Medical Exam,followup,FEMALE,41.0,mcd,DR02,,0.0,N
+V0457,P113,2023-01-16,K21.0,GERD with Esophagitis,Telehealth,m,40.0,MEDICARE,DR05,,21.0,yes
+V0261,P061,01/05/2023,E78.5,Hyperlipidemia,Office visit,female,71.0,Private,DR08,,36.0,1
+V0036,P009,2023-03-26,J45.909,Unspecified Asthma,Follow-Up,MALE,82.0,uninsured,DR02,,142.0,yes
+V0310,P076,06/08/2023,K21.0,GERD with Esophagitis,telehealth,male,52.0,uninsured,DR08,Fresno,72.0,0
+V0277,P066,12-23-2023,N39.0,Urinary Tract Infection,urgent care,Male,71.0,PRIVATE,DR06,,39.0,Y
+V0637,P154,09-30-2022,J45.909,Unspecified Asthma,OFFICE VISIT,f,44.0,MEDICAID,DR01,Sacramento,5.0,0
+V0655,P159,12-11-2022,Z23,Encounter for Immunization,office visit,Male,64.0,MCR,DR03,Los Angeles,31.0,no
+V0623,P152,05/05/2023,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,f,21.0,Private,DR01,Alameda,28.0,Y
+V0394,P097,08/15/2023,F32.9,Major Depressive Disorder,Office Visit,Female,68.0,uninsured,DR08,Orange,178.0,Yes
+V0108,P024,02/20/2023,E78.5,Hyperlipidemia,OFFICE VISIT,f,24.0,Private,DR01,,43.0,YES
+V0763,P190,11-15-2023,Z00.00,General Adult Medical Exam,follow-up,M,46.0,UNINSURED,DR07,Orange,77.0,Y
+V0525,P130,10/05/2023,N39.0,Urinary Tract Infection,Tele-health,male,76.0,medicaid,DR02,Sacramento,0.0,NO
+V0048,P011,03-02-2022,I10,Essential Hypertension,urgent care,FEMALE,22.0,Medicaid,DR05,San Francisco,5.0,no
+V0204,P047,12-01-2023,E78.5,Hyperlipidemia,Office Visit,Female,56.0,MEDICAID,DR07,Riverside,0.0,Yes
+V0748,P186,08-16-2023,F41.1,Generalized Anxiety Disorder,Telehealth,F,84.0,private,DR03,San Francisco,58.0,Yes
+V0632,P153,2022-09-25,E78.5,Hyperlipidemia,Follow Up,m,27.0,PRIVATE,DR05,San Francisco,24.0,0
+V0022,P007,09-06-2023,K21.0,GERD with Esophagitis,OFFICE VISIT,M,-5.0,MEDICAID,DR08,Riverside,5.0,no
+V0403,P100,10/21/2022,M54.5,Low Back Pain,Follow Up,Female,39.0,Medicare,DR03,,18.0,NO
+V0084,P018,10-09-2023,E78.5,Hyperlipidemia,FOLLOW UP,MALE,72.0,MEDICAID,DR01,San Diego,0.0,N
+V0131,P031,11/18/2022,M54.5,Low Back Pain,Office visit,female,33.0,MEDICAID,DR06,Orange,,0
+V0416,P102,2023-10-28,I10,Essential Hypertension,Tele-health,Female,69.0,UNINSURED,DR07,Sacramento,98.0,1
+V0698,P171,2022-10-17,E11.9,Type 2 Diabetes without complications,office visit,female,61.0,private,DR06,,57.0,No
+V0287,P069,06-29-2022,J06.9,Acute Upper Respiratory Infection,FOLLOW UP,male,58.0,Private,DR01,,32.0,0
+V0124,P030,01-16-2022,E11.9,Type 2 Diabetes without complications,Telehealth,male,36.0,MEDICARE,DR08,Orange,24.0,Y
+V0034,P008,2022-02-21,J06.9,Acute Upper Respiratory Infection,Follow-Up,male,25.0,Private,DR02,Sacramento,38.0,no
+V0517,P128,01/27/2022,Z00.00,General Adult Medical Exam,Urgent Care,Female,83.0,UNINSURED,DR06,Fresno,68.0,no
+V0020,P006,02-17-2023,F32.9,Major Depressive Disorder,office visit,Non-binary,30.0,MEDICARE,DR05,,21.0,Y
+V0749,P187,08/20/2023,J06.9,Acute Upper Respiratory Infection,URGENT CARE,other,64.0,Private,DR06,Los Angeles,36.0,no
+V0220,P051,2023-10-27,I10,Essential Hypertension,Follow-Up,Male,,MEDICARE,DR07,Sacramento,34.0,0
+V0469,P117,2023-05-06,J45.909,Unspecified Asthma,Follow-Up,FEMALE,19.0,MEDICAID,DR06,,0.0,No
+V0482,P121,2023-02-09,,,telehealth,female,54.0,Medicaid,DR06,Alameda,0.0,Y
+V0357,P088,11-07-2023,I10,Essential Hypertension,Office Visit,male,39.0,commercial,DR01,,24.0,Y
+V0662,P161,01-14-2022,R51,Headache,office visit,f,33.0,private,DR05,,46.0,Y
+V0225,P053,2022-02-26,F32.9,Major Depressive Disorder,Urgent Care,f,85.0,mcd,DR05,,0.0,no
+V0093,P021,09-05-2022,,,Office Visit,Other,46.0,Commercial,DR05,Los Angeles,54.0,yes
+V0152,P034,01/05/2023,I10,Essential Hypertension,FOLLOW UP,Female,31.0,medicaid,DR03,Fresno,0.0,NO
+V0793,P199,11/08/2023,E11.9,Type 2 Diabetes without complications,Follow Up,female,84.0,Medicaid,DR07,Orange,0.0,NO
+V0318,P077,2023-10-17,M54.5,Low Back Pain,OFFICE VISIT,M,78.0,medicare,DR07,San Francisco,34.0,NO
+V0449,P111,2022-08-15,K21.0,GERD with Esophagitis,Office visit,M,37.0,Uninsured,DR06,Los Angeles,197.0,no
+V0746,P186,06-04-2023,Z23,Encounter for Immunization,office visit,F,84.0,private,DR06,San Francisco,24.0,NO
+V0523,P129,09/27/2022,M79.3,Panniculitis,office visit,Female,24.0,Medicaid,DR08,,0.0,No
+V0280,P067,2022-11-24,I10,Essential Hypertension,Tele-health,female,23.0,UNINSURED,DR05,San Diego,,Yes
+V0584,P143,2023-10-14,J06.9,Acute Upper Respiratory Infection,office visit,male,38.0,Medicare,DR08,San Diego,19.0,N
+V0605,P148,03-15-2023,Z00.00,General Adult Medical Exam,TELEHEALTH,FEMALE,18.0,mcd,DR05,Los Angeles,0.0,Yes
+V0350,P086,11/18/2023,F32.9,Major Depressive Disorder,Telehealth,Male,,MCR,DR01,Riverside,34.0,YES
+V0375,P093,12-23-2022,F32.9,Major Depressive Disorder,Office Visit,M,54.0,MEDICAID,DR02,,5.0,YES
+V0401,P099,03/18/2023,F41.1,Generalized Anxiety Disorder,Office visit,M,28.0,medicaid,DR03,Fresno,0.0,YES
+V0705,P174,01-09-2022,,,Follow Up,FEMALE,38.0,MEDICAID,DR08,Orange,0.0,no
+V0258,P061,06/27/2022,E11.9,Type 2 Diabetes without complications,telehealth,female,71.0,Private,DR02,,-32.0,yes
+V0073,P016,11-28-2022,R51,Headache,OFFICE VISIT,female,48.0,PRIVATE,DR05,,33.0,No
+V0196,P045,06-08-2023,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,MALE,76.0,MEDICARE,DR03,,21.0,YES
+V0484,P121,01/10/2023,F32.9,Major Depressive Disorder,Office visit,female,54.0,Medicaid,DR03,Alameda,0.0,yes
+V0138,P032,09-21-2022,M79.3,Panniculitis,Office Visit,male,57.0,medicare,DR05,Alameda,22.0,yes
+V0495,P123,2023-07-21,M54.5,Low Back Pain,Follow-Up,Male,36.0,Medicaid,DR06,San Francisco,0.0,No
+V0773,P192,06/13/2023,Z00.00,General Adult Medical Exam,Follow Up,NB,60.0,MEDICARE,DR04,,28.0,Y
+V0551,P136,2023-08-06,J20.9,Acute Bronchitis,Telehealth,MALE,79.0,MEDICAID,DR07,Orange,0.0,no
+V0463,P115,01/14/2022,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,female,47.0,mcd,DR04,,0.0,YES
+V0202,P047,2022-11-04,F41.1,Generalized Anxiety Disorder,telehealth,Female,56.0,MEDICAID,DR08,Riverside,0.0,Yes
+V0313,P076,2023-08-30,F32.9,Major Depressive Disorder,TELEHEALTH,male,52.0,uninsured,DR08,Fresno,182.0,No
+V0291,P071,02/22/2022,E11.9,Type 2 Diabetes without complications,Office Visit,F,62.0,commercial,DR02,Alameda,24.0,0
+V0190,P043,01-06-2022,M54.5,Low Back Pain,FOLLOW UP,female,58.0,self-pay,DR05,San Francisco,88.0,Yes
+V0764,P190,04/14/2022,M54.5,Low Back Pain,TELEHEALTH,M,46.0,UNINSURED,DR06,Orange,67.0,N
+V0113,P027,01/13/2023,I10,Essential Hypertension,TELEHEALTH,M,35.0,PRIVATE,DR05,Los Angeles,,yes
+V0184,P042,11-02-2023,M54.5,Low Back Pain,Follow-Up,F,72.0,medicaid,DR08,,0.0,yes
+V0153,P035,2022-05-17,N39.0,Urinary Tract Infection,OFFICE VISIT,MALE,42.0,mcd,DR02,,0.0,yes
+V0326,P080,07-29-2023,R51,Headache,Office Visit,M,57.0,medicaid,DR07,Riverside,0.0,1
+V0704,P173,2023-06-29,Z23,Encounter for Immunization,OFFICE VISIT,MALE,79.0,Private,DR05,San Francisco,42.0,Y
+V0045,P011,08-31-2023,J06.9,Acute Upper Respiratory Infection,Urgent Care,FEMALE,22.0,Medicaid,DR01,San Francisco,0.0,Y
+V0445,P109,2023-08-04,R51,Headache,Follow Up,Female,66.0,MEDICAID,DR08,Fresno,0.0,Yes
+V0788,P196,10-05-2023,Z00.00,General Adult Medical Exam,telehealth,Male,69.0,private,DR06,Fresno,52.0,0
+V0007,P002,10/16/2023,Z23,Encounter for Immunization,Office visit,Non-binary,37.0,mcd,DR08,,,no
+V0251,P060,04/06/2023,E78.5,Hyperlipidemia,Follow Up,Female,83.0,medicaid,DR05,Orange,0.0,no
+V0076,P017,2022-05-01,E11.9,Type 2 Diabetes without complications,Office Visit,Male,29.0,private,DR07,Sacramento,37.0,no
+V0513,P127,11-21-2023,E11.9,Type 2 Diabetes without complications,OFFICE VISIT,MALE,34.0,MEDICAID,DR03,Alameda,0.0,no
+V0392,P096,09-08-2023,J06.9,Acute Upper Respiratory Infection,Telehealth,M,68.0,Medicare,DR03,San Diego,24.0,yes
+V0433,P106,08/18/2023,F32.9,Major Depressive Disorder,Tele-health,male,53.0,mcd,DR05,Los Angeles,5.0,YES
+V0069,P014,02-06-2022,R51,Headache,office visit,F,71.0,Private,DR01,Fresno,47.0,Y
+V0168,P039,03/25/2023,J06.9,Acute Upper Respiratory Infection,Tele-health,f,25.0,medicaid,DR02,Fresno,0.0,NO
+V0731,P182,04/12/2022,Z00.00,General Adult Medical Exam,Office Visit,F,85.0,Medicaid,DR03,Riverside,0.0,No
+V0555,P136,01/06/2022,Z23,Encounter for Immunization,Office Visit,MALE,79.0,MEDICAID,DR06,Orange,0.0,1
+V0367,P092,11/22/2023,I10,Essential Hypertension,Office Visit,Female,45.0,medicaid,DR01,Los Angeles,0.0,YES
+V0346,P085,10-04-2022,J45.909,Unspecified Asthma,OFFICE VISIT,Other,20.0,Commercial,DR01,Orange,21.0,0
+V0585,P144,08-01-2022,J20.9,Acute Bronchitis,telehealth,m,32.0,MEDICARE,DR08,Riverside,19.0,Y
+V0536,P132,10/12/2023,J45.909,Unspecified Asthma,Office Visit,Male,68.0,self-pay,DR04,,94.0,Y
+V0399,P098,2022-11-16,F32.9,Major Depressive Disorder,Office visit,male,81.0,Uninsured,DR07,San Diego,199.0,no
+V0186,P042,2022-10-14,F41.1,Generalized Anxiety Disorder,telehealth,F,72.0,medicaid,DR04,,0.0,No
+V0349,P086,01/06/2022,I10,Essential Hypertension,Follow Up,Male,77.0,MCR,DR04,Riverside,39.0,no
+V0616,P151,2023-05-11,F32.9,Major Depressive Disorder,office visit,f,64.0,medicare,DR03,Orange,26.0,no
+V0212,P050,01-04-2023,F41.1,Generalized Anxiety Disorder,OFFICE VISIT,F,49.0,MCR,DR08,Alameda,21.0,no
+V0580,P141,11/22/2023,J06.9,Acute Upper Respiratory Infection,OFFICE VISIT,m,44.0,Commercial,DR01,Sacramento,-27.0,0
+V0503,P124,2022-02-14,R51,Headache,office visit,other,71.0,UNINSURED,DR06,Los Angeles,64.0,no
+V0538,P133,02-02-2023,F41.1,Generalized Anxiety Disorder,Office visit,Non-binary,69.0,Commercial,DR02,,25.0,Y
+V0197,P046,2022-02-08,,,TELEHEALTH,F,64.0,Commercial,DR02,,58.0,Y
+V0176,P040,11-02-2022,E11.9,Type 2 Diabetes without complications,Office visit,m,44.0,Medicare,DR01,Fresno,24.0,no

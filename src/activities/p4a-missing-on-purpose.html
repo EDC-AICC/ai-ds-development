@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Missing on purpose — interactive activity</title>
+<meta name="description" content="Three questions about the clinic data. Commit to your guess before each answer appears.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  @media (max-width:560px){ .activity-instructions{flex-wrap:wrap} .a-actions{margin-left:auto} }
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  button.btn:disabled{opacity:.45; cursor:default}
+
+  .p4a-prog{font-family:var(--mono); font-size:.68rem; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--slate); margin:0 0 .5rem}
+  .p4a-q{font-weight:600; margin:0 0 .7rem}
+  .p4a-opts{display:flex; flex-wrap:wrap; gap:.35rem; margin:0 0 .9rem}
+  .p4a-opt{
+    font-family:var(--sans); font-size:.84rem; font-weight:600;
+    border:1px solid var(--line); color:var(--ink); background:var(--card);
+    border-radius:6px; padding:.35rem .75rem; cursor:pointer;
+  }
+  .p4a-opt:hover{border-color:var(--accent); color:var(--accent)}
+  .p4a-opt.picked{border-color:var(--accent); background:var(--accent-soft); color:var(--accent)}
+  .p4a-opt:disabled{cursor:default}
+  .p4a-opt:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p4a-reveal{min-height:12rem}
+  .p4a-bars{margin:0 0 .7rem}
+  .p4a-bar{display:flex; align-items:center; gap:.5rem; margin:.22rem 0}
+  .p4a-bar .lbl{font-family:var(--mono); font-size:.72rem; width:7.5rem; flex:none; color:var(--ink)}
+  .p4a-bar .bar{height:.8rem; background:#8bb8c6; border-radius:2px; min-width:2px; transition:width .4s}
+  .p4a-bar.hot .bar{background:#d97742}
+  .p4a-bar .val{font-family:var(--mono); font-size:.72rem; color:var(--slate); flex:none}
+  .p4a-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p4a-verdict b{color:var(--ink)}
+  .p4a-wait{font-size:.85rem; color:var(--slate); font-style:italic}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p4a">
+  <div class="activity-instructions">
+    <span class="a-instr">Three questions about the clinic file. For each one,
+    <strong>commit to a guess before the data answers.</strong> The gap between your guess and the
+    answer is the interesting part.</span>
+    <div class="a-actions">
+      <button class="btn" id="p4a-next" type="button" disabled>Next question →</button>
+    </div>
+  </div>
+  <div class="activity-body">
+    <p class="p4a-prog" id="p4a-prog"></p>
+    <p class="p4a-q" id="p4a-q"></p>
+    <div class="p4a-opts" id="p4a-opts"></div>
+    <div class="p4a-reveal" id="p4a-reveal"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* All numbers computed from outpatient_visits_clean.csv (793 rows). */
+  const QUESTIONS = [
+    {
+      q: "A third of the county values are missing. Which insurance group do you think is missing county most often?",
+      opts: ["Uninsured","Medicaid","Medicare","Private"],
+      bars: [["Medicaid","36%",35.7,true],["Private","35%",34.8,false],["Medicare","27%",26.5,false],["Uninsured","16%",16.0,false]],
+      unit: "share of that group's visits with no county",
+      verdict: (pick)=> (pick==="Uninsured"
+        ? "<b>Most people pick Uninsured, and it is last.</b> "
+        : pick==="Medicaid"
+        ? "<b>You picked the group most people miss.</b> "
+        : "<b>The usual guess is Uninsured, and it is last.</b> ")
+        + "Uninsured patients have the most complete county data in the file, and Medicaid patients the least. A gap that follows a group this cleanly has a workflow behind it, some intake path or billing system, and the data cannot tell you which. The direction matters because any county breakdown now underweights Medicaid, the clinic's largest group. And if you had assumed instead of checking, you would have explained a pattern that runs the other way."
+    },
+    {
+      q: "The director asks which county sends the clinic the most patients. What is the honest answer?",
+      opts: ["Los Angeles","San Francisco","Sacramento","The data can't say yet"],
+      bars: [["county unknown","242",242,true],["Los Angeles","85",85,false],["San Francisco","81",81,false],["Sacramento","75",75,false]],
+      unit: "visits",
+      verdict: (pick)=> (pick==="The data can't say yet"
+        ? "<b>Right, and now you can say why.</b> "
+        : "<b>Los Angeles does lead the recorded visits. Look at the top bar.</b> ")
+        + "The unknowns outnumber the leading county three to one. Los Angeles wins among visits where somebody wrote the county down, and question 1 just showed those visits are not a fair sample, they skew away from Medicaid. The honest answer names the leader, names the 242, and says what has to happen before the ranking supports a decision. Finding out why county goes unrecorded beats computing the ranking a second time."
+    },
+    {
+      q: "The average gap between return visits is 129 days. What do you expect the median gap to be?",
+      opts: ["About 60 days","About 100 days","About 129 days","About 160 days"],
+      bars: [["mean","129 days",129,false],["median","99 days",99,true]],
+      unit: "days between visits",
+      verdict: (pick)=> (pick==="About 100 days"
+        ? "<b>Right.</b> "
+        : "<b>The median is 99 days, a month under the mean.</b> ")
+        + "When the mean sits far above the median, a long tail is pulling it, here a minority of patients who disappear for a year or more. The typical returning patient comes back in about three months. Which number belongs in a report depends on the question, and the reflex worth keeping is this one. Whenever you meet an average, ask where the median is, and every distance between them is a story about a tail."
+    }
+  ];
+
+  let qi = 0, picked = null;
+
+  function render(){
+    const Q = QUESTIONS[qi];
+    $("p4a-prog").textContent = `Question ${qi+1} of ${QUESTIONS.length}`;
+    $("p4a-q").textContent = Q.q;
+    $("p4a-opts").innerHTML = Q.opts.map(o=>
+      `<button type="button" class="p4a-opt ${picked===o?'picked':''}" data-o="${o}" ${picked?'disabled':''}>${o}</button>`).join("");
+    $("p4a-opts").querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click", ()=>{ if(!picked){ picked = b.dataset.o; render(); } });
+    });
+    $("p4a-reveal").innerHTML = picked ? revealHTML(Q, picked)
+      : `<p class="p4a-wait">Commit first. The answer appears when you have.</p>`;
+    $("p4a-next").disabled = !(picked && qi < QUESTIONS.length-1);
+    if(picked && qi === QUESTIONS.length-1){
+      $("p4a-next").textContent = "Done";
+    }
+  }
+
+  function revealHTML(Q, pick){
+    const max = Math.max(...Q.bars.map(b=>b[2]));
+    return `<div class="p4a-bars">` + Q.bars.map(b=>`
+      <div class="p4a-bar ${b[3]?'hot':''}">
+        <span class="lbl">${b[0]}</span>
+        <div class="bar" style="width:${Math.max(3, b[2]/max*55)}%"></div>
+        <span class="val">${b[1]}</span>
+      </div>`).join("") +
+      `</div><p class="p4a-verdict">${Q.verdict(pick)}</p>`;
+  }
+
+  $("p4a-next").addEventListener("click", ()=>{
+    if(qi < QUESTIONS.length-1){ qi++; picked = null; render(); }
+  });
+
+  /* Reserve the tallest reveal so committing never resizes the activity. */
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const r = $("p4a-reveal");
+    const keep = r.innerHTML;
+    r.style.minHeight = "0";
+    let tallest = 0;
+    QUESTIONS.forEach(Q=>{ r.innerHTML = revealHTML(Q, "x"); tallest = Math.max(tallest, r.scrollHeight); });
+    r.innerHTML = keep;
+    r.style.minHeight = tallest + "px";
+  }
+
+  render(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p4a-missing-on-purpose", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

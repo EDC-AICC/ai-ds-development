@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The satellite clinic — interactive activity</title>
+<meta name="description" content="The director wants to open a satellite office in the top county. Run the checks, then advise.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.84rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.35rem .75rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn.used{border-color:var(--good); color:var(--good); background:var(--good-soft)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p4c-memo{font-size:.9rem; border-left:3px solid var(--line); padding:.15rem 0 .15rem .8rem;
+    color:var(--slate); margin:0 0 .9rem; max-width:38rem}
+  .p4c-memo b{color:var(--ink)}
+  .p4c-rank{font-family:var(--mono); font-size:.76rem; margin:0 0 .9rem}
+  .p4c-rank b{font-weight:700}
+  .p4c-checks{display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 .8rem}
+  .p4c-out{margin:0 0 .9rem}
+  .p4c-finding{font-family:var(--mono); font-size:.74rem; background:#fcfdfe; border:1px solid var(--line);
+    border-radius:8px; padding:.6rem .8rem; margin:0 0 .5rem; white-space:pre-wrap}
+  .p4c-decide{display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 .8rem}
+  .p4c-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p4c-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p4c">
+  <div class="activity-instructions">
+    <span class="a-instr">A memo from the director. <strong>Run any checks you want, then advise.</strong></span>
+  </div>
+  <div class="activity-body">
+    <p class="p4c-memo"><b>From the director:</b> Board approved budget for one satellite office.
+    Data shows Los Angeles County sends us the most patients, so I plan to recommend LA at
+    Thursday's meeting. Can you confirm the numbers?</p>
+    <p class="p4c-rank" id="p4c-rank">visits by county:&nbsp; <b>Los Angeles 85</b> · San Francisco 81 · Sacramento 75 · Riverside 70 · San Diego 67 · Fresno 61 · Orange 61 · Alameda 51</p>
+    <div class="p4c-checks" id="p4c-checks"></div>
+    <div class="p4c-out" id="p4c-out"></div>
+    <div class="p4c-decide">
+      <button class="btn primary" data-d="confirm" type="button">Confirm LA</button>
+      <button class="btn primary" data-d="challenge" type="button">Advise against deciding yet</button>
+    </div>
+    <p class="p4c-verdict" id="p4c-verdict"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  const CHECKS = [
+    {id:"count", label:"How many visits have no county?",
+     out:"county missing: 242 of 793 visits (30.5%)\nlargest recorded county: Los Angeles, 85"},
+    {id:"who", label:"Whose counties are missing?",
+     out:"county missing by insurance\n  Medicaid   36%\n  Private    35%\n  Medicare   27%\n  Uninsured  16%\nthe gap follows a group, so it has a cause"},
+    {id:"flip", label:"Could the ranking flip?",
+     out:"242 unknown vs LA's 85.\nIf even 36% of the unknowns share one county,\nthat county outranks LA. The ranking is not\nstable against the hole in the data."}
+  ];
+  const used = new Set();
+  let decided = null;
+
+  function draw(){
+    $("p4c-checks").innerHTML = CHECKS.map(c=>
+      `<button type="button" class="btn ${used.has(c.id)?'used':''}" data-c="${c.id}">${c.label}</button>`).join("");
+    $("p4c-checks").querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        used.add(b.dataset.c);
+        $("p4c-out").innerHTML = CHECKS.filter(c=>used.has(c.id))
+          .map(c=>`<div class="p4c-finding">${c.out}</div>`).join("");
+        draw();
+      });
+    });
+  }
+
+  function verdict(){
+    if(decided==="confirm"){
+      const ran = used.size;
+      return ran===0
+        ? `<b>You confirmed a number you never checked.</b> The director reads out Los Angeles on Thursday. The ranking rests on the 70% of visits with a county recorded, and nobody in the room knows that. Run the checks and try again. The activity resets nothing, the meeting is still Thursday.`
+        : `<b>You saw the checks and confirmed anyway.</b> LA leads the recorded visits, that much is true. But you now know 242 visits are off the map, they skew Medicaid, and a modest cluster among them flips the answer. Confirming hands the director a number that cannot survive its own footnote. The stronger move is the other button, with the checks as your reasons.`;
+    }
+    const ran = used.size;
+    return ran===0
+      ? `<b>Right instinct, and it needs reasons.</b> Advising against a decision with no evidence is just a different guess. Run the checks, then the advice carries its own justification and a next step.`
+      : `<b>This is the analyst's answer.</b> LA leads what was recorded, a third of the file is off the map, the gap leans Medicaid so it has a workflow behind it, and a modest cluster in the unknowns flips the ranking. The advice writes itself from the checks. Hold the decision, find out why county goes unrecorded, and fix intake before betting a lease on this column. Notice the work that mattered was three checks, and none of them were the ranking.`;
+  }
+
+  $("p4c-verdict").innerHTML = '<span style="font-style:italic">Your advice lands here once you decide.</span>';
+  document.querySelectorAll(".p4c-decide button").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      decided = b.dataset.d;
+      $("p4c-verdict").innerHTML = verdict();
+    });
+  });
+
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const v = $("p4c-verdict");
+    const keepV = v.innerHTML;
+    v.style.minHeight = "0";
+    let tv = 0;
+    const save = decided, saveUsed = new Set(used);
+    [["confirm",3],["challenge",3],["confirm",0],["challenge",0]].forEach(([d,n])=>{
+      decided = d; used.clear(); for(let i=0;i<n;i++) used.add(CHECKS[i].id);
+      v.innerHTML = verdict(); tv = Math.max(tv, v.scrollHeight);
+    });
+    decided = save; used.clear(); saveUsed.forEach(x=>used.add(x));
+    v.innerHTML = keepV;
+    v.style.minHeight = tv + "px";
+  }
+
+  draw(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p4c-satellite-clinic", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}{% if not isHome %} — {{ site.name }}{% endif %}</title>
+{% if description %}<meta name="description" content="{{ description }}">{% endif %}
+
+{# no-flash: set the theme before first paint #}
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem("aids-theme");
+    if(t==="dark"||t==="light") document.documentElement.setAttribute("data-theme",t);
+  }catch(e){}
+})();
+</script>
+
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
+</head>
+<body>
+
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4.2"></circle>
+    <path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6 4.1 4.1M19.9 19.9l-1.5-1.5M18.4 5.6l1.5-1.5M4.1 19.9l1.5-1.5"></path>
+  </svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"></path>
+  </svg>
+</button>
+
+<header class="masthead">
+  <div class="col">
+    {% if kicker %}<p class="kicker">{{ kicker }}</p>{% endif %}
+    <h1>{{ title }}</h1>
+    {% if standfirst %}<p class="standfirst">{{ standfirst }}</p>{% endif %}
+  </div>
+</header>
+
+<main>
+  <div class="col">
+    {{ content | safe }}
+  </div>
+</main>
+
+<footer class="endcap">
+  <div class="col">
+    <p>{{ site.footer }}</p>
+  </div>
+</footer>
+
+<script src="{{ '/assets/js/site.js' | url }}"></script>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+</body>
+</html>

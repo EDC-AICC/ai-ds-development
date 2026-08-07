@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The label machine — interactive activity</title>
+<meta name="description" content="Sort 14 spellings of gender into 3 categories, run the map, and see what happens to anything you missed.">
+<style>
+  :root{
+    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0; padding:0; background:transparent}
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .a-actions{display:flex; gap:.5rem; flex:none}
+  @media (max-width:560px){ .activity-instructions{flex-wrap:wrap} .a-actions{margin-left:auto} }
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn.quiet{border-color:var(--line); color:var(--slate)}
+  button.btn.quiet:hover{background:var(--chrome)}
+
+  .p3b-traylabel{font-family:var(--mono); font-size:.66rem; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--slate); margin:0 0 .35rem}
+  .p3b-tray{display:flex; flex-wrap:wrap; gap:.3rem; align-content:flex-start;
+    min-height:6.6rem; border:1px dashed var(--line); border-radius:8px; padding:.45rem; margin:0 0 .8rem}
+  .p3b-chip{
+    font-family:var(--mono); font-size:.7rem; border:1px solid var(--line); border-radius:99px;
+    padding:.16rem .55rem; background:var(--card); color:var(--ink); cursor:pointer; user-select:none;
+  }
+  .p3b-chip .n{color:var(--slate)}
+  .p3b-chip:hover{border-color:var(--accent); color:var(--accent)}
+  .p3b-chip.sel{border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:700}
+  .p3b-chip:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p3b-buckets{display:grid; grid-template-columns:1fr 1fr 1fr; gap:.6rem; margin:0 0 .9rem}
+  @media (max-width:480px){ .p3b-buckets{grid-template-columns:1fr} }
+  .p3b-bucket{border:1px solid var(--line); border-radius:8px; padding:.5rem .55rem; cursor:pointer;
+    transition:border-color .12s, background .12s}
+  .p3b-bucket:hover{border-color:var(--accent)}
+  .p3b-bucket.armed{border-color:var(--accent); background:var(--accent-soft)}
+  .p3b-bucket h4{font-family:var(--serif); font-size:.95rem; margin:0 0 .1rem}
+  .p3b-bucket .sum{font-family:var(--mono); font-size:.68rem; color:var(--slate); display:block; margin:0 0 .4rem}
+  .p3b-bucket .chips{display:flex; flex-wrap:wrap; gap:.25rem; min-height:5.6rem; align-content:flex-start}
+  .p3b-bucket:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .p3b-result{border-radius:8px; padding:.8rem .95rem; font-size:.9rem; background:#fcfdfe; border:1px solid var(--line)}
+  .p3b-result .strip{font-family:var(--mono); font-size:.78rem; margin:0 0 .5rem}
+  .p3b-result .strip b{font-weight:700}
+  .p3b-result .miss{color:var(--warn); font-weight:700}
+  .p3b-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:0; max-width:38rem}
+  .p3b-verdict b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<div class="activity" id="p3b">
+  <div class="activity-instructions">
+    <span class="a-instr">The clinic file spells gender 14 ways. The analysis needs 3 categories.
+    <strong>Tap a spelling, then tap its category.</strong> Run the map whenever you like, including
+    before you have placed everything.</span>
+    <div class="a-actions">
+      <button class="btn primary" id="p3b-run" type="button">Run the map</button>
+      <button class="btn quiet" id="p3b-reset" type="button">Reset</button>
+    </div>
+  </div>
+  <div class="activity-body">
+    <p class="p3b-traylabel">unsorted spellings, with row counts</p>
+    <div class="p3b-tray" id="p3b-tray" aria-label="Unsorted spellings"></div>
+    <div class="p3b-buckets" id="p3b-buckets"></div>
+    <div class="p3b-result" id="p3b-result"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* Real value_counts of gender in outpatient_visits.csv. Total 812. */
+  const SPELLINGS = [
+    ["female",119],["F",97],["M",88],["male",78],["Female",72],["f",66],
+    ["Male",63],["MALE",61],["FEMALE",51],["m",47],["other",20],["NB",18],
+    ["Non-binary",17],["Other",15]
+  ];
+  const TOTAL = 812;
+  const BUCKETS = ["Female","Male","Other"];
+  /* The course map, used only to comment on differences after a run. */
+  const COURSE = {female:"Female",F:"Female",f:"Female",Female:"Female",FEMALE:"Female",
+    male:"Male",M:"Male",m:"Male",Male:"Male",MALE:"Male",
+    other:"Other",NB:"Other","Non-binary":"Other",Other:"Other"};
+
+  let placed = {};   /* spelling -> bucket */
+  let selected = null;
+  let runs = 0;
+
+  function chipHTML(name, count){
+    return `<button type="button" class="p3b-chip ${selected===name?'sel':''}" data-s="${name}">
+      ${name} <span class="n">·${count}</span></button>`;
+  }
+
+  function draw(){
+    const tray = SPELLINGS.filter(([s])=>!placed[s]);
+    $("p3b-tray").innerHTML = tray.length
+      ? tray.map(([s,c])=>chipHTML(s,c)).join("")
+      : '<span style="font-size:.8rem; color:var(--slate); padding:.2rem">Everything is sorted. Run the map.</span>';
+    $("p3b-buckets").innerHTML = BUCKETS.map(b=>{
+      const chips = SPELLINGS.filter(([s])=>placed[s]===b);
+      const sum = chips.reduce((a,[,c])=>a+c,0);
+      return `<div class="p3b-bucket ${selected?'armed':''}" data-b="${b}" tabindex="0" role="button"
+        aria-label="Assign to ${b}">
+        <h4>${b}</h4><span class="sum">${chips.length} spellings · ${sum} rows</span>
+        <div class="chips">${chips.map(([s,c])=>chipHTML(s,c)).join("")}</div>
+      </div>`;
+    }).join("");
+
+    document.querySelectorAll(".p3b-chip").forEach(el=>{
+      el.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        const s = el.dataset.s;
+        if(placed[s]){ delete placed[s]; selected = null; }
+        else selected = (selected===s ? null : s);
+        draw();
+      });
+    });
+    document.querySelectorAll(".p3b-bucket").forEach(el=>{
+      const assign = ()=>{
+        if(!selected) return;
+        placed[selected] = el.dataset.b;
+        selected = null;
+        draw();
+      };
+      el.addEventListener("click", assign);
+      el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); assign(); } });
+    });
+  }
+
+  function resultHTML(){
+    const sums = {Female:0, Male:0, Other:0};
+    let missing = 0, missNames = [];
+    SPELLINGS.forEach(([s,c])=>{
+      if(placed[s]) sums[placed[s]] += c;
+      else { missing += c; missNames.push(s); }
+    });
+    const strip = `Female <b>${sums.Female}</b> · Male <b>${sums.Male}</b> · Other <b>${sums.Other}</b> · ` +
+      (missing ? `<span class="miss">missing ${missing}</span>` : `missing 0`) +
+      ` &nbsp;(sum ${sums.Female+sums.Male+sums.Other+missing} of ${TOTAL})`;
+
+    let verdict;
+    if(missing){
+      verdict = `<b>${missing} rows just lost their gender, and nothing errored.</b> ` +
+        `A map turns every value it has no rule for into missing, silently. The spelling${missNames.length>1?'s':''} ` +
+        `you left in the tray (${missNames.join(", ")}) ${missNames.length>1?'are':'is'} now absent from every count, ` +
+        `filter, and chart built on this column. The run looked perfect. The check that catches it is the sum line ` +
+        `above, which is why counts before and after is the first thing you verify on any mapping.`;
+    } else {
+      const diffs = SPELLINGS.filter(([s])=>placed[s]!==COURSE[s]).map(([s])=>s);
+      verdict = `<b>All 812 rows accounted for.</b> Three categories, nothing missing, and the sum matches the file. ` +
+        (diffs.length
+          ? `Your map differs from the course's on ${diffs.join(", ")}. That can be a defensible call, and it is now ` +
+            `a visible one, which is the entire point. A merge that lives in your map can be argued about. ` +
+            `A merge that lives in an AI's head cannot.`
+          : `Your map matches the course's exactly. In the notebook you will spell this same mapping out inside ` +
+            `your prompt, so the AI types your decisions instead of making its own.`);
+    }
+    return `<p class="strip">${strip}</p><p class="p3b-verdict">${verdict}</p>`;
+  }
+
+  $("p3b-run").addEventListener("click", ()=>{ runs++; $("p3b-result").innerHTML = resultHTML(); });
+  $("p3b-reset").addEventListener("click", ()=>{ placed = {}; selected = null; draw(); intro(); });
+
+  function intro(){
+    $("p3b-result").innerHTML =
+      `<p class="strip">Female <b>0</b> · Male <b>0</b> · Other <b>0</b> · <span class="miss">missing ${TOTAL}</span> &nbsp;(sum ${TOTAL} of ${TOTAL})</p>` +
+      `<p class="p3b-verdict">Right now every spelling is unmapped, so a run would make the whole column missing. Sort a few and run the map early. Watching the missing number fall is the fastest way to feel what a mapping does.</p>`;
+  }
+
+  /* Reserve the tallest result so running the map never resizes the activity. */
+  function lockHeight(){
+    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
+    const res = $("p3b-result");
+    const keep = res.innerHTML;
+    res.style.minHeight = "0";
+    const save = {...placed};
+    placed = {};
+    res.innerHTML = resultHTML();          /* worst case: everything unmapped, long verdict */
+    let tallest = res.scrollHeight;
+    SPELLINGS.forEach(([s])=>placed[s]="Female");
+    res.innerHTML = resultHTML();
+    tallest = Math.max(tallest, res.scrollHeight);
+    placed = save;
+    res.innerHTML = keep;
+    res.style.minHeight = tallest + "px";
+  }
+
+  draw(); intro(); lockHeight();
+  let rt;
+  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+})();
+</script>
+
+<script>
+/* Embed helper: reports the activity's height so the parent page can size the frame. */
+(function(){
+  "use strict";
+  if(window.parent === window) return;
+  const card = document.querySelector(".activity");
+  let last = 0;
+  function post(){
+    const h = Math.ceil(card.getBoundingClientRect().height);
+    if(h === last) return;
+    last = h;
+    window.parent.postMessage({type:"activity-height", id:"p3b-label-machine", height:h}, "*");
+  }
+  window.addEventListener("load", post);
+  window.addEventListener("resize", post);
+  window.addEventListener("message", function(e){
+    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
+  });
+  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
+  /* settle-timers: fonts and late reflows can land after every event above,
+     so post a few extra times; the last===h guard keeps it quiet. */
+  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
+  document.addEventListener("click", ()=>setTimeout(post, 0));
+  post();
+})();
+</script>
+
+</body>
+</html>
