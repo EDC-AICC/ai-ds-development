@@ -234,24 +234,7 @@
     drawQuestions(); drawBriefs(); sync();
   });
 
-  /* The ask and the brief pick are deliberate reveals, so they may grow the
-     activity. Only the verdict is reserved, so choosing a brief never shifts
-     what is already on screen. */
-  function lockHeight(){
-    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
-    [$("p1c-verdict"), $("p1c-qfeedback")].forEach(el=>{
-      const keep = el.innerHTML, keepH = el.hidden;
-      el.hidden = false; el.style.minHeight = "0";
-      el.innerHTML = "<b>x</b> " + "word ".repeat(55);
-      el.style.minHeight = el.scrollHeight + "px";
-      el.innerHTML = keep; el.hidden = keepH;
-    });
-  }
-
-  drawQuestions(); sync(); lockHeight();
-  let rt;
-  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
+  drawQuestions(); sync();
 })();
 </script>
 

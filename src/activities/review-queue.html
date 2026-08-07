@@ -244,40 +244,6 @@
     $("a2-status").textContent = "Score: nothing decided yet. Take your time. Reviewers who rush are the ones who ship the bad ones.";
   });
 
-  /* Reserve the tallest state's height up front. The case panel grows when
-     feedback appears and shrinks on the next case, and the embed around this
-     is a fixed height, so unreserved growth would either jump the page or
-     scroll. Measures every case against both decisions and keeps the largest.
-     Re-measured on resize, because the text rewraps at a different width. */
-  function lockCaseHeight(){
-    const panel = document.querySelector(".a2-case");
-    const fb = $("a2-feedback"), next = $("a2-next");
-    panel.style.minHeight = "0";
-    const wasHiddenFb = fb.hidden, wasHiddenNext = next.hidden;
-    fb.hidden = false; next.hidden = false;
-    let tallest = 0;
-    cases.forEach((c,i)=>{
-      $("a2-progress").textContent = "Case " + (i+1) + " of " + cases.length;
-      $("a2-q").textContent = c.q;
-      $("a2-bubble").innerHTML = '<span class="who">AI assistant</span>' + c.a;
-      [c.explainShip, c.explainFlag].forEach(html=>{
-        fb.innerHTML = html;
-        tallest = Math.max(tallest, panel.scrollHeight);
-      });
-    });
-    fb.hidden = wasHiddenFb; next.hidden = wasHiddenNext;
-    panel.style.minHeight = tallest + "px";
-  }
-
-  let resizeTimer;
-  window.addEventListener("resize", ()=>{
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(lockCaseHeight, 120);
-  });
-
-  lockCaseHeight();
-  /* Web fonts land after first paint and change how text wraps, so measure again. */
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockCaseHeight);
   renderCase();
 })();
 </script>

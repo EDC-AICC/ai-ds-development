@@ -21,9 +21,9 @@ Include both, with relative paths so they resolve from the dev server, the deplo
 
 **base.css** gives you the color variables, `box-sizing`, and the transparent `html,body` reset that lets the activity sit flush in its frame. Activities are light-themed no matter what the page around them is doing.
 
-**embed.js** measures the activity and tells the page how tall to make the frame. It needs `class="activity"` on your outer element.
+**embed.js** measures the activity and tells the page how tall to make the frame, so there is never a scrollbar inside it and never dead space under it. It needs `class="activity"` on your outer element. Nothing to configure, and no height handling of your own.
 
-It will also resize the frame every time your content changes, which is distracting if a student is clicking between states. Where that matters, reserve the tallest state at load so the frame holds still. `lockHeight()` in `p2c-analysts-toolkit.html` is the worked example. Simpler activities skip this.
+The frame follows your content, which means it grows and shrinks as a student clicks. That is the accepted trade: content below the activity shifts a little, and in exchange nothing scrolls and nothing is padded out.
 
 The rest is yours.
 
@@ -31,7 +31,6 @@ The rest is yours.
 
 - Reads well at 571px, the real width of the embed on a lesson page
 - Still works at 335px, a small phone
-- No sideways scrollbar, and no scrollbar inside the frame, at either width
-- Clicking between states never changes the frame height
+- No sideways scrollbar, and no scrollbar inside the frame, in any state at either width
 - No title inside the activity, since the card's title bar already shows it
 - Anything clickable is a real `<button>` with a visible focus state

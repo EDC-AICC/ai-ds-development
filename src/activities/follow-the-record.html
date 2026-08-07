@@ -177,33 +177,10 @@
     $("a1-back").disabled = (idx===0);
     $("a1-next").disabled = (idx===steps.length-1);
   }
-  /* Reserve the tallest stop's height up front, so moving between stops never
-     changes how tall this activity is. The embed around it is a fixed height,
-     so content that grows and shrinks would either jump the page or scroll.
-     Re-measured on resize, because the text rewraps at a different width. */
-  function lockStageHeight(){
-    const stage = $("a1-stage");
-    stage.style.minHeight = "0";
-    let tallest = 0;
-    steps.forEach(st=>{
-      stage.innerHTML = "<h4>"+st.title+"</h4>"+st.body;
-      tallest = Math.max(tallest, stage.scrollHeight);
-    });
-    stage.style.minHeight = tallest + "px";
-  }
 
   $("a1-next").addEventListener("click", ()=>{ if(idx<steps.length-1){ idx++; render(); } });
   $("a1-back").addEventListener("click", ()=>{ if(idx>0){ idx--; render(); } });
 
-  let resizeTimer;
-  window.addEventListener("resize", ()=>{
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(()=>{ lockStageHeight(); render(); }, 120);
-  });
-
-  lockStageHeight();
-  /* Web fonts land after first paint and change how text wraps, so measure again. */
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockStageHeight);
   render();
 })();
 </script>

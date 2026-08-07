@@ -227,26 +227,6 @@
 
   drawFinds(); drawTools(); drawCols();
 
-  /* Reserve the tallest output so tool-hopping never resizes the activity. */
-  function lockHeight(){
-    if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }
-    const out = $("p2c-out");
-    const keep = out.innerHTML;
-    out.style.minHeight = "0";
-    let tallest = 0;
-    const samples = [countCol("insurance_type"), missing(), dups(), minmax("age"), showRows()];
-    samples.forEach(r=>{
-      out.innerHTML = esc0(r.text)+(r.note?`<div class="p2c-note">${r.note} extra line for the all-found banner that appends here.</div>`:"");
-      tallest = Math.max(tallest, out.scrollHeight);
-    });
-    got.clear(); run.doneShown = false; drawFinds();
-    out.innerHTML = keep;
-    out.style.minHeight = tallest + "px";
-  }
-  lockHeight();
-  let rt;
-  window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(lockHeight, 120); });
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(lockHeight);
 })();
 </script>
 
