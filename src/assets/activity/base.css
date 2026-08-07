@@ -1,0 +1,21 @@
+/* Shared by every activity in /activities/.
+
+   Linked with a relative path (../assets/activity/base.css) so it resolves
+   identically from the dev server, from a path-prefixed GitHub Pages deploy,
+   and from the file system when an activity is opened on its own.
+
+   Only what is genuinely common lives here: the palette, the box model, and
+   the transparent background that lets an activity sit flush in its frame.
+   Type scale and everything else stays in the activity, because they differ. */
+
+:root{
+  --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
+  --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
+  --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+  --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0; padding:0; background:transparent}

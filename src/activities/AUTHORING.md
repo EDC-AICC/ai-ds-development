@@ -1,60 +1,39 @@
 # Writing an activity
 
-An activity is one self-contained HTML file in this folder. It carries its own CSS and its own JavaScript, makes no external requests, and works when opened on its own. A page embeds it with `{% activity "filename.html", "Title", "620px" %}`.
+An activity is one HTML file in this folder. It owns its own markup, styling and behaviour, makes no third-party requests, and works when opened on its own. A page embeds it with `{% activity "filename.html", "Title", "620px" %}`.
 
-Self-containment is deliberate, and it is why two blocks get copied into every file rather than shared from `assets/`. Copying them costs about 1.5KB per activity. Sharing them would mean an activity only works while served next to the file it depends on, which breaks three things worth keeping: opening an activity directly from its title link, handing a single file to somebody, and pasting an activity into an LMS page. Neither block has changed since the first activity was written, so the duplication is inert.
-
-If you do change one, change it in every file in this folder.
-
-## Block 1 — the palette
-
-Activities are light-themed whatever the page around them is doing, so they define their own colours rather than inheriting the site's. Copy the `:root` block from any existing activity. Never reference a `var(--…)` from the site stylesheet; it will not reach inside the iframe.
-
-Keep `html,body{margin:0; padding:0; background:transparent}` so the activity sits flush in its frame.
-
-## Block 2 — the embed helper
-
-Paste this verbatim, just before `</body>`, changing only the `id` to match the filename:
+Two things are shared rather than copied, and both are pulled in with **relative** paths so they resolve the same from the dev server, from a path-prefixed GitHub Pages deploy, and from the file system:
 
 ```html
-<script>
-/* Embed helper: reports the activity's height so the parent page can size the frame. */
-(function(){
-  "use strict";
-  if(window.parent === window) return;
-  const card = document.querySelector(".activity");
-  let last = 0;
-  function post(){
-    const h = Math.ceil(card.getBoundingClientRect().height);
-    if(h === last) return;
-    last = h;
-    window.parent.postMessage({type:"activity-height", id:"YOUR-FILENAME", height:h}, "*");
-  }
-  window.addEventListener("load", post);
-  window.addEventListener("resize", post);
-  window.addEventListener("message", function(e){
-    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
-  });
-  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
-  /* settle-timers: fonts and late reflows can land after every event above,
-     so post a few extra times; the last===h guard keeps it quiet. */
-  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
-  document.addEventListener("click", ()=>setTimeout(post, 0));
-  post();
-})();
-</script>
+<link rel="stylesheet" href="../assets/activity/base.css">
+<script src="../assets/activity/embed.js"></script>
 ```
 
-`assets/js/site.js` listens for those messages and sets the frame height. Without this block the frame stays at whatever height the shortcode was given, which means a scrollbar or a gap.
+The stylesheet goes before your own `<style>` block. The script goes just before `</body>`. Nothing else is shared, and nothing else should be: everything past the palette and the box model differs from one activity to the next, and forcing it into a common file would just make both harder to read.
+
+## What `base.css` gives you
+
+The fifteen palette variables, `*{box-sizing:border-box}`, and the transparent `html,body` reset that lets an activity sit flush in its frame. Use `var(--accent)`, `var(--card)`, `var(--slate)` and so on freely.
+
+Activities are light-themed whatever the page around them is doing. Never reference a variable from the site stylesheet — it does not reach inside the iframe. Your own `<style>` sets the type scale and everything specific to this activity.
+
+## What `embed.js` gives you
+
+It measures `.activity`, or `document.body` if there is no `.activity` card, and reports the height to the page embedding it, which sizes the frame to match. Without it the frame stays at whatever height the shortcode declared, which means a scrollbar or a gap.
+
+There is nothing to configure. Give your outermost element `class="activity"` and it works.
+
+The height argument in the shortcode is still worth setting, because it is the height *before* any of this runs. Getting it roughly right stops the frame appearing at the iframe default and then jumping once the activity reports. It is also the fallback if the script never runs.
 
 ## Height locking
 
-Content height varies about twofold between a phone and a desktop for the same activity, so no fixed frame height works everywhere. The helper above handles that. What it does not handle is the frame resizing while a student clicks around, which is jarring.
+Content height varies about twofold between a phone and a desktop for the same activity, so no single declared height works everywhere. `embed.js` handles that.
 
-So an activity measures every state it can be in, at load, and reserves the tallest. See `lockHeight()` in `p2c-analysts-toolkit.html`. Two rules:
+What it does not handle is the frame resizing while a student clicks around, which is jarring. So an activity measures every state it can be in and reserves the tallest. See `lockHeight()` in `p2c-analysts-toolkit.html`. Three rules:
 
-- Guard against measuring in a hidden pane, or you will freeze a garbage height: `if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }`
+- Guard against measuring in a hidden pane, or you freeze a garbage height: `if(!document.body.clientWidth){ requestAnimationFrame(lockHeight); return; }`
 - Re-run it on resize and after `document.fonts.ready`.
+- Measure states, not widths. Which state is tallest can change with width: in `p2c` the output table is `white-space:pre` so its height is width-independent, while the note under it wraps. The tallest state at 632px is not the tallest at 335px.
 
 A deliberate reveal, like a result appearing after a button press, may grow the frame. Browsing between states may not.
 
@@ -62,8 +41,12 @@ A deliberate reveal, like a result appearing after a button press, may grow the 
 
 - Reads correctly at 571px, the real embed width, and degrades cleanly at 335px
 - No horizontal overflow and no inner scrollbar at either width
-- Height locked, so clicking between states never resizes the frame
+- Frame height matches content height on load, at both widths
+- Clicking between states never changes the frame height
 - No title inside the activity; the embed header carries it
 - Instruction text at the top says what to do in a sentence or two
 - Clickable things are real buttons with focus states
-- The `{% activity %}` height argument is close to the measured desktop height
+
+## A note on testing
+
+The in-editor browser pane does not fire `resize` or `ResizeObserver` callbacks, and its viewport can report `0×0`. Height behaviour that depends on resizing cannot be verified there, and a frame that looks stuck in that pane is usually the pane. Load the page at the width you care about instead of resizing into it, or check in a real browser.

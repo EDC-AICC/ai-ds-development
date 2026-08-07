@@ -5,28 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Review queue — interactive activity</title>
 <meta name="description" content="Five AI answers about a tiny orders table. Some are solid, some aren't. You're the reviewer.">
+<link rel="stylesheet" href="../assets/activity/base.css">
 <style>
   /* ---- shared activity chrome (self-contained: no external dependencies) ---- */
-  :root{
-    --paper:#fafbfc;
-    --ink:#1c2733;
-    --slate:#5d6b7a;
-    --line:#dde3e9;
-    --accent:#0e7490;
-    --accent-soft:#e3f1f5;
-    --good:#15803d;
-    --good-soft:#e9f5ec;
-    --warn:#b45309;
-    --warn-soft:#fdf3e7;
-    --card:#ffffff;
-    --chrome:#f0f3f6;
-    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
-    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
-    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0; padding:0}
-  html,body{background:transparent}
   body{
     background:transparent; color:var(--ink);
     font-family:var(--sans); font-size:17px; line-height:1.65;
@@ -301,38 +282,7 @@
 })();
 </script>
 
-<script>
-/* Embed helper: tells a parent page how tall this activity is, so an iframe
-   can be sized to fit. Harmless when the page is opened directly. */
-(function(){
-  "use strict";
-  if(window.parent === window) return;
-  const ID = "review-queue";
-  const card = document.querySelector(".activity");
-  let last = 0;
-  function post(){
-    /* Measure the card, not documentElement: scrollHeight is clamped to the
-       iframe's own height, so it can grow but never report a shrink. */
-    const h = Math.ceil(card.getBoundingClientRect().height);
-    if(h === last) return;
-    last = h;
-    window.parent.postMessage({type:"activity-height", id:ID, height:h}, "*");
-  }
-  window.addEventListener("load", post);
-  window.addEventListener("resize", post);
-  /* The parent may attach its listener after we've already loaded, so it can
-     ask us to report again. */
-  window.addEventListener("message", function(e){
-    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
-  });
-  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
-  /* settle-timers: fonts and late reflows can land after every event above,
-     so post a few extra times; the last===h guard keeps it quiet. */
-  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
-  document.addEventListener("click", ()=>setTimeout(post, 0));
-  post();
-})();
-</script>
+<script src="../assets/activity/embed.js"></script>
 
 </body>
 </html>

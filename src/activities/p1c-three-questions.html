@@ -5,17 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Three questions — interactive activity</title>
 <meta name="description" content="You get the director for three questions. Choose them, hear her answers, then choose the brief they support.">
+<link rel="stylesheet" href="../assets/activity/base.css">
 <style>
-  :root{
-    --paper:#fafbfc; --ink:#1c2733; --slate:#5d6b7a; --line:#dde3e9;
-    --accent:#0e7490; --accent-soft:#e3f1f5; --good:#15803d; --good-soft:#e9f5ec;
-    --warn:#b45309; --warn-soft:#fdf3e7; --card:#ffffff; --chrome:#f0f3f6;
-    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
-    --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
-    --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0; padding:0; background:transparent}
   body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
   .activity{
     background:var(--card); border:1px solid var(--line); border-radius:10px;
@@ -264,32 +255,7 @@
 })();
 </script>
 
-<script>
-/* Embed helper: reports the activity's height so the parent page can size the frame. */
-(function(){
-  "use strict";
-  if(window.parent === window) return;
-  const card = document.querySelector(".activity");
-  let last = 0;
-  function post(){
-    const h = Math.ceil(card.getBoundingClientRect().height);
-    if(h === last) return;
-    last = h;
-    window.parent.postMessage({type:"activity-height", id:"p1c-three-questions", height:h}, "*");
-  }
-  window.addEventListener("load", post);
-  window.addEventListener("resize", post);
-  window.addEventListener("message", function(e){
-    if(e.data && e.data.type === "activity-height-request"){ last = 0; post(); }
-  });
-  if(window.ResizeObserver) new ResizeObserver(post).observe(card);
-  /* settle-timers: fonts and late reflows can land after every event above,
-     so post a few extra times; the last===h guard keeps it quiet. */
-  [700, 1600, 3200, 5000].forEach(function(ms){ setTimeout(post, ms); });
-  document.addEventListener("click", ()=>setTimeout(post, 0));
-  post();
-})();
-</script>
+<script src="../assets/activity/embed.js"></script>
 
 </body>
 </html>

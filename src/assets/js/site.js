@@ -34,8 +34,13 @@
   }
 
   /* ---------- 2. activity embed height ----------
-     Activities post their height on load and on resize. Match the frame
-     to it so there is no scrollbar inside and no dead space below. */
+     An activity reports how tall it is; we make its frame that tall, so there
+     is no scrollbar inside it and no dead space below it.
+
+     We also ask every frame to re-measure when this window resizes. An
+     activity watches for that itself, so this is redundant on paper, but a
+     frame left at a stale height shows a scrollbar and that is the one
+     failure worth paying five lines to avoid. */
   function initActivityHeights() {
     var frames = [].slice.call(document.querySelectorAll(".activity-embed iframe"));
     if (!frames.length) return;
@@ -48,18 +53,22 @@
       });
     });
 
-    /* An activity may have loaded before the listener above existed, so
-       ask each one to report again. */
+    function ping(f) {
+      try { f.contentWindow.postMessage({ type: "activity-height-request" }, "*"); } catch (err) {}
+    }
+    function pingAll() { frames.forEach(ping); }
+
+    /* A lazily-loaded frame can finish before the listener above exists, so
+       ask each one again once it is there. */
     frames.forEach(function (f) {
-      function ping() {
-        try { f.contentWindow.postMessage({ type: "activity-height-request" }, "*"); } catch (err) {}
-      }
-      /* Activities re-measure themselves after their fonts land, and that can
-         race the load-time report. Re-ask a couple of times so the frame
-         always settles on the final height. */
-      function pingSoonAndLater() { ping(); setTimeout(ping, 1000); setTimeout(ping, 3000); }
-      f.addEventListener("load", pingSoonAndLater);
-      pingSoonAndLater();
+      f.addEventListener("load", function () { ping(f); });
+      ping(f);
+    });
+
+    var t;
+    window.addEventListener("resize", function () {
+      clearTimeout(t);
+      t = setTimeout(pingAll, 120);
     });
   }
 
