@@ -1,15 +1,6 @@
-/* ============================================================
-   AI in Data Science — course site
-
-   This is a direct port of lessons/data-lessons.html. The light theme
-   values below are that file's values, unchanged. Dark mode is layered on
-   by redefining the same variable names and nothing else.
-
-   The layout idiom is that file's idiom: prose is prose. Paragraphs get
-   `margin:0 0 1rem` and nothing else. De-emphasised text is a colour
-   (.note), not a box. The only bordered things on a page are the activity
-   card and the check-yourself items.
-   ============================================================ */
+/* AI in Data Science — course site.
+   Prose is prose: de-emphasised text is a colour, not a box. The only
+   bordered things on a page are activity cards and check-yourself items. */
 
 :root{
   --paper:#fafbfc;
@@ -111,7 +102,7 @@ th,td{border:1px solid var(--line); padding:.45rem .65rem; text-align:left; vert
 th{background:var(--chrome); font-weight:600; font-size:.85rem}
 td{color:var(--ink)}
 
-/* ---------- section heading (uses the h2 idiom) ---------- */
+/* ---------- section heading ---------- */
 .sectionbar{
   display:flex; align-items:baseline; gap:.85rem; flex-wrap:wrap;
   margin:3rem 0 1.1rem;
@@ -120,9 +111,8 @@ td{color:var(--ink)}
 .sectiontime{margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--slate)}
 
 /* ---------- activity card ----------
-   The header is its own rounded bar floating above the frame. The frame
-   itself carries no border, so an activity shorter than its given height
-   leaves plain page background rather than an outlined empty box. */
+   The frame carries no border, so an activity shorter than its declared
+   height leaves page background rather than an outlined empty box. */
 .activity-embed{margin:2rem auto 1.25rem}
 .activity-header{
   display:flex; align-items:center; gap:.75rem; justify-content:space-between;
@@ -143,7 +133,7 @@ a.activity-title:hover{color:var(--accent); text-decoration:underline}
 .activity-fullscreen-btn:hover{border-color:var(--accent); color:var(--accent)}
 .activity-embed iframe{width:100%; border:none; display:block; background:transparent}
 
-/* ---------- author notes — a colour, not a box ---------- */
+/* ---------- author notes ---------- */
 .todo{margin:0 0 1.4rem}
 .todolabel{
   font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
@@ -154,7 +144,7 @@ a.activity-title:hover{color:var(--accent); text-decoration:underline}
 .todo > :last-child{margin-bottom:0}
 .todo strong{color:var(--ink)}
 
-/* ---------- activity placeholder — same shell as the real card ---------- */
+/* ---------- activity placeholder ---------- */
 .slot{
   background:var(--card); border:1px solid var(--line); border-radius:10px;
   margin:2rem auto; overflow:hidden; box-shadow:0 1px 3px var(--shadow);
@@ -189,7 +179,7 @@ details.q[open] summary::before{content:"→"}
 details.q .answer{padding:0 1rem 1rem; color:var(--ink); font-size:.95rem; border-top:1px dashed var(--line)}
 details.q .answer p:first-child{margin-top:.9rem}
 
-/* ---------- notebook handoff — an action, so it gets a card ---------- */
+/* ---------- notebook handoff ---------- */
 .notebook{
   background:var(--card); border:1px solid var(--line); border-radius:10px;
   margin:2rem 0; padding:1.1rem 1.2rem; box-shadow:0 1px 3px var(--shadow);
@@ -207,7 +197,7 @@ details.q .answer p:first-child{margin-top:.9rem}
   background:var(--card); color:var(--slate); border-color:var(--line); cursor:not-allowed;
 }
 
-/* ---------- callout — left rule, no fill ---------- */
+/* ---------- callout ---------- */
 .callout{border-left:3px solid var(--accent); padding-left:1rem; margin:1.6rem 0}
 .callout > :last-child{margin-bottom:0}
 .callout.warn{border-left-color:var(--warn)}
@@ -304,16 +294,12 @@ button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid v
   #theme-toggle{display:none}
 }
 
-/* The frame is now sized to its content, so the only space under an
-   activity is its own bottom margin. Whatever follows gives up its top
-   margin so the two stop stacking up. Last in the file so it wins against
-   the element rules above. */
+/* Last in the file so it beats the element rules above. */
 .activity-embed + *{margin-top:0}
 
-/* ---------- Tally feedback embed ---------- */
-/* The form renders light whatever the page does, so in dark mode it sits on
-   its own white card rather than floating on the dark background. Mirrors the
-   two-signal theme handling used at the top of this file. */
+/* ---------- Tally feedback embed ----------
+   The form renders light whatever the page does, so dark mode gives it a
+   white card to sit on. */
 .tally-embed-wrapper{margin:2.5rem 0 0}
 .tally-embed-wrapper iframe{display:block}
 @media (prefers-color-scheme: dark){

@@ -26,7 +26,7 @@ Answering the wrong reading well is the most expensive mistake in data work, bec
 
 You get the director for three questions before she disappears into meetings. Choose them well, then choose the brief her answers support.
 
-{% activity "p1c-three-questions.html", "Three questions", "700px" %}
+{% activity "three-questions.html", "Three questions", "700px" %}
 
 {% check "Think it through before you open the answers." %}
 

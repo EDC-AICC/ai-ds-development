@@ -22,7 +22,7 @@ Finding that out is part of your job. You count what is in every column and writ
 
 This is the real clinic file, all 812 rows of it, hooked up to the five checks every data analyst runs on a new dataset. There are some defects hiding in the data. Find them all, and pay attention to which check catches each one. In the notebook below you will be asking an AI to write similar checks.
 
-{% activity "p2c-analysts-toolkit.html", "The analyst's toolkit", "660px" %}
+{% activity "analysts-toolkit.html", "The analyst's toolkit", "660px" %}
 
 {% check "Think it through before you open the answers." %}
 

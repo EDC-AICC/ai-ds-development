@@ -5,7 +5,7 @@ An activity is a small interactive page. Each one is a single self-contained HTM
 A lesson page embeds it in an iframe:
 
 ```
-{% activity "p2c-analysts-toolkit.html", "The analyst's toolkit", "660px" %}
+{% activity "analysts-toolkit.html", "The analyst's toolkit", "660px" %}
 ```
 
 That draws a card with a title bar linking to the activity on its own, a fullscreen button, and the iframe beneath. The third argument is the frame's height before any JavaScript runs. The activity finds its height on load, so it only has to be approximate.

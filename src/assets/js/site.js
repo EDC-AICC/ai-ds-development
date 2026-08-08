@@ -1,19 +1,8 @@
-/* ============================================================
-   Site behaviour
-   1. theme toggle (light / dark / follow system)
-   2. activity embed height
-
-   Each activity reserves the height of its tallest state, so the number
-   it reports holds steady while a student clicks through it. That height
-   still depends on how wide the embed is, because the text rewraps, so
-   the shortcode's height is a starting value and this corrects it.
-   ============================================================ */
+/* Theme toggle, and sizing activity frames to what they report. */
 (function () {
   "use strict";
 
-  /* ---------- 1. theme ----------
-     The no-flash inline script in <head> has already set data-theme.
-     Here we only wire the button.                                   */
+  /* The no-flash script in <head> has already set data-theme; wire the button. */
   var THEME_KEY = "aids-theme";
 
   function currentTheme() {
@@ -33,14 +22,9 @@
     });
   }
 
-  /* ---------- 2. activity embed height ----------
-     An activity reports how tall it is; we make its frame that tall, so there
-     is no scrollbar inside it and no dead space below it.
-
-     We also ask every frame to re-measure when this window resizes. An
-     activity watches for that itself, so this is redundant on paper, but a
-     frame left at a stale height shows a scrollbar and that is the one
-     failure worth paying five lines to avoid. */
+  /* Re-asking on resize is redundant: an activity watches for that itself.
+     A frame left at a stale height shows a scrollbar, which is the one
+     failure worth five lines to avoid. */
   function initActivityHeights() {
     var frames = [].slice.call(document.querySelectorAll(".activity-embed iframe"));
     if (!frames.length) return;
