@@ -42,7 +42,64 @@ Permission, and a warning. Permission to propose the framing yourself, which is 
 
 {% section "Lessons" %}
 
-TODO: Write actual lesson or video on how to do it.
+### The concept
+
+Every data science project begins with a question. Before you open any dataset or write any code, you need to know what problem you are solving, who needs the answer, and whether the data you have can actually provide it. This is called problem framing.
+
+A well-framed question is specific, answerable, and connected to a decision. Compare these two:
+
+- *"Tell me about our patients."*
+- *"Which age groups have the highest rate of follow-up appointments, and does that rate differ by insurance type?"*
+
+The first is a topic. The second names the population, the measure, and the comparison. That specificity determines which columns you need, what analysis you run, and what you deliver. It also tells you what to leave out.
+
+Problem framing also means knowing the limits of your data before you commit to a question. A clinical visit dataset that records diagnoses, insurance type, copay amounts, and follow-up status can answer many operational questions about visit patterns. It cannot answer questions about patient outcomes or long-term health, because those variables are not in it. Knowing what your data cannot do is as important as knowing what it can.
+
+### How AI can help
+
+AI is a useful thinking partner at this stage. When you describe your dataset and the business situation, it can quickly suggest multiple directions, surface angles you have not considered, and help you check whether a question is actually answerable with the columns you have.
+
+If you describe the clinic dataset columns and ask AI whether you can measure patient satisfaction, it will correctly tell you there is no satisfaction column. That sanity check takes ten seconds and saves a significant amount of time. AI is also useful when the stakeholder has not given you clear direction. A director who says "understand our patients better" has not given you a question. AI can help you turn that vague request into a list of candidate questions, each tied to specific columns, so you can have a more focused conversation.
+
+### How to use AI
+
+The key is giving AI enough context. It cannot read your data file or know your organisation. You have to describe the dataset, the business situation, and the intended audience explicitly.
+
+A strong prompt at this stage gives AI three things: what the dataset contains, who will use the findings and for what decision, and a request for candidate questions that includes which columns each would require.
+
+<pre class="prompt">I have a dataset from a community outpatient clinic. It records patient
+visits and includes: patient identifiers, visit dates, medical diagnosis
+codes and descriptions, visit type (Office Visit, Telehealth, Follow-Up,
+Urgent Care), patient gender, age, insurance type (Medicaid, Medicare,
+Private, Uninsured), provider ID, county, copay amount, and whether a
+follow-up was required.
+
+The clinic director wants to understand visit patterns and identify access
+or equity concerns before a board meeting. Suggest 5 specific questions I
+could investigate with this data. For each question, name the columns you
+would use and explain why the answer would be useful to the director.</pre>
+
+Asking AI to name the columns for each suggestion forces a feasibility check. If AI proposes a question that requires a column that does not exist in your dataset, it will be unable to name one — that is your signal to discard it.
+
+### Evaluating AI output
+
+After AI suggests questions, run every suggestion through three filters before adopting it.
+
+**Is it answerable?** AI sometimes suggests questions that require data not in your dataset. Questions about patient satisfaction or treatment outcomes need columns a clinic visit file does not have. Those questions must be set aside.
+
+**Is it useful?** A question about the statistical distribution of provider IDs may be technically answerable but has no obvious value to the director. Prioritise questions where the finding could lead to a concrete action.
+
+**Are the required columns reliable?** In a dataset where 30 percent of county values are missing, a question that depends heavily on county will produce findings based on incomplete information. The question is not worthless, but the answer will need a clear caveat.
+
+AI will not apply these filters itself. That judgment is yours.
+
+### Best practices
+
+**Write your own question first.** Before prompting AI, write down the one question you think matters most. Then compare it to what AI suggests. Your question benefits from context and organisational knowledge that AI does not have.
+
+**Treat AI suggestions as a menu, not a mandate.** AI generates options. You choose the question that best serves the analysis goal.
+
+**Confirm with the stakeholder before starting.** Once you have narrowed to one or two questions, check with the person who will use the findings. A question that seems analytically interesting may not be what they actually need.
 
 {% section "Do it for real" %}
 

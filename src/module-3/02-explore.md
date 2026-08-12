@@ -16,7 +16,7 @@ The director asks what sounds like the easiest question in the building. How man
 
 The file has 812 rows, so the ten-second answer is 812. It is wrong in several ways. Fifteen of those rows are the same visit entered twice. Four of the dates never happened, February 30th among them. And "last year" means filtering on a date column that is still text, written several different ways. Answering any question depends on knowing exactly what is in the file.
 
-Finding that out is part of your job. You count what is in every column and write down every problem you find. Fixing those issues happens in the next module, and it goes faster once you know what needs fixing.
+Finding that out is part of your job. You count what is in every column and write down every problem you find. Fixing those issues happens in the next part, and it goes faster once you know what needs fixing.
 
 {% section "Get a feel for it" %}
 
@@ -63,7 +63,66 @@ you to work with me.
 
 {% section "Lessons" %}
 
-{% slot "lesson", "The teaching content for this part goes here, between getting a feel for the idea and doing it for real. What form it takes is still open. A recorded walkthrough, written explanation on this page, worked examples the student modifies, or nothing beyond the job statement with the rest handled in the notebook.", "200px" %}
+### The concept
+
+Before you can clean or analyse data, you need to understand what is actually in it. Exploratory data analysis — EDA for short — is the process of systematically examining a dataset to answer four questions about every column: Is the data complete? Are the values consistent? Are the values valid? Does the structure make sense for the analysis you plan to do?
+
+**Completeness** means checking for missing values. A clinical dataset may have patient identifiers and diagnoses recorded reliably, while a geographic column like county is missing for a large proportion of records. Knowing that before analysis prevents conclusions built on data that does not represent the full picture.
+
+**Consistency** means checking whether the same concept is recorded the same way throughout. A gender column containing "Female", "female", "F", "f", and "FEMALE" as separate entries will produce five categories in any breakdown instead of one. Without finding and fixing that, every analysis involving gender will be wrong.
+
+**Validity** means checking whether values fall within a reasonable range. An age field containing -5 or 999 holds impossible values. A copay amount field with negative numbers contains values that violate the meaning of that column. These are not edge cases to ignore — they affect every average and total computed from those columns.
+
+This is not a casual browse. It is a structured checklist you work through before touching anything.
+
+### How AI can help
+
+Writing exploration code is repetitive. For each column you want to check, you need code to count missing values, list unique values, find out-of-range entries, and detect duplicates. AI can generate that entire script from a clear description of what you want checked, turning 30 minutes of writing into two or three minutes of prompting.
+
+Beyond writing code, AI can help you interpret what you find. If you paste exploration results into an AI chat and describe the context, AI can suggest plausible explanations — 14 different spellings of gender in a clinical dataset suggests a free-text entry field that was never validated; a high percentage of missing county values may point to an intake workflow that skips that field for certain visit types. AI generates these hypotheses quickly, giving you a starting framework even before you investigate further.
+
+### How to use AI
+
+The most effective approach is a numbered, multi-task prompt that lists every check you want. Numbered prompts produce structured outputs that are easy to verify systematically.
+
+<pre class="prompt">I have a dataset stored in a variable called df with columns: patient_id,
+visit_id, visit_date, icd_code, icd_description, visit_type, gender, age,
+insurance_type, provider_id, county, copay_amount, follow_up_required.
+
+Write Python code to check the following:
+1. Shape of the dataset (rows and columns).
+2. Data type of each column.
+3. Number and percentage of missing values for each column.
+4. Number of exact duplicate rows, with a sample of 3 shown.
+5. All unique values in: gender, insurance_type, visit_type, follow_up_required.
+6. Any rows where age is below 0 or above 120.
+7. Any rows where copay_amount is negative.
+
+Print a clear label before each result.</pre>
+
+Once you have results, a second prompt helps interpret them. Paste the output into the AI chat and ask what the patterns suggest, which problems are worth addressing, and which checks need a closer look.
+
+### Evaluating AI output
+
+AI-generated exploration code should be verified, not accepted without checking. Three failure modes are common.
+
+**Truncated output.** When you ask for all unique values in a column, AI may show a few and add "...and others" if the column has many distinct values. Always run a count of unique values yourself to confirm the total. A gender column showing 5 variants in the AI output may have 14 in the real data. The difference matters for the next step.
+
+**Incorrect column names.** AI writes code based on the names you give it. A small typo in your prompt produces a KeyError when the code runs. Always check error messages against the actual column names in your dataset and correct the mismatch before re-running.
+
+**Missing checks.** Count the numbered tasks in your prompt and count the sections in the output. If you asked for seven checks and AI's code only handles six, the seventh is absent. You need to notice that and add it.
+
+One principle to hold: AI cannot see your data file. It responds to what you describe. The only way to confirm that results are correct is to run the code yourself and read every section of the output.
+
+### Best practices
+
+**Use numbered prompts.** Numbered tasks produce numbered outputs that are easy to verify one by one.
+
+**Paste real output back to AI for interpretation.** Once you have results, share the actual output — not a description of it — and ask what the patterns suggest. This gives AI something concrete to respond to.
+
+**Document every problem you find.** Write down every quality issue discovered during exploration. This list becomes the exact to-do list for Part 3. If you skip this step, you will carry problems into your analysis without realising it.
+
+**Explore before you clean.** It is tempting to jump straight to cleaning, but exploration tells you what needs cleaning and why. Starting with a cleaning prompt before a thorough exploration almost always results in missing something.
 
 {% section "Do it for real" %}
 
