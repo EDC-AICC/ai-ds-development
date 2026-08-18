@@ -1,16 +1,9 @@
 ---
 order: 1
 title: Ask
-kicker: Module 3 · Part 1
-standfirst: >
-  Somebody asks you a question. Working out what they actually need, and what would count as an answer, comes before anything you can type.
-prev:
-  url: /module-3/
-  label: Module 3 overview
-next:
-  url: /module-3/02-explore/
-  label: Part 2 · Explore
 ---
+
+{% section "The setup" %}
 
 Monday morning, this is in your inbox.
 

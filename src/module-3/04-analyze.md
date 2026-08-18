@@ -1,16 +1,9 @@
 ---
 order: 4
 title: Analyze
-kicker: Module 3 · Part 4
-standfirst: >
-  Answer the question you settled on in Part 1, then work out who is missing from the answer before anyone acts on it.
-prev:
-  url: /module-3/03-transform/
-  label: Part 3 · Transform
-next:
-  url: /module-3/05-share/
-  label: Part 5 · Share
 ---
+
+{% section "The setup" %}
 
 {% todo "To write" %}
 TODO: The opening.

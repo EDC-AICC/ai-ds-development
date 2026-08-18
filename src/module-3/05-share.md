@@ -1,16 +1,9 @@
 ---
 order: 5
 title: Share
-kicker: Module 3 · Part 5
-standfirst: >
-  Four sentences for someone who will only ever read the summary. The AI writes them better than you do, using only your numbers, and you should still hold some of them back.
-prev:
-  url: /module-3/04-analyze/
-  label: Part 4 · Analyze
-next:
-  url: /module-3/06-build/
-  label: Apply
 ---
+
+{% section "The setup" %}
 
 {% todo "To write" %}
 TODO: The opening.

@@ -1,17 +1,9 @@
 ---
 order: 6
 title: Apply
-kicker: Module 3 · On your own
-standfirst: >
-  A dataset that is new to you, a real question, and your own judgment about how to approach it.
-  Everything up to here was practice with the guardrails on.
-prev:
-  url: /module-3/05-share/
-  label: Part 5 · Share
-next:
-  url: /module-3/
-  label: Module 3 overview
 ---
+
+{% section "The setup" %}
 
 {% todo "To write" %}
 TODO: The opening.

@@ -1,16 +1,9 @@
 ---
 order: 2
 title: Explore
-kicker: Module 3 · Part 2
-standfirst: >
-  Find out what you have been handed before you change any of it. Shape, types, ranges, what is missing, and what the categories actually contain.
-prev:
-  url: /module-3/01-ask/
-  label: Part 1 · Ask
-next:
-  url: /module-3/03-transform/
-  label: Part 3 · Transform
 ---
+
+{% section "The setup" %}
 
 The director asks what sounds like the easiest question in the building. How many visits did we get last year?
 

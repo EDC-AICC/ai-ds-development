@@ -1,16 +1,9 @@
 ---
 order: 3
 title: Transform
-kicker: Module 3 · Part 3
-standfirst: >
-  Now fix what you found, and build the columns your question needs. Both look like chores and are really a run of decisions.
-prev:
-  url: /module-3/02-explore/
-  label: Part 2 · Explore
-next:
-  url: /module-3/04-analyze/
-  label: Part 4 · Analyze
 ---
+
+{% section "The setup" %}
 
 {% todo "To write" %}
 TODO: The opening.

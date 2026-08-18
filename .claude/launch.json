@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["http-server", "-p", "8317", "-c-1", "."],
       "port": 8317
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["@11ty/eleventy", "--serve", "--port=8318"],
+      "port": 8318
     }
   ]
 }

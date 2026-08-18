@@ -23,6 +23,20 @@ const colabUrl = (notebook) =>
 export default function (eleventyConfig) {
   eleventyConfig.setLibrary("md", md);
 
+  /* Module 3's pages in reading order; the shell layout builds the sidebar
+     and prev/next from this, so authors never write navigation by hand. */
+  eleventyConfig.addCollection("m3", (api) =>
+    api.getFilteredByGlob("src/module-3/*.md")
+      .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)));
+
+  eleventyConfig.addFilter("adjacent", (coll, url) => {
+    const i = coll.findIndex((p) => p.url === url);
+    return {
+      prev: i > 0 ? coll[i - 1] : null,
+      next: i >= 0 && i < coll.length - 1 ? coll[i + 1] : null,
+    };
+  });
+
   /* Activities are copied verbatim: the ignore keeps their inline JS away
      from Nunjucks, and the html-only copy keeps AUTHORING.md out of the site. */
   eleventyConfig.ignores.add("src/activities/**");

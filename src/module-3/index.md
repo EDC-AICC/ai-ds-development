@@ -1,16 +1,9 @@
 ---
+order: 0
 title: Preparing, Exploring & Analyzing Data with AI
-kicker: AI in Data Science · Module 3
-standfirst: >
-  Learning to use AI for data cleaning, transformation, exploratory analysis, bias detection, and verifying results.
-eleventyExcludeFromCollections: true
-next:
-  url: /module-3/01-ask/
-  label: Start · Ask
-prev:
-  url: /
-  label: All modules
 ---
+
+{% section "Start here" %}
 
 In this module you will use AI to write the Python that cleans, explores and analyzes a real dataset. The datasets you'll get will be messy, real-world ones. They might have missing values, dates written more than one way, the same field spelled several ways, and some records entered twice. You will learn how to think about what can go wrong in data, describe the data work you want done, work with the AI to write the code you need, and verify what you get back.
 
@@ -78,7 +71,9 @@ Because the true part buys trust for the false part. You verify the $70, feel do
 
 {% endcheck %}
 
-## What's next
+{% section "The six parts" %}
+
+The parts follow one dataset through the whole arc of a real piece of data work. Do them in order; each one hands its result to the next.
 
 <div class="cards">
 
