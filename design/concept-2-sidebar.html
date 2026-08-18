@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept 2 · Course shell — Ask</title>
+<script>
+(function(){try{var t=localStorage.getItem("aids-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Docs-style course shell: a persistent map of the whole module on the left,
+   the lesson on the right. The page still scrolls, but you always know where
+   you are, and every section is one click away. */
+
+.shell{display:grid; grid-template-columns:17rem minmax(0,1fr); min-height:100vh}
+
+/* -- sidebar -- */
+aside.map{
+  border-right:1px solid var(--line); background:var(--card);
+  padding:1.5rem 0 2rem; position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.map-inner{padding:0 1.1rem}
+.map .course{font-family:var(--mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--slate); margin:0 0 1.2rem}
+.map .part{margin:0 0 .15rem}
+.map .part > a{
+  display:flex; gap:.6rem; align-items:baseline; text-decoration:none; color:var(--slate);
+  font-size:.9rem; font-weight:600; padding:.4rem .6rem; border-radius:7px;
+}
+.map .part > a:hover{background:var(--chrome); color:var(--ink)}
+.map .part.here > a{color:var(--ink); background:var(--accent-soft)}
+.map .pnum{font-family:var(--mono); font-size:.68rem; color:var(--accent); flex:none; width:1.1rem}
+.map .sections{list-style:none; margin:.2rem 0 .6rem; padding:0 0 0 1.65rem; border-left:1px solid var(--line); margin-left:.95rem}
+.map .sections a{
+  display:block; text-decoration:none; color:var(--slate); font-size:.84rem;
+  padding:.28rem .5rem; border-radius:6px; margin-left:-.5rem;
+}
+.map .sections a:hover{color:var(--ink); background:var(--chrome)}
+.map .sections a.active{color:var(--accent); font-weight:600}
+
+/* -- content -- */
+.content{min-width:0}
+header.masthead{border-bottom:1px solid var(--line); background:var(--card); padding:2.6rem 0 2rem}
+.col{max-width:44rem; margin:0 0 0 clamp(1.25rem,6vw,4.5rem); padding:0 1.25rem 0 0}
+.masthead h1{font-size:2.1rem; line-height:1.15; margin:0 0 .8rem}
+.masthead .standfirst{color:var(--slate); max-width:36rem; margin:0}
+main{padding:2.75rem 0 1rem}
+section.lesson-section{margin:0 0 3.25rem; scroll-margin-top:1.5rem}
+.sectionbar{display:flex; align-items:baseline; gap:.85rem; margin:0 0 1.1rem; border-top:1px solid var(--line); padding-top:1.6rem}
+.sectiontitle{font-family:var(--serif); font-size:1.6rem; line-height:1.2; font-weight:600}
+section.lesson-section:first-child .sectionbar{border-top:none; padding-top:0}
+.lessonnav{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-family:var(--mono); font-size:.82rem; padding:2rem 0 3.5rem; border-top:1px solid var(--line)}
+.lessonnav a{text-decoration:none; color:var(--accent)}
+
+/* -- mobile drawer -- */
+.topbar{display:none}
+.scrim{display:none}
+@media (max-width:900px){
+  .shell{display:block}
+  aside.map{
+    position:fixed; inset:0 20% 0 0; z-index:60; height:auto;
+    transform:translateX(-102%); transition:transform .22s ease;
+    box-shadow:0 0 30px var(--shadow);
+  }
+  aside.map.open{transform:none}
+  .scrim{display:block; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:55; opacity:0; pointer-events:none; transition:opacity .2s}
+  .scrim.show{opacity:1; pointer-events:auto}
+  .topbar{
+    display:flex; align-items:center; gap:.8rem; position:sticky; top:0; z-index:50;
+    background:var(--card); border-bottom:1px solid var(--line); padding:.6rem 1.25rem;
+  }
+  .topbar .crumb{font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--slate)}
+  .menu-btn{
+    appearance:none; border:1px solid var(--line); background:var(--card); color:var(--ink);
+    border-radius:7px; padding:.35rem .7rem; font-size:.85rem; font-weight:600; cursor:pointer;
+  }
+  .col{margin:0 auto; padding:0 1.25rem}
+  .masthead h1{font-size:1.7rem}
+}
+@media (prefers-reduced-motion:reduce){ aside.map{transition:none} .scrim{transition:none} }
+</style>
+</head>
+<body>
+
+<div class="concept-note"><span>Concept 2 · Course shell</span> <a href="index.html">all concepts</a></div>
+
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6 4.1 4.1M19.9 19.9l-1.5-1.5M18.4 5.6l1.5-1.5M4.1 19.9l1.5-1.5"></path></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"></path></svg>
+</button>
+
+<div class="shell">
+
+  <aside class="map" id="map">
+    <div class="map-inner">
+      <p class="course">AI in Data Science · Module 3</p>
+      <div class="part"><a href="#"><span class="pnum">·</span>Overview</a></div>
+      <div class="part here">
+        <a href="#"><span class="pnum">1</span>Ask</a>
+        <ul class="sections">
+          <li><a href="#setup" class="active">The setup</a></li>
+          <li><a href="#feel">Get a feel for it</a></li>
+          <li><a href="#lesson">Lesson</a></li>
+          <li><a href="#real">Do it for real</a></li>
+          <li><a href="#debrief">How a practitioner did it</a></li>
+        </ul>
+      </div>
+      <div class="part"><a href="#"><span class="pnum">2</span>Explore</a></div>
+      <div class="part"><a href="#"><span class="pnum">3</span>Transform</a></div>
+      <div class="part"><a href="#"><span class="pnum">4</span>Analyze</a></div>
+      <div class="part"><a href="#"><span class="pnum">5</span>Share</a></div>
+      <div class="part"><a href="#"><span class="pnum">6</span>Apply</a></div>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="content">
+    <div class="topbar">
+      <button class="menu-btn" id="menu">☰ Module 3</button>
+      <span class="crumb">Part 1 · Ask</span>
+    </div>
+
+    <header class="masthead">
+      <div class="col">
+        <p class="kicker">Module 3 · Part 1</p>
+        <h1>Ask</h1>
+        <p class="standfirst">Somebody asks you a question. Working out what they actually need, and what would count as an answer, comes before anything you can type.</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="col">
+
+        <section class="lesson-section" id="setup">
+          <div class="sectionbar"><span class="sectiontitle">The setup</span></div>
+          <p>Monday morning, this is in your inbox.</p>
+          <blockquote class="email">
+            <p><strong>From:</strong> Clinic Director<br><strong>Subject:</strong> visit data</p>
+            <p>Before the board meeting next month, can you pull together something on our visit patterns from the last two years? I want to understand what's really going on with our patients. Whatever you think is most useful. Thanks!</p>
+          </blockquote>
+          <p>It is friendly, it is urgent, and it contains no question. "Visit patterns" could mean who comes in, or how often, or for what, or when. "Really going on" could mean a money problem, a staffing problem, or plain curiosity. Every one of those readings leads to a different month of work, and the email supports all of them.</p>
+          <p>Answering the wrong reading well is the most expensive mistake in data work, because everything downstream inherits it, and it is the mistake an AI cannot catch for you. The AI answers whatever question you settle on. Settling on the right one happens here, before any file is opened, and it mostly happens by asking.</p>
+        </section>
+
+        <section class="lesson-section" id="feel">
+          <div class="sectionbar"><span class="sectiontitle">Get a feel for it</span></div>
+          <p>You get the director for three questions before she disappears into meetings. Choose them well, then choose the brief her answers support.</p>
+          <div class="activity-embed">
+            <div class="activity-header"><a class="activity-title" href="../src/activities/three-questions.html" target="_blank" rel="noopener">Three questions</a></div>
+            <iframe class="activity" src="../src/activities/three-questions.html" title="Three questions" style="height:700px" loading="lazy"></iframe>
+          </div>
+          <div class="check">
+            <p class="check-label">Check yourself</p>
+            <p class="think-hint">Think it through before you open the answers.</p>
+            <details class="q"><summary>The question that unlocked the most was about the decision, what will change based on this work. Why does that one question do so much?</summary><div class="answer">
+              <p>Because a decision gives every later choice a test. Knowing the work feeds a care-coordination hire tells you repeat visitors matter, tells you which columns count, tells you what the four summary sentences should be about, and tells you what to leave out. Without a decision, every cut of the data is equally defensible and none of it is aimed.</p>
+            </div></details>
+            <details class="q"><summary>The director answered the meaning question with a shrug. You tell me what the data can say. What did that answer actually give you?</summary><div class="answer">
+              <p>Permission, and a warning. Permission to propose the framing yourself, which is a normal part of the job and much better discovered now than after a month of work. And a warning that nobody upstream has thought this through, so whatever you propose becomes the plan.</p>
+            </div></details>
+          </div>
+        </section>
+
+        <section class="lesson-section" id="lesson">
+          <div class="sectionbar"><span class="sectiontitle">Lesson</span></div>
+          <div class="slot" style="min-height:200px">
+            <div class="slothead"><span class="sloticon">▤</span><span class="slotlabel">Lesson</span></div>
+            <div class="slotbody">The teaching content for this part goes here — written lesson or video on how to do it.</div>
+          </div>
+        </section>
+
+        <section class="lesson-section" id="real">
+          <div class="sectionbar"><span class="sectiontitle">Do it for real</span></div>
+          <p><strong>The job.</strong> Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this." Getting that yes before opening any file is the whole move.</p>
+          <p>What the brief needs:</p>
+          <ul>
+            <li><strong>The question.</strong> The director's request, restated as something with an answer.</li>
+            <li><strong>The audience and the decision.</strong> Who reads this, and what they will do with it.</li>
+            <li><strong>What the data can and cannot answer.</strong> Name two questions visit records can answer, and one thing the director might want that they cannot.</li>
+            <li><strong>What you still need to ask.</strong> Write the two questions you would ask the director next.</li>
+          </ul>
+        </section>
+
+        <section class="lesson-section" id="debrief">
+          <div class="sectionbar"><span class="sectiontitle">How a practitioner did it</span></div>
+          <div class="slot" style="min-height:180px">
+            <div class="slothead"><span class="sloticon">▶</span><span class="slotlabel">Video</span></div>
+            <div class="slotbody">The practitioner. A vague request from real work, and how they pinned it down before touching anything.</div>
+          </div>
+          <p><strong>Compare their approach to yours.</strong> How did they take the request apart, and where does that differ from how you did? Look for the move they made that you didn't, and the move you made that they skipped.</p>
+          <p><strong>Compare their brief against yours.</strong> Same email, two briefs. Do they aim at the same question? Where the two disagree, decide which version the director is better served by.</p>
+        </section>
+
+        <nav class="lessonnav">
+          <a href="#">← Module 3 overview</a>
+          <a href="#">Part 2 · Explore →</a>
+        </nav>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+  document.getElementById("theme-toggle").addEventListener("click",function(){
+    var root=document.documentElement;
+    var dark=root.getAttribute("data-theme")==="dark"||(!root.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme: dark)").matches);
+    var next=dark?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem("aids-theme",next)}catch(e){}
+  });
+
+  /* mobile drawer */
+  var map=document.getElementById("map"), scrim=document.getElementById("scrim");
+  document.getElementById("menu").addEventListener("click",function(){
+    map.classList.add("open"); scrim.classList.add("show");
+  });
+  scrim.addEventListener("click",function(){map.classList.remove("open"); scrim.classList.remove("show")});
+  map.addEventListener("click",function(e){
+    if(e.target.closest("a")){map.classList.remove("open"); scrim.classList.remove("show")}
+  });
+
+  /* scrollspy */
+  var links=[].slice.call(document.querySelectorAll(".sections a"));
+  var sections=links.map(function(a){return document.querySelector(a.getAttribute("href"))});
+  function spy(){
+    var i=sections.length-1;
+    while(i>0 && sections[i].getBoundingClientRect().top>140) i--;
+    links.forEach(function(a,j){a.classList.toggle("active",j===i)});
+  }
+  document.addEventListener("scroll",spy,{passive:true}); spy();
+
+  window.addEventListener("message",function(e){
+    if(e.data&&e.data.type==="activity-height"){
+      [].forEach.call(document.querySelectorAll("iframe.activity"),function(f){
+        if(f.contentWindow===e.source)f.style.height=e.data.height+"px";
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

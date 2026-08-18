@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept 4 · Desk — Ask</title>
+<script>
+(function(){try{var t=localStorage.getItem("aids-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* The desk: reading on the left, the thing you're working with pinned on the
+   right. Each section pairs its prose with its material — email, activity,
+   notebook, video — so the material stays on screen while you read about it.
+   On mobile the desk folds back into one column. */
+
+.wide{max-width:76rem; margin:0 auto; padding:0 1.5rem}
+
+header.masthead{border-bottom:1px solid var(--line); background:var(--card); padding:2.6rem 0 2rem}
+.masthead h1{font-size:2.1rem; line-height:1.15; margin:0 0 .8rem}
+.masthead .standfirst{color:var(--slate); max-width:38rem; margin:0}
+main{padding:3rem 0 1rem}
+
+section.duo{
+  display:grid; grid-template-columns:minmax(0,26rem) minmax(0,1fr);
+  gap:1.5rem 3.5rem; align-items:start;
+  padding:2.6rem 0; border-top:1px solid var(--line);
+}
+section.duo:first-of-type{border-top:none; padding-top:0}
+.duo .prose{max-width:40rem}
+.duo .material{position:sticky; top:1.5rem; min-width:0}
+.duo .sectiontitle{font-family:var(--serif); font-size:1.6rem; line-height:1.2; font-weight:600; margin:0 0 1rem; display:block}
+.duo .eyebrow{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .6rem}
+
+/* material pieces reuse shared styles; keep their top margins tight */
+.material .activity-embed,.material .slot,.material .email{margin-top:0}
+.material .slot{margin:0}
+
+.jobcard{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  box-shadow:0 1px 3px var(--shadow); padding:1.1rem 1.2rem;
+}
+.jobcard h4{font-family:var(--serif); font-size:1.02rem; margin:0 0 .6rem; font-weight:600}
+.jobcard ul{margin:0; padding-left:1.2rem; font-size:.93rem}
+.jobcard li{margin:.45rem 0}
+
+.lessonnav{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-family:var(--mono); font-size:.82rem; padding:2rem 0 3.5rem; border-top:1px solid var(--line)}
+.lessonnav a{text-decoration:none; color:var(--accent)}
+
+@media (max-width:900px){
+  section.duo{grid-template-columns:1fr; gap:.5rem; padding:2.2rem 0}
+  .duo .material{position:static; order:2; margin-top:.6rem}
+  .duo .prose{order:1}
+  .duo .prose.after{order:3}
+  .masthead h1{font-size:1.7rem}
+}
+</style>
+</head>
+<body>
+
+<div class="concept-note"><span>Concept 4 · The desk</span> <a href="index.html">all concepts</a></div>
+
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6 4.1 4.1M19.9 19.9l-1.5-1.5M18.4 5.6l1.5-1.5M4.1 19.9l1.5-1.5"></path></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"></path></svg>
+</button>
+
+<header class="masthead">
+  <div class="wide">
+    <p class="kicker">Module 3 · Part 1</p>
+    <h1>Ask</h1>
+    <p class="standfirst">Somebody asks you a question. Working out what they actually need, and what would count as an answer, comes before anything you can type.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wide">
+
+    <section class="duo">
+      <div class="prose">
+        <p class="eyebrow">The setup</p>
+        <span class="sectiontitle">Monday morning, this is in your inbox</span>
+        <p>It is friendly, it is urgent, and it contains no question. "Visit patterns" could mean who comes in, or how often, or for what, or when. "Really going on" could mean a money problem, a staffing problem, or plain curiosity. The audience might be the director, the board, or somebody the board answers to. Every one of those readings leads to a different month of work, and the email supports all of them.</p>
+        <p>Answering the wrong reading well is the most expensive mistake in data work, because everything downstream inherits it, and it is the mistake an AI cannot catch for you. The AI answers whatever question you settle on. Settling on the right one happens here, before any file is opened, and it mostly happens by asking.</p>
+      </div>
+      <div class="material">
+        <blockquote class="email">
+          <p><strong>From:</strong> Clinic Director<br><strong>Subject:</strong> visit data</p>
+          <p>Before the board meeting next month, can you pull together something on our visit patterns from the last two years? I want to understand what's really going on with our patients. Whatever you think is most useful. Thanks!</p>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="duo">
+      <div class="prose">
+        <p class="eyebrow">Get a feel for it</p>
+        <span class="sectiontitle">Three questions with the director</span>
+        <p>You get the director for three questions before she disappears into meetings. Choose them well, then choose the brief her answers support.</p>
+        <div class="check">
+          <p class="check-label">Check yourself</p>
+          <p class="think-hint">Think it through before you open the answers.</p>
+          <details class="q"><summary>The question that unlocked the most was about the decision. Why does that one question do so much?</summary><div class="answer">
+            <p>Because a decision gives every later choice a test. Knowing the work feeds a care-coordination hire tells you repeat visitors matter, tells you which columns count, and tells you what to leave out. Without a decision, every cut of the data is equally defensible and none of it is aimed.</p>
+          </div></details>
+          <details class="q"><summary>The director answered the meaning question with a shrug. What did that answer actually give you?</summary><div class="answer">
+            <p>Permission, and a warning. Permission to propose the framing yourself, and a warning that nobody upstream has thought this through, so whatever you propose becomes the plan. Writing it down and getting a yes on it before doing the work is what protects both of you.</p>
+          </div></details>
+        </div>
+      </div>
+      <div class="material">
+        <div class="activity-embed">
+          <div class="activity-header"><a class="activity-title" href="../src/activities/three-questions.html" target="_blank" rel="noopener">Three questions</a></div>
+          <iframe class="activity" src="../src/activities/three-questions.html" title="Three questions" style="height:700px" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="duo">
+      <div class="prose">
+        <p class="eyebrow">Lesson</p>
+        <span class="sectiontitle">How to pin a request down</span>
+        <p>The moves that turn a vague ask into a question with an answer, before any file is opened.</p>
+      </div>
+      <div class="material">
+        <div class="slot" style="min-height:200px">
+          <div class="slothead"><span class="sloticon">▤</span><span class="slotlabel">Lesson</span></div>
+          <div class="slotbody">The teaching content for this part goes here — written lesson or video on how to do it.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="duo">
+      <div class="prose">
+        <p class="eyebrow">Do it for real</p>
+        <span class="sectiontitle">Write the brief</span>
+        <p><strong>The job.</strong> Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this." Getting that yes before opening any file is the whole move.</p>
+        <p>Work with the checklist beside you; it is the standard the brief is graded against.</p>
+      </div>
+      <div class="material">
+        <div class="jobcard">
+          <h4>What the brief needs</h4>
+          <ul>
+            <li><strong>The question.</strong> The request restated as something with an answer.</li>
+            <li><strong>The audience and the decision.</strong> Who reads this, and what they will do with it.</li>
+            <li><strong>What the data can and cannot answer.</strong> Two questions visit records can answer, one thing they cannot.</li>
+            <li><strong>What you still need to ask.</strong> The two questions you would ask the director next.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="duo">
+      <div class="prose">
+        <p class="eyebrow">Debrief</p>
+        <span class="sectiontitle">How a practitioner did it</span>
+        <p><strong>Compare their approach to yours.</strong> How did they take the request apart, and where does that differ from how you did? Look for the move they made that you didn't, and the move you made that they skipped. One of those differences usually matters.</p>
+        <p><strong>Compare their brief against yours.</strong> Same email, two briefs. Do they aim at the same question? Where the two disagree, decide which version the director is better served by, because that, and only that, is the test a brief answers to.</p>
+        <p>The framing decides the work. An AI will do whatever you ask with equal confidence, which is exactly why the framing is the part that stays yours.</p>
+      </div>
+      <div class="material">
+        <div class="slot" style="min-height:180px">
+          <div class="slothead"><span class="sloticon">▶</span><span class="slotlabel">Video</span></div>
+          <div class="slotbody">The practitioner. A vague request from real work, and how they pinned it down before touching anything.</div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="lessonnav">
+      <a href="#">← Module 3 overview</a>
+      <a href="#">Part 2 · Explore →</a>
+    </nav>
+
+  </div>
+</main>
+
+<script>
+(function(){
+  document.getElementById("theme-toggle").addEventListener("click",function(){
+    var root=document.documentElement;
+    var dark=root.getAttribute("data-theme")==="dark"||(!root.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme: dark)").matches);
+    var next=dark?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem("aids-theme",next)}catch(e){}
+  });
+  window.addEventListener("message",function(e){
+    if(e.data&&e.data.type==="activity-height"){
+      [].forEach.call(document.querySelectorAll("iframe.activity"),function(f){
+        if(f.contentWindow===e.source)f.style.height=e.data.height+"px";
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

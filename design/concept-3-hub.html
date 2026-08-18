@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept 3 · Hub and spokes — Ask</title>
+<script>
+(function(){try{var t=localStorage.getItem("aids-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Hub and spokes: the part page is a short mission hub — the story plus a
+   card per piece of work. Each card opens a focused screen holding exactly
+   one thing. Progress lives on the hub. */
+
+.wrap{max-width:46rem; margin:0 auto; padding:0 1.25rem}
+
+header.masthead{border-bottom:1px solid var(--line); background:var(--card); padding:2.4rem 0 2rem}
+.masthead h1{font-size:2.1rem; line-height:1.15; margin:0 0 .8rem}
+.masthead .standfirst{color:var(--slate); max-width:36rem; margin:0}
+main{padding:2.5rem 0 3rem}
+
+/* -- hub -- */
+.hub-progress{
+  display:flex; align-items:center; gap:.8rem; margin:0 0 1.8rem;
+  font-family:var(--mono); font-size:.75rem; color:var(--slate);
+}
+.hub-progress .bar{flex:1; height:6px; border-radius:3px; background:var(--chrome); overflow:hidden}
+.hub-progress .fill{height:100%; background:var(--good); border-radius:3px; width:0; transition:width .3s ease}
+
+.taskgrid{display:grid; grid-template-columns:1fr 1fr; gap:.9rem; margin:1.8rem 0 0}
+@media (max-width:640px){ .taskgrid{grid-template-columns:1fr} }
+.task-card{
+  text-align:left; cursor:pointer; font-family:var(--sans); font-size:1rem; color:inherit;
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:1rem 1.15rem; box-shadow:0 1px 3px var(--shadow);
+  display:flex; flex-direction:column; gap:.45rem;
+  transition:border-color .18s, transform .18s;
+}
+.task-card:hover{border-color:var(--accent); transform:translateY(-2px)}
+.task-card .top{display:flex; align-items:center; justify-content:space-between; gap:.6rem}
+.task-card .num{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+.task-card h3{font-size:1.2rem; margin:0}
+.task-card p{font-size:.9rem; color:var(--slate); margin:0; flex:1}
+.task-card .meta{font-family:var(--mono); font-size:.72rem; color:var(--slate); border-top:1px dashed var(--line); padding-top:.55rem; display:flex; justify-content:space-between; align-items:center}
+.task-card.done{border-color:var(--good)}
+.task-card.done .num{color:var(--good)}
+
+/* -- spoke -- */
+.spoke{display:none}
+.spoke.current{display:block; animation:fade .25s ease}
+#hub.current{display:block; animation:fade .25s ease}
+#hub{display:none}
+@keyframes fade{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){ .spoke.current,#hub.current{animation:none} }
+
+.crumb{
+  display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;
+  font-family:var(--mono); font-size:.75rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--slate); margin:0 0 1.4rem;
+}
+.crumb a{color:var(--accent); text-decoration:none; cursor:pointer}
+.crumb a:hover{text-decoration:underline}
+.spoke h2{font-size:1.65rem; margin:0 0 1.1rem}
+
+.spoke-nav{
+  display:flex; gap:1rem; align-items:center; margin:2.4rem 0 0;
+  border-top:1px solid var(--line); padding-top:1.2rem;
+}
+.btn{
+  font-family:var(--sans); font-size:.9rem; font-weight:600; cursor:pointer;
+  border:1px solid var(--line); color:var(--slate); background:var(--card);
+  border-radius:8px; padding:.55rem 1.1rem;
+}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--paper)}
+.btn.primary:hover{filter:brightness(1.1); color:var(--paper)}
+.spoke-nav .spacer{flex:1}
+
+@media (max-width:640px){
+  .masthead h1{font-size:1.7rem}
+  .spoke h2{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<div class="concept-note"><span>Concept 3 · Hub and spokes</span> <a href="index.html">all concepts</a></div>
+
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6 4.1 4.1M19.9 19.9l-1.5-1.5M18.4 5.6l1.5-1.5M4.1 19.9l1.5-1.5"></path></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"></path></svg>
+</button>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">Module 3 · Part 1</p>
+    <h1>Ask</h1>
+    <p class="standfirst">Somebody asks you a question. Working out what they actually need, and what would count as an answer, comes before anything you can type.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <!-- HUB -->
+    <section id="hub">
+      <div class="hub-progress"><span id="progress-label">0 of 4 done</span><div class="bar"><div class="fill" id="progress-fill"></div></div></div>
+
+      <p>Monday morning, this is in your inbox.</p>
+      <blockquote class="email">
+        <p><strong>From:</strong> Clinic Director<br><strong>Subject:</strong> visit data</p>
+        <p>Before the board meeting next month, can you pull together something on our visit patterns from the last two years? I want to understand what's really going on with our patients. Whatever you think is most useful. Thanks!</p>
+      </blockquote>
+      <p>It is friendly, it is urgent, and it contains no question. "Visit patterns" could mean who comes in, or how often, or for what, or when. Every reading leads to a different month of work, and the email supports all of them. Answering the wrong reading well is the most expensive mistake in data work, and it is the mistake an AI cannot catch for you. Settling on the right question happens here, before any file is opened — and it mostly happens by asking.</p>
+
+      <div class="taskgrid">
+        <button class="task-card" data-spoke="feel">
+          <span class="top"><span class="num">Warm-up</span><span class="pill pill-todo" data-chip>To do</span></span>
+          <h3>Get a feel for it</h3>
+          <p>Three questions with the director, then choose the brief her answers support.</p>
+          <span class="meta"><span>Activity + check</span><b>~10 min</b></span>
+        </button>
+        <button class="task-card" data-spoke="lesson">
+          <span class="top"><span class="num">Lesson</span><span class="pill pill-todo" data-chip>To do</span></span>
+          <h3>How to pin a request down</h3>
+          <p>The moves that turn a vague ask into a question with an answer.</p>
+          <span class="meta"><span>Lesson</span><b>~10 min</b></span>
+        </button>
+        <button class="task-card" data-spoke="real">
+          <span class="top"><span class="num">The job</span><span class="pill pill-todo" data-chip>To do</span></span>
+          <h3>Do it for real</h3>
+          <p>Turn the director's email into a one-page brief she could answer with "yes, that."</p>
+          <span class="meta"><span>Deliverable</span><b>~30 min</b></span>
+        </button>
+        <button class="task-card" data-spoke="debrief">
+          <span class="top"><span class="num">Debrief</span><span class="pill pill-todo" data-chip>To do</span></span>
+          <h3>How a practitioner did it</h3>
+          <p>Same email, their brief. Compare it against yours and find the move that matters.</p>
+          <span class="meta"><span>Video + compare</span><b>~15 min</b></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SPOKE: warm-up -->
+    <section class="spoke" id="spoke-feel">
+      <p class="crumb"><a data-home>Part 1 · Ask</a><span>/</span><span>Warm-up</span></p>
+      <h2>Get a feel for it</h2>
+      <p>You get the director for three questions before she disappears into meetings. Choose them well, then choose the brief her answers support.</p>
+      <div class="activity-embed">
+        <div class="activity-header"><a class="activity-title" href="../src/activities/three-questions.html" target="_blank" rel="noopener">Three questions</a></div>
+        <iframe class="activity" src="../src/activities/three-questions.html" title="Three questions" style="height:700px" loading="lazy"></iframe>
+      </div>
+      <div class="check">
+        <p class="check-label">Check yourself</p>
+        <p class="think-hint">Think it through before you open the answers.</p>
+        <details class="q"><summary>The question that unlocked the most was about the decision, what will change based on this work. Why does that one question do so much?</summary><div class="answer">
+          <p>Because a decision gives every later choice a test. Knowing the work feeds a care-coordination hire tells you repeat visitors matter, tells you which columns count, and tells you what to leave out. Without a decision, every cut of the data is equally defensible and none of it is aimed.</p>
+        </div></details>
+        <details class="q"><summary>The director answered the meaning question with a shrug. You tell me what the data can say. What did that answer actually give you?</summary><div class="answer">
+          <p>Permission, and a warning. Permission to propose the framing yourself, and a warning that nobody upstream has thought this through, so whatever you propose becomes the plan. When the framing is yours, writing it down and getting a yes on it before doing the work protects both of you.</p>
+        </div></details>
+      </div>
+      <div class="spoke-nav">
+        <button class="btn" data-home>← Back to Part 1</button>
+        <span class="spacer"></span>
+        <button class="btn primary" data-done="feel">Done — back to Part 1</button>
+      </div>
+    </section>
+
+    <!-- SPOKE: lesson -->
+    <section class="spoke" id="spoke-lesson">
+      <p class="crumb"><a data-home>Part 1 · Ask</a><span>/</span><span>Lesson</span></p>
+      <h2>How to pin a request down</h2>
+      <div class="slot" style="min-height:200px">
+        <div class="slothead"><span class="sloticon">▤</span><span class="slotlabel">Lesson</span></div>
+        <div class="slotbody">The teaching content for this part goes here — written lesson or video on how to do it.</div>
+      </div>
+      <div class="spoke-nav">
+        <button class="btn" data-home>← Back to Part 1</button>
+        <span class="spacer"></span>
+        <button class="btn primary" data-done="lesson">Done — back to Part 1</button>
+      </div>
+    </section>
+
+    <!-- SPOKE: the job -->
+    <section class="spoke" id="spoke-real">
+      <p class="crumb"><a data-home>Part 1 · Ask</a><span>/</span><span>The job</span></p>
+      <h2>Do it for real</h2>
+      <p><strong>The job.</strong> Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this." Getting that yes before opening any file is the whole move.</p>
+      <p>What the brief needs:</p>
+      <ul>
+        <li><strong>The question.</strong> The director's request, restated as something with an answer. "Which patients account for most of our visits, and how are we serving uninsured patients" has an answer. "Understand what's going on" does not.</li>
+        <li><strong>The audience and the decision.</strong> Who reads this, and what they will do with it.</li>
+        <li><strong>What the data can and cannot answer.</strong> These are visit records. Name two questions records like that can answer, and one thing the director might want that they cannot.</li>
+        <li><strong>What you still need to ask.</strong> Write the two questions you would ask the director next.</li>
+      </ul>
+      <div class="spoke-nav">
+        <button class="btn" data-home>← Back to Part 1</button>
+        <span class="spacer"></span>
+        <button class="btn primary" data-done="real">Done — back to Part 1</button>
+      </div>
+    </section>
+
+    <!-- SPOKE: debrief -->
+    <section class="spoke" id="spoke-debrief">
+      <p class="crumb"><a data-home>Part 1 · Ask</a><span>/</span><span>Debrief</span></p>
+      <h2>How a practitioner did it</h2>
+      <div class="slot" style="min-height:180px">
+        <div class="slothead"><span class="sloticon">▶</span><span class="slotlabel">Video</span></div>
+        <div class="slotbody">The practitioner. A vague request from real work, and how they pinned it down before touching anything.</div>
+      </div>
+      <p><strong>Compare their approach to yours.</strong> How did they take the request apart, and where does that differ from how you did? Look for the move they made that you didn't, and the move you made that they skipped.</p>
+      <p><strong>Compare their brief against yours.</strong> Same email, two briefs. Do they aim at the same question? Where the two disagree, decide which version the director is better served by, because that, and only that, is the test a brief answers to.</p>
+      <p>The framing decides the work. An AI will do whatever you ask with equal confidence, which is exactly why the framing is the part that stays yours.</p>
+      <div class="spoke-nav">
+        <button class="btn" data-home>← Back to Part 1</button>
+        <span class="spacer"></span>
+        <button class="btn primary" data-done="debrief">Done — back to Part 1</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+(function(){
+  document.getElementById("theme-toggle").addEventListener("click",function(){
+    var root=document.documentElement;
+    var dark=root.getAttribute("data-theme")==="dark"||(!root.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme: dark)").matches);
+    var next=dark?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{localStorage.setItem("aids-theme",next)}catch(e){}
+  });
+
+  var KEY="aids-c3-done";
+  var done={};
+  try{done=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+
+  var hub=document.getElementById("hub");
+  var spokes=[].slice.call(document.querySelectorAll(".spoke"));
+  var cards=[].slice.call(document.querySelectorAll(".task-card"));
+
+  function paint(){
+    var n=0;
+    cards.forEach(function(c){
+      var d=!!done[c.dataset.spoke];
+      if(d)n++;
+      c.classList.toggle("done",d);
+      var chip=c.querySelector("[data-chip]");
+      chip.textContent=d?"Done":"To do";
+      chip.className="pill "+(d?"pill-done":"pill-todo");
+    });
+    document.getElementById("progress-label").textContent=n+" of "+cards.length+" done";
+    document.getElementById("progress-fill").style.width=(n/cards.length*100)+"%";
+  }
+  function show(id){
+    hub.classList.toggle("current",!id);
+    spokes.forEach(function(s){s.classList.toggle("current",s.id==="spoke-"+id)});
+    window.scrollTo({top:0});
+    paint();
+  }
+  cards.forEach(function(c){c.addEventListener("click",function(){show(c.dataset.spoke)})});
+  [].forEach.call(document.querySelectorAll("[data-home]"),function(el){
+    el.addEventListener("click",function(){show(null)});
+  });
+  [].forEach.call(document.querySelectorAll("[data-done]"),function(el){
+    el.addEventListener("click",function(){
+      done[el.dataset.done]=true;
+      try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}
+      show(null);
+    });
+  });
+  window.addEventListener("message",function(e){
+    if(e.data&&e.data.type==="activity-height"){
+      [].forEach.call(document.querySelectorAll("iframe.activity"),function(f){
+        if(f.contentWindow===e.source)f.style.height=e.data.height+"px";
+      });
+    }
+  });
+  show(null);
+})();
+</script>
+</body>
+</html>
