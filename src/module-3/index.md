@@ -37,8 +37,6 @@ Because a different reasonable choice produces a different number. Count the eur
 
 The most dangerous errors in data work are not wrong values. They are the records that never made it into the file at all. No amount of checking the file will surface them. You have to learn to ask about them, and that is what this warm-up is for.
 
-Every decision you just followed becomes visible once you go looking for it. Here is a way a number goes wrong that stays invisible however carefully you check, because every value in the data is correct.
-
 World War II. Bombers return from missions over Europe full of holes, and the military maps every hit, hoping to armor the planes better. Armor is heavy, so you can't protect everything. A statistician named Abraham Wald was handed this data, and what he saw in it saved lives. Now you get handed the same data. You have armor for two zones. Study the hit map and choose.
 
 {% activity "armor-allocation.html", "Armor allocation", "440px" %}

@@ -9,7 +9,7 @@ title: Analyze
 TODO: The opening.
 {% endtodo %}
 
-{% section "Get a feel for it" %}
+{% section "Warm-up" %}
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is committing to what you expect before the answer appears, so the gap between the guess and the result is where the student's attention lands.", "200px" %}
 

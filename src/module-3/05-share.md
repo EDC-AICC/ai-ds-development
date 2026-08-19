@@ -9,7 +9,7 @@ title: Share
 TODO: The opening.
 {% endtodo %}
 
-{% section "Get a feel for it" %}
+{% section "Warm-up" %}
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is red-penning an AI draft whose numbers are all correct, so the student learns to catch the sentence rather than the arithmetic.", "200px" %}
 

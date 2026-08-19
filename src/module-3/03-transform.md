@@ -9,7 +9,7 @@ title: Transform
 TODO: The opening.
 {% endtodo %}
 
-{% section "Get a feel for it" %}
+{% section "Warm-up" %}
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is cleaning one column start to finish, so a fix that quietly drops rows is something the student feels before the notebook asks for one.", "200px" %}
 

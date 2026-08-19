@@ -15,7 +15,7 @@ It is friendly, it is urgent, and it contains no question. "Visit patterns" coul
 
 Answering the wrong reading well is the most expensive mistake in data work, because everything downstream inherits it, and it is the mistake an AI cannot catch for you. The AI answers whatever question you settle on. Settling on the right one happens here, before any file is opened, and it mostly happens by asking.
 
-{% section "Get a feel for it" %}
+{% section "Warm-up" %}
 
 You get the director for three questions before she disappears into meetings. Choose them well, then choose the brief her answers support.
 

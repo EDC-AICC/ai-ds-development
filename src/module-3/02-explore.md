@@ -11,7 +11,7 @@ The file has 812 rows, so the ten-second answer is 812. It is wrong in several w
 
 Finding that out is part of your job. You count what is in every column and write down every problem you find. Fixing those issues happens in the next module, and it goes faster once you know what needs fixing.
 
-{% section "Get a feel for it" %}
+{% section "Warm-up" %}
 
 This is the real clinic file, all 812 rows of it, hooked up to the five checks every data analyst runs on a new dataset. There are some defects hiding in the data. Find them all, and pay attention to which check catches each one. In the notebook below you will be asking an AI to write similar checks.
 
