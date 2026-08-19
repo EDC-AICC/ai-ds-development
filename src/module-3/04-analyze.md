@@ -67,7 +67,7 @@ The most important habit in this step is checking every number in any AI-generat
 
 #### Best Practices
 
-{% todo %}Not yet written in the source document.{% endtodo %}
+{% todo %}{% endtodo %}
 
 #### Learn More
 

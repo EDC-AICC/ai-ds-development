@@ -108,7 +108,7 @@ A key verification principle: AI only sees what you paste into the chat. It has 
 
 #### Best Practices
 
-{% todo %}Not yet written in the source document.{% endtodo %}
+{% todo %}{% endtodo %}
 
 #### Learn More
 

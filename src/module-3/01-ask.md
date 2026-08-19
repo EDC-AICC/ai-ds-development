@@ -81,7 +81,7 @@ The third filter is **data quality**: are the columns the question depends on co
 
 #### Best Practices
 
-{% todo %}Not yet written in the source document.{% endtodo %}
+{% todo %}{% endtodo %}
 
 #### Learn More
 

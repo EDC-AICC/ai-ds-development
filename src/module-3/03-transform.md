@@ -65,7 +65,7 @@ One of the most common errors in AI-generated cleaning code is a missing variant
 
 #### Best Practices
 
-{% todo %}Not yet written in the source document.{% endtodo %}
+{% todo %}{% endtodo %}
 
 #### Learn More
 

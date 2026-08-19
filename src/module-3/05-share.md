@@ -69,7 +69,7 @@ For visualisations, evaluate the output as if you are the clinic director seeing
 
 #### Best Practices
 
-{% todo %}Not yet written in the source document.{% endtodo %}
+{% todo %}{% endtodo %}
 
 #### Learn More
 
