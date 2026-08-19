@@ -94,4 +94,8 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 The two comparisons the student makes against the recording, chosen for this part.
 {% endtodo %}
 
+{% section "Feedback" %}
+
+This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+
 {% feedback "3", "4" %}

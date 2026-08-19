@@ -135,4 +135,8 @@ Opens in Colab and loads the clinic file for you. Everything after that first ce
 
 **Compare their quality report against yours.** What did they flag that you missed, and what did you flag that they passed over without a note?
 
+{% section "Feedback" %}
+
+This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+
 {% feedback "3", "2" %}

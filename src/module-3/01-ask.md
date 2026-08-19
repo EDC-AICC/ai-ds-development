@@ -114,4 +114,8 @@ What the brief needs:
 
 The framing decides the work. An AI will do whatever you ask with equal confidence, which is exactly why the framing is the part that stays yours.
 
+{% section "Feedback" %}
+
+This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+
 {% feedback "3", "1" %}

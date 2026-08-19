@@ -11,7 +11,11 @@ Each part in this module starts with a short activity, moves into the real work,
 
 Before jumping into the real work, we'll cover the overall data lifecycle, concerns and bias in data, and verifying AI answers, so you have them in mind when working through the rest of the module.
 
+{% slot "video", "Module overview. What this module covers, how the six parts fit together, and how you'll be working with AI throughout.", "180px" %}
+
 {% section "Follow the Record" %}
+
+Every dataset you will ever be handed was shaped by systems and decisions you didn't see, and knowing that changes how much you trust a number. This first warm-up shows you that hidden journey once, end to end, so you recognize it in every file you open afterward.
 
 Somewhere in Berlin, a customer taps *Buy*. Weeks later, a manager looks at a revenue chart and makes a decision. Between those two moments, that one tap traveled through half a dozen systems. Along the way it got reshaped by choices someone coded months ago. Follow it, one stop at a time.
 
@@ -33,6 +37,8 @@ Because a different reasonable choice produces a different number. Count the eur
 
 {% section "The planes that didn't come back" %}
 
+The most dangerous errors in data work come not from wrong values but from missing ones — the records that never made it into the file at all. No amount of careful checking will surface them unless you have learned to ask about them, which is what this warm-up is for.
+
 Every decision you just followed becomes visible once you go looking for it. Here is a way a number goes wrong that stays invisible however carefully you check, because every value in the data is correct.
 
 World War II. Bombers return from missions over Europe full of holes, and the military maps every hit, hoping to armor the planes better. Armor is heavy, so you can't protect everything. A statistician named Abraham Wald was handed this data, and what he saw in it saved lives. Now you get handed the same data. You have armor for two zones. Study the hit map and choose.
@@ -52,6 +58,8 @@ The survey only reaches customers who are still around to answer it. The angries
 {% endcheck %}
 
 {% section "Almost right" %}
+
+For the rest of this module an AI will be writing your code and drafting your answers, which means the skill you will use more than any other is deciding whether what it gave you is true. This last warm-up has you practice that skill in miniature before anything depends on it.
 
 Many are now doing data work with AI assistance. In survey after survey, the same professionals who use AI daily name the same frustration above all the others. Answers that are *almost* right. Not wrong in ways that jump out. Wrong in ways that read smoothly, sound confident, and cause problems when they slip though.
 
@@ -73,52 +81,16 @@ Because the true part buys trust for the false part. You verify the $70, feel do
 
 {% section "The six parts" %}
 
-The parts follow one dataset through the whole arc of a real piece of data work. Do them in order; each one hands its result to the next.
+The rest of this module is one continuous piece of work. A clinic director asks a vague question about visit data, and you carry that request all the way to an answer she can act on — with an AI writing the code from your prompts at every step. The six parts follow the arc of that job. Do them in order; each one hands its result to the next.
 
-<div class="cards">
+You start with **Ask**, where somebody asks you a question and the work is figuring out what they actually need and what would count as an answer, before anything gets typed. In **Explore** you find out what you have been handed before you change any of it — shape, types, ranges, what is missing, what the categories contain. **Transform** is where you fix what you found and build the columns your question needs; both look like chores and are really a run of decisions. In **Analyze** you answer the question, then work out who is missing from the answer before anyone acts on it. **Share** is four sentences for someone who will only ever read the summary, where every number can be correct and the meaning still wrong.
 
-<a class="lcard" href="{{ '/module-3/01-ask/' | url }}">
-  <p class="num">Part 1</p>
-  <h3>Ask</h3>
-  <p>Somebody asks you a question. Working out what they actually need, and what would count as an answer, comes before anything you can type.</p>
-  <div class="meta"><span><b>TBD min</b></span></div>
-</a>
+Finally, in **Apply**, the guardrails come off: a dataset that is new to you, a real question, and your own judgment about how to approach it.
 
-<a class="lcard" href="{{ '/module-3/02-explore/' | url }}">
-  <p class="num">Part 2</p>
-  <h3>Explore</h3>
-  <p>Find out what you have been handed before you change any of it. Shape, types, ranges, what is missing, what the categories contain.</p>
-  <div class="meta"><span><b>TBD min</b></span></div>
-</a>
+When you're ready, continue to Part 1.
 
-<a class="lcard" href="{{ '/module-3/03-transform/' | url }}">
-  <p class="num">Part 3</p>
-  <h3>Transform</h3>
-  <p>Fix what you found, and build the columns your question needs. Both look like chores and are really a run of decisions.</p>
-  <div class="meta"><span><b>TBD min</b></span></div>
-</a>
+{% section "Feedback" %}
 
-<a class="lcard" href="{{ '/module-3/04-analyze/' | url }}">
-  <p class="num">Part 4</p>
-  <h3>Analyze</h3>
-  <p>Answer the question, then work out who is missing from the answer before anyone acts on it.</p>
-  <div class="meta"><span><b>TBD min</b></span></div>
-</a>
-
-<a class="lcard" href="{{ '/module-3/05-share/' | url }}">
-  <p class="num">Part 5</p>
-  <h3>Share</h3>
-  <p>Four sentences for someone who will only ever read the summary. Every number correct and the meaning still wrong is the failure mode.</p>
-  <div class="meta"><span><b>TBD min</b></span></div>
-</a>
-
-<a class="lcard" href="{{ '/module-3/06-build/' | url }}">
-  <p class="num">On your own</p>
-  <h3>Apply</h3>
-  <p>A dataset that is new to you, a real question, and your own judgment about how to approach it.</p>
-  <div class="meta"><span><b>TBD min</b></span></div>
-</a>
-
-</div>
+This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
 
 {% feedback "3", "overview" %}

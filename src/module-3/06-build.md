@@ -29,4 +29,8 @@ What the student hands in, one deliverable per Part.
 
 {% slot "notebook", "A worked version, released after hand-in. One defensible way through, with the reasoning visible.", "150px" %}
 
+{% section "Feedback" %}
+
+This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+
 {% feedback "3", "6" %}
