@@ -92,9 +92,15 @@ The third filter is **data quality**: are the columns the question depends on co
 <li><a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener"><strong>Google Data Analytics Certificate (free audit)</strong></a><br><span class="lm-desc">Strong foundation for data science beginners</span></li>
 </ul>
 
-{% section "Do it for real" %}
+{% section "Apply it" %}
 
 The job. Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this." Getting that yes before opening any file is the whole move.
+
+Her email again:
+
+> **From:** Clinic Director<br>**Subject:** visit data
+>
+> Before the board meeting next month, can you pull together something on our visit patterns from the last two years? I want to understand what's really going on with our patients. Whatever you think is most useful. Thanks!
 
 What the brief needs:
 
@@ -103,7 +109,7 @@ What the brief needs:
 - **What the data can and cannot answer.** These are visit records. Name two questions records like that can answer, and one thing the director might want that they cannot.
 - **What you still need to ask.** Working through the brief probably surfaced more questions. Write the two you would ask the director next.
 
-{% section "How a practitioner did it" %}
+{% section "Practitioner demo" %}
 
 {% slot "video", "The practitioner. A vague request from real work, and how they pinned it down before touching anything.", "180px" %}
 

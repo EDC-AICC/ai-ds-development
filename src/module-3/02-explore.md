@@ -119,7 +119,7 @@ A key verification principle: AI only sees what you paste into the chat. It has 
 <li><a href="https://www.kaggle.com/learn/data-cleaning" target="_blank" rel="noopener"><strong>Kaggle: Intro to Data Cleaning (free course)</strong></a><br><span class="lm-desc">Hands-on practice with real datasets</span></li>
 </ul>
 
-{% section "Do it for real" %}
+{% section "Apply it" %}
 
 The job. Find out what is in this file and write down every problem, in a notebook, with an AI writing the code from your prompts. Change nothing yet. The fixing is Part 3.
 
@@ -127,7 +127,7 @@ The job. Find out what is in this file and write down every problem, in a notebo
 Opens in Colab and loads the clinic file for you. Everything after that first cell is open space, waiting on the lesson format above.
 {% endnotebook %}
 
-{% section "How a practitioner did it" %}
+{% section "Practitioner demo" %}
 
 {% slot "video", "The practitioner. Their first-look routine on an unfamiliar file, and what they check before anything else.", "180px" %}
 

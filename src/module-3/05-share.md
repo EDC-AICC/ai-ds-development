@@ -81,7 +81,7 @@ For visualisations, evaluate the output as if you are the clinic director seeing
 <li><a href="https://seaborn.pydata.org/tutorial.html" target="_blank" rel="noopener"><strong>Seaborn Visualization Library Tutorial</strong></a><br><span class="lm-desc">Understand and customise AI-generated chart code</span></li>
 </ul>
 
-{% section "Do it for real" %}
+{% section "Apply it" %}
 
 {% todo "To write" %}
 The job statement for this part, the way Parts 1 and 2 state theirs.
@@ -89,7 +89,7 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 
 {% slot "notebook", "The notebook for this part, opening in Colab the way Part 2's does. It loads the cleaned clinic file, so your numbers come from the same place your findings did.", "180px" %}
 
-{% section "How a practitioner did it" %}
+{% section "Practitioner demo" %}
 
 {% slot "video", "The practitioner. When is AI worth skipping? Their rubric with examples.", "180px" %}
 

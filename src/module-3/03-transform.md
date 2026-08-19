@@ -76,7 +76,7 @@ One of the most common errors in AI-generated cleaning code is a missing variant
 <li><a href="https://openrefine.org/" target="_blank" rel="noopener"><strong>OpenRefine (free visual cleaning tool)</strong></a><br><span class="lm-desc">Useful for verifying category standardisation visually</span></li>
 </ul>
 
-{% section "Do it for real" %}
+{% section "Apply it" %}
 
 {% todo "To write" %}
 The job statement for this part, the way Parts 1 and 2 state theirs.
@@ -84,7 +84,7 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 
 {% slot "notebook", "The notebook for this part, opening in Colab the way Part 2's does. It starts from the raw file, so this part works whatever happened in your Part 2 notebook.", "180px" %}
 
-{% section "How a practitioner did it" %}
+{% section "Practitioner demo" %}
 
 {% slot "video", "The practitioner. A messy column and a derived column from real work. What they did, and who they had to ask.", "180px" %}
 
