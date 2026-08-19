@@ -94,9 +94,7 @@ The third filter is **data quality**: are the columns the question depends on co
 
 {% section "Apply it" %}
 
-The job. Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this." Getting that yes before opening any file is the whole move.
-
-Her email again:
+The job. Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this."
 
 > **From:** Clinic Director<br>**Subject:** visit data
 >
