@@ -33,11 +33,9 @@ Permission, and a warning. Permission to propose the framing yourself, which is 
 
 {% endcheck %}
 
-{% section "Lesson" %}
+{% section "The Concept" %}
 
 ### Ask: Framing the Right Question
-
-#### The Concept
 
 Every data science project begins not with data but with a question. Before opening any dataset or writing any code, a data scientist needs to understand what problem they are trying to solve, who needs the answer, and whether the data available can actually provide it. This process is called problem framing, and it shapes everything that follows.
 
@@ -47,7 +45,7 @@ Problem framing also means understanding the limits of your data before committi
 
 {% concept %}Problem framing turns a business concern into a specific, data-answerable question. A good question names the population, the measure, and the comparison, and it can be answered with the columns actually available in the dataset.{% endconcept %}
 
-#### How AI Can Help
+{% section "How AI Can Help" %}
 
 AI is a powerful thinking partner in the Ask step. When you describe your dataset and the business situation to an AI tool, it can rapidly suggest multiple exploration angles, raise questions you might not have considered, and help you think through which questions are most likely to be useful to the person who will act on your findings.
 
@@ -57,7 +55,7 @@ AI can also perform a quick feasibility check. If you describe your columns and 
 
 {% aihelps %}AI helps you brainstorm candidate questions, discover angles you might have missed, and quickly check whether a question is answerable with your available columns. It expands the option space so you can choose the most useful direction.{% endaihelps %}
 
-#### How to Use AI
+{% section "How to Use AI" %}
 
 The key to using AI well in the Ask step is giving it enough context. AI cannot read your data file or know your organisation. You have to describe the dataset, the business situation, and the intended audience explicitly. The more context you provide, the more relevant the suggestions.
 
@@ -67,7 +65,7 @@ A strong Ask-step prompt gives AI three things: what the dataset contains (colum
 
 Notice the prompt does not just say "give me questions." It describes the data in plain language, states the business goal, names the audience, and asks AI to justify each suggestion by naming the columns it would use. That last requirement forces a useful check: if AI suggests a question that requires a column not in your dataset, it will be unable to name the column, which is a signal to discard that question.
 
-#### Evaluating AI Output
+{% section "Evaluating AI Output" %}
 
 After AI suggests questions, you should not simply use whatever it produces. Every suggestion needs to pass three filters before you adopt it.
 
@@ -78,6 +76,8 @@ The second filter is **usefulness**: will the answer help the clinic director ma
 The third filter is **data quality**: are the columns the question depends on complete and reliable enough to trust? In a dataset where 30 percent of county values are missing, a question about visit patterns by county will produce findings based on incomplete information. That does not mean the question is worthless, but it means the answer must come with a clear caveat about what is missing.
 
 {% aieval %}Filter every AI-suggested question through three tests: Is it answerable with the available columns? Is the answer useful for a real decision? Are the required columns complete and reliable enough to trust the result? AI will not apply these filters itself. That judgment is yours.{% endaieval %}
+
+{% section "Resources" %}
 
 #### Best Practices
 

@@ -13,11 +13,9 @@ TODO: The opening.
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is cleaning one column start to finish, so a fix that quietly drops rows is something the student feels before the notebook asks for one.", "200px" %}
 
-{% section "Lesson" %}
+{% section "The Concept" %}
 
 ### Transform: Cleaning and Shaping Your Data
-
-#### The Concept
 
 Raw data is almost never ready to analyse. It contains the problems found during exploration: duplicate records, inconsistent category labels, invalid values, improperly formatted dates, and missing data. The Transform step is where you address every one of those problems and produce a clean, reliable dataset that analysis can be trusted to run on.
 
@@ -27,7 +25,7 @@ After cleaning, a data scientist often creates new columns derived from the ones
 
 {% concept %}Cleaning produces a trustworthy dataset by removing duplicates, standardising categories, fixing invalid values, and parsing dates. Feature engineering creates new analytical variables derived from existing columns, expanding what questions can be answered.{% endconcept %}
 
-#### How AI Can Help
+{% section "How AI Can Help" %}
 
 Cleaning is one of the most repetitive parts of data science work. Writing mapping dictionaries for category standardisation, date parsing logic, conditional replacement rules, and duplicate removal code is conceptually straightforward but slow to produce from scratch. AI can generate a complete, structured cleaning script from a detailed description of the problems found during exploration.
 
@@ -37,7 +35,7 @@ AI is equally useful for feature engineering. Creating a column that classifies 
 
 {% aihelps %}AI can generate complete cleaning and feature engineering scripts from a detailed description of the problems to fix and the variables to create. This shifts your effort from writing code to verifying that the code did exactly what was intended.{% endaihelps %}
 
-#### How to Use AI
+{% section "How to Use AI" %}
 
 A cleaning prompt must be exhaustive. Every problem identified during exploration needs to appear in the prompt, with specific rules for how to resolve it. Vague instructions like "clean the gender column" produce incomplete code. Specific instructions like "map f, F, female, Female, FEMALE to Female; m, M, male, Male, MALE to Male; Non-binary, NB, other, Other to Other; leave anything else as missing" produce usable code.
 
@@ -47,7 +45,7 @@ A strong cleaning prompt for a clinical visit dataset lists every standardisatio
 
 The same specificity applies to feature engineering prompts. When asking AI to create a high utilizer flag, you must state the threshold (four or more visits per patient), how the flag should be encoded (True or False, or 1 and 0), and which column contains the patient identifier. When asking for a days-since-last-visit column, you must specify that records should be sorted by patient and date before the calculation, and that a patient's first visit should receive a missing value rather than a number.
 
-#### Evaluating AI Output
+{% section "Evaluating AI Output" %}
 
 Cleaning code must be verified against the actual data, not just reviewed visually. Code that looks correct can still fail to do what you intended. The only reliable check is running the code and examining the results.
 
@@ -62,6 +60,8 @@ For derived columns, verify at least one value manually. Choose a patient who ap
 One of the most common errors in AI-generated cleaning code is a missing variant in a mapping dictionary. If one spelling of a category is absent from the mapping, every record with that spelling will silently become a missing value instead of the intended standard value. This error does not produce an error message. It just removes data. The only way to catch it is to verify the unique value counts before and after.
 
 {% aieval %}Verify cleaning by: (1) checking unique values in every standardised column against the expected set, (2) confirming row count decreased by the expected number of duplicates, (3) confirming no invalid values remain by filtering for them, (4) spot-checking at least one derived column value manually. Code that looks right can still produce wrong results.{% endaieval %}
+
+{% section "Resources" %}
 
 #### Best Practices
 

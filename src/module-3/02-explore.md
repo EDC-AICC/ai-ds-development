@@ -54,11 +54,9 @@ you to work with me.
 - Comment every line with what it does, so I can follow the code without
   already knowing pandas.</pre>
 
-{% section "Lesson" %}
+{% section "The Concept" %}
 
 ### Explore: Getting to Know Your Data
-
-#### The Concept
 
 Before a data scientist can clean or analyse data, they need to understand what is actually in it. This process is called exploratory data analysis, or EDA. It is systematic rather than casual. You are not browsing the data hoping to notice something interesting. You are working through a structured checklist to answer four questions about every column: Is the data complete? Are the values consistent? Are the values valid? Does the structure make sense for the analysis you plan to do?
 
@@ -70,7 +68,7 @@ Validity means checking whether values fall within a reasonable range for what t
 
 {% concept %}Exploratory data analysis is the systematic examination of a dataset's completeness, consistency, and validity before any cleaning or analysis begins. Problems found in this step, if ignored, produce wrong conclusions in every step that follows.{% endconcept %}
 
-#### How AI Can Help
+{% section "How AI Can Help" %}
 
 Writing data exploration code is repetitive and time-consuming. For each column you want to check, you need to write code to count missing values, list unique values, find out-of-range entries, and detect duplicates. AI can generate that entire exploration script from a clear description of what you want checked, reducing what would take thirty minutes of writing to two or three minutes of prompting.
 
@@ -80,7 +78,7 @@ AI can also help you decide which findings are worth acting on. If your explorat
 
 {% aihelps %}AI can write your complete exploration script from a structured prompt, saving significant time. It can also help interpret findings and suggest explanations for patterns in the data. The actual results still depend on you running the code against the real dataset.{% endaihelps %}
 
-#### How to Use AI
+{% section "How to Use AI" %}
 
 The most effective way to use AI in the Explore step is to write a numbered, multi-task prompt that lists every check you want performed. A numbered prompt produces a structured output that is easy to verify systematically. A vague prompt produces partial output that requires significant editing.
 
@@ -92,7 +90,7 @@ This prompt is specific about the column names, the criteria for invalid values,
 
 Once you have results, a second prompt can help you interpret them. Paste the output into an AI chat and ask what the patterns suggest. For example, if the missing value check shows that county is missing far more often for one insurance type than for others, AI can help you think through what might explain that pattern and whether it affects your planned analysis.
 
-#### Evaluating AI Output
+{% section "Evaluating AI Output" %}
 
 AI-generated exploration code should be verified, not accepted without checking. Three failure modes are common and worth knowing.
 
@@ -105,6 +103,8 @@ The third is missing checks. Count the numbered tasks in your prompt and count t
 A key verification principle: AI only sees what you paste into the chat. It has not read your actual data file. Its output is based entirely on your description. That means any result AI produces is only as reliable as the description you gave it, and the only way to confirm those results are correct is to run the code yourself and check the numbers.
 
 {% aieval %}Verify exploration output by: (1) confirming unique-value counts match a manual check, (2) checking that all column names in the code match your actual dataset, (3) confirming every requested check appears in the output. AI cannot see your data directly — always run the code yourself.{% endaieval %}
+
+{% section "Resources" %}
 
 #### Best Practices
 

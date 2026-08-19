@@ -13,11 +13,9 @@ TODO: The opening.
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is committing to what you expect before the answer appears, so the gap between the guess and the result is where the student's attention lands.", "200px" %}
 
-{% section "Lesson" %}
+{% section "The Concept" %}
 
 ### Analyse: Finding Patterns in Clean Data
-
-#### The Concept
 
 Analysis is the step where clean data produces answers. Using grouping, counting, averaging, and comparing, a data scientist converts rows and columns into findings that can inform decisions. The goal is not to generate every possible statistic. It is to answer the specific questions framed in the Ask step using the clean data prepared in the Transform step.
 
@@ -27,7 +25,7 @@ Good analysis also generates new questions. When a frequency analysis shows that
 
 {% concept %}Analysis converts clean data into findings by grouping, counting, averaging, and comparing. Good analysis answers specific questions, but it also generates new ones. The goal is findings the recipient can act on, not the maximum number of statistics possible.{% endconcept %}
 
-#### How AI Can Help
+{% section "How AI Can Help" %}
 
 AI changes the economics of analysis significantly. Writing groupby operations, crosstabs, conditional filters, and sorting logic by hand takes time. With AI, the code for a specific analysis takes minutes once you describe what you want. That shift in time allocation, less time writing code and more time thinking about results, is one of the most concrete benefits of using AI as a data science tool.
 
@@ -37,7 +35,7 @@ AI is also useful after analysis is complete. Once you have results, you can pas
 
 {% aihelps %}AI helps by suggesting analysis directions when the path is unclear, writing analysis code on demand from a specific description, and helping interpret results once they are available. This allows a data scientist to spend more time on the thinking and less on the typing.{% endaihelps %}
 
-#### How to Use AI
+{% section "How to Use AI" %}
 
 There are two productive approaches to using AI for analysis. The first is to ask AI to suggest what is worth investigating. This works well when the direction is not yet clear. A good prompt for this approach describes the dataset, the business goal, and asks AI to suggest questions along with the columns each would require:
 
@@ -53,7 +51,7 @@ For written summaries of analysis results, give AI your verified numbers explici
 
 {% aiprompt %}Here are my verified findings from the clinic visit analysis: [paste your actual numbers here]. Write a 4-sentence summary for a non-technical clinic director. Use only the numbers I have provided. Do not add any statistics I have not given you. End with one sentence noting a data limitation the director should be aware of.{% endaiprompt %}
 
-#### Evaluating AI Output
+{% section "Evaluating AI Output" %}
 
 Analysis output from AI-generated code requires two levels of verification. The first is technical: did the code run correctly and produce what you intended? The second is interpretive: does AI describe the results accurately, and does it stay within what the data actually shows?
 
@@ -64,6 +62,8 @@ For interpretive verification, be especially careful when AI generates written s
 The most important habit in this step is checking every number in any AI-generated narrative against your verified analysis output. If AI includes a number you did not provide, it must be removed, not adjusted. A professional deliverable can only contain numbers that came from your actual analysis.
 
 {% aieval %}Verify analysis output by: (1) confirming grouping, measure, and sort direction are correct, (2) checking every number in any AI-generated summary against your actual results — remove any number AI added that was not in your verified output, (3) removing any causal or clinical interpretation AI added that the data does not support. These checks are non-negotiable.{% endaieval %}
+
+{% section "Resources" %}
 
 #### Best Practices
 
