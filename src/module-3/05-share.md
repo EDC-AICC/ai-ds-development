@@ -74,11 +74,11 @@ For visualisations, evaluate the output as if you are the clinic director seeing
 #### Learn More
 
 <ul class="learnmore">
-<li><strong>Storytelling with Data (book and blog)</strong><br><span class="lm-desc">Standard reference for communicating data to non-technical audiences</span></li>
-<li><strong>YouTube: Data Visualization Best Practices (Harvard University)</strong><br><span class="lm-desc">Practical and immediately applicable principles</span></li>
-<li><strong>Google: Responsible AI Practices</strong><br><span class="lm-desc">Framework for evaluating AI outputs before sharing</span></li>
-<li><strong>Data Journalism Handbook (free online)</strong><br><span class="lm-desc">How journalists communicate data findings to general audiences</span></li>
-<li><strong>Seaborn Visualization Library Tutorial</strong><br><span class="lm-desc">Understand and customise AI-generated chart code</span></li>
+<li><a href="https://www.storytellingwithdata.com/" target="_blank" rel="noopener"><strong>Storytelling with Data (book and blog)</strong></a><br><span class="lm-desc">Standard reference for communicating data to non-technical audiences</span></li>
+<li><a href="https://www.youtube.com/watch?v=5Zg-C8AAIGg" target="_blank" rel="noopener"><strong>YouTube: Data Visualization Best Practices (Harvard University)</strong></a><br><span class="lm-desc">Practical and immediately applicable principles</span></li>
+<li><a href="https://ai.google/responsibility/responsible-ai-practices/" target="_blank" rel="noopener"><strong>Google: Responsible AI Practices</strong></a><br><span class="lm-desc">Framework for evaluating AI outputs before sharing</span></li>
+<li><a href="https://datajournalism.com/read/handbook/two" target="_blank" rel="noopener"><strong>Data Journalism Handbook (free online)</strong></a><br><span class="lm-desc">How journalists communicate data findings to general audiences</span></li>
+<li><a href="https://seaborn.pydata.org/tutorial.html" target="_blank" rel="noopener"><strong>Seaborn Visualization Library Tutorial</strong></a><br><span class="lm-desc">Understand and customise AI-generated chart code</span></li>
 </ul>
 
 {% section "Do it for real" %}

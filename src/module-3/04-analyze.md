@@ -72,10 +72,10 @@ The most important habit in this step is checking every number in any AI-generat
 #### Learn More
 
 <ul class="learnmore">
-<li><strong>DataCamp: Introduction to ChatGPT for Data Science (free intro)</strong><br><span class="lm-desc">AI workflows for data analysis specifically</span></li>
-<li><strong>Towards Data Science: Prompt Engineering for Data Scientists</strong><br><span class="lm-desc">Guide to writing better analysis prompts</span></li>
-<li><strong>StatQuest on YouTube: Statistics Fundamentals</strong><br><span class="lm-desc">Build intuition for what analysis results actually mean</span></li>
-<li><strong>Kaggle: Pandas Course (free, browser-based)</strong><br><span class="lm-desc">Understand what AI-generated analysis code is doing</span></li>
+<li><a href="https://www.datacamp.com/courses/introduction-to-chatgpt" target="_blank" rel="noopener"><strong>DataCamp: Introduction to ChatGPT for Data Science (free intro)</strong></a><br><span class="lm-desc">AI workflows for data analysis specifically</span></li>
+<li><a href="https://towardsdatascience.com/prompt-engineering-for-data-scientists-a-practical-guide-73d3c67a06e4" target="_blank" rel="noopener"><strong>Towards Data Science: Prompt Engineering for Data Scientists</strong></a><br><span class="lm-desc">Guide to writing better analysis prompts</span></li>
+<li><a href="https://www.youtube.com/@statquest" target="_blank" rel="noopener"><strong>StatQuest on YouTube: Statistics Fundamentals</strong></a><br><span class="lm-desc">Build intuition for what analysis results actually mean</span></li>
+<li><a href="https://www.kaggle.com/learn/pandas" target="_blank" rel="noopener"><strong>Kaggle: Pandas Course (free, browser-based)</strong></a><br><span class="lm-desc">Understand what AI-generated analysis code is doing</span></li>
 </ul>
 
 {% section "Do it for real" %}

@@ -86,10 +86,10 @@ The third filter is **data quality**: are the columns the question depends on co
 #### Learn More
 
 <ul class="learnmore">
-<li><strong>Anthropic: Prompt Engineering Overview</strong><br><span class="lm-desc">How to write better AI prompts</span></li>
-<li><strong>OpenAI: Prompt Engineering Guide</strong><br><span class="lm-desc">Practical tips with examples</span></li>
-<li><strong>YouTube: Framing Research Questions (Scribbr)</strong><br><span class="lm-desc">4-minute intro to sharpening a question</span></li>
-<li><strong>Google Data Analytics Certificate (free audit)</strong><br><span class="lm-desc">Strong foundation for data science beginners</span></li>
+<li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener"><strong>Anthropic: Prompt Engineering Overview</strong></a><br><span class="lm-desc">How to write better AI prompts</span></li>
+<li><a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener"><strong>OpenAI: Prompt Engineering Guide</strong></a><br><span class="lm-desc">Practical tips with examples</span></li>
+<li><a href="https://www.youtube.com/watch?v=71-GucBaM9U" target="_blank" rel="noopener"><strong>YouTube: Framing Research Questions (Scribbr)</strong></a><br><span class="lm-desc">4-minute intro to sharpening a question</span></li>
+<li><a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener"><strong>Google Data Analytics Certificate (free audit)</strong></a><br><span class="lm-desc">Strong foundation for data science beginners</span></li>
 </ul>
 
 {% section "Do it for real" %}

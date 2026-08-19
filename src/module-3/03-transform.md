@@ -70,10 +70,10 @@ One of the most common errors in AI-generated cleaning code is a missing variant
 #### Learn More
 
 <ul class="learnmore">
-<li><strong>YouTube: Data Cleaning with AI (Thu Vu Data Analytics)</strong><br><span class="lm-desc">How to prompt AI for pandas cleaning tasks</span></li>
-<li><strong>Towards Data Science: The Ultimate Guide to Data Cleaning</strong><br><span class="lm-desc">Conceptual foundation for understanding cleaning tasks</span></li>
-<li><strong>OpenAI Cookbook: AI for Data Tasks</strong><br><span class="lm-desc">Practical examples of AI-assisted data workflows</span></li>
-<li><strong>OpenRefine (free visual cleaning tool)</strong><br><span class="lm-desc">Useful for verifying category standardisation visually</span></li>
+<li><a href="https://www.youtube.com/watch?v=1VGmNECFNxc" target="_blank" rel="noopener"><strong>YouTube: Data Cleaning with AI (Thu Vu Data Analytics)</strong></a><br><span class="lm-desc">How to prompt AI for pandas cleaning tasks</span></li>
+<li><a href="https://towardsdatascience.com/the-ultimate-guide-to-data-cleaning-3969843991d4" target="_blank" rel="noopener"><strong>Towards Data Science: The Ultimate Guide to Data Cleaning</strong></a><br><span class="lm-desc">Conceptual foundation for understanding cleaning tasks</span></li>
+<li><a href="https://cookbook.openai.com/" target="_blank" rel="noopener"><strong>OpenAI Cookbook: AI for Data Tasks</strong></a><br><span class="lm-desc">Practical examples of AI-assisted data workflows</span></li>
+<li><a href="https://openrefine.org/" target="_blank" rel="noopener"><strong>OpenRefine (free visual cleaning tool)</strong></a><br><span class="lm-desc">Useful for verifying category standardisation visually</span></li>
 </ul>
 
 {% section "Do it for real" %}

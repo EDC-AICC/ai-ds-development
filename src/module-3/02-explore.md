@@ -113,10 +113,10 @@ A key verification principle: AI only sees what you paste into the chat. It has 
 #### Learn More
 
 <ul class="learnmore">
-<li><strong>YouTube: Using ChatGPT for Data Exploration (Thu Vu Data Analytics)</strong><br><span class="lm-desc">Walkthrough of AI-assisted EDA</span></li>
-<li><strong>Towards Data Science: Exploratory Data Analysis</strong><br><span class="lm-desc">Core EDA concepts and techniques</span></li>
-<li><strong>PandasAI: Chat with your DataFrame</strong><br><span class="lm-desc">Tool for asking plain-language questions about a dataset</span></li>
-<li><strong>Kaggle: Intro to Data Cleaning (free course)</strong><br><span class="lm-desc">Hands-on practice with real datasets</span></li>
+<li><a href="https://www.youtube.com/watch?v=C75TROiiEa0" target="_blank" rel="noopener"><strong>YouTube: Using ChatGPT for Data Exploration (Thu Vu Data Analytics)</strong></a><br><span class="lm-desc">Walkthrough of AI-assisted EDA</span></li>
+<li><a href="https://towardsdatascience.com/exploratory-data-analysis-8fc1cb20fd15" target="_blank" rel="noopener"><strong>Towards Data Science: Exploratory Data Analysis</strong></a><br><span class="lm-desc">Core EDA concepts and techniques</span></li>
+<li><a href="https://github.com/Sinaptik-AI/pandas-ai" target="_blank" rel="noopener"><strong>PandasAI: Chat with your DataFrame</strong></a><br><span class="lm-desc">Tool for asking plain-language questions about a dataset</span></li>
+<li><a href="https://www.kaggle.com/learn/data-cleaning" target="_blank" rel="noopener"><strong>Kaggle: Intro to Data Cleaning (free course)</strong></a><br><span class="lm-desc">Hands-on practice with real datasets</span></li>
 </ul>
 
 {% section "Do it for real" %}
