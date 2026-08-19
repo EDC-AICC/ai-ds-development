@@ -103,6 +103,17 @@ export default function (eleventyConfig) {
     return `<div class="callout ${kind}">\n${block(content)}\n</div>`;
   });
 
+  /* Lesson summary boxes, one per recurring beat of the theory segments:
+     {% concept %}…{% endconcept %}, {% aihelps %}, {% aiprompt %}, {% aieval %}. */
+  const lessonBox = (kind, label) =>
+    function (content) {
+      return `<div class="lbox lbox-${kind}"><p><strong class="lbox-label">${label}:</strong> ${inline(content)}</p></div>`;
+    };
+  eleventyConfig.addPairedShortcode("concept", lessonBox("concept", "Concept"));
+  eleventyConfig.addPairedShortcode("aihelps", lessonBox("helps", "How AI Helps"));
+  eleventyConfig.addPairedShortcode("aiprompt", lessonBox("prompt", "Example AI Prompt"));
+  eleventyConfig.addPairedShortcode("aieval", lessonBox("eval", "Evaluating AI Output"));
+
   eleventyConfig.addPairedShortcode("notebook", function (content, title, notebook = "") {
     const link = notebook
       ? `<a class="btn-colab" href="${colabUrl(notebook)}">Open in Colab →</a>`
