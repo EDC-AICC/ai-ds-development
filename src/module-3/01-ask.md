@@ -116,6 +116,6 @@ The framing decides the work. An AI will do whatever you ask with equal confiden
 
 {% section "Feedback" %}
 
-This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
 {% feedback "3", "1" %}

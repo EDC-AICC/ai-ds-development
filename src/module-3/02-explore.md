@@ -137,6 +137,6 @@ Opens in Colab and loads the clinic file for you. Everything after that first ce
 
 {% section "Feedback" %}
 
-This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
 {% feedback "3", "2" %}

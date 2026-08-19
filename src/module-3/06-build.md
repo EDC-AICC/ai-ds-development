@@ -31,6 +31,6 @@ What the student hands in, one deliverable per Part.
 
 {% section "Feedback" %}
 
-This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
 {% feedback "3", "6" %}

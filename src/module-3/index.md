@@ -11,11 +11,9 @@ Each part in this module starts with a short activity, moves into the real work,
 
 Before jumping into the real work, we'll cover the overall data lifecycle, concerns and bias in data, and verifying AI answers, so you have them in mind when working through the rest of the module.
 
-{% slot "video", "Module overview. What this module covers, how the six parts fit together, and how you'll be working with AI throughout.", "180px" %}
-
 {% section "Follow the Record" %}
 
-Every dataset you will ever be handed was shaped by systems and decisions you didn't see, and knowing that changes how much you trust a number. This first warm-up shows you that hidden journey once, end to end, so you recognize it in every file you open afterward.
+Every dataset you will ever be handed took a trip through systems and choices you never saw, and those choices changed the numbers. This warm-up walks that trip once, end to end, so you recognize it in every file you open afterward.
 
 Somewhere in Berlin, a customer taps *Buy*. Weeks later, a manager looks at a revenue chart and makes a decision. Between those two moments, that one tap traveled through half a dozen systems. Along the way it got reshaped by choices someone coded months ago. Follow it, one stop at a time.
 
@@ -37,7 +35,7 @@ Because a different reasonable choice produces a different number. Count the eur
 
 {% section "The planes that didn't come back" %}
 
-The most dangerous errors in data work come not from wrong values but from missing ones — the records that never made it into the file at all. No amount of careful checking will surface them unless you have learned to ask about them, which is what this warm-up is for.
+The most dangerous errors in data work are not wrong values. They are the records that never made it into the file at all. No amount of checking the file will surface them. You have to learn to ask about them, and that is what this warm-up is for.
 
 Every decision you just followed becomes visible once you go looking for it. Here is a way a number goes wrong that stays invisible however carefully you check, because every value in the data is correct.
 
@@ -81,16 +79,16 @@ Because the true part buys trust for the false part. You verify the $70, feel do
 
 {% section "The six parts" %}
 
-The rest of this module is one continuous piece of work. A clinic director asks a vague question about visit data, and you carry that request all the way to an answer she can act on — with an AI writing the code from your prompts at every step. The six parts follow the arc of that job. Do them in order; each one hands its result to the next.
+The rest of this module is one continuous piece of work. A clinic director asks a vague question about visit data, and you carry that request all the way to an answer she can act on, with an AI writing the code from your prompts at every step. The six parts follow the arc of that job. Do them in order; each one hands its result to the next.
 
-You start with **Ask**, where somebody asks you a question and the work is figuring out what they actually need and what would count as an answer, before anything gets typed. In **Explore** you find out what you have been handed before you change any of it — shape, types, ranges, what is missing, what the categories contain. **Transform** is where you fix what you found and build the columns your question needs; both look like chores and are really a run of decisions. In **Analyze** you answer the question, then work out who is missing from the answer before anyone acts on it. **Share** is four sentences for someone who will only ever read the summary, where every number can be correct and the meaning still wrong.
+You start with **Ask**. Somebody asks you a question, and working out what they actually need, and what would count as an answer, comes before anything you can type. In **Explore** you find out what you have been handed before you change any of it. Shape, types, ranges, what is missing, what the categories contain. In **Transform** you fix what you found and build the columns your question needs. Both look like chores and are really a run of decisions. In **Analyze** you answer the question, then work out who is missing from the answer before anyone acts on it. **Share** is four sentences for someone who will only ever read the summary, where every number can be correct and the meaning still wrong.
 
-Finally, in **Apply**, the guardrails come off: a dataset that is new to you, a real question, and your own judgment about how to approach it.
+Last is **Apply**. A dataset that is new to you, a real question, and your own judgment about how to approach it. Everything before it was practice with the guardrails on.
 
 When you're ready, continue to Part 1.
 
 {% section "Feedback" %}
 
-This module is a draft, and what you say here directly shapes the next revision. A sentence about what confused you or what worked is genuinely useful.
+This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
 {% feedback "3", "overview" %}
