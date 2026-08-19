@@ -1,3 +1,7 @@
 {
-  "layout": "lesson.njk"
+  "layout": "shell.njk",
+  "module": {
+    "num": "03",
+    "title": "Preparing, Exploring & Analyzing Data with AI"
+  }
 }

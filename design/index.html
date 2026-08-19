@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout concepts — Module 3 redesign</title>
+<script>
+(function(){try{var t=localStorage.getItem("aids-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="shared.css">
+<style>
+.wrap{max-width:44rem; margin:0 auto; padding:0 1.25rem}
+header.masthead{border-bottom:1px solid var(--line); background:var(--card); padding:2.6rem 0 2rem}
+.masthead h1{font-size:2.1rem; margin:0 0 .8rem}
+main{padding:2.5rem 0 4rem}
+.cards{display:grid; gap:.9rem; margin:1.6rem 0 0}
+.lcard{
+  display:block; text-decoration:none; color:inherit;
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:1rem 1.15rem; box-shadow:0 1px 3px var(--shadow);
+  transition:border-color .18s, transform .18s;
+}
+.lcard:hover{border-color:var(--accent); transform:translateY(-2px)}
+.lcard .num{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .35rem}
+.lcard h3{font-size:1.2rem; margin:0 0 .4rem}
+.lcard p{font-size:.92rem; color:var(--slate); margin:0}
+</style>
+</head>
+<body>
+
+<button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6 4.1 4.1M19.9 19.9l-1.5-1.5M18.4 5.6l1.5-1.5M4.1 19.9l1.5-1.5"></path></svg>
+  <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"></path></svg>
+</button>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">Module 3 · Redesign</p>
+    <h1>Four layout concepts</h1>
+    <p class="standfirst">The same Part 1 content, organized four different ways. All use the site's existing palette, type, and dark mode — only the structure changes.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="cards">
+      <a class="lcard" href="concept-1-stages.html">
+        <p class="num">Concept 1</p>
+        <h3>Stages</h3>
+        <p>The part becomes five focused screens with a numbered rail across the top. One thing on screen at a time; no long scroll anywhere.</p>
+      </a>
+      <a class="lcard" href="concept-2-sidebar.html">
+        <p class="num">Concept 2</p>
+        <h3>Course shell</h3>
+        <p>A persistent sidebar maps the whole module — every part, every section — beside the lesson. The page scrolls, but you always know where you are.</p>
+      </a>
+      <a class="lcard" href="concept-3-hub.html">
+        <p class="num">Concept 3</p>
+        <h3>Hub and spokes</h3>
+        <p>Each part is a short hub: the story plus a card per piece of work, with progress tracking. Each card opens a focused screen holding exactly one thing.</p>
+      </a>
+      <a class="lcard" href="concept-4-split.html">
+        <p class="num">Concept 4</p>
+        <h3>The desk</h3>
+        <p>Reading on the left, the material — email, activity, checklist, video — pinned on the right while you read about it. Folds to one column on mobile.</p>
+      </a>
+    </div>
+  </div>
+</main>
+
+<script>
+document.getElementById("theme-toggle").addEventListener("click",function(){
+  var root=document.documentElement;
+  var dark=root.getAttribute("data-theme")==="dark"||(!root.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme: dark)").matches);
+  var next=dark?"light":"dark";
+  root.setAttribute("data-theme",next);
+  try{localStorage.setItem("aids-theme",next)}catch(e){}
+});
+</script>
+</body>
+</html>

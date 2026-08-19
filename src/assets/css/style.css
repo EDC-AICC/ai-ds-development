@@ -21,6 +21,12 @@
   --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 
   --violet:#6d28d9; --violet-soft:#f1ecfd;
+
+  /* lesson summary boxes (colors follow the theory doc's palette) */
+  --lb-concept:#00695c; --lb-concept-soft:#e4f1ee;
+  --lb-helps:#1b5e20;   --lb-helps-soft:#e9f3e9;
+  --lb-prompt:#5d4037;  --lb-prompt-soft:#f3ede9;
+  --lb-eval:#8b0000;    --lb-eval-soft:#f9e9e7;
 }
 
 @media (prefers-color-scheme: dark){
@@ -40,6 +46,11 @@
     --shadow:rgba(0,0,0,.4);
 
     --violet:#b79bec; --violet-soft:#231d33;
+
+    --lb-concept:#6cc7b5; --lb-concept-soft:#12302b;
+    --lb-helps:#8fce8f;   --lb-helps-soft:#182b1b;
+    --lb-prompt:#cbab99;  --lb-prompt-soft:#2a221d;
+    --lb-eval:#e08d83;    --lb-eval-soft:#331b18;
   }
 }
 :root[data-theme="dark"]{
@@ -58,6 +69,11 @@
   --shadow:rgba(0,0,0,.4);
 
   --violet:#b79bec; --violet-soft:#231d33;
+
+  --lb-concept:#6cc7b5; --lb-concept-soft:#12302b;
+  --lb-helps:#8fce8f;   --lb-helps-soft:#182b1b;
+  --lb-prompt:#cbab99;  --lb-prompt-soft:#2a221d;
+  --lb-eval:#e08d83;    --lb-eval-soft:#331b18;
 }
 
 *{box-sizing:border-box}
@@ -196,6 +212,27 @@ details.q .answer p:first-child{margin-top:.9rem}
 .btn-colab.is-placeholder{
   background:var(--card); color:var(--slate); border-color:var(--line); cursor:not-allowed;
 }
+
+/* ---------- lesson summary boxes ---------- */
+.lbox{
+  border-left:3px solid; border-radius:0 8px 8px 0;
+  padding:.85rem 1.05rem; margin:1.5rem 0; font-size:.95rem;
+}
+.lbox p{margin:0}
+.lbox .lbox-label{font-weight:600}
+.lbox-concept{background:var(--lb-concept-soft); border-color:var(--lb-concept)}
+.lbox-concept .lbox-label{color:var(--lb-concept)}
+.lbox-helps{background:var(--lb-helps-soft); border-color:var(--lb-helps)}
+.lbox-helps .lbox-label{color:var(--lb-helps)}
+.lbox-prompt{background:var(--lb-prompt-soft); border-color:var(--lb-prompt)}
+.lbox-prompt .lbox-label{color:var(--lb-prompt)}
+.lbox-eval{background:var(--lb-eval-soft); border-color:var(--lb-eval)}
+.lbox-eval .lbox-label{color:var(--lb-eval)}
+
+/* learn-more resource lists inside lessons */
+.learnmore{list-style:none; padding:0; margin:0 0 1.4rem}
+.learnmore li{margin:.45rem 0; padding-left:1rem; text-indent:-1rem}
+.learnmore .lm-desc{color:var(--slate); font-size:.9rem}
 
 /* ---------- callout ---------- */
 .callout{border-left:3px solid var(--accent); padding-left:1rem; margin:1.6rem 0}

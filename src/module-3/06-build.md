@@ -1,17 +1,9 @@
 ---
 order: 6
 title: Apply
-kicker: Module 3 · On your own
-standfirst: >
-  A dataset that is new to you, a real question, and your own judgment about how to approach it.
-  Everything up to here was practice with the guardrails on.
-prev:
-  url: /module-3/05-share/
-  label: Part 5 · Share
-next:
-  url: /module-3/
-  label: Module 3 overview
 ---
+
+{% section "The setup" %}
 
 {% todo "To write" %}
 TODO: The opening.
@@ -36,5 +28,9 @@ What the student hands in, one deliverable per Part.
 {% section "Afterwards" %}
 
 {% slot "notebook", "A worked version, released after hand-in. One defensible way through, with the reasoning visible.", "150px" %}
+
+{% section "Feedback" %}
+
+This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
 {% feedback "3", "6" %}

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }} — {{ site.name }}</title>
+{% if description %}<meta name="description" content="{{ description }}">{% endif %}
+
+{# no-flash: set the theme before first paint #}
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem("aids-theme");
+    if(t==="dark"||t==="light") document.documentElement.setAttribute("data-theme",t);
+  }catch(e){}
+})();
+</script>
+
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
+<link rel="stylesheet" href="{{ '/assets/css/shell.css' | url }}">
+</head>
+<body class="shell">
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-top">
+    <a class="backlink" href="{{ '/' | url }}">← All modules</a>
+    <p class="modtitle">{{ module.title }}</p>
+  </div>
+  <ul class="side-parts">
+  {%- for p in collections.m3 %}
+    <li{% if p.url == page.url %} class="current"{% endif %} data-part="{{ p.url | url }}">
+      <a class="part-link" href="{{ p.url | url }}">
+        <span class="pnum">{{ p.data.order }}</span>
+        <span class="ptitle">{% if p.data.order == 0 %}Overview{% else %}{{ p.data.title }}{% endif %}</span>
+        <span class="pcheck">✓</span>
+      </a>
+      {%- if p.url == page.url %}
+      <ul class="side-secs" data-secs></ul>
+      {%- endif %}
+    </li>
+  {%- endfor %}
+  </ul>
+</aside>
+
+<div class="content">
+  <div class="topbar">
+    <button class="menu-btn" type="button" data-menu aria-label="Open module menu">☰ Menu</button>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a class="root" href="{{ '/' | url }}">{{ site.name }}</a><span class="sep">›</span>
+      <a href="{{ '/module-3/' | url }}">Module {{ module.num }}</a><span class="sep">›</span>
+      <span class="here">{% if order == 0 %}Overview{% else %}Part {{ order }} · {{ title }}{% endif %}</span>
+    </nav>
+    <button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M5.6 5.6 4.1 4.1M19.9 19.9l-1.5-1.5M18.4 5.6l1.5-1.5M4.1 19.9l1.5-1.5"></path>
+      </svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20.5 14.2A8.4 8.4 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="scrim" data-scrim></div>
+
+  {%- set adj = collections.m3 | adjacent(page.url) %}
+  <main
+    {% if adj.prev %}data-prev-url="{{ adj.prev.url | url }}" data-prev-label="{% if adj.prev.data.order == 0 %}Overview{% else %}{{ adj.prev.data.title }}{% endif %}"{% endif %}
+    {% if adj.next %}data-next-url="{{ adj.next.url | url }}" data-next-label="{% if adj.next.data.order == 0 %}Overview{% else %}Part {{ adj.next.data.order }} · {{ adj.next.data.title }}{% endif %}"{% endif %}
+    data-home-url="{{ '/' | url }}"
+    data-module-url="{{ '/module-3/' | url }}"
+    data-module-num="{{ module.num }}">
+    <div class="pagecol">
+      <div class="parthead"><h1 data-heading>{{ title }}</h1></div>
+      <div class="lesson-body" data-content>
+{{ content | safe }}
+      </div>
+      <nav class="secnav" data-secnav hidden>
+        <a class="navbtn" data-back></a>
+        <span class="pos" data-pos></span>
+        <span class="spacer"></span>
+        <a class="navbtn primary" data-fwd></a>
+      </nav>
+    </div>
+  </main>
+</div>
+
+<script src="{{ '/assets/js/shell.js' | url }}"></script>
+<script src="{{ '/assets/js/site.js' | url }}"></script>
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+</body>
+</html>

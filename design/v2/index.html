@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI in Data Science</title>
+<script>
+(function(){try{var t=localStorage.getItem("aids-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="../shared.css">
+<link rel="stylesheet" href="shell.css">
+<style>
+/* The course home is the front door, and the only page with a masthead. */
+.wrap{max-width:44rem; margin:0 auto; padding:0 1.25rem}
+header.masthead{border-bottom:1px solid var(--line); background:var(--card); padding:3rem 0 2.4rem}
+.masthead h1{font-size:2.3rem; line-height:1.15; margin:0 0 .9rem}
+.masthead .standfirst{color:var(--slate); max-width:36rem; margin:0}
+main{padding:2.6rem 0 4rem}
+
+.resume{
+  display:none; align-items:center; gap:1rem; margin:0 0 2rem;
+  background:var(--accent-soft); border:1px solid var(--accent); border-radius:10px;
+  padding:.9rem 1.1rem; text-decoration:none; color:inherit;
+}
+.resume.show{display:flex}
+.resume .rk{font-family:var(--mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin:0 0 .2rem}
+.resume .rwhat{font-weight:600; margin:0}
+.resume .go{margin-left:auto; color:var(--accent); font-weight:600; flex:none}
+
+.modlist{display:grid; gap:.9rem}
+.mcard{
+  display:block; text-decoration:none; color:inherit;
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:1rem 1.15rem; box-shadow:0 1px 3px var(--shadow);
+  transition:border-color .18s, transform .18s;
+}
+a.mcard:hover{border-color:var(--accent); transform:translateY(-2px)}
+.mcard .num{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .35rem}
+.mcard h3{font-size:1.2rem; margin:0 0 .4rem}
+.mcard p{font-size:.92rem; color:var(--slate); margin:0}
+.mcard.locked{opacity:.55}
+.mcard.locked .num{color:var(--slate)}
+h2.grouplabel{font-size:1.35rem; margin:0 0 1rem}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">Community college course · six modules</p>
+    <h1>AI in Data Science</h1>
+    <p class="standfirst">Preparing AI-enhanced data practitioners. Students learn to direct AI tools on real data work, and to tell whether the result is any good.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <a class="resume" id="resume" href="#">
+      <span><span class="rk">Continue where you left off</span><br><span class="rwhat" id="resume-what"></span></span>
+      <span class="go">Resume →</span>
+    </a>
+
+    <h2 class="grouplabel">Modules</h2>
+    <div class="modlist">
+      <div class="mcard locked">
+        <p class="num">Module 01 · not yet built</p>
+        <h3>Module 1</h3>
+        <p>Not yet built.</p>
+      </div>
+      <div class="mcard locked">
+        <p class="num">Module 02 · not yet built</p>
+        <h3>Module 2</h3>
+        <p>Not yet built.</p>
+      </div>
+      <a class="mcard" href="m3-index.html">
+        <p class="num">Module 03 · draft</p>
+        <h3>Preparing, Exploring &amp; Analyzing Data with AI</h3>
+        <p>Data cleaning, transformation, exploratory analysis and bias detection, done with AI and verified by the student. Six parts, drafted and awaiting review.</p>
+      </a>
+      <div class="mcard locked">
+        <p class="num">Module 04 · not yet built</p>
+        <h3>Module 4</h3>
+        <p>Not yet built.</p>
+      </div>
+      <div class="mcard locked">
+        <p class="num">Module 05 · not yet built</p>
+        <h3>Module 5</h3>
+        <p>Not yet built.</p>
+      </div>
+      <div class="mcard locked">
+        <p class="num">Module 06 · not yet built</p>
+        <h3>Module 6</h3>
+        <p>Not yet built.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="shell.js"></script>
+<script>
+(function(){
+  try{
+    var last=JSON.parse(localStorage.getItem("aids-v2-last")||"null");
+    if(last&&last.file){
+      var r=document.getElementById("resume");
+      document.getElementById("resume-what").textContent="Module "+last.mod+" · "+last.label;
+      r.href=last.file+"#"+last.sec;
+      r.classList.add("show");
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

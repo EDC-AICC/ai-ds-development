@@ -1,0 +1,132 @@
+/* Course shell: sidebar + breadcrumb topbar + one section on screen at a
+   time. Layers on style.css (tokens, prose, activity frames, cards); only
+   the shell's own furniture lives here. Pages opt in with body.shell and
+   the shell.njk layout — the home page keeps its masthead and never loads
+   this file's layout rules. */
+
+/* ---------- frame ---------- */
+body.shell{display:flex; min-height:100vh; align-items:stretch}
+body.shell main{flex:1; padding:2.4rem 0 1rem}
+.content{flex:1; min-width:0; display:flex; flex-direction:column}
+.pagecol{max-width:46rem; margin:0 auto; padding:0 2rem; width:100%}
+
+/* ---------- topbar (breadcrumb, not a masthead) ---------- */
+.topbar{
+  display:flex; align-items:center; gap:.9rem;
+  border-bottom:1px solid var(--line); background:var(--card);
+  padding:.5rem 1.25rem;
+  position:sticky; top:0; z-index:40; min-height:2.6rem;
+}
+.crumbs{display:flex; align-items:center; gap:.45rem; min-width:0; flex:1; flex-wrap:nowrap; overflow:hidden;
+  font-size:.82rem; color:var(--slate); white-space:nowrap}
+.crumbs a{color:var(--slate); text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+.crumbs .sep{color:var(--line); flex:none}
+.crumbs .here{color:var(--ink); font-weight:600; overflow:hidden; text-overflow:ellipsis}
+.menu-btn{display:none}
+
+/* the theme toggle docks into the topbar on shell pages */
+body.shell #theme-toggle{
+  position:static; width:2rem; height:2rem; box-shadow:none; flex:none;
+}
+
+/* ---------- sidebar ----------
+   Two visual levels only: part rows, and the current part's section list
+   indented beneath it. The single accent pill is "where you are". */
+.sidebar{
+  width:17.5rem; flex:none; border-right:1px solid var(--line); background:var(--card);
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  display:flex; flex-direction:column;
+}
+.side-top{padding:1.15rem 1.2rem 1rem; border-bottom:1px solid var(--line)}
+.side-top .backlink{
+  display:inline-block; font-family:var(--mono); font-size:.68rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--slate); text-decoration:none; margin-bottom:.5rem;
+}
+.side-top .backlink:hover{color:var(--accent)}
+.side-top .modtitle{font-family:var(--serif); font-size:1.05rem; font-weight:600; line-height:1.35; margin:0}
+
+.side-parts{list-style:none; margin:0; padding:.8rem .8rem 1.4rem; flex:1}
+.side-parts > li{margin:0 0 .15rem}
+.part-link{
+  display:flex; align-items:center; gap:.7rem; text-decoration:none;
+  color:var(--ink); font-size:.95rem; font-weight:600;
+  padding:.5rem .65rem; border-radius:8px;
+}
+.part-link:hover{background:var(--chrome)}
+li.current > .part-link{background:var(--chrome)}
+.part-link .pnum{
+  font-family:var(--mono); font-size:.7rem; font-weight:600; color:var(--slate);
+  flex:none; width:1.5rem; height:1.5rem; border-radius:50%;
+  border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+}
+li.current > .part-link .pnum{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+.part-link .ptitle{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.part-link .pcheck{flex:none; font-size:.78rem; color:var(--good); visibility:hidden}
+li.done > .part-link .pcheck{visibility:visible}
+
+.side-secs{list-style:none; margin:.2rem 0 .8rem; padding:0}
+.side-secs li{margin:0 0 1px}
+.side-secs a{
+  display:block; text-decoration:none;
+  color:var(--slate); font-size:.88rem; line-height:1.35;
+  padding:.38rem .65rem .38rem 2.85rem; border-radius:8px;
+}
+.side-secs a:hover{color:var(--ink); background:var(--chrome)}
+.side-secs li.active a{color:var(--accent); font-weight:600; background:var(--accent-soft)}
+
+/* ---------- page heading: the section you are on ---------- */
+.parthead{margin:0 0 1.5rem}
+.parthead h1{font-family:var(--serif); font-size:1.7rem; line-height:1.2; font-weight:600; margin:0; text-wrap:balance}
+
+/* ---------- sections ----------
+   shell.js wraps the content between {% section %} markers into
+   <section data-title> blocks and stamps .js on <html>. Without JS the page
+   falls back to one long scroll with the section bars visible. */
+.js .lesson-body .sectionbar{display:none}
+.lesson-body section[data-title]{display:none}
+.lesson-body section[data-title].current{display:block; animation:secfade .22s ease}
+@keyframes secfade{from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){ .lesson-body section[data-title].current{animation:none} }
+
+/* ---------- section footer nav ---------- */
+.secnav[hidden]{display:none}
+.secnav{
+  display:flex; align-items:center; gap:1rem; margin:2.6rem 0 0;
+  border-top:1px solid var(--line); padding:1.1rem 0 2.6rem;
+}
+.secnav .spacer{flex:1}
+.secnav .pos{font-family:var(--mono); font-size:.72rem; color:var(--slate)}
+.navbtn{
+  display:inline-block; text-decoration:none; cursor:pointer; text-align:center;
+  font-family:var(--sans); font-size:.9rem; font-weight:600;
+  border:1px solid var(--line); color:var(--slate); background:var(--card);
+  border-radius:8px; padding:.5rem 1rem;
+}
+.navbtn:hover{border-color:var(--accent); color:var(--accent)}
+.navbtn.primary{background:var(--accent); border-color:var(--accent); color:var(--paper)}
+.navbtn.primary:hover{filter:brightness(1.08); color:var(--paper)}
+
+/* ---------- mobile ---------- */
+.scrim{display:none}
+@media (max-width:900px){
+  body.shell{display:block}
+  .sidebar{
+    position:fixed; inset:0 18% 0 0; z-index:60; height:auto; width:auto;
+    transform:translateX(-103%); transition:transform .22s ease;
+    box-shadow:0 0 30px var(--shadow);
+  }
+  .sidebar.open{transform:none}
+  body.shell.drawer-open .scrim{
+    display:block; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:55;
+  }
+  .menu-btn{
+    display:inline-flex; align-items:center; gap:.4rem; flex:none; cursor:pointer;
+    appearance:none; border:1px solid var(--line); background:var(--card); color:var(--ink);
+    border-radius:7px; padding:.3rem .6rem; font-size:.82rem; font-weight:600;
+  }
+  .pagecol{padding:0 1.25rem}
+  .crumbs .root{display:none}
+  .crumbs .root + .sep{display:none}
+}
+@media (prefers-reduced-motion:reduce){ .sidebar{transition:none} }
