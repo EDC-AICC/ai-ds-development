@@ -63,7 +63,7 @@ If you describe the clinic dataset columns and ask AI whether you can measure pa
 
 ### How to use AI
 
-The key is giving AI enough context. It cannot read your data file or know your organisation. You have to describe the dataset, the business situation, and the intended audience explicitly.
+The key is giving AI enough context. AI can read data if you paste it directly into the chat, but company and data privacy policies typically prevent sharing real patient or organisational data with external AI tools. In practice, you describe the dataset — its columns, what they contain, and the business situation — rather than pasting the data itself. The more precise that description, the more relevant the suggestions.
 
 A strong prompt at this stage gives AI three things: what the dataset contains, who will use the findings and for what decision, and a request for candidate questions that includes which columns each would require.
 
