@@ -50,6 +50,32 @@
   if (!sections.length) return;
   var secIds = sections.map(function (s) { return s.dataset.sec; });
 
+  /* ---- embed mode ----
+     ?embed on the URL drops the sidebar, breadcrumb and Continue buttons and
+     shows just the section named in the hash (or the whole page when there is
+     no hash), so a course management system can iframe one piece of a lesson.
+     The frame reports its height to the host page so the iframe can be sized. */
+  if (/(^|[?&])embed(=|&|$)/.test(location.search)) {
+    document.documentElement.classList.add("embed");
+    var theme = /[?&]theme=(light|dark)\b/.exec(location.search);
+    if (theme) document.documentElement.setAttribute("data-theme", theme[1]);
+    var only = secIds.indexOf(location.hash.replace("#", ""));
+    if (only >= 0) {
+      sections[only].classList.add("current");
+      document.querySelector("[data-heading]").textContent = sections[only].dataset.title;
+    } else {
+      document.documentElement.classList.add("embed-all");
+      sections.forEach(function (s) { s.classList.add("current"); });
+    }
+    var report = function () {
+      try { parent.postMessage({ type: "embed-height", height: document.documentElement.scrollHeight }, "*"); } catch (e) {}
+    };
+    report();
+    window.addEventListener("load", report);
+    if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+    return;
+  }
+
   /* ---- data the layout computed ---- */
   var d = main.dataset;
   var pageKey = location.pathname;

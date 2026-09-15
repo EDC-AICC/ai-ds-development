@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embed demo — a course page hosting one lesson section</title>
+<style>
+  /* Deliberately generic: this stands in for a Canvas or Moodle page. */
+  body{margin:0; font-family:Arial, Helvetica, sans-serif; background:#f2f2f2; color:#222}
+  .lms-bar{background:#394b58; color:#fff; padding:.6rem 1.5rem; font-size:.9rem}
+  .lms-page{max-width:900px; margin:1.5rem auto; background:#fff; border:1px solid #ddd; padding:1.5rem 2rem}
+  h1{font-size:1.5rem; margin:0 0 .5rem}
+  .crumb{font-size:.85rem; color:#666; margin-bottom:1.2rem}
+  iframe.lesson{width:100%; border:1px solid #ddd; border-radius:6px; display:block; margin:1rem 0}
+  pre{background:#f6f6f6; border:1px solid #ddd; padding:.8rem 1rem; font-size:.82rem; overflow-x:auto}
+  .due{background:#fff8e1; border-left:4px solid #f0b429; padding:.6rem 1rem; margin:1rem 0; font-size:.92rem}
+</style>
+</head>
+<body>
+
+<div class="lms-bar">Course management system · AI in Data Science · Week 2</div>
+
+<div class="lms-page">
+  <div class="crumb">AI in Data Science › Modules › Module 1 › Assignment: HR Retention Audit</div>
+  <h1>Assignment: HR Retention Audit</h1>
+  <p>Complete the audit below, then submit your three answers in the text box at the bottom of this page. This is the "Try It Yourself" activity from Module 1, Part 4.</p>
+  <div class="due">Due Friday · 10 points</div>
+
+  <!-- The lesson section, embedded. -->
+  <iframe class="lesson" id="lesson"
+    src="http://localhost:8318/module-1/04-decision-lab/?embed&theme=light#try-it-yourself-hr-retention-and-burnout-risk-model"
+    title="Try It Yourself: HR Retention and Burnout Risk Model"
+    height="600"></iframe>
+
+  <p><strong>Submission</strong></p>
+  <textarea style="width:100%; height:6rem; font:inherit; padding:.5rem" placeholder="Paste your three answers here…"></textarea>
+
+  <hr style="margin:2rem 0; border:none; border-top:1px solid #ddd">
+  <p style="color:#666; font-size:.9rem">How this page embeds the section — the only thing an instructor pastes into the page's HTML editor:</p>
+<pre>&lt;iframe
+  src="https://…/module-1/04-decision-lab/?embed&theme=light#try-it-yourself-hr-retention-and-burnout-risk-model"
+  width="100%" height="600" style="border:none"
+  title="Try It Yourself: HR Retention and Burnout Risk Model"&gt;
+&lt;/iframe&gt;</pre>
+  <p style="color:#666; font-size:.9rem">Drop the <code>#section</code> part to embed the whole part instead of one section. <code>theme=light</code> (or <code>dark</code>) matches the frame to the host page instead of the viewer's system setting. The optional script below lets the frame grow to fit its content instead of scrolling inside the box.</p>
+</div>
+
+<script>
+  /* Optional: size the iframe to its content. The embedded page posts its
+     height whenever it changes. */
+  window.addEventListener("message", function (e) {
+    if (e.data && e.data.type === "embed-height") {
+      document.getElementById("lesson").style.height = (e.data.height + 4) + "px";
+    }
+  });
+</script>
+</body>
+</html>
