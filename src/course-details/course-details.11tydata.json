@@ -1,0 +1,9 @@
+{
+  "layout": "shell.njk",
+  "module": {
+    "key": "course",
+    "label": "Course details",
+    "title": "Course details",
+    "url": "/course-details/"
+  }
+}

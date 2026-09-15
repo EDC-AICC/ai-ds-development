@@ -1,7 +1,9 @@
 {
   "layout": "shell.njk",
   "module": {
-    "num": "03",
-    "title": "Preparing, Exploring & Analyzing Data with AI"
+    "key": "m3",
+    "label": "Module 3",
+    "title": "Preparing, Exploring & Analyzing Data with AI",
+    "url": "/module-3/"
   }
 }

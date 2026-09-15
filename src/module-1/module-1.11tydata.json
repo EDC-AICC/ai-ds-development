@@ -1,0 +1,9 @@
+{
+  "layout": "shell.njk",
+  "module": {
+    "key": "m1",
+    "label": "Module 1",
+    "title": "The AI-Enhanced Data Practitioner",
+    "url": "/module-1/"
+  }
+}

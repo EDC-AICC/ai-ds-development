@@ -21,17 +21,28 @@
 </head>
 <body class="shell">
 
+{#- Every page in this unit, in reading order. In the sidebar a page shows
+    navLabel if set ("Overview" for order 0, else its title); the breadcrumb
+    and Continue button use crumb if set, else "Part N · Title". -#}
+{%- set pages = collections.all | unitPages(module.key) %}
+{%- set single = pages.length == 1 %}
+{%- macro short(p) %}{% if p.data.navLabel %}{{ p.data.navLabel }}{% elif p.data.order == 0 %}Overview{% else %}{{ p.data.title }}{% endif %}{% endmacro %}
+{%- macro long(p) %}{% if p.data.crumb %}{{ p.data.crumb }}{% elif p.data.order == 0 %}{{ short(p) }}{% else %}Part {{ p.data.order }} · {{ p.data.title }}{% endif %}{% endmacro %}
+
 <aside class="sidebar" id="sidebar">
   <div class="side-top">
     <a class="backlink" href="{{ '/' | url }}">← All modules</a>
     <p class="modtitle">{{ module.title }}</p>
   </div>
+  {%- if single %}
+  <ul class="side-secs single" data-secs></ul>
+  {%- else %}
   <ul class="side-parts">
-  {%- for p in collections.m3 %}
+  {%- for p in pages %}
     <li{% if p.url == page.url %} class="current"{% endif %} data-part="{{ p.url | url }}">
       <a class="part-link" href="{{ p.url | url }}">
         <span class="pnum">{{ p.data.order }}</span>
-        <span class="ptitle">{% if p.data.order == 0 %}Overview{% else %}{{ p.data.title }}{% endif %}</span>
+        <span class="ptitle">{{ short(p) }}</span>
         <span class="pcheck">✓</span>
       </a>
       {%- if p.url == page.url %}
@@ -40,6 +51,7 @@
     </li>
   {%- endfor %}
   </ul>
+  {%- endif %}
 </aside>
 
 <div class="content">
@@ -47,8 +59,10 @@
     <button class="menu-btn" type="button" data-menu aria-label="Open module menu">☰ Menu</button>
     <nav class="crumbs" aria-label="Breadcrumb">
       <a class="root" href="{{ '/' | url }}">{{ site.name }}</a><span class="sep">›</span>
-      <a href="{{ '/module-3/' | url }}">Module {{ module.num }}</a><span class="sep">›</span>
-      <span class="here">{% if order == 0 %}Overview{% else %}Part {{ order }} · {{ title }}{% endif %}</span>
+      {%- if not single %}
+      <a href="{{ module.url | url }}">{{ module.label }}</a><span class="sep">›</span>
+      {%- endif %}
+      <span class="here">{% if crumb %}{{ crumb }}{% elif order == 0 %}{% if navLabel %}{{ navLabel }}{% else %}Overview{% endif %}{% else %}Part {{ order }} · {{ title }}{% endif %}</span>
     </nav>
     <button id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="sun" viewBox="0 0 24 24" aria-hidden="true">
@@ -62,13 +76,13 @@
   </div>
   <div class="scrim" data-scrim></div>
 
-  {%- set adj = collections.m3 | adjacent(page.url) %}
+  {%- set adj = pages | adjacent(page.url) %}
   <main
-    {% if adj.prev %}data-prev-url="{{ adj.prev.url | url }}" data-prev-label="{% if adj.prev.data.order == 0 %}Overview{% else %}{{ adj.prev.data.title }}{% endif %}"{% endif %}
-    {% if adj.next %}data-next-url="{{ adj.next.url | url }}" data-next-label="{% if adj.next.data.order == 0 %}Overview{% else %}Part {{ adj.next.data.order }} · {{ adj.next.data.title }}{% endif %}"{% endif %}
+    {% if adj.prev %}data-prev-url="{{ adj.prev.url | url }}" data-prev-label="{{ short(adj.prev) }}"{% endif %}
+    {% if adj.next %}data-next-url="{{ adj.next.url | url }}" data-next-label="{{ long(adj.next) }}"{% endif %}
     data-home-url="{{ '/' | url }}"
-    data-module-url="{{ '/module-3/' | url }}"
-    data-module-num="{{ module.num }}">
+    data-module-url="{{ module.url | url }}"
+    data-module-label="{{ module.label }}">
     <div class="pagecol">
       <div class="parthead"><h1 data-heading>{{ title }}</h1></div>
       <div class="lesson-body" data-content>

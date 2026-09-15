@@ -106,7 +106,8 @@
     } else if (d.nextUrl) {
       fwdBtn.textContent = "Next: " + d.nextLabel + " →"; fwdBtn.href = d.nextUrl;
     } else {
-      fwdBtn.textContent = "Module " + d.moduleNum + " overview →"; fwdBtn.href = d.moduleUrl;
+      if (d.moduleUrl === pageKey) { fwdBtn.textContent = "All modules →"; fwdBtn.href = d.homeUrl; }
+      else { fwdBtn.textContent = d.moduleLabel + " overview →"; fwdBtn.href = d.moduleUrl; }
     }
 
     var cur = document.querySelector('.side-parts > li[data-part="' + pageKey + '"]');

@@ -23,10 +23,12 @@ const colabUrl = (notebook) =>
 export default function (eleventyConfig) {
   eleventyConfig.setLibrary("md", md);
 
-  /* Module 3's pages in reading order; the shell layout builds the sidebar
-     and prev/next from this, so authors never write navigation by hand. */
-  eleventyConfig.addCollection("m3", (api) =>
-    api.getFilteredByGlob("src/module-3/*.md")
+  /* A unit's pages in reading order. Each unit folder declares itself in its
+     directory data file ({ module: { key, label, title, url } }); the shell
+     layout builds the sidebar and prev/next from this, so authors never
+     write navigation by hand. */
+  eleventyConfig.addFilter("unitPages", (coll, key) =>
+    coll.filter((p) => p.data.module && p.data.module.key === key)
       .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)));
 
   eleventyConfig.addFilter("adjacent", (coll, url) => {
@@ -99,8 +101,43 @@ export default function (eleventyConfig) {
     return `<details class="q"><summary>${inline(question)}</summary><div class="answer">\n${block(content)}\n</div></details>`;
   });
 
-  eleventyConfig.addPairedShortcode("callout", function (content, kind = "") {
-    return `<div class="callout ${kind}">\n${block(content)}\n</div>`;
+  /* {% callout %}, {% callout "warn" %}, {% callout "highlight" %} for a
+     filled accent box, or {% callout "checkpoint", "Human Judgment Checkpoint" %}
+     for a titled box (kinds: checkpoint, takeaways). */
+  eleventyConfig.addPairedShortcode("callout", function (content, kind = "", title = "") {
+    const t = title ? `<p class="callout-title">${inline(title)}</p>\n` : "";
+    return `<div class="callout ${kind}">\n${t}${block(content)}\n</div>`;
+  });
+
+  /* Click-to-open blocks. {% fold "Title" %}…{% endfold %} is one item; wrap
+     several in {% accordion %}…{% endaccordion %} to number them. */
+  eleventyConfig.addPairedShortcode("fold", function (content, title) {
+    return `<details class="fold"><summary>${inline(title)}</summary><div class="fold-body">\n${block(content)}\n</div></details>`;
+  });
+  eleventyConfig.addPairedShortcode("accordion", function (content) {
+    return `<div class="accordion">\n${content}\n</div>`;
+  });
+
+  /* Optional material stays collapsed until the student opens it. */
+  eleventyConfig.addPairedShortcode("optional", function (content, title) {
+    return `<details class="optional"><summary><span class="pill pill-optional">Optional</span> ${inline(title)}</summary><div class="optional-body">\n${block(content)}\n</div></details>`;
+  });
+
+  /* Work that gets set up as an Assignment or Discussion in the course
+     management system, presented on the page so every delivery looks the same. */
+  const cmsBlock = (kind, label) =>
+    function (content, title = "") {
+      const h = title ? `<h4>${inline(title)}</h4>\n` : "";
+      return `<div class="cms cms-${kind}"><p class="cms-label">${label}</p>\n${h}${block(content)}\n</div>`;
+    };
+  eleventyConfig.addPairedShortcode("assignment", cmsBlock("assignment", "Assignment"));
+  eleventyConfig.addPairedShortcode("discussion", cmsBlock("discussion", "Discussion"));
+
+  /* Images live in src/assets/img/. {% figure "file.png", "alt text", "caption" %} */
+  eleventyConfig.addShortcode("figure", function (file, alt = "", caption = "") {
+    const src = withPrefix(`assets/img/${file}`);
+    const cap = caption ? `<figcaption>${inline(caption)}</figcaption>` : "";
+    return `<figure class="figure"><img src="${src}" alt="${alt}" loading="lazy">${cap}</figure>`;
   });
 
   /* Lesson summary boxes, one per recurring beat of the theory segments:

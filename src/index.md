@@ -13,12 +13,28 @@ description: A six-module course introducing community college students to the r
 
 <div class="cards">
 
+<a class="lcard" href="{{ '/course-details/' | url }}">
+  <p class="num">Start here</p>
+  <h3>Course details</h3>
+  <p>What the course is for, the five-stage process you will use throughout, what each module
+  covers, and who built it.</p>
+  <div class="meta"><span><b>Read this first</b></span></div>
+</a>
+
 <a class="lcard" href="{{ '/teaching-model/' | url }}">
   <p class="num">Design</p>
   <h3>How students work through a module</h3>
   <p>The six-phase model every module follows: build the vocabulary, look at the data, prompt
   and verify, compare with a practitioner, review, build it yourself.</p>
-  <div class="meta"><span><b>Read this first</b></span></div>
+  <div class="meta"><span><b>For course staff</b></span></div>
+</a>
+
+<a class="lcard" href="{{ '/module-1/' | url }}">
+  <p class="num">Module 01 · draft</p>
+  <h3>The AI-Enhanced Data Practitioner</h3>
+  <p>How AI is changing data work, why context decides whether an analysis is right, how
+  AI-generated work fails, and a human-in-the-loop lab for auditing it.</p>
+  <div class="meta"><span><b>Full draft</b></span></div>
 </a>
 
 <a class="lcard" href="{{ '/module-3/' | url }}">
@@ -32,5 +48,5 @@ description: A six-module course introducing community college students to the r
 </div>
 
 <p style="margin-top:1.6rem; color:var(--slate); font-size:.92rem">
-Modules 1, 2, 4, 5 and 6 are not yet built.
+Modules 2 and 4 are not yet built.
 </p>
