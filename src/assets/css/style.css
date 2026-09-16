@@ -415,3 +415,7 @@ figure.figure.logos img{max-height:5rem; width:auto; display:inline-block; margi
   :root:not([data-theme="light"]) figure.figure img{background:#fff; padding:.4rem}
 }
 :root[data-theme="dark"] figure.figure img{background:#fff; padding:.4rem}
+
+/* every click-to-open block says so */
+details.fold summary::after{content:"Show"; margin-left:auto; flex:none; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+details.fold[open] summary::after{content:"Hide"}
