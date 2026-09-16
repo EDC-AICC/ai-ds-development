@@ -56,9 +56,7 @@
   <main
     {% if adj.prev %}data-prev-url="{{ adj.prev.url | url }}" data-prev-label="{{ short(adj.prev) }}"{% endif %}
     {% if adj.next %}data-next-url="{{ adj.next.url | url }}" data-next-label="{{ long(adj.next) }}"{% endif %}
-    data-home-url="{{ '/' | url }}"
-    data-module-url="{{ module.url | url }}"
-    data-module-label="{{ module.label }}">
+    data-home-url="{{ '/' | url }}">
     <div class="pagecol">
       <div class="parthead"><h1 data-heading>{{ title }}</h1></div>
       <div class="lesson-body" data-content>

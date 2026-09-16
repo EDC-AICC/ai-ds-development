@@ -88,7 +88,7 @@ li.current > .part-link .pnum{border-color:var(--accent); color:var(--accent); b
 @media (prefers-reduced-motion:reduce){ .lesson-body section[data-title].current{animation:none} }
 
 /* ---------- section footer nav ---------- */
-.secnav[hidden]{display:none}
+.secnav[hidden],.navbtn[hidden]{display:none}
 .secnav{
   display:flex; align-items:center; gap:1rem; margin:2.6rem 0 0;
   border-top:1px solid var(--line); padding:1.1rem 0 2.6rem;

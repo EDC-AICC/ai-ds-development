@@ -101,14 +101,14 @@
     } else {
       backBtn.textContent = "← All modules"; backBtn.href = d.homeUrl;
     }
+    /* the last section of a unit's last page has nothing to continue to */
+    fwdBtn.hidden = false;
     if (i < sections.length - 1) {
       fwdBtn.textContent = "Continue →"; fwdBtn.href = "#" + secIds[i + 1];
     } else if (d.nextUrl) {
       fwdBtn.textContent = "Next: " + d.nextLabel + " →"; fwdBtn.href = d.nextUrl;
-    } else if (d.moduleUrl === location.pathname) {
-      fwdBtn.textContent = "All modules →"; fwdBtn.href = d.homeUrl;
     } else {
-      fwdBtn.textContent = d.moduleLabel + " overview →"; fwdBtn.href = d.moduleUrl;
+      fwdBtn.hidden = true;
     }
     if (scroll !== false) window.scrollTo({ top: 0 });
   }
