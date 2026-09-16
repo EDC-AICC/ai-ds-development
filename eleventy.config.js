@@ -1,4 +1,5 @@
 import markdownIt from "markdown-it";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
 /* Also used to render markdown inside paired shortcodes, which CommonMark
    would otherwise leave alone once it is wrapped in a <div>. */
@@ -22,6 +23,10 @@ const colabUrl = (notebook) =>
 
 export default function (eleventyConfig) {
   eleventyConfig.setLibrary("md", md);
+
+  /* Fenced code (```python) is highlighted at build time; the colors live in
+     style.css so they follow the site's light/dark tokens. */
+  eleventyConfig.addPlugin(syntaxHighlight);
 
   /* A unit's pages in reading order. Each unit folder declares itself in its
      directory data file ({ module: { key, label, title, url } }); the shell

@@ -419,3 +419,27 @@ figure.figure.logos img{max-height:5rem; width:auto; display:inline-block; margi
 /* every click-to-open block says so */
 details.fold > summary::after{content:"Show"; margin-left:auto; flex:none; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
 details.fold[open] > summary::after{content:"Hide"}
+
+/* ---------- code highlighting ----------
+   Prism token classes from the syntax-highlight plugin, colored with the
+   site's own tokens so code reads the same in light and dark. */
+:root{
+  --code-comment:#7a8794; --code-keyword:#7c3aed; --code-string:#0e7490;
+  --code-number:#b45309; --code-function:#1d4ed8; --code-punct:#5d6b7a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --code-comment:#8b98a5; --code-keyword:#c4a7ff; --code-string:#6dd3e6;
+    --code-number:#f0b96d; --code-function:#8fb4ff; --code-punct:#a1aeba;
+  }
+}
+:root[data-theme="dark"]{
+  --code-comment:#8b98a5; --code-keyword:#c4a7ff; --code-string:#6dd3e6;
+  --code-number:#f0b96d; --code-function:#8fb4ff; --code-punct:#a1aeba;
+}
+.token.comment,.token.prolog,.token.doctype,.token.cdata{color:var(--code-comment); font-style:italic}
+.token.keyword,.token.boolean,.token.important{color:var(--code-keyword)}
+.token.string,.token.char,.token.attr-value,.token.triple-quoted-string{color:var(--code-string)}
+.token.number,.token.constant,.token.symbol{color:var(--code-number)}
+.token.function,.token.class-name,.token.builtin,.token.decorator{color:var(--code-function)}
+.token.punctuation,.token.operator{color:var(--code-punct)}
