@@ -22,4 +22,3 @@ description: A six-module course introducing community college students to the r
 {% endfor %}
 </div>
 
-<p class="note">Modules 2 and 4 are not yet built.</p>
