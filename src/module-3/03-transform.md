@@ -3,17 +3,17 @@ order: 3
 title: Transform
 ---
 
-{% section "The setup" %}
+{% section "The setup", "the-setup" %}
 
 {% todo "To write" %}
 TODO: The opening.
 {% endtodo %}
 
-{% section "Warm-up" %}
+{% section "Warm-up", "warm-up" %}
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is cleaning one column start to finish, so a fix that quietly drops rows is something the student feels before the notebook asks for one.", "200px" %}
 
-{% section "The Concept" %}
+{% section "The Concept", "the-concept" %}
 
 ### Transform: Cleaning and Shaping Your Data
 
@@ -25,7 +25,7 @@ After cleaning, a data scientist often creates new columns derived from the ones
 
 {% concept %}Cleaning produces a trustworthy dataset by removing duplicates, standardising categories, fixing invalid values, and parsing dates. Feature engineering creates new analytical variables derived from existing columns, expanding what questions can be answered.{% endconcept %}
 
-{% section "How AI Can Help" %}
+{% section "How AI Can Help", "how-ai-can-help" %}
 
 Cleaning is one of the most repetitive parts of data science work. Writing mapping dictionaries for category standardisation, date parsing logic, conditional replacement rules, and duplicate removal code is conceptually straightforward but slow to produce from scratch. AI can generate a complete, structured cleaning script from a detailed description of the problems found during exploration.
 
@@ -35,7 +35,7 @@ AI is equally useful for feature engineering. Creating a column that classifies 
 
 {% aihelps %}AI can generate complete cleaning and feature engineering scripts from a detailed description of the problems to fix and the variables to create. This shifts your effort from writing code to verifying that the code did exactly what was intended.{% endaihelps %}
 
-{% section "How to Use AI" %}
+{% section "How to Use AI", "how-to-use-ai" %}
 
 A cleaning prompt must be exhaustive. Every problem identified during exploration needs to appear in the prompt, with specific rules for how to resolve it. Vague instructions like "clean the gender column" produce incomplete code. Specific instructions like "map f, F, female, Female, FEMALE to Female; m, M, male, Male, MALE to Male; Non-binary, NB, other, Other to Other; leave anything else as missing" produce usable code.
 
@@ -45,7 +45,7 @@ A strong cleaning prompt for a clinical visit dataset lists every standardisatio
 
 The same specificity applies to feature engineering prompts. When asking AI to create a high utilizer flag, you must state the threshold (four or more visits per patient), how the flag should be encoded (True or False, or 1 and 0), and which column contains the patient identifier. When asking for a days-since-last-visit column, you must specify that records should be sorted by patient and date before the calculation, and that a patient's first visit should receive a missing value rather than a number.
 
-{% section "Evaluating AI Output" %}
+{% section "Evaluating AI Output", "evaluating-ai-output" %}
 
 Cleaning code must be verified against the actual data, not just reviewed visually. Code that looks correct can still fail to do what you intended. The only reliable check is running the code and examining the results.
 
@@ -61,7 +61,7 @@ One of the most common errors in AI-generated cleaning code is a missing variant
 
 {% aieval %}Verify cleaning by: (1) checking unique values in every standardised column against the expected set, (2) confirming row count decreased by the expected number of duplicates, (3) confirming no invalid values remain by filtering for them, (4) spot-checking at least one derived column value manually. Code that looks right can still produce wrong results.{% endaieval %}
 
-{% section "Resources" %}
+{% section "Resources", "resources" %}
 
 #### Best Practices
 
@@ -76,7 +76,7 @@ One of the most common errors in AI-generated cleaning code is a missing variant
 <li><a href="https://openrefine.org/" target="_blank" rel="noopener"><strong>OpenRefine (free visual cleaning tool)</strong></a><br><span class="lm-desc">Useful for verifying category standardisation visually</span></li>
 </ul>
 
-{% section "Apply it" %}
+{% section "Apply it", "apply-it" %}
 
 {% todo "To write" %}
 The job statement for this part, the way Parts 1 and 2 state theirs.
@@ -84,7 +84,7 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 
 {% slot "notebook", "The notebook for this part, opening in Colab the way Part 2's does. It starts from the raw file, so this part works whatever happened in your Part 2 notebook.", "180px" %}
 
-{% section "Practitioner demo" %}
+{% section "Practitioner demo", "practitioner-demo" %}
 
 {% slot "video", "The practitioner. A messy column and a derived column from real work. What they did, and who they had to ask.", "180px" %}
 
@@ -92,8 +92,8 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 The two comparisons the student makes against the recording, chosen for this part.
 {% endtodo %}
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "3" %}
+{% feedback %}

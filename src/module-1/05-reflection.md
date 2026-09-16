@@ -5,7 +5,7 @@ navLabel: Final Reflection
 crumb: Final Reflection
 ---
 
-{% section "Module 1 Final Reflection" %}
+{% section "Module 1 Final Reflection", "module-1-final-reflection" %}
 
 {% assignment "Final Reflection" %}
 To conclude Module 1, respond briefly to these three questions.
@@ -25,7 +25,7 @@ Looking back at the healthcare example in Part 2, the financial example in Part 
 **What is one unique capability or type of knowledge that you, as the human data practitioner, bring to a dataset that an LLM does not?**
 {% endassignment %}
 
-{% section "Before You Move On" %}
+{% section "Before You Move On", "before-you-move-on" %}
 
 AI can help you accomplish many data tasks faster.
 
@@ -43,7 +43,7 @@ How do I know whether its output is trustworthy and appropriate?
 What knowledge and judgment do I need to contribute?
 {% endcallout %}
 
-{% section "Coming Next: Module 2" %}
+{% section "Coming Next: Module 2", "coming-next-module-2" %}
 
 In Module 1, you learned **why context and human judgment matter**. In **Module 2: Framing Data Problems and Understanding Context**, you will learn how to identify and organize that context systematically before you begin analyzing data. You will identify stakeholders and users, clarify the decision your data work needs to support, establish goals and success criteria, distinguish among data that are needed, available, and actually usable, and identify assumptions, constraints, and risks.
 

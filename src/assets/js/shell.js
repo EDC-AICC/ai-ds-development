@@ -1,10 +1,10 @@
 /* Course shell behavior.
    The layout renders the sidebar and breadcrumb; the page content arrives as
-   one flow with {% section "Title" %} markers (rendered as .sectionbar).
+   one flow with {% section "Title", "id" %} markers (rendered as .sectionbar).
    This script wraps each marker's content into a <section>, shows one at a
-   time, fills the sidebar's section list, and wires Back/Continue — with
+   time, fills the sidebar's section list, and wires Back/Continue, with
    prev/next pages read from data attributes the layout computed at build
-   time. Progress lives in localStorage. No content knowledge lives here. */
+   time. No content knowledge lives here. */
 
 (function () {
   "use strict";
@@ -14,41 +14,32 @@
   var body = document.querySelector("[data-content]");
   if (!main || !body) return;
 
-  var slug = function (t) {
-    return t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  };
-
   /* ---- split content at .sectionbar markers ---- */
   var sections = [];
-  var kids = [].slice.call(body.children);
   var bucket = null;
-
-  function startSection(title) {
+  function startSection(id, title) {
     var sec = document.createElement("section");
+    sec.dataset.sec = id;
     sec.dataset.title = title;
-    sec.dataset.sec = slug(title) || "s" + sections.length;
     sections.push(sec);
+    body.appendChild(sec);
     return sec;
   }
-  kids.forEach(function (el) {
-    var isMarker = el.classList && el.classList.contains("sectionbar");
-    if (isMarker) {
+  [].slice.call(body.children).forEach(function (el) {
+    if (el.classList && el.classList.contains("sectionbar")) {
       var t = el.querySelector(".sectiontitle");
-      bucket = startSection(t ? t.textContent.trim() : "Section");
-      body.appendChild(bucket);
+      bucket = startSection(el.dataset.sec, t ? t.textContent.trim() : "Section");
       bucket.appendChild(el); /* keep the marker inside; CSS hides it */
     } else {
-      if (!bucket) {
-        /* content before the first marker — authors normally open with a
-           {% section %}, but don't lose anything if one is missing */
-        bucket = startSection("Introduction");
-        body.appendChild(bucket);
-      }
+      /* content before the first marker: authors open with a section, but
+         don't lose anything if one is missing */
+      if (!bucket) bucket = startSection("introduction", "Introduction");
       bucket.appendChild(el);
     }
   });
   if (!sections.length) return;
   var secIds = sections.map(function (s) { return s.dataset.sec; });
+  var heading = document.querySelector("[data-heading]");
 
   /* ---- embed mode ----
      ?embed on the URL drops the sidebar, breadcrumb and Continue buttons and
@@ -62,7 +53,7 @@
     var only = secIds.indexOf(location.hash.replace("#", ""));
     if (only >= 0) {
       sections[only].classList.add("current");
-      document.querySelector("[data-heading]").textContent = sections[only].dataset.title;
+      heading.textContent = sections[only].dataset.title;
     } else {
       document.documentElement.classList.add("embed-all");
       sections.forEach(function (s) { s.classList.add("current"); });
@@ -76,81 +67,55 @@
     return;
   }
 
-  /* ---- data the layout computed ---- */
-  var d = main.dataset;
-  var pageKey = location.pathname;
-
-  var PKEY = "aids-shell-progress", LKEY = "aids-shell-last";
-  function loadP() { try { return JSON.parse(localStorage.getItem(PKEY) || "{}"); } catch (e) { return {}; } }
-  function saveP(p) { try { localStorage.setItem(PKEY, JSON.stringify(p)); } catch (e) {} }
-  var prog = loadP();
-  var mine = prog[pageKey] || (prog[pageKey] = { seen: [], total: secIds.length });
-  mine.total = secIds.length;
-  function isDone(key) {
-    var e = prog[key];
-    return !!e && e.total > 0 && e.seen.length >= e.total;
-  }
-
-  /* ---- sidebar: section list + part checkmarks ---- */
+  /* ---- sidebar section list ---- */
   var secList = document.querySelector("[data-secs]");
   if (secList) {
     secList.innerHTML = sections.map(function (s) {
-      return '<li data-sec="' + s.dataset.sec + '"><a href="#' + s.dataset.sec + '">' + s.dataset.title + "</a></li>";
+      return '<li><a href="#' + s.dataset.sec + '">' + s.dataset.title + "</a></li>";
     }).join("");
   }
-  [].forEach.call(document.querySelectorAll(".side-parts > li[data-part]"), function (li) {
-    li.classList.toggle("done", isDone(li.dataset.part));
-  });
+  var sideSecs = secList ? [].slice.call(secList.children) : [];
 
-  /* ---- nav ---- */
+  /* ---- section nav ---- */
+  var d = main.dataset;
   var nav = document.querySelector("[data-secnav]");
   nav.hidden = false;
   var backBtn = nav.querySelector("[data-back]"), fwdBtn = nav.querySelector("[data-fwd]"),
-      pos = nav.querySelector("[data-pos]"), heading = document.querySelector("[data-heading]");
-  var sideSecs = secList ? [].slice.call(secList.children) : [];
-  var current = 0;
+      pos = nav.querySelector("[data-pos]");
 
   function idxFromHash() {
     var i = secIds.indexOf(location.hash.replace("#", ""));
     return i >= 0 ? i : 0;
   }
-  function paint() {
-    sections.forEach(function (s, i) { s.classList.toggle("current", i === current); });
-    sideSecs.forEach(function (li, i) { li.classList.toggle("active", i === current); });
-    heading.textContent = sections[current].dataset.title;
-    pos.textContent = (current + 1) + " / " + sections.length;
+  function show(i, scroll) {
 
-    if (current > 0) {
-      backBtn.textContent = "← Back"; backBtn.href = "#" + secIds[current - 1];
+    sections.forEach(function (s, j) { s.classList.toggle("current", j === i); });
+    sideSecs.forEach(function (li, j) { li.classList.toggle("active", j === i); });
+    heading.textContent = sections[i].dataset.title;
+    pos.textContent = (i + 1) + " / " + sections.length;
+
+    if (i > 0) {
+      backBtn.textContent = "← Back"; backBtn.href = "#" + secIds[i - 1];
     } else if (d.prevUrl) {
       backBtn.textContent = "← " + d.prevLabel; backBtn.href = d.prevUrl;
     } else {
       backBtn.textContent = "← All modules"; backBtn.href = d.homeUrl;
     }
-    if (current < sections.length - 1) {
-      fwdBtn.textContent = "Continue →"; fwdBtn.href = "#" + secIds[current + 1];
+    if (i < sections.length - 1) {
+      fwdBtn.textContent = "Continue →"; fwdBtn.href = "#" + secIds[i + 1];
     } else if (d.nextUrl) {
       fwdBtn.textContent = "Next: " + d.nextLabel + " →"; fwdBtn.href = d.nextUrl;
+    } else if (d.moduleUrl === location.pathname) {
+      fwdBtn.textContent = "All modules →"; fwdBtn.href = d.homeUrl;
     } else {
-      if (d.moduleUrl === pageKey) { fwdBtn.textContent = "All modules →"; fwdBtn.href = d.homeUrl; }
-      else { fwdBtn.textContent = d.moduleLabel + " overview →"; fwdBtn.href = d.moduleUrl; }
+      fwdBtn.textContent = d.moduleLabel + " overview →"; fwdBtn.href = d.moduleUrl;
     }
-
-    var cur = document.querySelector('.side-parts > li[data-part="' + pageKey + '"]');
-    if (cur) cur.classList.toggle("done", isDone(pageKey));
-  }
-  function visit(i, scroll) {
-    current = i;
-    if (mine.seen.indexOf(secIds[i]) < 0) mine.seen.push(secIds[i]);
-    prog[pageKey] = mine; saveP(prog);
-    try { localStorage.setItem(LKEY, JSON.stringify({ url: pageKey + "#" + secIds[i] })); } catch (e) {}
-    paint();
     if (scroll !== false) window.scrollTo({ top: 0 });
   }
 
-  window.addEventListener("hashchange", function () { visit(idxFromHash()); });
+  window.addEventListener("hashchange", function () { show(idxFromHash()); });
   if (!location.hash) history.replaceState(null, "", "#" + secIds[0]);
-  visit(idxFromHash(), false);
+  show(idxFromHash(), false);
 
   document.addEventListener("keydown", function (e) {
     if (e.target.closest("input,textarea") || e.metaKey || e.ctrlKey || e.altKey) return;

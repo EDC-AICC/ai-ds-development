@@ -4,6 +4,10 @@
     "key": "course",
     "label": "Course details",
     "title": "Course details",
-    "url": "/course-details/"
+    "url": "/course-details/",
+    "rank": 0,
+    "kicker": "Start here",
+    "blurb": "What the course is for, the five-stage process you will use throughout, what each module covers, and who built it.",
+    "status": "Read this first"
   }
 }

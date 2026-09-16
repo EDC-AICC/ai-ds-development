@@ -3,17 +3,17 @@ order: 5
 title: Share
 ---
 
-{% section "The setup" %}
+{% section "The setup", "the-setup" %}
 
 {% todo "To write" %}
 TODO: The opening.
 {% endtodo %}
 
-{% section "Warm-up" %}
+{% section "Warm-up", "warm-up" %}
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is red-penning an AI draft whose numbers are all correct, so the student learns to catch the sentence rather than the arithmetic.", "200px" %}
 
-{% section "The Concept" %}
+{% section "The Concept", "the-concept" %}
 
 ### Share and Act: Communicating Findings
 
@@ -25,7 +25,7 @@ Before sharing findings, a data scientist also checks for patterns that could in
 
 {% concept %}Sharing findings means translating verified results into accurate, honest, and actionable communication. It includes visualisation, written summary, bias and equity checks, and clear statements of what the data shows and what it does not.{% endconcept %}
 
-{% section "How AI Can Help" %}
+{% section "How AI Can Help", "how-ai-can-help" %}
 
 AI is useful in the Share step for three distinct tasks. The first is building visualisations. You describe the data and the audience, AI recommends a chart type with a rationale, and it writes the code. This is significantly faster than building chart code from scratch, especially when you need to customise labels, titles, colors, and layout for a specific audience.
 
@@ -35,7 +35,7 @@ The third task is generating a bias and equity checklist. Clinical datasets carr
 
 {% aihelps %}AI helps you build visualisations faster, draft plain-language summaries from verified numbers, and generate bias detection checklists. In every case, AI produces a first draft that you verify, refine, and take professional responsibility for. The final deliverable reflects your judgment.{% endaihelps %}
 
-{% section "How to Use AI" %}
+{% section "How to Use AI", "how-to-use-ai" %}
 
 For visualisation, a strong prompt names the data variable, describes the columns being plotted, states the audience, and asks AI to justify its chart type recommendation before writing the code:
 
@@ -51,7 +51,7 @@ For bias and equity checking, ask AI to generate a structured checklist specific
 
 {% aiprompt %}I have a clinical outpatient visit dataset with columns including patient identifiers, visit dates, diagnosis codes, visit type, gender, age, insurance type, provider, county, copay amount, and follow-up status. It also has derived columns for age group and a high utilizer flag. What types of bias or equity concerns should I check for before sharing findings with the clinic director? List 5 specific checks, and for each describe what the concern is, how to detect it in the data, and why it matters for a clinical equity analysis.{% endaiprompt %}
 
-{% section "Evaluating AI Output" %}
+{% section "Evaluating AI Output", "evaluating-ai-output" %}
 
 The Share step carries the highest stakes for evaluation errors. The people who receive your deliverable cannot check the numbers themselves. If an error passes through unchecked, it becomes part of the record. This is the step where rigorous evaluation matters most.
 
@@ -65,7 +65,7 @@ For visualisations, evaluate the output as if you are the clinic director seeing
 
 {% aieval %}Before sharing any AI-generated content: (1) trace every number to your verified results and remove any that are not there, (2) remove any interpretive or causal claims AI added that the data does not support, (3) evaluate visualisations visually as a communication product, (4) report bias patterns as observations with unknown causes, not as AI-explained conclusions. These are your professional standards, not AI's.{% endaieval %}
 
-{% section "Resources" %}
+{% section "Resources", "resources" %}
 
 #### Best Practices
 
@@ -81,7 +81,7 @@ For visualisations, evaluate the output as if you are the clinic director seeing
 <li><a href="https://seaborn.pydata.org/tutorial.html" target="_blank" rel="noopener"><strong>Seaborn Visualization Library Tutorial</strong></a><br><span class="lm-desc">Understand and customise AI-generated chart code</span></li>
 </ul>
 
-{% section "Apply it" %}
+{% section "Apply it", "apply-it" %}
 
 {% todo "To write" %}
 The job statement for this part, the way Parts 1 and 2 state theirs.
@@ -89,7 +89,7 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 
 {% slot "notebook", "The notebook for this part, opening in Colab the way Part 2's does. It loads the cleaned clinic file, so your numbers come from the same place your findings did.", "180px" %}
 
-{% section "Practitioner demo" %}
+{% section "Practitioner demo", "practitioner-demo" %}
 
 {% slot "video", "The practitioner. When is AI worth skipping? Their rubric with examples.", "180px" %}
 
@@ -97,8 +97,8 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 The two comparisons the student makes against the recording, chosen for this part.
 {% endtodo %}
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "5" %}
+{% feedback %}

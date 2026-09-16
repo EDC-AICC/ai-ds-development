@@ -3,7 +3,7 @@ order: 0
 title: The AI-Enhanced Data Practitioner
 ---
 
-{% section "Overview" %}
+{% section "Overview", "overview" %}
 
 <p class="note"><strong>Estimated time:</strong> Approximately 3–4 hours. <em>Optional examples and challenges can be used for additional practice.</em></p>
 
@@ -19,7 +19,7 @@ Throughout this module, keep one central idea in mind:
 AI can accelerate data work, but you remain responsible for the quality, context, and consequences of the work.
 {% endcallout %}
 
-{% section "What Is an AI-Enhanced Data Practitioner?" %}
+{% section "What Is an AI-Enhanced Data Practitioner?", "what-is-an-ai-enhanced-data-practitioner" %}
 
 The industry-informed profile that serves as the foundation for this course defines the role this way:
 
@@ -27,7 +27,7 @@ The industry-informed profile that serves as the foundation for this course defi
 
 You will look at different parts of this definition throughout the course. In this module, you will begin with an especially important part of the role: understanding what AI can accelerate while recognizing what **you** still need to understand, evaluate, verify, and decide.
 
-{% section "Essential Question and Objectives" %}
+{% section "Essential Question and Objectives", "essential-question-and-objectives" %}
 
 ### Essential Question
 
@@ -44,7 +44,7 @@ You will look at different parts of this definition throughout the course. In th
 - Explain why AI-generated data, code, analyses, and recommendations must be critically evaluated.
 - Identify common risks and failure modes in AI-generated data work.
 
-{% section "Module Roadmap" %}
+{% section "Module Roadmap", "module-roadmap" %}
 
 Here's what you'll explore in Module 1. Each part builds toward your final Human-in-the-Loop Decision Lab.
 

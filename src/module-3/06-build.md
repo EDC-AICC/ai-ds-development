@@ -3,13 +3,13 @@ order: 6
 title: Apply
 ---
 
-{% section "The setup" %}
+{% section "The setup", "the-setup" %}
 
 {% todo "To write" %}
 TODO: The opening.
 {% endtodo %}
 
-{% section "The job" %}
+{% section "The job", "the-job" %}
 
 {% todo "To write" %}
 The job statement. The student runs the whole loop alone on this file.
@@ -19,18 +19,18 @@ The job statement. The student runs the whole loop alone on this file.
 Opens in Colab and loads the shelter file.
 {% endnotebook %}
 
-{% section "What to hand in" %}
+{% section "What to hand in", "what-to-hand-in" %}
 
 {% todo "To write" %}
 What the student hands in, one deliverable per Part.
 {% endtodo %}
 
-{% section "Afterwards" %}
+{% section "Afterwards", "afterwards" %}
 
 {% slot "notebook", "A worked version, released after hand-in. One defensible way through, with the reasoning visible.", "150px" %}
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "6" %}
+{% feedback %}

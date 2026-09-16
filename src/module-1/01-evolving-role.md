@@ -4,11 +4,11 @@ title: The Evolving Role of the Data Practitioner
 navLabel: The Evolving Role
 ---
 
-{% section "Overview and Learning Goal" %}
+{% section "Overview and Learning Goal", "overview-and-learning-goal" %}
 
 In this section, you will examine how generative AI fundamentally shifts the day-to-day workflow of a data practitioner. Historically, a major portion of a data practitioner's time and mental bandwidth was consumed by writing syntax or boilerplate code. A lot of time was spent looking up library documentation, generating code, and debugging code. With generative AI handling more of this boilerplate work, the bottleneck moves both upstream and downstream: more of your time can center on **problem formulation, validation, and context curation**.
 
-{% section "Conceptual Breakdown: Syntax vs. Curation" %}
+{% section "Conceptual Breakdown: Syntax vs. Curation", "conceptual-breakdown-syntax-vs-curation" %}
 
 To understand this shift, let's look at where a practitioner spends their main effort before and after the integration of AI tools.
 
@@ -18,7 +18,7 @@ To understand this shift, let's look at where a practitioner spends their main e
 
 **Modern AI-Augmented Workflow (Right):** AI instantly handles syntax ("AI Code Generation") in seconds. The primary effort, which is now the most significant phase, shifts to "Context Curation & Validation." In this step, the practitioner focuses on validating the work, aligning the output with business goals, checking constraints, and auditing for errors.
 
-{% section "Industry Example: Retail Churn Analysis" %}
+{% section "Industry Example: Retail Churn Analysis", "industry-example-retail-churn-analysis" %}
 
 Let's look at how this plays out in a real-world retail example, where a company wants to identify customers who may stop buying from them, sometimes called customer churn.
 
@@ -38,7 +38,7 @@ A national retail brand wants to identify customers who are likely to stop buyin
 
 The key difference is not simply speed. Once AI produces the code, **you still have to determine whether that code represents the real problem correctly.**
 
-{% section "Interactive Thought Experiment: Customer Lifetime Value" %}
+{% section "Interactive Thought Experiment: Customer Lifetime Value", "interactive-thought-experiment-customer-lifetime-value" %}
 
 Imagine you ask an AI to write a script to segment customers by lifetime value, or LTV.
 
@@ -66,7 +66,7 @@ Ask yourself:
 - What do I need to verify before someone acts on this analysis?
 {% endcallout %}
 
-{% section "Key Takeaways" %}
+{% section "Key Takeaways", "key-takeaways" %}
 
 {% callout "takeaways", "Key Takeaways" %}
 **AI is a speed multiplier.** It is not a substitute for thinking. AI can accelerate code writing, but you still need oversight to check for problems and validate the work.
@@ -76,7 +76,7 @@ Ask yourself:
 **Garbage in, context out.** Without a deep understanding of the organizational or business domain, accepting AI-generated workflows blindly can lead to silent analytical errors. If you treat the process as a black box, you may end up with answers you cannot explain.
 {% endcallout %}
 
-{% section "Optional Preview: Why Syntax Isn't Enough" %}
+{% section "Optional Preview: Why Syntax Isn't Enough", "optional-preview-why-syntax-isn-t-enough" %}
 
 {% optional "Why Syntax Isn't Enough" %}
 To see how generative AI handles messy data preparation, consider a dataset containing inconsistent casing, trailing whitespace, and unformatted date entries.
@@ -126,7 +126,7 @@ The AI successfully generates syntax to clean the strings and parse the dates in
 **Your Organizational Understanding.** AI provided the technical mechanism to clean the data. You need to determine whether to keep the missing values, investigate the legacy system source, use an appropriate method to address the missing information, or exclude particular records.
 {% endoptional %}
 
-{% section "Before You Continue" %}
+{% section "Before You Continue", "before-you-continue" %}
 
 In Part 1, you saw how AI can accelerate technical work and shift more of your attention toward context and validation.
 

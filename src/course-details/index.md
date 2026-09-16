@@ -5,7 +5,7 @@ navLabel: Course details
 description: Overall information about the AI in Data Science course, its goals, structure, and development.
 ---
 
-{% section "Welcome to AI in Data Science" %}
+{% section "Welcome to AI in Data Science", "welcome-to-ai-in-data-science" %}
 
 AI is changing the way data work gets done.
 
@@ -15,7 +15,7 @@ Data practitioners are already using AI to help write code, clean and organize d
 
 Throughout this course, you will use AI as part of realistic data work while strengthening the knowledge and judgment that employers need from data professionals. You will practice deciding when AI can help, when its work needs to be checked or revised, and when human knowledge and decision-making are essential.
 
-{% section "What Is an AI-Enhanced Data Practitioner?" %}
+{% section "What Is an AI-Enhanced Data Practitioner?", "what-is-an-ai-enhanced-data-practitioner" %}
 
 An **AI-Enhanced Data Practitioner** is someone who combines data skills with AI tools to do data work more effectively.
 
@@ -36,13 +36,13 @@ You still need to understand the problem, know where the data came from, recogni
 
 The industry-informed profile behind this course emphasizes both sides of the role: using AI to accelerate data work **and** applying human knowledge, organizational understanding, evaluation, communication, and judgment.
 
-{% section "How You Will Work Through Data Problems" %}
+{% section "How You Will Work Through Data Problems", "how-you-will-work-through-data-problems" %}
 
 Review the graphic below to learn about the five-stage process that you'll use throughout the course as you work through a series of data problems. This progression reflects the way real data work often happens. You may move back and forth between stages as you learn more about the problem and the data.
 
 {% figure "data-practice-process.png", "The Data Practice Process: Understand, Explore, Prepare, Analyze, Share. Three questions to keep asking: How can AI support my work? How do I know whether its output is trustworthy and appropriate? What knowledge and judgment do I need to contribute?" %}
 
-{% section "Module 0: Python Readiness" %}
+{% section "Module 0: Python Readiness", "module-0-python-readiness" %}
 
 Before you begin the main course modules, make sure you have enough Python experience to work comfortably with data and understand basic code.
 
@@ -68,7 +68,7 @@ If you need more preparation, your instructor may ask you to complete selected l
 
 You may not need every lesson. The goal is simply to make sure you have the skills you need to work successfully with the course activities.
 
-{% section "Module 1: The AI-Enhanced Data Practitioner" %}
+{% section "Module 1: The AI-Enhanced Data Practitioner", "module-1-the-ai-enhanced-data-practitioner" %}
 
 AI can now complete many technical tasks that once took data practitioners a great deal of time. That changes where your own skills and attention become most important.
 
@@ -86,7 +86,7 @@ By the end of Module 1, you will be able to:
 - Evaluate AI-generated data, code, analyses, and recommendations.
 - Recognize common AI failures and risks.
 
-{% section "Module 2: Framing Data Problems and Understanding Context" %}
+{% section "Module 2: Framing Data Problems and Understanding Context", "module-2-framing-data-problems-and-understanding-context" %}
 
 Good data work begins **before** you start analyzing a dataset.
 
@@ -109,7 +109,7 @@ By the end of Module 2, you will be able to:
 - Identify organizational, user, ethical, and technical issues that may affect the work.
 - Decide where AI can help and where human decision-making is required.
 
-{% section "Module 3: Understanding, Exploring, Preparing, Analyzing, and Sharing Data with AI" %}
+{% section "Module 3: Understanding, Exploring, Preparing, Analyzing, and Sharing Data with AI", "module-3-understanding-exploring-preparing-analyzing-and-sharing-data-with-ai" %}
 
 Now you will put the course process into action:
 
@@ -130,7 +130,7 @@ By the end of Module 3, you will be able to:
 - Identify errors, bias, hallucinations, unsupported conclusions, and other problems in AI-generated work.
 - Explain what AI contributed and what knowledge and judgment you needed to contribute.
 
-{% section "Module 4: Communicating Insights, Responsible AI, and Future Trends" %}
+{% section "Module 4: Communicating Insights, Responsible AI, and Future Trends", "module-4-communicating-insights-responsible-ai-and-future-trends" %}
 
 Finding an answer is not the end of data work. You also need to explain what you found in a way that other people can understand and use. In this module, you will practice communicating data findings through visualizations, summaries, dashboards, presentations, and other forms that may be used in the workplace. You will think about who your audience is, what they need to know, what uncertainty or limitations should be explained, and how to avoid presenting data in a misleading way.
 
@@ -148,7 +148,7 @@ By the end of Module 4, you will be able to:
 - Describe why documentation, evaluation, data organization, and human oversight become more important as AI automates more tasks.
 - Identify areas where you will need to continue building your skills as AI and data work evolve.
 
-{% section "What This Course Will Be Like" %}
+{% section "What This Course Will Be Like", "what-this-course-will-be-like" %}
 
 You will not learn AI by simply reading about tools. You will work with **realistic workplace-style problems and data tasks**. At different points, you may encounter:
 
@@ -168,7 +168,7 @@ The central professional practice throughout the course is simple:
 Use AI to help you work faster and more effectively, while using your own knowledge, judgment, and verification to make sure the result is accurate, useful, and responsible.
 {% endcallout %}
 
-{% section "About the AI in Community Colleges Initiative" %}
+{% section "About the AI in Community Colleges Initiative", "about-the-ai-in-community-colleges-initiative" %}
 
 This course was developed through the **AI in Community Colleges ([AI in CC](https://aicc.edc.org/))** initiative, led by Education Development Center, Inc. ([EDC](https://edc.org/)) in collaboration with community college partners and supported by the National Science Foundation.
 
@@ -176,7 +176,7 @@ The initiative is focused on helping community college students build the skills
 
 Partner colleges include: [Bridgerland Technical College](https://btech.edu/), [Bunker Hill Community College](https://www.bhcc.edu/), [Green River College](https://www.greenriver.edu/index.html), [Harford Community College](https://www.harford.edu/), [Nashville State Community College](https://www.nscc.edu/).
 
-{% section "Attributions" %}
+{% section "Attributions", "attributions" %}
 
 ### Creative Commons License
 

@@ -3,17 +3,17 @@ order: 4
 title: Analyze
 ---
 
-{% section "The setup" %}
+{% section "The setup", "the-setup" %}
 
 {% todo "To write" %}
 TODO: The opening.
 {% endtodo %}
 
-{% section "Warm-up" %}
+{% section "Warm-up", "warm-up" %}
 
 {% slot "activity", "An activity and two check questions, the shape Parts 1 and 2 use. The idea for this part is committing to what you expect before the answer appears, so the gap between the guess and the result is where the student's attention lands.", "200px" %}
 
-{% section "The Concept" %}
+{% section "The Concept", "the-concept" %}
 
 ### Analyse: Finding Patterns in Clean Data
 
@@ -25,7 +25,7 @@ Good analysis also generates new questions. When a frequency analysis shows that
 
 {% concept %}Analysis converts clean data into findings by grouping, counting, averaging, and comparing. Good analysis answers specific questions, but it also generates new ones. The goal is findings the recipient can act on, not the maximum number of statistics possible.{% endconcept %}
 
-{% section "How AI Can Help" %}
+{% section "How AI Can Help", "how-ai-can-help" %}
 
 AI changes the economics of analysis significantly. Writing groupby operations, crosstabs, conditional filters, and sorting logic by hand takes time. With AI, the code for a specific analysis takes minutes once you describe what you want. That shift in time allocation, less time writing code and more time thinking about results, is one of the most concrete benefits of using AI as a data science tool.
 
@@ -35,7 +35,7 @@ AI is also useful after analysis is complete. Once you have results, you can pas
 
 {% aihelps %}AI helps by suggesting analysis directions when the path is unclear, writing analysis code on demand from a specific description, and helping interpret results once they are available. This allows a data scientist to spend more time on the thinking and less on the typing.{% endaihelps %}
 
-{% section "How to Use AI" %}
+{% section "How to Use AI", "how-to-use-ai" %}
 
 There are two productive approaches to using AI for analysis. The first is to ask AI to suggest what is worth investigating. This works well when the direction is not yet clear. A good prompt for this approach describes the dataset, the business goal, and asks AI to suggest questions along with the columns each would require:
 
@@ -51,7 +51,7 @@ For written summaries of analysis results, give AI your verified numbers explici
 
 {% aiprompt %}Here are my verified findings from the clinic visit analysis: [paste your actual numbers here]. Write a 4-sentence summary for a non-technical clinic director. Use only the numbers I have provided. Do not add any statistics I have not given you. End with one sentence noting a data limitation the director should be aware of.{% endaiprompt %}
 
-{% section "Evaluating AI Output" %}
+{% section "Evaluating AI Output", "evaluating-ai-output" %}
 
 Analysis output from AI-generated code requires two levels of verification. The first is technical: did the code run correctly and produce what you intended? The second is interpretive: does AI describe the results accurately, and does it stay within what the data actually shows?
 
@@ -63,7 +63,7 @@ The most important habit in this step is checking every number in any AI-generat
 
 {% aieval %}Verify analysis output by: (1) confirming grouping, measure, and sort direction are correct, (2) checking every number in any AI-generated summary against your actual results — remove any number AI added that was not in your verified output, (3) removing any causal or clinical interpretation AI added that the data does not support. These checks are non-negotiable.{% endaieval %}
 
-{% section "Resources" %}
+{% section "Resources", "resources" %}
 
 #### Best Practices
 
@@ -78,7 +78,7 @@ The most important habit in this step is checking every number in any AI-generat
 <li><a href="https://www.kaggle.com/learn/pandas" target="_blank" rel="noopener"><strong>Kaggle: Pandas Course (free, browser-based)</strong></a><br><span class="lm-desc">Understand what AI-generated analysis code is doing</span></li>
 </ul>
 
-{% section "Apply it" %}
+{% section "Apply it", "apply-it" %}
 
 {% todo "To write" %}
 The job statement for this part, the way Parts 1 and 2 state theirs.
@@ -86,7 +86,7 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 
 {% slot "notebook", "The notebook for this part, opening in Colab the way Part 2's does. It loads the course's cleaned file, the output of Part 3, so everyone analyzes identical data.", "180px" %}
 
-{% section "Practitioner demo" %}
+{% section "Practitioner demo", "practitioner-demo" %}
 
 {% slot "video", "The practitioner. The most valuable recording in the module. A time missing data turned out to mean something: how they worked out which kind of missing it was, and who they asked.", "180px" %}
 
@@ -94,8 +94,8 @@ The job statement for this part, the way Parts 1 and 2 state theirs.
 The two comparisons the student makes against the recording, chosen for this part.
 {% endtodo %}
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "4" %}
+{% feedback %}

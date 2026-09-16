@@ -4,11 +4,11 @@ title: The Human-in-the-Loop Decision Lab
 navLabel: Decision Lab
 ---
 
-{% section "Overview and Learning Goal" %}
+{% section "Overview and Learning Goal", "overview-and-learning-goal" %}
 
 In this final section, you will move from examining examples to acting as an **active auditor of AI-supported data work**. You will use a repeatable framework for deciding when to accept an AI-generated data report, when to verify or revise it, and when to override or reject its recommendation before it reaches a decision-maker.
 
-{% section "The Scenario: Metro Transit Route Optimization" %}
+{% section "The Scenario: Metro Transit Route Optimization", "the-scenario-metro-transit-route-optimization" %}
 
 Imagine you are a senior data analyst at a metropolitan transit authority. Department leadership asks you to evaluate weekend bus ridership across the city to find ways to reduce operating costs. You use an AI assistant to analyze the last quarter's ticketing data and generate an automated report.
 
@@ -22,7 +22,7 @@ Imagine you are a senior data analyst at a metropolitan transit authority. Depar
 
 Would you send the recommendation to leadership?
 
-{% section "The Hidden Traps: What the AI Missed" %}
+{% section "The Hidden Traps: What the AI Missed", "the-hidden-traps-what-the-ai-missed" %}
 
 If leadership acts immediately on the recommendation, it could create serious operational and public-equity problems because of three hidden context gaps.
 
@@ -38,7 +38,7 @@ The quarter analyzed included a major citywide winter storm that shut down weeke
 {% endfold %}
 {% endaccordion %}
 
-{% section "Human-in-the-Loop Verification Framework" %}
+{% section "Human-in-the-Loop Verification Framework", "human-in-the-loop-verification-framework" %}
 
 To prevent costly analytical mistakes, evaluate the report using these three questions:
 
@@ -56,7 +56,7 @@ The key is to make your verification **specific**.
 
 Identify what needs to be checked, where you can find the information, and who may need to be involved.
 
-{% section "Try It Yourself: HR Retention and Burnout Risk Model" %}
+{% section "Try It Yourself: HR Retention and Burnout Risk Model", "try-it-yourself-hr-retention-and-burnout-risk-model" %}
 
 ### The Background
 
@@ -84,7 +84,7 @@ Complete the framework on your own before discussing your response with others.
 **What common workplace situations could cause an employee to have low internal chat activity or low office badge use that have nothing to do with wanting to quit?**
 {% enddiscussion %}
 
-{% section "Optional Additional Challenge: Smart Grid Energy Audit" %}
+{% section "Optional Additional Challenge: Smart Grid Energy Audit", "optional-additional-challenge-smart-grid-energy-audit" %}
 
 {% optional "Smart Grid Energy Audit" %}
 A second independent scenario. If instructional time permits, faculty can assign both.

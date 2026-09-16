@@ -1,4 +1,4 @@
-/* Theme toggle, and sizing activity frames to what they report. */
+/* Theme toggle, activity frames (fullscreen button and reported heights). */
 (function () {
   "use strict";
 
@@ -56,7 +56,17 @@
     });
   }
 
-  function init() { initTheme(); initActivityHeights(); }
+  function initFullscreen() {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-fullscreen]");
+      if (!btn) return;
+      var f = btn.closest(".activity-embed").querySelector("iframe");
+      var go = f.requestFullscreen || f.webkitRequestFullscreen;
+      if (go) go.call(f);
+    });
+  }
+
+  function init() { initTheme(); initActivityHeights(); initFullscreen(); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

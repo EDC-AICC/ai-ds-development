@@ -4,11 +4,11 @@ title: "When AI Fails: Risks, Hallucinations, and Silent Logic Bugs"
 navLabel: When AI Fails
 ---
 
-{% section "Overview and Learning Goal" %}
+{% section "Overview and Learning Goal", "overview-and-learning-goal" %}
 
 In this section, you will examine how generative AI tools can fail in data work. Some failures are obvious. Code crashes or generates an error. Other failures are harder to detect because AI can produce output that *appears* professional and technically sophisticated. You will learn to spot failure modes that can include hallucinated column names or methods, overlooked edge cases, and silent data manipulations that affect downstream analyses.
 
-{% section "Conceptual Breakdown: The Anatomy of an AI Failure" %}
+{% section "Conceptual Breakdown: The Anatomy of an AI Failure", "conceptual-breakdown-the-anatomy-of-an-ai-failure" %}
 
 When you ask an AI system to clean, transform, or model data, it can produce output that looks technically correct without understanding your organization's business context, downstream impact, where that data came from and how it's been changed, or local rules about how the data are recorded. This creates three important types of failure to watch for:
 
@@ -26,7 +26,7 @@ AI applies a statistical approach without recognizing important distribution ano
 {% endfold %}
 {% endaccordion %}
 
-{% section "Thought Exercise 1: Silent Logic Bug" %}
+{% section "Thought Exercise 1: Silent Logic Bug", "thought-exercise-1-silent-logic-bug" %}
 
 ### The Scenario
 
@@ -61,7 +61,7 @@ By imputing a median score for exempt or absent students, the analysis alters di
 The key is to understand what the missing values mean before choosing how to handle them.
 {% endq %}
 
-{% section "Thought Exercise 2: Hallucinated Code" %}
+{% section "Thought Exercise 2: Hallucinated Code", "thought-exercise-2-hallucinated-code" %}
 
 ### The Scenario
 
@@ -95,7 +95,7 @@ An obvious error can be corrected, but hallucinated methods, column names, or ot
 **Possible answer:** You should check the official documentation for the software library, review the columns and fields in your actual dataset, and test the code before relying on it. If you do not recognize a method, function, or field name, treat that as a signal to verify it rather than assume the AI is correct.
 {% endq %}
 
-{% section "Optional Quick Challenge: The Automated Outlier Exterminator" %}
+{% section "Optional Quick Challenge: The Automated Outlier Exterminator", "optional-quick-challenge-the-automated-outlier-exterminator" %}
 
 {% optional "The Automated Outlier Exterminator" %}
 ### The Scenario
@@ -125,7 +125,7 @@ The script successfully "cleans" the dataset by deleting some of the company's m
 {% endq %}
 {% endoptional %}
 
-{% section "Concrete Code Breakdown: When Missing Data Becomes a Problem" %}
+{% section "Concrete Code Breakdown: When Missing Data Becomes a Problem", "concrete-code-breakdown-when-missing-data-becomes-a-problem" %}
 
 Now look closely at an AI failure that does not necessarily announce itself with an obvious coding error.
 
@@ -176,7 +176,7 @@ Or is it a missing record that needs investigation, exclusion, or another treatm
 
 *You need to use your judgment and domain knowledge to decide how the missing data should be handled.*
 
-{% section "Interactive Exercise: Spot the Hallucination" %}
+{% section "Interactive Exercise: Spot the Hallucination", "interactive-exercise-spot-the-hallucination" %}
 
 Look at this AI-generated customer-segmentation script:
 
@@ -217,7 +217,7 @@ Before accepting AI-generated code or analysis, ask yourself:
 - What should I check against documentation or organizational knowledge?
 {% endcallout %}
 
-{% section "Key Takeaways" %}
+{% section "Key Takeaways", "key-takeaways" %}
 
 {% callout "takeaways", "Key Takeaways" %}
 **Zero errors does not equal correct organizational logic.** An AI-generated script can run without producing an error and still introduce damaging problems into your data workflow.
@@ -227,7 +227,7 @@ Before accepting AI-generated code or analysis, ask yourself:
 **Trust, but verify.** Your responsibility in an AI-enhanced workflow includes rigorous code auditing, checking documentation, and questioning assumptions before AI-generated work is used.
 {% endcallout %}
 
-{% section "Before You Continue" %}
+{% section "Before You Continue", "before-you-continue" %}
 
 You have now seen several ways AI-supported data work can go wrong:
 

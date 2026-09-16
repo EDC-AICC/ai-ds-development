@@ -4,11 +4,11 @@ title: "Context Is King: Business, Organization, and Users"
 navLabel: Context Is King
 ---
 
-{% section "Concept in Depth: The Gap Between Math and Reality" %}
+{% section "Concept in Depth: The Gap Between Math and Reality", "concept-in-depth-the-gap-between-math-and-reality" %}
 
 Code and statistical models that are syntactically correct can still be completely wrong, and potentially harmful, for an organizational problem. You need to understand stakeholder constraints, operational realities, and user contexts. If these are ignored, you can end up with a model that does not adequately represent organizational needs. AI can identify statistical patterns and generate technical solutions. **You must supply and investigate the organizational, operational, and human context needed to determine whether the insight actually solves the right problem safely.**
 
-{% section "Concrete Industry Example: Healthcare Readmission Rates" %}
+{% section "Concrete Industry Example: Healthcare Readmission Rates", "concrete-industry-example-healthcare-readmission-rates" %}
 
 To explore how organizational context alters data interpretation, imagine that you work in a hospital system analytics department.
 
@@ -38,7 +38,7 @@ The mathematical relationship may be real.
 
 **What that relationship means requires organizational and human context.**
 
-{% section "Quick Context Challenge 1: The \"Efficient\" Call Center" %}
+{% section "Quick Context Challenge 1: The \"Efficient\" Call Center", "quick-context-challenge-1-the-efficient-call-center" %}
 
 ### The Scenario
 
@@ -84,7 +84,7 @@ For example, you might revise the request to ask:
 > **Analyze which factors are associated with effective customer service, considering call duration, customer satisfaction, problem resolution, repeat contacts, and differences in call complexity. Identify any trade-offs between efficiency and service quality.**
 {% endq %}
 
-{% section "Quick Context Challenge 2: The \"Flawless\" Sales Strategy" %}
+{% section "Quick Context Challenge 2: The \"Flawless\" Sales Strategy", "quick-context-challenge-2-the-flawless-sales-strategy" %}
 
 ### The Scenario
 
@@ -110,7 +110,7 @@ The sales spike is a one-time anomaly, not necessarily evidence of a permanent t
 Before acting on an unusual spike or drop in data, consider whether weather, current events, policy changes, holidays, emergencies, economic conditions, or other outside events could help explain what you are seeing.
 {% endq %}
 
-{% section "From an Initial Prompt to a Context-Driven Prompt" %}
+{% section "From an Initial Prompt to a Context-Driven Prompt", "from-an-initial-prompt-to-a-context-driven-prompt" %}
 
 Now look at a case in which organizational knowledge changes not only how you interpret an output but also how the analysis itself must be carried out.
 
@@ -195,7 +195,7 @@ Before accepting an AI-generated analysis, ask:
 5. How could my analysis change if my assumption is wrong?
 {% endcallout %}
 
-{% section "Key Takeaway" %}
+{% section "Key Takeaway", "key-takeaway" %}
 
 {% callout "takeaways", "Key Takeaway" %}
 Generative AI can be extremely useful for automating grouping, summing, aggregation, and other mathematical functions; however, recognizing domain context, such as understanding that a legacy system uses a special placeholder value, remains your responsibility.
@@ -203,7 +203,7 @@ Generative AI can be extremely useful for automating grouping, summing, aggregat
 **You need organizational context to use AI effectively.**
 {% endcallout %}
 
-{% section "Before You Continue" %}
+{% section "Before You Continue", "before-you-continue" %}
 
 So far, you have seen two important shifts.
 

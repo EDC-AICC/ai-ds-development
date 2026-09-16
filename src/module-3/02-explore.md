@@ -3,7 +3,7 @@ order: 2
 title: Explore
 ---
 
-{% section "The setup" %}
+{% section "The setup", "the-setup" %}
 
 The director asks what sounds like the easiest question in the building. How many visits did we get last year?
 
@@ -11,7 +11,7 @@ The file has 812 rows, so the ten-second answer is 812. It is wrong in several w
 
 Finding that out is part of your job. You count what is in every column and write down every problem you find. Fixing those issues happens in the next module, and it goes faster once you know what needs fixing.
 
-{% section "Warm-up" %}
+{% section "Warm-up", "warm-up" %}
 
 This is the real clinic file, all 812 rows of it, hooked up to the five checks every data analyst runs on a new dataset. There are some defects hiding in the data. Find them all, and pay attention to which check catches each one. In the notebook below you will be asking an AI to write similar checks.
 
@@ -29,7 +29,7 @@ Four bad dates in 812 rows means a random hundred rows will usually contain zero
 
 {% endcheck %}
 
-{% section "Before your first run" %}
+{% section "Before your first run", "before-your-first-run" %}
 
 You need two things for the rest of this module. A Google account, for Colab. And a free AI chat tool, any of the major ones.
 
@@ -54,7 +54,7 @@ you to work with me.
 - Comment every line with what it does, so I can follow the code without
   already knowing pandas.</pre>
 
-{% section "The Concept" %}
+{% section "The Concept", "the-concept" %}
 
 ### Explore: Getting to Know Your Data
 
@@ -68,7 +68,7 @@ Validity means checking whether values fall within a reasonable range for what t
 
 {% concept %}Exploratory data analysis is the systematic examination of a dataset's completeness, consistency, and validity before any cleaning or analysis begins. Problems found in this step, if ignored, produce wrong conclusions in every step that follows.{% endconcept %}
 
-{% section "How AI Can Help" %}
+{% section "How AI Can Help", "how-ai-can-help" %}
 
 Writing data exploration code is repetitive and time-consuming. For each column you want to check, you need to write code to count missing values, list unique values, find out-of-range entries, and detect duplicates. AI can generate that entire exploration script from a clear description of what you want checked, reducing what would take thirty minutes of writing to two or three minutes of prompting.
 
@@ -78,7 +78,7 @@ AI can also help you decide which findings are worth acting on. If your explorat
 
 {% aihelps %}AI can write your complete exploration script from a structured prompt, saving significant time. It can also help interpret findings and suggest explanations for patterns in the data. The actual results still depend on you running the code against the real dataset.{% endaihelps %}
 
-{% section "How to Use AI" %}
+{% section "How to Use AI", "how-to-use-ai" %}
 
 The most effective way to use AI in the Explore step is to write a numbered, multi-task prompt that lists every check you want performed. A numbered prompt produces a structured output that is easy to verify systematically. A vague prompt produces partial output that requires significant editing.
 
@@ -90,7 +90,7 @@ This prompt is specific about the column names, the criteria for invalid values,
 
 Once you have results, a second prompt can help you interpret them. Paste the output into an AI chat and ask what the patterns suggest. For example, if the missing value check shows that county is missing far more often for one insurance type than for others, AI can help you think through what might explain that pattern and whether it affects your planned analysis.
 
-{% section "Evaluating AI Output" %}
+{% section "Evaluating AI Output", "evaluating-ai-output" %}
 
 AI-generated exploration code should be verified, not accepted without checking. Three failure modes are common and worth knowing.
 
@@ -104,7 +104,7 @@ A key verification principle: AI only sees what you paste into the chat. It has 
 
 {% aieval %}Verify exploration output by: (1) confirming unique-value counts match a manual check, (2) checking that all column names in the code match your actual dataset, (3) confirming every requested check appears in the output. AI cannot see your data directly — always run the code yourself.{% endaieval %}
 
-{% section "Resources" %}
+{% section "Resources", "resources" %}
 
 #### Best Practices
 
@@ -119,7 +119,7 @@ A key verification principle: AI only sees what you paste into the chat. It has 
 <li><a href="https://www.kaggle.com/learn/data-cleaning" target="_blank" rel="noopener"><strong>Kaggle: Intro to Data Cleaning (free course)</strong></a><br><span class="lm-desc">Hands-on practice with real datasets</span></li>
 </ul>
 
-{% section "Apply it" %}
+{% section "Apply it", "apply-it" %}
 
 The job. Find out what is in this file and write down every problem, in a notebook, with an AI writing the code from your prompts. Change nothing yet. The fixing is Part 3.
 
@@ -127,7 +127,7 @@ The job. Find out what is in this file and write down every problem, in a notebo
 Opens in Colab and loads the clinic file for you. Everything after that first cell is open space, waiting on the lesson format above.
 {% endnotebook %}
 
-{% section "Practitioner demo" %}
+{% section "Practitioner demo", "practitioner-demo" %}
 
 {% slot "video", "The practitioner. Their first-look routine on an unfamiliar file, and what they check before anything else.", "180px" %}
 
@@ -135,8 +135,8 @@ Opens in Colab and loads the clinic file for you. Everything after that first ce
 
 **Compare their quality report against yours.** What did they flag that you missed, and what did you flag that they passed over without a note?
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "2" %}
+{% feedback %}
