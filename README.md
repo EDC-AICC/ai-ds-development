@@ -16,7 +16,7 @@ Serves at <http://localhost:8080>. `npm run build` writes the site to `_site/`.
 ```
 src/
   index.md              home page (module cards are generated from unit data)
-  teaching-model.md     design notes for course staff
+  teaching-model.md     design notes for course staff (not linked; open /teaching-model/ directly)
   course-details/       one unit: a single page
   module-1/             one unit: overview + parts
   module-3/             one unit: overview + parts

@@ -20,13 +20,6 @@ description: A six-module course introducing community college students to the r
   <div class="meta"><span><b>{{ u.data.module.status }}</b></span></div>
 </a>
 {% endfor %}
-<a class="lcard" href="{{ '/teaching-model/' | url }}">
-  <p class="num">Design</p>
-  <h3>How students work through a module</h3>
-  <p>The six-phase model every module follows: build the vocabulary, look at the data, prompt
-  and verify, compare with a practitioner, review, build it yourself.</p>
-  <div class="meta"><span><b>For course staff</b></span></div>
-</a>
 </div>
 
 <p class="note">Modules 2 and 4 are not yet built.</p>
