@@ -1,0 +1,13 @@
+{
+  "layout": "shell.njk",
+  "module": {
+    "key": "m1",
+    "label": "Module 1",
+    "title": "The AI-Enhanced Data Practitioner",
+    "url": "/module-1/",
+    "rank": 1,
+    "kicker": "Module 01 \u00b7 draft",
+    "blurb": "How AI is changing data work, why context decides whether an analysis is right, how AI-generated work fails, and a human-in-the-loop lab for auditing it.",
+    "status": "Full draft"
+  }
+}

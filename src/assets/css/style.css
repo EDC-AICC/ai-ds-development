@@ -1,100 +1,65 @@
 /* AI in Data Science — course site.
-   Prose is prose: de-emphasised text is a colour, not a box. The only
-   bordered things on a page are activity cards and check-yourself items. */
+   Prose is prose: de-emphasised text is a colour, not a box. Bordered things
+   are the interactive pieces: activities, reveals, folds, assignments.
+   Order: tokens, base, home page, lesson blocks, code, teaching-model page,
+   responsive. Shell-only rules live in shell.css. */
 
+/* ---------- tokens ----------
+   One value per token: light-dark(light, dark). The OS preference picks the
+   side; the toggle overrides it by setting color-scheme through data-theme. */
 :root{
-  --paper:#fafbfc;
-  --ink:#1c2733;
-  --slate:#5d6b7a;
-  --line:#dde3e9;
-  --accent:#0e7490;
-  --accent-soft:#e3f1f5;
-  --good:#15803d;
-  --good-soft:#e9f5ec;
-  --warn:#b45309;
-  --warn-soft:#fdf3e7;
-  --card:#ffffff;
-  --chrome:#f0f3f6;
-  --shadow:rgba(28,39,51,.06);
+  color-scheme:light dark;
+  --paper:light-dark(#fafbfc,#12161a);
+  --ink:light-dark(#1c2733,#e6ebf0);
+  --slate:light-dark(#5d6b7a,#a1aeba);
+  --line:light-dark(#dde3e9,#2a333c);
+  --accent:light-dark(#0e7490,#58bed6);
+  --accent-soft:light-dark(#e3f1f5,#14303a);
+  --good:light-dark(#15803d,#5fd39a);
+  --good-soft:light-dark(#e9f5ec,#132a1f);
+  --warn:light-dark(#b45309,#e0a763);
+  --warn-soft:light-dark(#fdf3e7,#2b2116);
+  --violet:light-dark(#6d28d9,#b79bec);
+  --violet-soft:light-dark(#f1ecfd,#231d33);
+  --card:light-dark(#ffffff,#181d23);
+  --chrome:light-dark(#f0f3f6,#1f262d);
+  --shadow:light-dark(rgba(28,39,51,.06),rgba(0,0,0,.4));
+
+  /* lesson summary boxes (colors follow the theory document's palette) */
+  --lb-concept:light-dark(#00695c,#6cc7b5); --lb-concept-soft:light-dark(#e4f1ee,#12302b);
+  --lb-helps:light-dark(#1b5e20,#8fce8f);   --lb-helps-soft:light-dark(#e9f3e9,#182b1b);
+  --lb-prompt:light-dark(#5d4037,#cbab99);  --lb-prompt-soft:light-dark(#f3ede9,#2a221d);
+  --lb-eval:light-dark(#8b0000,#e08d83);    --lb-eval-soft:light-dark(#f9e9e7,#331b18);
+
+  /* code highlighting (Prism token classes) */
+  --code-comment:light-dark(#7a8794,#8b98a5);
+  --code-keyword:light-dark(#7c3aed,#c4a7ff);
+  --code-string:light-dark(#0e7490,#6dd3e6);
+  --code-number:light-dark(#b45309,#f0b96d);
+  --code-function:light-dark(#1d4ed8,#8fb4ff);
+  --code-punct:light-dark(#5d6b7a,#a1aeba);
+
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
   --serif:"Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
   --sans:"Avenir Next",Avenir,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-
-  --violet:#6d28d9; --violet-soft:#f1ecfd;
-
-  /* lesson summary boxes (colors follow the theory doc's palette) */
-  --lb-concept:#00695c; --lb-concept-soft:#e4f1ee;
-  --lb-helps:#1b5e20;   --lb-helps-soft:#e9f3e9;
-  --lb-prompt:#5d4037;  --lb-prompt-soft:#f3ede9;
-  --lb-eval:#8b0000;    --lb-eval-soft:#f9e9e7;
 }
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
 
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#12161a;
-    --ink:#e6ebf0;
-    --slate:#a1aeba;
-    --line:#2a333c;
-    --accent:#58bed6;
-    --accent-soft:#14303a;
-    --good:#5fd39a;
-    --good-soft:#132a1f;
-    --warn:#e0a763;
-    --warn-soft:#2b2116;
-    --card:#181d23;
-    --chrome:#1f262d;
-    --shadow:rgba(0,0,0,.4);
-
-    --violet:#b79bec; --violet-soft:#231d33;
-
-    --lb-concept:#6cc7b5; --lb-concept-soft:#12302b;
-    --lb-helps:#8fce8f;   --lb-helps-soft:#182b1b;
-    --lb-prompt:#cbab99;  --lb-prompt-soft:#2a221d;
-    --lb-eval:#e08d83;    --lb-eval-soft:#331b18;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#12161a;
-  --ink:#e6ebf0;
-  --slate:#a1aeba;
-  --line:#2a333c;
-  --accent:#58bed6;
-  --accent-soft:#14303a;
-  --good:#5fd39a;
-  --good-soft:#132a1f;
-  --warn:#e0a763;
-  --warn-soft:#2b2116;
-  --card:#181d23;
-  --chrome:#1f262d;
-  --shadow:rgba(0,0,0,.4);
-
-  --violet:#b79bec; --violet-soft:#231d33;
-
-  --lb-concept:#6cc7b5; --lb-concept-soft:#12302b;
-  --lb-helps:#8fce8f;   --lb-helps-soft:#182b1b;
-  --lb-prompt:#cbab99;  --lb-prompt-soft:#2a221d;
-  --lb-eval:#e08d83;    --lb-eval-soft:#331b18;
-}
-
+/* ---------- base ---------- */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+/* Everything is sized in rem, so scaling the root scales the whole page the
+   way browser zoom does. Desktop runs at 110%; phones stay at 100%. */
+@media (min-width:901px){ html{font-size:110%} }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:var(--sans); font-size:17px; line-height:1.65;
+  font-family:var(--sans); font-size:1.0625rem; line-height:1.65;
 }
 .col{max-width:42rem; margin:0 auto; padding:0 1.25rem}
-.col-wide{max-width:56rem; margin:0 auto; padding:0 1.25rem}
 
-/* ---------- masthead ---------- */
-header.masthead{border-bottom:1px solid var(--line); padding:3.5rem 0 2.5rem; background:var(--card)}
-.masthead .kicker{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .9rem}
-.masthead h1{font-family:var(--serif); font-size:2.4rem; line-height:1.15; margin:0 0 1rem; text-wrap:balance; font-weight:600}
-.masthead p{color:var(--slate); max-width:36rem; margin:0}
-
-/* ---------- prose ---------- */
 main{padding:3.5rem 0 1rem}
-.eyebrow{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .7rem}
 main h2{font-family:var(--serif); font-size:1.75rem; line-height:1.2; margin:2.75rem 0 1.1rem; text-wrap:balance; font-weight:600}
 main h2:first-child{margin-top:0}
 main h3{font-family:var(--serif); font-size:1.15rem; margin:2rem 0 .6rem; font-weight:600}
@@ -109,6 +74,7 @@ code{font-family:var(--mono); font-size:.88em; background:var(--chrome); padding
 pre{font-family:var(--mono); font-size:.82rem; line-height:1.6; background:var(--chrome); color:var(--ink);
   padding:.85rem 1rem; border-radius:8px; border:1px solid var(--line); overflow-x:auto; margin:0 0 1rem}
 pre code{background:none; padding:0; font-size:1em}
+pre.prompt{white-space:pre-wrap; background:var(--card); border-left:3px solid var(--accent)}
 blockquote{margin:0 0 1rem; padding-left:1rem; border-left:3px solid var(--line); color:var(--slate)}
 hr{border:none; border-top:1px solid var(--line); margin:2.5rem 0}
 
@@ -118,18 +84,66 @@ th,td{border:1px solid var(--line); padding:.45rem .65rem; text-align:left; vert
 th{background:var(--chrome); font-weight:600; font-size:.85rem}
 td{color:var(--ink)}
 
-/* ---------- section heading ---------- */
-.sectionbar{
-  display:flex; align-items:baseline; gap:.85rem; flex-wrap:wrap;
-  margin:3rem 0 1.1rem;
+.pill{
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
+  font-weight:600; padding:.12rem .45rem; border-radius:4px; white-space:nowrap;
 }
-.sectiontitle{font-family:var(--serif); font-size:1.75rem; line-height:1.2; font-weight:600; text-wrap:balance}
-.sectiontime{margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--slate)}
+button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 
-/* ---------- activity card ----------
-   The frame carries no border, so an activity shorter than its declared
-   height leaves page background rather than an outlined empty box. */
+/* ---------- home page: masthead, module cards, footer, theme toggle ---------- */
+header.masthead{border-bottom:1px solid var(--line); padding:3.5rem 0 2.5rem; background:var(--card)}
+.masthead .kicker{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .9rem}
+.masthead h1{font-family:var(--serif); font-size:2.4rem; line-height:1.15; margin:0 0 1rem; text-wrap:balance; font-weight:600}
+.masthead p{color:var(--slate); max-width:36rem; margin:0}
+
+.cards{display:grid; gap:.9rem; margin:1.4rem 0 2rem}
+.lcard{
+  display:block; text-decoration:none; color:inherit;
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:1rem 1.15rem; box-shadow:0 1px 3px var(--shadow);
+  transition:border-color .18s, transform .18s;
+}
+.lcard:hover{border-color:var(--accent); transform:translateY(-2px)}
+.lcard .num{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .35rem}
+.lcard h3{font-family:var(--serif); font-size:1.2rem; margin:0 0 .4rem; font-weight:600}
+.lcard p{font-size:.92rem; color:var(--slate); margin:0 0 .7rem}
+.lcard .meta{
+  font-family:var(--mono); font-size:.72rem; color:var(--slate);
+  display:flex; gap:.9rem; flex-wrap:wrap; align-items:center;
+  border-top:1px dashed var(--line); padding-top:.55rem;
+}
+.lcard .meta b{color:var(--ink); font-weight:600}
+
+footer.endcap{border-top:1px solid var(--line); padding:2rem 0 4rem; color:var(--slate); font-size:.9rem}
+
+#theme-toggle{
+  position:fixed; right:1.1rem; top:1.1rem; z-index:70;
+  width:2.4rem; height:2.4rem; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--card); color:var(--slate);
+  border:1px solid var(--line); cursor:pointer;
+  box-shadow:0 1px 3px var(--shadow);
+}
+#theme-toggle:hover{color:var(--accent); border-color:var(--accent)}
+#theme-toggle svg{width:1.05rem; height:1.05rem; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
+#theme-toggle .moon{display:none}
+:root[data-theme="dark"] #theme-toggle .sun{display:none}
+:root[data-theme="dark"] #theme-toggle .moon{display:block}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) #theme-toggle .sun{display:none}
+  :root:not([data-theme="light"]) #theme-toggle .moon{display:block}
+}
+
+/* ---------- lesson blocks ---------- */
+
+/* {% section %} marker (shown only when the shell script is absent) */
+.sectionbar{display:flex; align-items:baseline; gap:.85rem; flex-wrap:wrap; margin:3rem 0 1.1rem}
+.sectiontitle{font-family:var(--serif); font-size:1.75rem; line-height:1.2; font-weight:600; text-wrap:balance}
+
+/* {% activity %}: the frame carries no border, so an activity shorter than
+   its declared height leaves page background rather than an empty box */
 .activity-embed{margin:2rem auto 1.25rem}
+.activity-embed + *{margin-top:0}
 .activity-header{
   display:flex; align-items:center; gap:.75rem; justify-content:space-between;
   background:var(--chrome); border:1px solid var(--line); border-radius:10px;
@@ -149,27 +163,13 @@ a.activity-title:hover{color:var(--accent); text-decoration:underline}
 .activity-fullscreen-btn:hover{border-color:var(--accent); color:var(--accent)}
 .activity-embed iframe{width:100%; border:none; display:block; background:transparent}
 
-/* ---------- author notes ---------- */
-.todo{margin:0 0 1.4rem}
-.todolabel{
-  font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--slate); margin:0 0 .5rem;
-}
-.todo p,.todo li{color:var(--slate); font-size:.92rem}
-.todo ul,.todo ol{margin:0 0 .6rem}
-.todo > :last-child{margin-bottom:0}
-.todo strong{color:var(--ink)}
-
-/* ---------- activity placeholder ---------- */
+/* {% slot %}: placeholder for something not built yet */
 .slot{
   background:var(--card); border:1px solid var(--line); border-radius:10px;
   margin:2rem auto; overflow:hidden; box-shadow:0 1px 3px var(--shadow);
   display:flex; flex-direction:column;
 }
-.slothead{
-  display:flex; align-items:center; gap:.5rem;
-  background:var(--chrome); border-bottom:1px solid var(--line); padding:.55rem .9rem;
-}
+.slothead{display:flex; align-items:center; gap:.5rem; background:var(--chrome); border-bottom:1px solid var(--line); padding:.55rem .9rem}
 .sloticon{color:var(--slate); font-size:.85rem; line-height:1}
 .slotlabel{font-family:var(--mono); font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--slate); font-weight:600}
 .slotbody{
@@ -177,47 +177,75 @@ a.activity-title:hover{color:var(--accent); text-decoration:underline}
   padding:1.6rem 1.2rem; color:var(--slate); font-size:.92rem; max-width:34rem; margin:0 auto;
 }
 
-/* ---------- check-yourself ---------- */
+/* {% todo %}: author note */
+.todo{margin:0 0 1.4rem}
+.todolabel{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 .5rem}
+.todo p,.todo li{color:var(--slate); font-size:.92rem}
+.todo ul,.todo ol{margin:0 0 .6rem}
+.todo > :last-child{margin-bottom:0}
+.todo strong{color:var(--ink)}
+
+/* {% check %} / {% q %}: think first, then reveal */
 .check{margin:2rem 0 2.5rem}
 .check .check-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--slate); margin:0 0 .8rem}
 .think-hint{font-size:.85rem; color:var(--slate); font-style:italic; margin:.2rem 0 1rem}
-details.q{
-  border:1px solid var(--line); border-radius:8px; background:var(--card);
-  margin:0 0 .7rem; padding:0;
-}
-details.q summary{
-  cursor:pointer; padding:.85rem 1rem; font-weight:600; list-style:none;
-  display:flex; gap:.6rem; align-items:baseline;
-}
-details.q summary::-webkit-details-marker{display:none}
-details.q summary::before{content:"?"; font-family:var(--mono); color:var(--accent); flex:none}
-details.q[open] summary::before{content:"→"}
+details.q{border:1px solid var(--line); border-radius:8px; background:var(--card); margin:0 0 .7rem; padding:0}
+details.q > summary{cursor:pointer; padding:.85rem 1rem; font-weight:600; list-style:none; display:flex; gap:.6rem; align-items:baseline}
+details.q > summary::-webkit-details-marker{display:none}
+details.q > summary::before{content:"?"; font-family:var(--mono); color:var(--accent); flex:none}
+details.q[open] > summary::before{content:"→"}
 details.q .answer{padding:0 1rem 1rem; color:var(--ink); font-size:.95rem; border-top:1px dashed var(--line)}
 details.q .answer p:first-child{margin-top:.9rem}
 
-/* ---------- notebook handoff ---------- */
-.notebook{
-  background:var(--card); border:1px solid var(--line); border-radius:10px;
-  margin:2rem 0; padding:1.1rem 1.2rem; box-shadow:0 1px 3px var(--shadow);
+/* {% fold %} / {% accordion %} / {% optional %}: click-to-open blocks */
+details.fold{border:1px solid var(--line); border-radius:8px; background:var(--card); margin:0 0 .6rem}
+details.fold > summary{cursor:pointer; padding:.8rem 1rem; font-weight:600; list-style:none; display:flex; gap:.7rem; align-items:baseline}
+details.fold > summary::-webkit-details-marker{display:none}
+details.fold > summary::before{content:"+"; font-family:var(--mono); color:var(--accent); flex:none; width:1.1rem}
+details.fold[open] > summary::before{content:"−"}
+details.fold > summary::after{content:"Show"; margin-left:auto; flex:none; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+details.fold[open] > summary::after{content:"Hide"}
+details.fold .fold-body{padding:0 1rem 1rem; border-top:1px dashed var(--line)}
+details.fold .fold-body > :first-child{margin-top:.9rem}
+details.fold .fold-body > :last-child{margin-bottom:0}
+.accordion{counter-reset:fold; margin:1.2rem 0 1.4rem}
+.accordion > details.fold > summary::before{
+  counter-increment:fold; content:counter(fold);
+  width:1.5rem; height:1.5rem; border-radius:50%; font-size:.72rem; font-weight:600;
+  display:inline-flex; align-items:center; justify-content:center; align-self:center;
+  border:1px solid var(--accent); color:var(--accent); background:var(--accent-soft);
 }
-.notebook h4{margin:0 0 .6rem}
-.notebook p,.notebook li{font-size:.95rem}
-.notebook > :last-child{margin-bottom:0}
-.btn-colab{
-  display:inline-block; font-family:var(--sans); font-size:.88rem; font-weight:600;
-  background:var(--accent); color:var(--paper); text-decoration:none;
-  border:1px solid var(--accent); border-radius:6px; padding:.4rem .85rem; margin-top:.3rem;
-}
-.btn-colab:hover{filter:brightness(1.1)}
-.btn-colab.is-placeholder{
-  background:var(--card); color:var(--slate); border-color:var(--line); cursor:not-allowed;
-}
+.accordion > details.fold[open] > summary::before{background:var(--accent); color:var(--paper)}
 
-/* ---------- lesson summary boxes ---------- */
-.lbox{
-  border-left:3px solid; border-radius:0 8px 8px 0;
-  padding:.85rem 1.05rem; margin:1.5rem 0; font-size:.95rem;
+details.optional{border:1px dashed var(--line); border-radius:10px; margin:1.6rem 0; background:var(--chrome)}
+details.optional > summary{cursor:pointer; padding:.85rem 1.1rem; font-weight:600; list-style:none; display:flex; gap:.7rem; align-items:center}
+details.optional > summary::-webkit-details-marker{display:none}
+details.optional > summary::after{content:"Show"; margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+details.optional[open] > summary::after{content:"Hide"}
+details.optional .optional-body{padding:.2rem 1.1rem 1.1rem; background:var(--paper); border-top:1px dashed var(--line); border-radius:0 0 10px 10px}
+details.optional .optional-body > :first-child{margin-top:1rem}
+details.optional .optional-body > :last-child{margin-bottom:0}
+.pill-optional{background:var(--warn-soft); color:var(--warn)}
+
+/* {% callout %} and its kinds */
+.callout{border-left:3px solid var(--accent); padding-left:1rem; margin:1.6rem 0}
+.callout > :last-child{margin-bottom:0}
+.callout.warn{border-left-color:var(--warn)}
+.callout-title{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .6rem}
+.callout.highlight{
+  border:1px solid var(--accent); border-left-width:3px; background:var(--accent-soft);
+  border-radius:0 8px 8px 0; padding:1rem 1.2rem; font-size:1.05rem; font-weight:600;
 }
+.callout.checkpoint,.callout.takeaways{
+  border:1px solid var(--line); border-left:3px solid var(--accent); background:var(--card);
+  border-radius:0 8px 8px 0; padding:1rem 1.2rem; box-shadow:0 1px 3px var(--shadow);
+}
+.callout.takeaways{border-left-color:var(--good)}
+.callout.takeaways .callout-title{color:var(--good)}
+.callout.checkpoint ul,.callout.checkpoint ol{margin-bottom:0}
+
+/* {% concept %} {% aihelps %} {% aiprompt %} {% aieval %}: lesson summary boxes */
+.lbox{border-left:3px solid; border-radius:0 8px 8px 0; padding:.85rem 1.05rem; margin:1.5rem 0; font-size:.95rem}
 .lbox p{margin:0}
 .lbox .lbox-label{font-weight:600}
 .lbox-concept{background:var(--lb-concept-soft); border-color:var(--lb-concept)}
@@ -234,70 +262,48 @@ details.q .answer p:first-child{margin-top:.9rem}
 .learnmore li{margin:.45rem 0; padding-left:1rem; text-indent:-1rem}
 .learnmore .lm-desc{color:var(--slate); font-size:.9rem}
 
-/* ---------- callout ---------- */
-.callout{border-left:3px solid var(--accent); padding-left:1rem; margin:1.6rem 0}
-.callout > :last-child{margin-bottom:0}
-.callout.warn{border-left-color:var(--warn)}
+/* {% assignment %} / {% discussion %}: set up in the course management system */
+.cms{border:1px solid var(--line); border-radius:10px; background:var(--card); padding:1rem 1.2rem 1.1rem; margin:1.6rem 0; box-shadow:0 1px 3px var(--shadow)}
+.cms .cms-label{
+  display:inline-block; font-family:var(--mono); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+  font-weight:600; padding:.14rem .5rem; border-radius:4px; margin:0 0 .7rem;
+}
+.cms-assignment .cms-label{background:var(--violet-soft); color:var(--violet)}
+.cms-discussion .cms-label{background:var(--accent-soft); color:var(--accent)}
+.cms h4{margin:0 0 .5rem}
+.cms > :last-child{margin-bottom:0}
 
-pre.prompt{white-space:pre-wrap; background:var(--card); border-left:3px solid var(--accent)}
+/* {% notebook %}: Colab handoff */
+.notebook{background:var(--card); border:1px solid var(--line); border-radius:10px; margin:2rem 0; padding:1.1rem 1.2rem; box-shadow:0 1px 3px var(--shadow)}
+.notebook h4{margin:0 0 .6rem}
+.notebook p,.notebook li{font-size:.95rem}
+.notebook > :last-child{margin-bottom:0}
+.btn-colab{
+  display:inline-block; font-family:var(--sans); font-size:.88rem; font-weight:600;
+  background:var(--accent); color:var(--paper); text-decoration:none;
+  border:1px solid var(--accent); border-radius:6px; padding:.4rem .85rem; margin-top:.3rem;
+}
+.btn-colab:hover{filter:brightness(1.1)}
+.btn-colab.is-placeholder{background:var(--card); color:var(--slate); border-color:var(--line); cursor:not-allowed}
 
-.pill{
-  font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
-  font-weight:600; padding:.12rem .45rem; border-radius:4px; white-space:nowrap;
-}
-.pill-scaffold{background:var(--chrome); color:var(--slate); border:1px solid var(--line)}
-.pill-drafted{background:var(--warn-soft); color:var(--warn)}
-.pill-ready{background:var(--good-soft); color:var(--good)}
+/* {% figure %}: images sit on white so they read the same in dark mode */
+figure.figure{margin:1.6rem 0}
+figure.figure img{display:block; max-width:100%; height:auto; border-radius:8px; background:#fff; padding:.4rem}
+figure.figure figcaption{font-size:.85rem; color:var(--slate); margin-top:.5rem}
+figure.figure.logos{display:flex; align-items:center; gap:2rem; flex-wrap:wrap}
+figure.figure.logos img{height:4.5rem; width:auto; max-width:100%; border-radius:0}
 
-/* ---------- cards ---------- */
-.cards{display:grid; gap:.9rem; margin:1.4rem 0 2rem}
-.lcard{
-  display:block; text-decoration:none; color:inherit;
-  background:var(--card); border:1px solid var(--line); border-radius:10px;
-  padding:1rem 1.15rem; box-shadow:0 1px 3px var(--shadow);
-  transition:border-color .18s, transform .18s;
-}
-.lcard:hover{border-color:var(--accent); transform:translateY(-2px)}
-.lcard .num{font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 .35rem}
-.lcard h3{font-family:var(--serif); font-size:1.2rem; margin:0 0 .4rem; font-weight:600}
-.lcard p{font-size:.92rem; color:var(--slate); margin:0 0 .7rem}
-.lcard .meta{
-  font-family:var(--mono); font-size:.72rem; color:var(--slate);
-  display:flex; gap:.9rem; flex-wrap:wrap; align-items:center;
-  border-top:1px dashed var(--line); padding-top:.55rem;
-}
-.lcard .meta b{color:var(--ink); font-weight:600}
+/* {% feedback %}: the Tally form renders light, so it gets a white card */
+.tally-embed-wrapper{margin:2.5rem 0 0; background:#fff; border-radius:8px; padding:8px 16px}
+.tally-embed-wrapper iframe{display:block}
 
-/* ---------- nav / footer ---------- */
-.lessonnav{
-  display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap;
-  font-family:var(--mono); font-size:.82rem;
-  max-width:42rem; margin:0 auto; padding:3rem 1.25rem 3.5rem;
-}
-.lessonnav a{text-decoration:none; color:var(--accent)}
-.lessonnav a:hover{text-decoration:underline}
-.lessonnav .spacer{flex:1}
-footer.endcap{border-top:1px solid var(--line); padding:2rem 0 4rem; color:var(--slate); font-size:.9rem}
-
-/* ---------- theme toggle ---------- */
-#theme-toggle{
-  position:fixed; right:1.1rem; top:1.1rem; z-index:70;
-  width:2.4rem; height:2.4rem; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--card); color:var(--slate);
-  border:1px solid var(--line); cursor:pointer;
-  box-shadow:0 1px 3px var(--shadow);
-}
-#theme-toggle:hover{color:var(--accent); border-color:var(--accent)}
-#theme-toggle svg{width:1.05rem; height:1.05rem; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round}
-#theme-toggle .moon{display:none}
-:root[data-theme="dark"] #theme-toggle .sun{display:none}
-:root[data-theme="dark"] #theme-toggle .moon{display:block}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) #theme-toggle .sun{display:none}
-  :root:not([data-theme="light"]) #theme-toggle .moon{display:block}
-}
-button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+/* ---------- code highlighting ---------- */
+.token.comment,.token.prolog,.token.doctype,.token.cdata{color:var(--code-comment); font-style:italic}
+.token.keyword,.token.boolean,.token.important{color:var(--code-keyword)}
+.token.string,.token.char,.token.attr-value,.token.triple-quoted-string{color:var(--code-string)}
+.token.number,.token.constant,.token.symbol{color:var(--code-number)}
+.token.function,.token.class-name,.token.builtin,.token.decorator{color:var(--code-function)}
+.token.punctuation,.token.operator{color:var(--code-punct)}
 
 /* ---------- teaching-model page ---------- */
 .whoblock{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:2rem 0; box-shadow:0 1px 3px var(--shadow)}
@@ -305,8 +311,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid v
   font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--slate)}
 .whohead b{color:var(--ink); font-weight:600}
 .whobody{padding:1rem .95rem 1.1rem}
-.task{font-family:var(--mono); font-size:.82rem; background:var(--chrome); border-radius:6px;
-  padding:.5rem .7rem; margin:0 0 .9rem; border-left:3px solid var(--slate)}
+.task{font-family:var(--mono); font-size:.82rem; background:var(--chrome); border-radius:6px; padding:.5rem .7rem; margin:0 0 .9rem; border-left:3px solid var(--slate)}
 .steps{list-style:none; margin:0; padding:0}
 .steps li{display:flex; gap:.7rem; align-items:flex-start; padding:.5rem 0; border-bottom:1px dashed var(--line); margin:0}
 .steps li:last-child{border-bottom:none}
@@ -320,8 +325,9 @@ button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid v
 .tally.bad{background:var(--warn-soft); border-left:3px solid var(--warn)}
 .tally.good{background:var(--good-soft); border-left:3px solid var(--good)}
 
+/* ---------- responsive / print ---------- */
 @media (max-width:640px){
-  body{font-size:16px}
+  body{font-size:1rem}
   .masthead h1{font-size:1.95rem}
   .sectiontitle{font-size:1.5rem}
   #theme-toggle{top:auto; bottom:1.1rem; right:auto; left:1.1rem}
@@ -329,21 +335,4 @@ button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid v
 }
 @media print{
   #theme-toggle{display:none}
-}
-
-/* Last in the file so it beats the element rules above. */
-.activity-embed + *{margin-top:0}
-
-/* ---------- Tally feedback embed ----------
-   The form renders light whatever the page does, so dark mode gives it a
-   white card to sit on. */
-.tally-embed-wrapper{margin:2.5rem 0 0}
-.tally-embed-wrapper iframe{display:block}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .tally-embed-wrapper{
-    background:#fff; border-radius:8px; padding:8px 16px;
-  }
-}
-:root[data-theme="dark"] .tally-embed-wrapper{
-  background:#fff; border-radius:8px; padding:8px 16px;
 }

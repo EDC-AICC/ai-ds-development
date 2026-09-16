@@ -3,7 +3,7 @@ order: 0
 title: Preparing, Exploring & Analyzing Data with AI
 ---
 
-{% section "Start here" %}
+{% section "Start here", "start-here" %}
 
 In this module you will use AI to write the Python that cleans, explores and analyzes a real dataset. The datasets you'll get will be messy, real-world ones. They might have missing values, dates written more than one way, the same field spelled several ways, and some records entered twice. You will learn how to think about what can go wrong in data, describe the data work you want done, work with the AI to write the code you need, and verify what you get back.
 
@@ -11,7 +11,7 @@ Each part in this module starts with a short activity, moves into the real work,
 
 Before jumping into the real work, we'll cover the overall data lifecycle, concerns and bias in data, and verifying AI answers, so you have them in mind when working through the rest of the module.
 
-{% section "Follow the Record" %}
+{% section "Follow the Record", "follow-the-record" %}
 
 Every dataset you will ever be handed took a trip through systems and choices you never saw, and those choices changed the numbers. This warm-up walks that trip once, end to end, so you recognize it in every file you open afterward.
 
@@ -33,7 +33,7 @@ Because a different reasonable choice produces a different number. Count the eur
 
 {% endcheck %}
 
-{% section "The planes that didn't come back" %}
+{% section "The planes that didn't come back", "the-planes-that-didn-t-come-back" %}
 
 The most dangerous errors in data work are not wrong values. They are the records that never made it into the file at all. No amount of checking the file will surface them. You have to learn to ask about them, and that is what this warm-up is for.
 
@@ -53,7 +53,7 @@ The survey only reaches customers who are still around to answer it. The angries
 
 {% endcheck %}
 
-{% section "Almost right" %}
+{% section "Almost right", "almost-right" %}
 
 For the rest of this module an AI will be writing your code and drafting your answers, which means the skill you will use more than any other is deciding whether what it gave you is true. This last warm-up has you practice that skill in miniature before anything depends on it.
 
@@ -75,7 +75,7 @@ Because the true part buys trust for the false part. You verify the $70, feel do
 
 {% endcheck %}
 
-{% section "The six parts" %}
+{% section "The six parts", "the-six-parts" %}
 
 The rest of this module is one continuous piece of work. A clinic director asks a vague question about visit data, and you carry that request all the way to an answer she can act on, with an AI writing the code from your prompts at every step. The six parts follow the arc of that job. Do them in order; each one hands its result to the next.
 
@@ -85,8 +85,8 @@ Last is **Apply**. A dataset that is new to you, a real question, and your own j
 
 When you're ready, continue to Part 1.
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "overview" %}
+{% feedback %}

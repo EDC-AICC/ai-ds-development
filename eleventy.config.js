@@ -1,11 +1,18 @@
 import markdownIt from "markdown-it";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
 /* Also used to render markdown inside paired shortcodes, which CommonMark
    would otherwise leave alone once it is wrapped in a <div>. */
 const md = markdownIt({ html: true, breaks: false, linkify: true });
+/* Every table is wrapped so wide ones scroll sideways on small screens
+   instead of widening the page. */
+md.renderer.rules.table_open = () => '<div class="tablescroll"><table>';
+md.renderer.rules.table_close = () => "</table></div>";
 
 const inline = (s) => md.renderInline((s || "").trim());
 const block  = (s) => md.render((s || "").trim());
+/* For shortcode arguments that land inside an HTML attribute. */
+const attr = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
 /* GitHub Pages serves a project site at /<repo>/, so the workflow passes
    ELEVENTY_PATH_PREFIX. Hand-built URLs must go through withPrefix(); the
@@ -16,18 +23,29 @@ const withPrefix = (p) =>
 
 /* Colab opens notebooks straight out of the repo. The notebooks hold this
    same value in the raw-CSV URL of their setup cell. */
-const GITHUB_REPO = "kellerflint/AI-DS-development";
+const GITHUB_REPO = "EDC-AICC/ai-ds-development";
 const colabUrl = (notebook) =>
   `https://colab.research.google.com/github/${GITHUB_REPO}/blob/main/notebooks/${notebook}`;
 
 export default function (eleventyConfig) {
   eleventyConfig.setLibrary("md", md);
 
-  /* Module 3's pages in reading order; the shell layout builds the sidebar
-     and prev/next from this, so authors never write navigation by hand. */
-  eleventyConfig.addCollection("m3", (api) =>
-    api.getFilteredByGlob("src/module-3/*.md")
+  /* Fenced code (```python) is highlighted at build time; the colors live in
+     style.css so they follow the site's light/dark tokens. */
+  eleventyConfig.addPlugin(syntaxHighlight);
+
+  /* A unit's pages in reading order. Each unit folder declares itself in its
+     directory data file ({ module: { key, label, title, url } }); the shell
+     layout builds the sidebar and prev/next from this, so authors never
+     write navigation by hand. */
+  eleventyConfig.addFilter("unitPages", (coll, key) =>
+    coll.filter((p) => p.data.module && p.data.module.key === key)
       .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)));
+
+  /* The front page of every unit, in home-page order (module.rank). */
+  eleventyConfig.addFilter("units", (coll) =>
+    coll.filter((p) => p.data.module && p.data.order === 0)
+      .sort((a, b) => (a.data.module.rank ?? 99) - (b.data.module.rank ?? 99)));
 
   eleventyConfig.addFilter("adjacent", (coll, url) => {
     const i = coll.findIndex((p) => p.url === url);
@@ -51,22 +69,24 @@ export default function (eleventyConfig) {
     const label = title || filename.replace(/\.html$/, "").replace(/-/g, " ");
     return `<div class="activity-embed">
   <div class="activity-header">
-    <a class="activity-title" href="${src}" target="_blank" rel="noopener">${label}</a>
-    <button class="activity-fullscreen-btn" type="button" title="Open fullscreen"
-      onclick="(function(b){var f=b.closest('.activity-embed').querySelector('iframe');if(f.requestFullscreen)f.requestFullscreen();else if(f.webkitRequestFullscreen)f.webkitRequestFullscreen();})(this)">
+    <a class="activity-title" href="${src}" target="_blank" rel="noopener">${inline(label)}</a>
+    <button class="activity-fullscreen-btn" type="button" title="Open fullscreen" data-fullscreen>
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
       Fullscreen
     </button>
   </div>
-  <iframe src="${src}" title="${label}" style="height:${height}" loading="lazy" allowfullscreen></iframe>
+  <iframe src="${src}" title="${attr(label)}" style="height:${attr(height)}" loading="lazy" allowfullscreen></iframe>
 </div>`;
   });
 
-  eleventyConfig.addShortcode("section", function (title, time = "") {
-    return `<div class="sectionbar">
-  <span class="sectiontitle">${inline(title)}</span>
-  ${time ? `<span class="sectiontime">${time}</span>` : ""}
-</div>`;
+  /* {% section "Title", "id" %}. The id names the section in the sidebar
+     link, the URL hash, and any embed URL, so it must not change when the
+     title is edited. */
+  eleventyConfig.addShortcode("section", function (title, id) {
+    if (!id || !/^[a-z0-9][a-z0-9-]*$/.test(id)) {
+      throw new Error(`{% section "${title}" %} in ${this.page.inputPath} needs an id: {% section "${title}", "short-id" %} (lowercase letters, digits, hyphens)`);
+    }
+    return `<div class="sectionbar" data-sec="${id}"><span class="sectiontitle">${inline(title)}</span></div>`;
   });
 
   eleventyConfig.addPairedShortcode("todo", function (content, label = "To write") {
@@ -82,7 +102,7 @@ export default function (eleventyConfig) {
       lesson:   { label: "Lesson",   icon: "▤" },
     };
     const k = kinds[kind] || kinds.activity;
-    return `<div class="slot" style="min-height:${height}">
+    return `<div class="slot" style="min-height:${attr(height)}">
   <div class="slothead"><span class="sloticon">${k.icon}</span><span class="slotlabel">${k.label}</span></div>
   <div class="slotbody">${note ? inline(note) : "Not built yet."}</div>
 </div>`;
@@ -99,8 +119,43 @@ export default function (eleventyConfig) {
     return `<details class="q"><summary>${inline(question)}</summary><div class="answer">\n${block(content)}\n</div></details>`;
   });
 
-  eleventyConfig.addPairedShortcode("callout", function (content, kind = "") {
-    return `<div class="callout ${kind}">\n${block(content)}\n</div>`;
+  /* {% callout %}, {% callout "warn" %}, {% callout "highlight" %} for a
+     filled accent box, or {% callout "checkpoint", "Human Judgment Checkpoint" %}
+     for a titled box (kinds: checkpoint, takeaways). */
+  eleventyConfig.addPairedShortcode("callout", function (content, kind = "", title = "") {
+    const t = title ? `<p class="callout-title">${inline(title)}</p>\n` : "";
+    return `<div class="callout ${kind}">\n${t}${block(content)}\n</div>`;
+  });
+
+  /* Click-to-open blocks. {% fold "Title" %}…{% endfold %} is one item; wrap
+     several in {% accordion %}…{% endaccordion %} to number them. */
+  eleventyConfig.addPairedShortcode("fold", function (content, title) {
+    return `<details class="fold"><summary>${inline(title)}</summary><div class="fold-body">\n${block(content)}\n</div></details>`;
+  });
+  eleventyConfig.addPairedShortcode("accordion", function (content) {
+    return `<div class="accordion">\n${content}\n</div>`;
+  });
+
+  /* Optional material stays collapsed until the student opens it. */
+  eleventyConfig.addPairedShortcode("optional", function (content, title) {
+    return `<details class="optional"><summary><span class="pill pill-optional">Optional</span> ${inline(title)}</summary><div class="optional-body">\n${block(content)}\n</div></details>`;
+  });
+
+  /* Work that gets set up as an Assignment or Discussion in the course
+     management system, presented on the page so every delivery looks the same. */
+  const cmsBlock = (kind, label) =>
+    function (content, title = "") {
+      const h = title ? `<h4>${inline(title)}</h4>\n` : "";
+      return `<div class="cms cms-${kind}"><p class="cms-label">${label}</p>\n${h}${block(content)}\n</div>`;
+    };
+  eleventyConfig.addPairedShortcode("assignment", cmsBlock("assignment", "Assignment"));
+  eleventyConfig.addPairedShortcode("discussion", cmsBlock("discussion", "Discussion"));
+
+  /* Images live in src/assets/img/. {% figure "file.png", "alt text", "caption" %} */
+  eleventyConfig.addShortcode("figure", function (file, alt = "", caption = "") {
+    const src = withPrefix(`assets/img/${file}`);
+    const cap = caption ? `<figcaption>${inline(caption)}</figcaption>` : "";
+    return `<figure class="figure"><img src="${src}" alt="${attr(alt)}" loading="lazy">${cap}</figure>`;
   });
 
   /* Lesson summary boxes, one per recurring beat of the theory segments:
@@ -121,20 +176,23 @@ export default function (eleventyConfig) {
     return `<div class="notebook"><h4>${inline(title)}</h4>\n${block(content)}\n${link}</div>`;
   });
 
-  /* module and part are hidden fields on the Tally form; the loader that
-     turns data-tally-src into src lives once in base.njk. */
+  /* {% feedback %} with no arguments. The Tally form's hidden "module" and
+     "part" fields get the unit label and page title, so responses stay
+     readable if numbering ever changes. */
   const TALLY_FORM = "NpxLEO";
-  eleventyConfig.addShortcode("feedback", function (module, part) {
+  eleventyConfig.addShortcode("feedback", function () {
+    const unit = this.ctx.module ? this.ctx.module.label : "";
+    const part = this.ctx.order === 0 ? `${this.ctx.title} (overview)` : this.ctx.title;
     const q = [
       "alignLeft=1",
       "hideTitle=1",
       "transparentBackground=1",
       "dynamicHeight=1",
-      `module=${encodeURIComponent(module)}`,
+      `module=${encodeURIComponent(unit)}`,
       `part=${encodeURIComponent(part)}`,
     ].join("&");
     return `<div class="tally-embed-wrapper">
-<iframe data-tally-src="https://tally.so/embed/${TALLY_FORM}?${q}" loading="lazy" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0" title="Data Modules Feedback"></iframe>
+<iframe data-tally-src="https://tally.so/embed/${TALLY_FORM}?${q}" loading="lazy" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0" title="Course feedback"></iframe>
 </div>`;
   });
 

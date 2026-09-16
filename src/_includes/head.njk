@@ -1,0 +1,16 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}{% if not isHome %} — {{ site.name }}{% endif %}</title>
+{% if description %}<meta name="description" content="{{ description }}">{% endif %}
+
+{# no-flash: apply a saved theme choice before first paint #}
+<script>
+(function(){
+  try{
+    var t=localStorage.getItem("aids-theme");
+    if(t==="dark"||t==="light") document.documentElement.setAttribute("data-theme",t);
+  }catch(e){}
+})();
+</script>
+
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">

@@ -62,8 +62,6 @@ li.current > .part-link{background:var(--chrome)}
 }
 li.current > .part-link .pnum{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
 .part-link .ptitle{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-.part-link .pcheck{flex:none; font-size:.78rem; color:var(--good); visibility:hidden}
-li.done > .part-link .pcheck{visibility:visible}
 
 .side-secs{list-style:none; margin:.2rem 0 .8rem; padding:0}
 .side-secs li{margin:0 0 1px}
@@ -90,7 +88,7 @@ li.done > .part-link .pcheck{visibility:visible}
 @media (prefers-reduced-motion:reduce){ .lesson-body section[data-title].current{animation:none} }
 
 /* ---------- section footer nav ---------- */
-.secnav[hidden]{display:none}
+.secnav[hidden],.navbtn[hidden]{display:none}
 .secnav{
   display:flex; align-items:center; gap:1rem; margin:2.6rem 0 0;
   border-top:1px solid var(--line); padding:1.1rem 0 2.6rem;
@@ -130,3 +128,17 @@ li.done > .part-link .pcheck{visibility:visible}
   .crumbs .root + .sep{display:none}
 }
 @media (prefers-reduced-motion:reduce){ .sidebar{transition:none} }
+
+/* a one-page unit (Course details) lists its sections directly, no part row */
+.side-secs.single{margin:.6rem 0 1.4rem; padding:0 .8rem}
+.side-secs.single a{padding-left:.9rem}
+
+/* ---------- embed mode (?embed) ----------
+   No shell chrome; just the content, sized to whatever frames it. */
+.embed .sidebar,.embed .topbar,.embed .scrim,.embed .secnav{display:none !important}
+.embed body.shell{display:block}
+.embed body.shell main{padding:.75rem 0 .5rem}
+.embed .pagecol{max-width:none; padding:0 1rem}
+.embed .parthead{margin:0 0 1rem}
+.embed .parthead h1{font-size:1.4rem}
+.embed-all .lesson-body .sectionbar{display:flex}

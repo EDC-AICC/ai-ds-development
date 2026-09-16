@@ -3,7 +3,7 @@ order: 1
 title: Ask
 ---
 
-{% section "The setup" %}
+{% section "The setup", "the-setup" %}
 
 Monday morning, this is in your inbox.
 
@@ -15,7 +15,7 @@ It is friendly, it is urgent, and it contains no question. "Visit patterns" coul
 
 Answering the wrong reading well is the most expensive mistake in data work, because everything downstream inherits it, and it is the mistake an AI cannot catch for you. The AI answers whatever question you settle on. Settling on the right one happens here, before any file is opened, and it mostly happens by asking.
 
-{% section "Warm-up" %}
+{% section "Warm-up", "warm-up" %}
 
 You get the director for three questions before she disappears into meetings. Choose them well, then choose the brief her answers support.
 
@@ -33,7 +33,7 @@ Permission, and a warning. Permission to propose the framing yourself, which is 
 
 {% endcheck %}
 
-{% section "The Concept" %}
+{% section "The Concept", "the-concept" %}
 
 ### Ask: Framing the Right Question
 
@@ -45,7 +45,7 @@ Problem framing also means understanding the limits of your data before committi
 
 {% concept %}Problem framing turns a business concern into a specific, data-answerable question. A good question names the population, the measure, and the comparison, and it can be answered with the columns actually available in the dataset.{% endconcept %}
 
-{% section "How AI Can Help" %}
+{% section "How AI Can Help", "how-ai-can-help" %}
 
 AI is a powerful thinking partner in the Ask step. When you describe your dataset and the business situation to an AI tool, it can rapidly suggest multiple exploration angles, raise questions you might not have considered, and help you think through which questions are most likely to be useful to the person who will act on your findings.
 
@@ -55,7 +55,7 @@ AI can also perform a quick feasibility check. If you describe your columns and 
 
 {% aihelps %}AI helps you brainstorm candidate questions, discover angles you might have missed, and quickly check whether a question is answerable with your available columns. It expands the option space so you can choose the most useful direction.{% endaihelps %}
 
-{% section "How to Use AI" %}
+{% section "How to Use AI", "how-to-use-ai" %}
 
 The key to using AI well in the Ask step is giving it enough context. AI cannot read your data file or know your organisation. You have to describe the dataset, the business situation, and the intended audience explicitly. The more context you provide, the more relevant the suggestions.
 
@@ -65,7 +65,7 @@ A strong Ask-step prompt gives AI three things: what the dataset contains (colum
 
 Notice the prompt does not just say "give me questions." It describes the data in plain language, states the business goal, names the audience, and asks AI to justify each suggestion by naming the columns it would use. That last requirement forces a useful check: if AI suggests a question that requires a column not in your dataset, it will be unable to name the column, which is a signal to discard that question.
 
-{% section "Evaluating AI Output" %}
+{% section "Evaluating AI Output", "evaluating-ai-output" %}
 
 After AI suggests questions, you should not simply use whatever it produces. Every suggestion needs to pass three filters before you adopt it.
 
@@ -77,7 +77,7 @@ The third filter is **data quality**: are the columns the question depends on co
 
 {% aieval %}Filter every AI-suggested question through three tests: Is it answerable with the available columns? Is the answer useful for a real decision? Are the required columns complete and reliable enough to trust the result? AI will not apply these filters itself. That judgment is yours.{% endaieval %}
 
-{% section "Resources" %}
+{% section "Resources", "resources" %}
 
 #### Best Practices
 
@@ -92,7 +92,7 @@ The third filter is **data quality**: are the columns the question depends on co
 <li><a href="https://www.coursera.org/professional-certificates/google-data-analytics" target="_blank" rel="noopener"><strong>Google Data Analytics Certificate (free audit)</strong></a><br><span class="lm-desc">Strong foundation for data science beginners</span></li>
 </ul>
 
-{% section "Apply it" %}
+{% section "Apply it", "apply-it" %}
 
 The job. Turn the director's email into a brief you could hand back to her, one page at most, and specific enough that she could reply "yes, that" or "no, more like this."
 
@@ -107,7 +107,7 @@ What the brief needs:
 - **What the data can and cannot answer.** These are visit records. Name two questions records like that can answer, and one thing the director might want that they cannot.
 - **What you still need to ask.** Working through the brief probably surfaced more questions. Write the two you would ask the director next.
 
-{% section "Practitioner demo" %}
+{% section "Practitioner demo", "practitioner-demo" %}
 
 {% slot "video", "The practitioner. A vague request from real work, and how they pinned it down before touching anything.", "180px" %}
 
@@ -118,8 +118,8 @@ What the brief needs:
 
 The framing decides the work. An AI will do whatever you ask with equal confidence, which is exactly why the framing is the part that stays yours.
 
-{% section "Feedback" %}
+{% section "Feedback", "feedback" %}
 
 This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
 
-{% feedback "3", "1" %}
+{% feedback %}
