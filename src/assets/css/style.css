@@ -185,13 +185,13 @@ details.q{
   border:1px solid var(--line); border-radius:8px; background:var(--card);
   margin:0 0 .7rem; padding:0;
 }
-details.q summary{
+details.q > summary{
   cursor:pointer; padding:.85rem 1rem; font-weight:600; list-style:none;
   display:flex; gap:.6rem; align-items:baseline;
 }
-details.q summary::-webkit-details-marker{display:none}
-details.q summary::before{content:"?"; font-family:var(--mono); color:var(--accent); flex:none}
-details.q[open] summary::before{content:"→"}
+details.q > summary::-webkit-details-marker{display:none}
+details.q > summary::before{content:"?"; font-family:var(--mono); color:var(--accent); flex:none}
+details.q[open] > summary::before{content:"→"}
 details.q .answer{padding:0 1rem 1rem; color:var(--ink); font-size:.95rem; border-top:1px dashed var(--line)}
 details.q .answer p:first-child{margin-top:.9rem}
 
@@ -366,30 +366,30 @@ button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid v
 
 /* ---------- fold / accordion / optional ---------- */
 details.fold{border:1px solid var(--line); border-radius:8px; background:var(--card); margin:0 0 .6rem}
-details.fold summary{
+details.fold > summary{
   cursor:pointer; padding:.8rem 1rem; font-weight:600; list-style:none;
   display:flex; gap:.7rem; align-items:baseline;
 }
-details.fold summary::-webkit-details-marker{display:none}
-details.fold summary::before{content:"+"; font-family:var(--mono); color:var(--accent); flex:none; width:1.1rem}
-details.fold[open] summary::before{content:"−"}
+details.fold > summary::-webkit-details-marker{display:none}
+details.fold > summary::before{content:"+"; font-family:var(--mono); color:var(--accent); flex:none; width:1.1rem}
+details.fold[open] > summary::before{content:"−"}
 details.fold .fold-body{padding:0 1rem 1rem; border-top:1px dashed var(--line)}
 details.fold .fold-body > :first-child{margin-top:.9rem}
 details.fold .fold-body > :last-child{margin-bottom:0}
 .accordion{counter-reset:fold; margin:1.2rem 0 1.4rem}
-.accordion details.fold summary::before{
+.accordion > details.fold > summary::before{
   counter-increment:fold; content:counter(fold);
   width:1.5rem; height:1.5rem; border-radius:50%; font-size:.72rem; font-weight:600;
   display:inline-flex; align-items:center; justify-content:center; align-self:center;
   border:1px solid var(--accent); color:var(--accent); background:var(--accent-soft);
 }
-.accordion details.fold[open] summary::before{background:var(--accent); color:var(--paper)}
+.accordion > details.fold[open] > summary::before{background:var(--accent); color:var(--paper)}
 
 details.optional{border:1px dashed var(--line); border-radius:10px; margin:1.6rem 0; background:var(--chrome)}
-details.optional summary{cursor:pointer; padding:.85rem 1.1rem; font-weight:600; list-style:none; display:flex; gap:.7rem; align-items:center}
-details.optional summary::-webkit-details-marker{display:none}
-details.optional summary::after{content:"Show"; margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
-details.optional[open] summary::after{content:"Hide"}
+details.optional > summary{cursor:pointer; padding:.85rem 1.1rem; font-weight:600; list-style:none; display:flex; gap:.7rem; align-items:center}
+details.optional > summary::-webkit-details-marker{display:none}
+details.optional > summary::after{content:"Show"; margin-left:auto; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+details.optional[open] > summary::after{content:"Hide"}
 details.optional .optional-body{padding:.2rem 1.1rem 1.1rem; background:var(--paper); border-top:1px dashed var(--line); border-radius:0 0 10px 10px}
 details.optional .optional-body > :first-child{margin-top:1rem}
 details.optional .optional-body > :last-child{margin-bottom:0}
@@ -417,5 +417,5 @@ figure.figure.logos img{max-height:5rem; width:auto; display:inline-block; margi
 :root[data-theme="dark"] figure.figure img{background:#fff; padding:.4rem}
 
 /* every click-to-open block says so */
-details.fold summary::after{content:"Show"; margin-left:auto; flex:none; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
-details.fold[open] summary::after{content:"Hide"}
+details.fold > summary::after{content:"Show"; margin-left:auto; flex:none; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+details.fold[open] > summary::after{content:"Hide"}
