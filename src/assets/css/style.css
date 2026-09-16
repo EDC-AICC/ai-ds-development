@@ -413,7 +413,8 @@ details.optional .optional-body > :last-child{margin-bottom:0}
 figure.figure{margin:1.6rem 0}
 figure.figure img{display:block; max-width:100%; height:auto; border-radius:8px}
 figure.figure figcaption{font-size:.85rem; color:var(--slate); margin-top:.5rem}
-figure.figure.logos img{max-height:5rem; width:auto; display:inline-block; margin-right:1.5rem; border-radius:0}
+figure.figure.logos{display:flex; align-items:center; gap:2rem; flex-wrap:wrap}
+figure.figure.logos img{height:4.5rem; width:auto; max-width:100%; border-radius:0}
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) figure.figure img{background:#fff; padding:.4rem}
 }
