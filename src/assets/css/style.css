@@ -78,10 +78,13 @@
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+/* Everything is sized in rem, so scaling the root scales the whole page the
+   way browser zoom does. Desktop runs at 110%; phones stay at 100%. */
+@media (min-width:901px){ html{font-size:110%} }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:var(--sans); font-size:17px; line-height:1.65;
+  font-family:var(--sans); font-size:1.0625rem; line-height:1.65;
 }
 .col{max-width:42rem; margin:0 auto; padding:0 1.25rem}
 .col-wide{max-width:56rem; margin:0 auto; padding:0 1.25rem}
@@ -321,7 +324,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible{outline:2px solid v
 .tally.good{background:var(--good-soft); border-left:3px solid var(--good)}
 
 @media (max-width:640px){
-  body{font-size:16px}
+  body{font-size:1rem}
   .masthead h1{font-size:1.95rem}
   .sectiontitle{font-size:1.5rem}
   #theme-toggle{top:auto; bottom:1.1rem; right:auto; left:1.1rem}
