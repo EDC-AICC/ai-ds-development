@@ -1,4 +1,5 @@
-/* Theme toggle, activity frames (fullscreen button and reported heights). */
+/* Theme toggle, activity frames (fullscreen button and reported heights),
+   and a lightbox for figures. */
 (function () {
   "use strict";
 
@@ -66,7 +67,31 @@
     });
   }
 
-  function init() { initTheme(); initActivityHeights(); initFullscreen(); }
+  /* Click a figure to see it large; Esc, the X, or a click outside closes it. */
+  function initLightbox() {
+    var figures = document.querySelectorAll("figure.figure img");
+    if (!figures.length || typeof HTMLDialogElement === "undefined") return;
+
+    var dlg = document.createElement("dialog");
+    dlg.className = "lightbox";
+    dlg.innerHTML = '<button type="button" class="lightbox-close" aria-label="Close">×</button><img alt="">';
+    document.body.appendChild(dlg);
+    var big = dlg.querySelector("img");
+
+    dlg.querySelector(".lightbox-close").addEventListener("click", function () { dlg.close(); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && dlg.open) dlg.close(); });
+
+    [].forEach.call(figures, function (img) {
+      img.setAttribute("tabindex", "0");
+      img.setAttribute("role", "button");
+      function open() { big.src = img.currentSrc || img.src; big.alt = img.alt; dlg.showModal(); }
+      img.addEventListener("click", open);
+      img.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    });
+  }
+
+  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

@@ -1,5 +1,6 @@
 import markdownIt from "markdown-it";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+import "prismjs/components/prism-python.js"; /* loaded before init() below extends it */
 
 /* Also used to render markdown inside paired shortcodes, which CommonMark
    would otherwise leave alone once it is wrapped in a <div>. */
@@ -32,7 +33,15 @@ export default function (eleventyConfig) {
 
   /* Fenced code (```python) is highlighted at build time; the colors live in
      style.css so they follow the site's light/dark tokens. */
-  eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addPlugin(syntaxHighlight, {
+    init({ Prism }) {
+      /* Prism's Python grammar only colors names after "def"; treat any
+         name followed by "(" as a call so df.fillna(0) reads the same way. */
+      Prism.languages.insertBefore("python", "punctuation", {
+        "function": /\b[a-zA-Z_]\w*(?=\s*\()/,
+      });
+    },
+  });
 
   /* A unit's pages in reading order. Each unit folder declares itself in its
      directory data file ({ module: { key, label, title, url } }); the shell

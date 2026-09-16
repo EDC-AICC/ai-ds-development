@@ -1,0 +1,13 @@
+{
+  "layout": "shell.njk",
+  "module": {
+    "key": "m4",
+    "label": "Module 4",
+    "title": "Communicating Insights, Responsible AI, and Future Trends",
+    "url": "/module-4/",
+    "rank": 4,
+    "kicker": "Module 04 \u00b7 not yet built",
+    "blurb": "Communicating findings to technical and nontechnical audiences, responsible AI concerns, and how data work is changing.",
+    "status": "Not started"
+  }
+}

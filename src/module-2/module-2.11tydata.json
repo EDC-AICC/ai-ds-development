@@ -1,0 +1,13 @@
+{
+  "layout": "shell.njk",
+  "module": {
+    "key": "m2",
+    "label": "Module 2",
+    "title": "Framing Data Problems and Understanding Context",
+    "url": "/module-2/",
+    "rank": 2,
+    "kicker": "Module 02 \u00b7 not yet built",
+    "blurb": "Turning broad organizational questions into clearly defined data problems, and deciding where AI can help and where human judgment is required.",
+    "status": "Not started"
+  }
+}

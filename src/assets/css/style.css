@@ -83,6 +83,7 @@ table{width:100%; min-width:30rem; border-collapse:collapse; font-size:.92rem}
 th,td{border:1px solid var(--line); padding:.45rem .65rem; text-align:left; vertical-align:top}
 th{background:var(--chrome); font-weight:600; font-size:.85rem}
 td{color:var(--ink)}
+td:empty{height:3.5rem}   /* a blank row is a fill-in row; give it room */
 
 .pill{
   font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
@@ -288,10 +289,23 @@ details.optional .optional-body > :last-child{margin-bottom:0}
 
 /* {% figure %}: images sit on white so they read the same in dark mode */
 figure.figure{margin:1.6rem 0}
-figure.figure img{display:block; max-width:100%; height:auto; border-radius:8px; background:#fff; padding:.4rem}
+figure.figure img{display:block; max-width:100%; height:auto; border-radius:8px; background:#fff; padding:.4rem; cursor:zoom-in}
+figure.figure.logos img{cursor:default}
 figure.figure figcaption{font-size:.85rem; color:var(--slate); margin-top:.5rem}
 figure.figure.logos{display:flex; align-items:center; gap:2rem; flex-wrap:wrap}
 figure.figure.logos img{height:4.5rem; width:auto; max-width:100%; border-radius:0}
+
+/* lightbox: a figure, shown as large as the window allows */
+dialog.lightbox{
+  border:none; padding:0; background:transparent; max-width:96vw; max-height:96vh;
+}
+dialog.lightbox::backdrop{background:rgba(0,0,0,.82)}
+dialog.lightbox img{display:block; max-width:96vw; max-height:92vh; width:auto; height:auto; background:#fff; padding:.6rem; border-radius:8px}
+.lightbox-close{
+  position:fixed; top:1rem; right:1.2rem; width:2.6rem; height:2.6rem; border-radius:50%;
+  border:none; background:rgba(255,255,255,.15); color:#fff; font-size:1.6rem; line-height:1; cursor:pointer;
+}
+.lightbox-close:hover{background:rgba(255,255,255,.3)}
 
 /* {% feedback %}: the Tally form renders light, so it gets a white card */
 .tally-embed-wrapper{margin:2.5rem 0 0; background:#fff; border-radius:8px; padding:8px 16px}
