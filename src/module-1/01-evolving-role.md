@@ -26,15 +26,11 @@ Let's look at how this plays out in a real-world retail example, where a company
 
 A national retail brand wants to identify customers who are likely to stop buying from them before the upcoming quarterly marketing campaign.
 
-<div class="tablescroll">
-
 | Workflow Stage | Traditional Data Workflow | AI-Enhanced Workflow |
 | --- | --- | --- |
 | 1. Initial Coding & Setup | The analyst spends 3 hours cleaning data, writing code, merging customer purchase tables, and manually debugging Python/pandas or SQL syntax errors. | The analyst prompts an LLM to generate the initial join and aggregation script in 30 seconds. |
 | 2. Core Bottleneck Shift | Much of the practitioner's energy is spent getting the code to run syntactically without errors. | The analyst pivots immediately to evaluating what the code is doing conceptually. |
 | 3. Validation & Curation | Validation takes place throughout the process of writing and debugging the code. | The analyst spends more time assessing whether the analysis uses the correct definition of "active customer churn" for the marketing department's quarterly strategy. |
-
-</div>
 
 The key difference is not simply speed. Once AI produces the code, **you still have to determine whether that code represents the real problem correctly.**
 
@@ -83,8 +79,6 @@ To see how generative AI handles messy data preparation, consider a dataset cont
 
 Suppose your dataset contains customer subscription status and registration dates that look like this:
 
-<div class="tablescroll">
-
 | customer_id | signup_date | status | plan_type | monthly_fee |
 | --- | --- | --- | --- | --- |
 | CUST-101 | 2025-03-12 | " ACTIVE " | Premium | 49.99 |
@@ -92,8 +86,6 @@ Suppose your dataset contains customer subscription status and registration date
 | CUST-103 | N/A | "Inactive" | Premium | 0 |
 | CUST-104 | 2025-02-28 | active | UNKNOWN | 49.99 |
 | CUST-105 | invalid_date | " " | Basic | NaN |
-
-</div>
 
 ### The AI Cleaning Approach
 

@@ -4,6 +4,10 @@ import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 /* Also used to render markdown inside paired shortcodes, which CommonMark
    would otherwise leave alone once it is wrapped in a <div>. */
 const md = markdownIt({ html: true, breaks: false, linkify: true });
+/* Every table is wrapped so wide ones scroll sideways on small screens
+   instead of widening the page. */
+md.renderer.rules.table_open = () => '<div class="tablescroll"><table>';
+md.renderer.rules.table_close = () => "</table></div>";
 
 const inline = (s) => md.renderInline((s || "").trim());
 const block  = (s) => md.render((s || "").trim());

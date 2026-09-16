@@ -2,7 +2,6 @@
 order: 5
 title: Module 1 Final Reflection
 navLabel: Final Reflection
-crumb: Final Reflection
 ---
 
 {% section "Module 1 Final Reflection", "module-1-final-reflection" %}

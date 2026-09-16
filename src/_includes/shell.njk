@@ -8,11 +8,11 @@
 
 {#- Every page in this unit, in reading order. In the sidebar a page shows
     navLabel if set ("Overview" for order 0, else its title); the breadcrumb
-    and Continue button use crumb if set, else "Part N · Title". -#}
+    shows "Part N · Title" and the Next button "Part N · navLabel". -#}
 {%- set pages = collections.all | unitPages(module.key) %}
 {%- set single = pages.length == 1 %}
 {%- macro short(p) %}{% if p.data.navLabel %}{{ p.data.navLabel }}{% elif p.data.order == 0 %}Overview{% else %}{{ p.data.title }}{% endif %}{% endmacro %}
-{%- macro long(p) %}{% if p.data.crumb %}{{ p.data.crumb }}{% elif p.data.order == 0 %}{{ short(p) }}{% else %}Part {{ p.data.order }} · {{ short(p) }}{% endif %}{% endmacro %}
+{%- macro long(p) %}{% if p.data.order == 0 %}{{ short(p) }}{% else %}Part {{ p.data.order }} · {{ short(p) }}{% endif %}{% endmacro %}
 
 <aside class="sidebar" id="sidebar">
   <div class="side-top">
@@ -46,7 +46,7 @@
       {%- if not single %}
       <a href="{{ module.url | url }}">{{ module.label }}</a><span class="sep">›</span>
       {%- endif %}
-      <span class="here">{% if crumb %}{{ crumb }}{% elif order == 0 %}{% if navLabel %}{{ navLabel }}{% else %}Overview{% endif %}{% else %}Part {{ order }} · {{ title }}{% endif %}</span>
+      <span class="here">{% if order == 0 %}{% if navLabel %}{{ navLabel }}{% else %}Overview{% endif %}{% else %}Part {{ order }} · {{ title }}{% endif %}</span>
     </nav>
     {% include "theme-toggle.njk" %}
   </div>

@@ -173,8 +173,6 @@ You revise the prompt:
 
 By supplying the operational rule, you enable AI to generate code that more accurately reflects the clinical reality.
 
-<div class="tablescroll">
-
 | Hospital Unit | AI's Flawed Output, Naive Average | Human-Audited Output, Corrected Average | Impact |
 | --- | --- | --- | --- |
 | Cardiology | 84.0 kg | 84.0 kg | No change |
@@ -182,8 +180,6 @@ By supplying the operational rule, you enable AI to generate code that more accu
 | General Medicine | 73.2 kg | 73.2 kg | No change |
 | Neurology | 354.3 kg | 77.9 kg | Severe skew from placeholder values |
 | ICU | 539.6 kg | 80.2 kg | Massive skew from placeholder values |
-
-</div>
 
 {% callout "checkpoint", "Human Judgment Checkpoint" %}
 Before accepting an AI-generated analysis, ask:

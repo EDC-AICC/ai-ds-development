@@ -56,14 +56,13 @@ Each page in the unit is a markdown file with this frontmatter:
 
 ```yaml
 ---
-order: 1            # 0 is the unit's overview page; parts count up from 1
-title: Ask
-navLabel: Ask       # optional: shorter name for the sidebar
-crumb: Ask          # optional: replaces "Part 1 · Ask" in the breadcrumb and Next button
+order: 3                    # 0 is the unit's overview page; parts count up from 1
+title: "When AI Fails: Risks, Hallucinations, and Silent Logic Bugs"
+navLabel: When AI Fails     # optional: shorter name for the sidebar and Next button
 ---
 ```
 
-The sidebar, breadcrumb, and Back/Next buttons are generated from `order`. Adding a page means adding a file. Adding a unit means adding a folder and its data file.
+The sidebar, breadcrumb, and Back/Next buttons are generated from `order` and `title`. Adding a page means adding a file. Adding a unit means adding a folder and its data file.
 
 ## Writing a page
 
@@ -75,7 +74,9 @@ Content is split into sections. Each section starts with a marker and becomes on
 
 The first argument is the title. The second is a required id (lowercase letters, digits, hyphens). The id is used in the URL hash and in embed links, so do not change it after the page is published.
 
-Between markers, write markdown. Fenced code blocks tagged with a language (```python) are highlighted.
+Between markers, write markdown. Fenced code blocks tagged with a language (```python) are highlighted. Tables scroll sideways on narrow screens automatically.
+
+Plain HTML is allowed where markdown falls short.
 
 ## Snippets
 

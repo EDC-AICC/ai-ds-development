@@ -42,13 +42,9 @@ The quarter analyzed included a major citywide winter storm that shut down weeke
 
 To prevent costly analytical mistakes, evaluate the report using these three questions:
 
-<div class="tablescroll">
-
 | 1. What did the AI generate? | 2. What organizational or user context is missing? | 3. What specific human verification step is required? |
 | --- | --- | --- |
 | A statistical ranking identifying Route 42 as the lowest-performing weekend route and recommending cancellation. | The analysis does not include hardware-maintenance problems, unusual weather conditions, or information about who relies on the route. | Cross-reference ridership logs with maintenance records, talk with operations staff, check weather records, and assess the impact on riders before presenting a recommendation. |
-
-</div>
 
 The key is to make your verification **specific**.
 
@@ -71,13 +67,9 @@ An enterprise human-resources department wants to reduce sudden employee turnove
 {% assignment "Your Audit" %}
 Complete the framework on your own before discussing your response with others.
 
-<div class="tablescroll">
-
 | What did the AI generate? | What organizational, operational, or human context is missing? | What specific human verification step or prompt adjustment is required? |
 | --- | --- | --- |
 | | | |
-
-</div>
 {% endassignment %}
 
 {% discussion "Discussion Question" %}
@@ -100,13 +92,9 @@ A municipal utility company uses an AI-powered analytics model to review residen
 **Technical Appearance.** The script processes thousands of hourly kilowatt-hour data points in seconds with no null errors or syntax warnings.
 
 {% assignment "Your Audit" %}
-<div class="tablescroll">
-
 | What did the AI generate? | What organizational, operational, or human context is missing? | What specific human verification step or prompt adjustment is required? |
 | --- | --- | --- |
 | | | |
-
-</div>
 {% endassignment %}
 
 {% discussion "Discussion Question" %}
