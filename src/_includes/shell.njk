@@ -27,7 +27,7 @@
 {%- set pages = collections.all | unitPages(module.key) %}
 {%- set single = pages.length == 1 %}
 {%- macro short(p) %}{% if p.data.navLabel %}{{ p.data.navLabel }}{% elif p.data.order == 0 %}Overview{% else %}{{ p.data.title }}{% endif %}{% endmacro %}
-{%- macro long(p) %}{% if p.data.crumb %}{{ p.data.crumb }}{% elif p.data.order == 0 %}{{ short(p) }}{% else %}Part {{ p.data.order }} · {{ p.data.title }}{% endif %}{% endmacro %}
+{%- macro long(p) %}{% if p.data.crumb %}{{ p.data.crumb }}{% elif p.data.order == 0 %}{{ short(p) }}{% else %}Part {{ p.data.order }} · {{ short(p) }}{% endif %}{% endmacro %}
 
 <aside class="sidebar" id="sidebar">
   <div class="side-top">
