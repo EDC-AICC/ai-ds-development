@@ -92,6 +92,9 @@ Plain HTML is allowed where markdown falls short.
 | `{% callout %}…{% endcallout %}` | Side-rule note. Kinds: `"warn"`, `"highlight"`, `"checkpoint"`, `"takeaways"`. Titled: `{% callout "checkpoint", "Title" %}`. |
 | `{% assignment "Title" %}…{% endassignment %}` | Work to set up as an Assignment in the CMS. |
 | `{% discussion "Title" %}…{% enddiscussion %}` | Work to set up as a Discussion in the CMS. |
+| `{% tryit %}…{% endtryit %}` | Hands-on exercise, shown as a card. |
+| `{% tip %}…{% endtip %}` | Short aside with a Tip label. |
+| `{% iconbox "file.png" %}…{% endiconbox %}` | Shaded box with a small image from `src/assets/img/` on the left. |
 | `{% concept %}…{% endconcept %}` | Lesson summary box. Also `aihelps`, `aiprompt`, `aieval`. |
 | `{% notebook "Title", "file.ipynb" %}…{% endnotebook %}` | Colab link for a notebook in `notebooks/`. |
 | `{% slot "video", "note", "180px" %}` | Placeholder for something not built yet. Kinds: activity, video, notebook, figure, lesson. |

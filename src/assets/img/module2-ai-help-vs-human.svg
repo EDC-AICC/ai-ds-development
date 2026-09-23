@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<rect width="1600" height="1000" fill="#ffffff"/>
+
+<style>
+  text{font-family:Arial,Helvetica,sans-serif}
+  .header{font-size:34px;font-weight:700;fill:#0B2F5B}
+  .body{font-size:27px;fill:#173C72}
+  .iconText{font-size:34px;font-weight:700;fill:#ffffff}
+</style>
+
+<!-- Column headers -->
+<rect x="35" y="55" width="695" height="145" rx="28" fill="#DCEEFF"/>
+<circle cx="115" cy="127" r="50" fill="#2E83C6"/>
+<!-- robot icon -->
+<rect x="88" y="110" width="54" height="38" rx="8" fill="none" stroke="#fff" stroke-width="6"/>
+<circle cx="104" cy="129" r="4" fill="#fff"/>
+<circle cx="126" cy="129" r="4" fill="#fff"/>
+<line x1="115" y1="98" x2="115" y2="110" stroke="#fff" stroke-width="6"/>
+<circle cx="115" cy="92" r="5" fill="#fff"/>
+<line x1="82" y1="122" x2="88" y2="122" stroke="#fff" stroke-width="6"/>
+<line x1="142" y1="122" x2="148" y2="122" stroke="#fff" stroke-width="6"/>
+<text x="205" y="145" class="header">AI Can Help You...</text>
+
+<rect x="810" y="55" width="695" height="145" rx="28" fill="#E2F3E8"/>
+<circle cx="890" cy="127" r="50" fill="#2E9A79"/>
+<circle cx="890" cy="105" r="16" fill="#fff"/>
+<path d="M865 150 Q890 122 915 150 Z" fill="#fff"/>
+<text x="995" y="145" class="header">You Still Need to...</text>
+
+<!-- Row 1 -->
+<rect x="35" y="220" width="690" height="165" rx="26" fill="#EAF4FF"/>
+<circle cx="115" cy="302" r="50" fill="#3A9DDE"/>
+<rect x="85" y="278" width="60" height="40" rx="12" fill="#fff"/>
+<polygon points="105,318 95,333 118,318" fill="#fff"/>
+<circle cx="101" cy="298" r="4" fill="#3A9DDE"/>
+<circle cx="115" cy="298" r="4" fill="#3A9DDE"/>
+<circle cx="129" cy="298" r="4" fill="#3A9DDE"/>
+<text x="225" y="290" class="body">Generate possible</text>
+<text x="225" y="335" class="body">clarifying questions.</text>
+
+<line x1="740" y1="302" x2="790" y2="302" stroke="#8FA6BF" stroke-width="6"/>
+<polyline points="775,288 790,302 775,316" fill="none" stroke="#8FA6BF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+<rect x="815" y="220" width="690" height="165" rx="26" fill="#EEF8F2"/>
+<circle cx="895" cy="302" r="50" fill="#38A97A"/>
+<!-- target icon -->
+<circle cx="895" cy="302" r="25" fill="none" stroke="#fff" stroke-width="7"/>
+<circle cx="895" cy="302" r="11" fill="none" stroke="#fff" stroke-width="7"/>
+<line x1="910" y1="287" x2="932" y2="265" stroke="#fff" stroke-width="7"/>
+<polyline points="923,264 932,265 931,274" fill="none" stroke="#fff" stroke-width="7"/>
+<text x="1005" y="290" class="body">Decide which questions</text>
+<text x="1005" y="335" class="body">matter most.</text>
+
+<!-- Row 2 -->
+<rect x="35" y="405" width="690" height="165" rx="26" fill="#EAF4FF"/>
+<circle cx="115" cy="487" r="50" fill="#1C9BC0"/>
+<!-- layers icon -->
+<polygon points="115,452 150,472 115,492 80,472" fill="#fff"/>
+<polygon points="115,472 150,492 115,512 80,492" fill="#fff" opacity="0.95"/>
+<polygon points="115,492 150,512 115,532 80,512" fill="#fff" opacity="0.9"/>
+<text x="225" y="475" class="body">Organize questions by</text>
+<text x="225" y="520" class="body">stakeholder or category.</text>
+
+<line x1="740" y1="487" x2="790" y2="487" stroke="#8FA6BF" stroke-width="6"/>
+<polyline points="775,473 790,487 775,501" fill="none" stroke="#8FA6BF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+<rect x="815" y="405" width="690" height="165" rx="26" fill="#EEF8F2"/>
+<circle cx="895" cy="487" r="50" fill="#38A97A"/>
+<!-- doc icon -->
+<path d="M872 453 H907 L922 468 V522 H872 Z" fill="#fff"/>
+<polyline points="907,453 907,468 922,468" fill="none" stroke="#38A97A" stroke-width="4"/>
+<line x1="882" y1="480" x2="912" y2="480" stroke="#38A97A" stroke-width="4"/>
+<line x1="882" y1="493" x2="912" y2="493" stroke="#38A97A" stroke-width="4"/>
+<line x1="882" y1="506" x2="912" y2="506" stroke="#38A97A" stroke-width="4"/>
+<text x="1005" y="475" class="body">Interpret organizational</text>
+<text x="1005" y="520" class="body">policies and local definitions.</text>
+
+<!-- Row 3 -->
+<rect x="35" y="590" width="690" height="165" rx="26" fill="#EAF4FF"/>
+<circle cx="115" cy="672" r="50" fill="#F0A12A"/>
+<!-- database icon -->
+<ellipse cx="115" cy="650" rx="30" ry="12" fill="#fff"/>
+<rect x="85" y="650" width="60" height="42" fill="#fff"/>
+<ellipse cx="115" cy="692" rx="30" ry="12" fill="#fff"/>
+<line x1="85" y1="664" x2="145" y2="664" stroke="#F0A12A" stroke-width="5"/>
+<line x1="85" y1="679" x2="145" y2="679" stroke="#F0A12A" stroke-width="5"/>
+<text x="225" y="660" class="body">Suggest common types</text>
+<text x="225" y="705" class="body">of data that may be useful.</text>
+
+<line x1="740" y1="672" x2="790" y2="672" stroke="#8FA6BF" stroke-width="6"/>
+<polyline points="775,658 790,672 775,686" fill="none" stroke="#8FA6BF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+<rect x="815" y="590" width="690" height="165" rx="26" fill="#EEF8F2"/>
+<circle cx="895" cy="672" r="50" fill="#38A97A"/>
+<!-- magnifier -->
+<circle cx="887" cy="663" r="23" fill="none" stroke="#fff" stroke-width="7"/>
+<line x1="904" y1="680" x2="922" y2="698" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+<text x="1005" y="646" class="body">Determine whether those data</text>
+<text x="1005" y="691" class="body">actually exist and can appropriately</text>
+<text x="1005" y="736" class="body">be used.</text>
+
+<!-- Row 4 -->
+<rect x="35" y="775" width="690" height="165" rx="26" fill="#EAF4FF"/>
+<circle cx="115" cy="857" r="50" fill="#7654B5"/>
+<!-- warning icon -->
+<polygon points="115,818 150,883 80,883" fill="#fff"/>
+<line x1="115" y1="837" x2="115" y2="858" stroke="#7654B5" stroke-width="7" stroke-linecap="round"/>
+<circle cx="115" cy="871" r="4" fill="#7654B5"/>
+<text x="225" y="845" class="body">Identify areas where</text>
+<text x="225" y="890" class="body">information may be missing.</text>
+
+<line x1="740" y1="857" x2="790" y2="857" stroke="#8FA6BF" stroke-width="6"/>
+<polyline points="775,843 790,857 775,871" fill="none" stroke="#8FA6BF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+<rect x="815" y="775" width="690" height="165" rx="26" fill="#EEF8F2"/>
+<circle cx="895" cy="857" r="50" fill="#38A97A"/>
+<!-- people icon -->
+<circle cx="895" cy="840" r="12" fill="#fff"/>
+<circle cx="867" cy="846" r="9" fill="#fff"/>
+<circle cx="923" cy="846" r="9" fill="#fff"/>
+<path d="M875 883 Q895 855 915 883 Z" fill="#fff"/>
+<path d="M850 883 Q867 860 884 883 Z" fill="#fff"/>
+<path d="M906 883 Q923 860 940 883 Z" fill="#fff"/>
+<text x="1005" y="835" class="body">Negotiate tradeoffs, determine</text>
+<text x="1005" y="880" class="body">acceptable risks, and remain</text>
+<text x="1005" y="925" class="body">accountable for the work.</text>
+
+</svg>

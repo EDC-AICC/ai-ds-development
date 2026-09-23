@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1720" height="860" viewBox="0 0 1720 860">
+<rect width="1720" height="860" fill="#ffffff"/>
+<style>
+text{font-family:Arial,Helvetica,sans-serif}
+.header{font-size:32px;font-weight:700;fill:#0B2F5B}
+.rowhead{font-size:27px;font-weight:700;fill:#0B2F5B}
+.body{font-size:23px;fill:#173C72}
+</style>
+
+<!-- headers -->
+<rect x="28" y="24" width="480" height="92" rx="18" fill="#DCEEFF"/>
+<rect x="520" y="24" width="520" height="92" rx="18" fill="#E2F3E8"/>
+<rect x="1052" y="24" width="640" height="92" rx="18" fill="#ECE6F8"/>
+<text x="268" y="82" text-anchor="middle" class="header">Category</text>
+<text x="780" y="82" text-anchor="middle" class="header">What It Means</text>
+<text x="1372" y="82" text-anchor="middle" class="header">Important Caution</text>
+
+<!-- Row 1: Data needed -->
+<rect x="28" y="130" width="480" height="165" rx="18" fill="#EAF4FF"/>
+<circle cx="112" cy="212" r="54" fill="#2E83C6"/>
+<ellipse cx="112" cy="192" rx="28" ry="10" fill="#fff"/>
+<rect x="84" y="192" width="56" height="42" fill="#fff"/>
+<ellipse cx="112" cy="234" rx="28" ry="10" fill="#fff"/>
+<line x1="84" y1="206" x2="140" y2="206" stroke="#2E83C6" stroke-width="5"/>
+<line x1="84" y1="220" x2="140" y2="220" stroke="#2E83C6" stroke-width="5"/>
+<text x="205" y="225" class="rowhead">Data needed</text>
+
+<rect x="520" y="130" width="520" height="165" rx="18" fill="#EEF8F2"/>
+<text x="550" y="198" class="body">Information that would ideally</text>
+<text x="550" y="232" class="body">help answer the question.</text>
+
+<rect x="1052" y="130" width="640" height="165" rx="18" fill="#F4F0FB"/>
+<circle cx="1135" cy="212" r="48" fill="#7654B5"/>
+<polygon points="1135,175 1168,238 1102,238" fill="#fff"/>
+<line x1="1135" y1="194" x2="1135" y2="216" stroke="#7654B5" stroke-width="7" stroke-linecap="round"/>
+<circle cx="1135" cy="227" r="4" fill="#7654B5"/>
+<text x="1215" y="180" class="body">It may not exist, may be too</text>
+<text x="1215" y="214" class="body">expensive to collect, or may be</text>
+<text x="1215" y="248" class="body">inappropriate to collect.</text>
+
+<!-- Row 2: Data available -->
+<rect x="28" y="305" width="480" height="165" rx="18" fill="#EAF4FF"/>
+<circle cx="112" cy="387" r="54" fill="#2E9A79"/>
+<path d="M75 372 h28 l10 10 h36 v42 h-74z" fill="#fff"/>
+<text x="205" y="400" class="rowhead">Data available</text>
+
+<rect x="520" y="305" width="520" height="165" rx="18" fill="#EEF8F2"/>
+<text x="550" y="373" class="body">Information the organization</text>
+<text x="550" y="407" class="body">currently stores or can access.</text>
+
+<rect x="1052" y="305" width="640" height="165" rx="18" fill="#F4F0FB"/>
+<circle cx="1135" cy="387" r="48" fill="#7654B5"/>
+<polygon points="1135,350 1168,413 1102,413" fill="#fff"/>
+<line x1="1135" y1="369" x2="1135" y2="391" stroke="#7654B5" stroke-width="7" stroke-linecap="round"/>
+<circle cx="1135" cy="402" r="4" fill="#7654B5"/>
+<text x="1215" y="350" class="body">Available data may still have</text>
+<text x="1215" y="384" class="body">unclear definitions, poor quality,</text>
+<text x="1215" y="418" class="body">incomplete coverage, or restrictions</text>
+<text x="1215" y="452" class="body">on use.</text>
+
+<!-- Row 3: Data usable -->
+<rect x="28" y="480" width="480" height="165" rx="18" fill="#EAF4FF"/>
+<circle cx="112" cy="562" r="54" fill="#F0A12A"/>
+<rect x="80" y="577" width="16" height="22" rx="3" fill="#fff"/>
+<rect x="104" y="560" width="16" height="39" rx="3" fill="#fff"/>
+<rect x="128" y="535" width="16" height="64" rx="3" fill="#fff"/>
+<text x="205" y="575" class="rowhead">Data usable</text>
+
+<rect x="520" y="480" width="520" height="165" rx="18" fill="#EEF8F2"/>
+<text x="550" y="532" class="body">Data that are accurate enough,</text>
+<text x="550" y="566" class="body">timely, relevant, understandable,</text>
+<text x="550" y="600" class="body">and permitted for this purpose.</text>
+
+<rect x="1052" y="480" width="640" height="165" rx="18" fill="#F4F0FB"/>
+<circle cx="1135" cy="562" r="48" fill="#7654B5"/>
+<polygon points="1135,525 1168,588 1102,588" fill="#fff"/>
+<line x1="1135" y1="544" x2="1135" y2="566" stroke="#7654B5" stroke-width="7" stroke-linecap="round"/>
+<circle cx="1135" cy="577" r="4" fill="#7654B5"/>
+<text x="1215" y="536" class="body">You need to confirm usability with</text>
+<text x="1215" y="570" class="body">people who understand the data</text>
+<text x="1215" y="604" class="body">and the work.</text>
+
+<!-- Row 4: Contextual information -->
+<rect x="28" y="655" width="480" height="165" rx="18" fill="#EAF4FF"/>
+<circle cx="112" cy="737" r="54" fill="#1595B8"/>
+<path d="M84 700 h48 l16 16 v58 h-64z" fill="#fff"/>
+<polyline points="132,700 132,716 148,716" fill="none" stroke="#1595B8" stroke-width="4"/>
+<line x1="97" y1="730" x2="133" y2="730" stroke="#1595B8" stroke-width="5"/>
+<line x1="97" y1="744" x2="133" y2="744" stroke="#1595B8" stroke-width="5"/>
+<line x1="97" y1="758" x2="127" y2="758" stroke="#1595B8" stroke-width="5"/>
+<text x="205" y="728" class="rowhead">Contextual</text>
+<text x="205" y="762" class="rowhead">information</text>
+
+<rect x="520" y="655" width="520" height="165" rx="18" fill="#EEF8F2"/>
+<text x="550" y="704" class="body">Policies, workflows, incentives,</text>
+<text x="550" y="738" class="body">outside events, coding conventions,</text>
+<text x="550" y="772" class="body">and other real-world conditions.</text>
+
+<rect x="1052" y="655" width="640" height="165" rx="18" fill="#F4F0FB"/>
+<circle cx="1135" cy="737" r="48" fill="#7654B5"/>
+<polygon points="1135,700 1168,763 1102,763" fill="#fff"/>
+<line x1="1135" y1="719" x2="1135" y2="741" stroke="#7654B5" stroke-width="7" stroke-linecap="round"/>
+<circle cx="1135" cy="752" r="4" fill="#7654B5"/>
+<text x="1215" y="694" class="body">Important context may exist in</text>
+<text x="1215" y="728" class="body">documentation, other systems, or</text>
+<text x="1215" y="762" class="body">in the knowledge of people rather</text>
+<text x="1215" y="796" class="body">than in the dataset itself.</text>
+</svg>

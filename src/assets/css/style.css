@@ -271,6 +271,18 @@ details.optional .optional-body > :last-child{margin-bottom:0}
 }
 .cms-assignment .cms-label{background:var(--violet-soft); color:var(--violet)}
 .cms-discussion .cms-label{background:var(--accent-soft); color:var(--accent)}
+.cms-tryit .cms-label{background:var(--good-soft); color:var(--good)}
+
+/* {% tip %} */
+.tip{border-left:3px solid var(--warn); background:var(--warn-soft); border-radius:0 8px 8px 0; padding:.75rem 1rem .8rem; margin:1.4rem 0; font-size:.95rem}
+.tip .tip-label{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--warn); margin:0 0 .35rem}
+.tip .tip-label::before{content:"\1F4A1"; margin-right:.4rem; letter-spacing:0}
+.tip > :last-child{margin-bottom:0}
+
+/* {% iconbox %} */
+.iconbox{display:flex; gap:1.1rem; align-items:center; border:1px solid var(--accent); border-left-width:3px; background:var(--accent-soft); border-radius:8px; padding:.9rem 1.1rem; margin:1.6rem 0}
+.iconbox img{flex:none; width:5.5rem; height:auto}
+.iconbox-body > :last-child{margin-bottom:0}
 .cms h4{margin:0 0 .5rem}
 .cms > :last-child{margin-bottom:0}
 

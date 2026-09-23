@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="768" viewBox="0 0 2048 768">
+  <rect width="2048" height="768" fill="#ffffff"/>
+  <style>
+    text{font-family:Arial,Helvetica,sans-serif}
+    .head{font-size:34px;font-weight:700;fill:#0B2F5B}
+    .body{font-size:30px;fill:#163C73}
+  </style>
+
+  <!-- Card 1 -->
+  <rect x="40" y="55" width="630" height="610" rx="30" fill="#DCEEFF"/>
+  <circle cx="355" cy="205" r="115" fill="#147FC4"/>
+  <rect x="285" y="155" width="140" height="100" rx="10" fill="none" stroke="#fff" stroke-width="12"/>
+  <polygon points="335,180 335,230 385,205" fill="#87C8F3"/>
+  <line x1="355" y1="255" x2="355" y2="275" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <line x1="330" y1="275" x2="380" y2="275" stroke="#fff" stroke-width="12" stroke-linecap="round"/>
+  <text x="355" y="395" text-anchor="middle" class="head">A streaming company</text>
+  <text x="355" y="460" text-anchor="middle" class="body">wants to reduce the number</text>
+  <text x="355" y="505" text-anchor="middle" class="body">of customers who cancel</text>
+  <text x="355" y="550" text-anchor="middle" class="body">their subscriptions.</text>
+
+  <!-- Card 2 -->
+  <rect x="709" y="55" width="630" height="610" rx="30" fill="#E2F3E8"/>
+  <circle cx="1024" cy="205" r="115" fill="#26966F"/>
+  <g transform="translate(1024 205)">
+    <circle r="42" fill="none" stroke="#fff" stroke-width="18"/>
+    <rect x="-12" y="-86" width="24" height="40" rx="5" fill="#fff"/>
+    <rect x="-12" y="46" width="24" height="40" rx="5" fill="#fff"/>
+    <rect x="-86" y="-12" width="40" height="24" rx="5" fill="#fff"/>
+    <rect x="46" y="-12" width="40" height="24" rx="5" fill="#fff"/>
+    <rect x="-64" y="-64" width="27" height="27" rx="5" fill="#fff" transform="rotate(45)"/>
+    <rect x="37" y="37" width="27" height="27" rx="5" fill="#fff" transform="rotate(45)"/>
+    <rect x="37" y="-64" width="27" height="27" rx="5" fill="#fff" transform="rotate(45)"/>
+    <rect x="-64" y="37" width="27" height="27" rx="5" fill="#fff" transform="rotate(45)"/>
+  </g>
+  <text x="1024" y="395" text-anchor="middle" class="head">A manufacturer</text>
+  <text x="1024" y="460" text-anchor="middle" class="body">wants to reduce unexpected</text>
+  <text x="1024" y="505" text-anchor="middle" class="body">machine downtime.</text>
+
+  <!-- Card 3 -->
+  <rect x="1378" y="55" width="630" height="610" rx="30" fill="#ECE6F8"/>
+  <circle cx="1693" cy="205" r="115" fill="#6D46B2"/>
+  <g transform="translate(1693 205)">
+    <rect x="-58" y="-18" width="116" height="86" rx="8" fill="#fff"/>
+    <rect x="-34" y="-70" width="68" height="52" rx="8" fill="#fff"/>
+    <rect x="-9" y="-56" width="18" height="34" fill="#6D46B2"/>
+    <rect x="-20" y="-45" width="40" height="12" fill="#6D46B2"/>
+    <rect x="-38" y="8" width="18" height="18" fill="#6D46B2"/>
+    <rect x="-9" y="8" width="18" height="18" fill="#6D46B2"/>
+    <rect x="20" y="8" width="18" height="18" fill="#6D46B2"/>
+    <rect x="-38" y="38" width="18" height="18" fill="#6D46B2"/>
+    <rect x="20" y="38" width="18" height="18" fill="#6D46B2"/>
+  </g>
+  <text x="1693" y="395" text-anchor="middle" class="head">A hospital network</text>
+  <text x="1693" y="460" text-anchor="middle" class="body">wants to reduce missed</text>
+  <text x="1693" y="505" text-anchor="middle" class="body">outpatient appointments.</text>
+</svg>

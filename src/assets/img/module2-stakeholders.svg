@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="860" viewBox="0 0 1600 860">
+<rect width="1600" height="860" fill="#ffffff"/>
+<style>
+text{font-family:Arial,Helvetica,sans-serif}
+.header{font-size:30px;font-weight:700;fill:#0B2F5B}
+.rowhead{font-size:26px;font-weight:700;fill:#0B2F5B}
+.body{font-size:23px;fill:#173C72}
+</style>
+
+<!-- Header row -->
+<rect x="22" y="24" width="445" height="92" rx="16" fill="#DCEEFF"/>
+<rect x="480" y="24" width="360" height="92" rx="16" fill="#E2F3E8"/>
+<rect x="852" y="24" width="330" height="92" rx="16" fill="#FFF0D9"/>
+<rect x="1194" y="24" width="384" height="92" rx="16" fill="#ECE6F8"/>
+<text x="244" y="81" text-anchor="middle" class="header">Stakeholder Type</text>
+<text x="660" y="81" text-anchor="middle" class="header">A Question to Ask</text>
+<text x="1017" y="81" text-anchor="middle" class="header">Example</text>
+<text x="1386" y="81" text-anchor="middle" class="header">What They Care About</text>
+
+<!-- Row 1 -->
+<rect x="22" y="126" width="445" height="128" rx="16" fill="#EAF4FF"/>
+<circle cx="95" cy="190" r="46" fill="#2E83C6"/>
+<circle cx="82" cy="177" r="12" fill="#fff"/>
+<path d="M62 216 Q82 193 102 216 Z" fill="#fff"/>
+<circle cx="112" cy="198" r="11" fill="#fff"/>
+<path d="M99 215 Q112 200 125 215 Z" fill="#fff"/>
+<text x="165" y="198" class="rowhead">Decision owner</text>
+
+<rect x="480" y="126" width="360" height="128" rx="16" fill="#EEF8F2"/>
+<text x="510" y="180" class="body">Who can approve or</text>
+<text x="510" y="214" class="body">change what happens?</text>
+
+<rect x="852" y="126" width="330" height="128" rx="16" fill="#FFF7E9"/>
+<text x="882" y="180" class="body">Regional Inventory</text>
+<text x="882" y="214" class="body">Director</text>
+
+<rect x="1194" y="126" width="384" height="128" rx="16" fill="#F4F0FB"/>
+<text x="1224" y="165" class="body">Whether ordering, markdown, or</text>
+<text x="1224" y="199" class="body">other practices should change.</text>
+
+<!-- Row 2 -->
+<rect x="22" y="264" width="445" height="128" rx="16" fill="#EAF4FF"/>
+<circle cx="95" cy="328" r="46" fill="#2E9A79"/>
+<ellipse cx="95" cy="307" rx="25" ry="9" fill="#fff"/>
+<rect x="70" y="307" width="50" height="42" fill="#fff"/>
+<ellipse cx="95" cy="349" rx="25" ry="9" fill="#fff"/>
+<line x1="70" y1="320" x2="120" y2="320" stroke="#2E9A79" stroke-width="4"/>
+<line x1="70" y1="334" x2="120" y2="334" stroke="#2E9A79" stroke-width="4"/>
+<text x="165" y="318" class="rowhead">Data owner</text>
+<text x="165" y="350" class="rowhead">or steward</text>
+
+<rect x="480" y="264" width="360" height="128" rx="16" fill="#EEF8F2"/>
+<text x="510" y="330" class="body">Who manages or</text>
+<text x="510" y="364" class="body">defines the data?</text>
+
+<rect x="852" y="264" width="330" height="128" rx="16" fill="#FFF7E9"/>
+<text x="882" y="330" class="body">Retail Data/IT Team</text>
+
+<rect x="1194" y="264" width="384" height="128" rx="16" fill="#F4F0FB"/>
+<text x="1224" y="305" class="body">Whether the data are valid and</text>
+<text x="1224" y="339" class="body">terms such as “waste” are correctly</text>
+<text x="1224" y="373" class="body">understood.</text>
+
+<!-- Row 3 -->
+<rect x="22" y="402" width="445" height="128" rx="16" fill="#EAF4FF"/>
+<circle cx="95" cy="466" r="46" fill="#F0A12A"/>
+<circle cx="95" cy="449" r="11" fill="#fff"/>
+<circle cx="73" cy="458" r="9" fill="#fff"/>
+<circle cx="117" cy="458" r="9" fill="#fff"/>
+<path d="M75 491 Q95 466 115 491 Z" fill="#fff"/>
+<path d="M56 491 Q73 471 90 491 Z" fill="#fff"/>
+<path d="M100 491 Q117 471 134 491 Z" fill="#fff"/>
+<text x="165" y="476" class="rowhead">Affected parties</text>
+
+<rect x="480" y="402" width="360" height="128" rx="16" fill="#EEF8F2"/>
+<text x="510" y="456" class="body">Who experiences the</text>
+<text x="510" y="490" class="body">real-world effects?</text>
+
+<rect x="852" y="402" width="330" height="128" rx="16" fill="#FFF7E9"/>
+<text x="882" y="456" class="body">Customers and</text>
+<text x="882" y="490" class="body">store employees</text>
+
+<rect x="1194" y="402" width="384" height="128" rx="16" fill="#F4F0FB"/>
+<text x="1224" y="443" class="body">Customers may find empty shelves;</text>
+<text x="1224" y="477" class="body">employees may face added work</text>
+<text x="1224" y="511" class="body">or complaints.</text>
+
+<!-- Row 4 -->
+<rect x="22" y="540" width="445" height="128" rx="16" fill="#EAF4FF"/>
+<circle cx="95" cy="604" r="46" fill="#7654B5"/>
+<path d="M95 569 L123 582 L116 620 Q95 641 74 620 L67 582 Z" fill="#fff"/>
+<polyline points="81,603 91,613 109,590" fill="none" stroke="#7654B5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="165" y="594" class="rowhead">Risk or compliance</text>
+<text x="165" y="626" class="rowhead">owner</text>
+
+<rect x="480" y="540" width="360" height="128" rx="16" fill="#EEF8F2"/>
+<text x="510" y="594" class="body">Who sets limits on</text>
+<text x="510" y="628" class="body">what is allowed?</text>
+
+<rect x="852" y="540" width="330" height="128" rx="16" fill="#FFF7E9"/>
+<text x="882" y="594" class="body">Food-safety/</text>
+<text x="882" y="628" class="body">compliance staff</text>
+
+<rect x="1194" y="540" width="384" height="128" rx="16" fill="#F4F0FB"/>
+<text x="1224" y="581" class="body">Food safety, regulations, privacy,</text>
+<text x="1224" y="615" class="body">and other unacceptable risks.</text>
+
+<!-- Row 5 -->
+<rect x="22" y="678" width="445" height="128" rx="16" fill="#EAF4FF"/>
+<circle cx="95" cy="742" r="46" fill="#1595B8"/>
+<circle cx="95" cy="724" r="13" fill="#fff"/>
+<path d="M69 773 Q95 742 121 773 Z" fill="#fff"/>
+<text x="165" y="752" class="rowhead">Primary user</text>
+
+<rect x="480" y="678" width="360" height="128" rx="16" fill="#EEF8F2"/>
+<text x="510" y="724" class="body">Who will actually use</text>
+<text x="510" y="758" class="body">the analysis or</text>
+<text x="510" y="792" class="body">recommendation?</text>
+
+<rect x="852" y="678" width="330" height="128" rx="16" fill="#FFF7E9"/>
+<text x="882" y="724" class="body">Store Inventory</text>
+<text x="882" y="758" class="body">Manager</text>
+
+<rect x="1194" y="678" width="384" height="128" rx="16" fill="#F4F0FB"/>
+<text x="1224" y="718" class="body">Needs useful recommendations that</text>
+<text x="1224" y="752" class="body">can be acted on during day-to-day</text>
+<text x="1224" y="786" class="body">work.</text>
+</svg>
