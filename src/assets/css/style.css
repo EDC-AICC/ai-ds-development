@@ -276,7 +276,13 @@ details.optional .optional-body > :last-child{margin-bottom:0}
 /* {% tip %} */
 .tip{border-left:3px solid var(--warn); background:var(--warn-soft); border-radius:0 8px 8px 0; padding:.75rem 1rem .8rem; margin:1.4rem 0; font-size:.95rem}
 .tip .tip-label{display:flex; align-items:center; gap:.45rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--warn); margin:0 0 .35rem}
-.tip .tip-label::before{content:"\2726"; font-size:1.1rem; line-height:1; letter-spacing:0}
+/* A lightbulb drawn as a mask, so it takes the label's color in both themes
+   and scales with the text. An emoji would render as a fixed-color bitmap. */
+.tip .tip-label::before{
+  content:""; width:.85rem; height:.85rem; background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 3 24 19.5'%3E%3Cpath d='M12 3a6 6 0 0 0-3.4 10.95c.5.35.9.95.9 1.6V17h5v-1.45c0-.65.4-1.25.9-1.6A6 6 0 0 0 12 3zM9.5 18.5h5V20h-5zM10.5 21h3v1.5h-3z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 3 24 19.5'%3E%3Cpath d='M12 3a6 6 0 0 0-3.4 10.95c.5.35.9.95.9 1.6V17h5v-1.45c0-.65.4-1.25.9-1.6A6 6 0 0 0 12 3zM9.5 18.5h5V20h-5zM10.5 21h3v1.5h-3z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
 .tip > :last-child{margin-bottom:0}
 
 /* {% iconbox %} */
