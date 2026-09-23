@@ -162,7 +162,7 @@ export default function (eleventyConfig) {
   /* A hands-on exercise, presented as a card so every one looks the same. */
   eleventyConfig.addPairedShortcode("tryit", cmsBlock("tryit", "Try It"));
 
-  /* {% tip %}…{% endtip %}: a short aside, set off with a lightbulb. */
+  /* {% tip %}…{% endtip %}: a short aside, set off with a label. */
   eleventyConfig.addPairedShortcode("tip", function (content) {
     return `<div class="tip"><p class="tip-label">Tip</p>\n${block(content)}\n</div>`;
   });
