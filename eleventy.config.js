@@ -159,6 +159,20 @@ export default function (eleventyConfig) {
     };
   eleventyConfig.addPairedShortcode("assignment", cmsBlock("assignment", "Assignment"));
   eleventyConfig.addPairedShortcode("discussion", cmsBlock("discussion", "Discussion"));
+  /* A hands-on exercise, presented as a card so every one looks the same. */
+  eleventyConfig.addPairedShortcode("tryit", cmsBlock("tryit", "Try It"));
+
+  /* {% tip %}…{% endtip %}: a short aside, set off with a label. */
+  eleventyConfig.addPairedShortcode("tip", function (content) {
+    return `<div class="tip"><p class="tip-label">Tip</p>\n${block(content)}\n</div>`;
+  });
+
+  /* {% iconbox "file.png" %}…{% endiconbox %}: a shaded box with a small
+     image from src/assets/img/ on the left, for a definition or key term. */
+  eleventyConfig.addPairedShortcode("iconbox", function (content, file) {
+    const src = withPrefix(`assets/img/${file}`);
+    return `<div class="iconbox"><img src="${src}" alt="" loading="lazy"><div class="iconbox-body">\n${block(content)}\n</div></div>`;
+  });
 
   /* Images live in src/assets/img/. {% figure "file.png", "alt text", "caption" %} */
   eleventyConfig.addShortcode("figure", function (file, alt = "", caption = "") {

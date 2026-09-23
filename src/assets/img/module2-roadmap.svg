@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="768" viewBox="0 0 2048 768">
+  <rect width="2048" height="768" fill="#ffffff"/>
+
+  <style>
+    .title { font-family: Arial, Helvetica, sans-serif; font-size: 34px; font-weight: 700; fill: #0b3568; }
+    .body  { font-family: Arial, Helvetica, sans-serif; font-size: 27px; font-weight: 400; fill: #183f77; }
+    .time  { font-family: Arial, Helvetica, sans-serif; font-size: 26px; font-weight: 700; }
+    .num   { font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: 700; fill: #ffffff; }
+  </style>
+
+  <!-- connector -->
+  <line x1="255" y1="148" x2="1835" y2="148" stroke="#aab8c7" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- numbered circles -->
+  <circle cx="260" cy="148" r="68" fill="#2f83bd"/>
+  <circle cx="780" cy="148" r="68" fill="#2e9a79"/>
+  <circle cx="1305" cy="148" r="68" fill="#f08a1a"/>
+  <circle cx="1838" cy="148" r="68" fill="#7b55bc"/>
+
+  <text x="260" y="165" text-anchor="middle" class="num">1</text>
+  <text x="780" y="165" text-anchor="middle" class="num">2</text>
+  <text x="1305" y="165" text-anchor="middle" class="num">3</text>
+  <text x="1838" y="165" text-anchor="middle" class="num">4</text>
+
+  <!-- Part 1 -->
+  <text x="260" y="268" text-anchor="middle" class="title">
+    <tspan x="260" dy="0">Part 1: From a Workplace</tspan>
+    <tspan x="260" dy="44">Request to a Clear</tspan>
+    <tspan x="260" dy="44">Data Problem</tspan>
+  </text>
+  <text x="260" y="426" text-anchor="middle" class="body">
+    <tspan x="260" dy="0">Turn a broad request into a</tspan>
+    <tspan x="260" dy="38">problem that is specific enough</tspan>
+    <tspan x="260" dy="38">to guide data work.</tspan>
+  </text>
+  <rect x="115" y="570" width="290" height="74" rx="37" fill="#d7ecfb"/>
+  <text x="260" y="617" text-anchor="middle" class="time" fill="#1f6da0">~45 minutes</text>
+
+  <!-- Part 2 -->
+  <text x="780" y="268" text-anchor="middle" class="title">
+    <tspan x="780" dy="0">Part 2: Stakeholders, Users,</tspan>
+    <tspan x="780" dy="44">Goals, and Success Criteria</tspan>
+  </text>
+  <text x="780" y="426" text-anchor="middle" class="body">
+    <tspan x="780" dy="0">Identify who will use and be</tspan>
+    <tspan x="780" dy="38">affected by the work and what</tspan>
+    <tspan x="780" dy="38">successful results should</tspan>
+    <tspan x="780" dy="38">accomplish.</tspan>
+  </text>
+  <rect x="620" y="570" width="320" height="74" rx="37" fill="#dff2e7"/>
+  <text x="780" y="617" text-anchor="middle" class="time" fill="#268a6e">~60 minutes</text>
+
+  <!-- Part 3 -->
+  <text x="1305" y="268" text-anchor="middle" class="title">
+    <tspan x="1305" dy="0">Part 3: Data, Context,</tspan>
+    <tspan x="1305" dy="44">Constraints, Assumptions,</tspan>
+    <tspan x="1305" dy="44">and Risk</tspan>
+  </text>
+  <text x="1305" y="426" text-anchor="middle" class="body">
+    <tspan x="1305" dy="0">Determine what information is</tspan>
+    <tspan x="1305" dy="38">actually usable and what</tspan>
+    <tspan x="1305" dy="38">boundaries, unknowns, and</tspan>
+    <tspan x="1305" dy="38">risks must be addressed.</tspan>
+  </text>
+  <rect x="1145" y="570" width="320" height="74" rx="37" fill="#fde4c8"/>
+  <text x="1305" y="617" text-anchor="middle" class="time" fill="#ca6500">~60 minutes</text>
+
+  <!-- Part 4 -->
+  <text x="1838" y="268" text-anchor="middle" class="title">
+    <tspan x="1838" dy="0">Part 4: AI-Assisted Framing</tspan>
+    <tspan x="1838" dy="44">and Human Judgment</tspan>
+  </text>
+  <text x="1838" y="426" text-anchor="middle" class="body">
+    <tspan x="1838" dy="0">Bring everything together by</tspan>
+    <tspan x="1838" dy="38">creating and reviewing a</tspan>
+    <tspan x="1838" dy="38">Problem Framing Brief for a</tspan>
+    <tspan x="1838" dy="38">realistic workplace scenario.</tspan>
+  </text>
+  <rect x="1678" y="570" width="320" height="74" rx="37" fill="#eadcf7"/>
+  <text x="1838" y="617" text-anchor="middle" class="time" fill="#6d43a6">~45 minutes</text>
+</svg>
