@@ -1,0 +1,23 @@
+Welcome to the share step, where your analysis becomes something meaningful and someone can actually read, understand, and act upon it. You've done all the hard work in the previous steps, the ask, explore, transform, and analyze. And now we are ready to present these findings. A key thing that changes in this step is in the earlier steps, our focus was on, is this analysis correct?
+
+Is this code actually computing the right thing? Now, that shifts from that to, will the audience actually understand this? Is this actually useful for our audience? Uh, and here are three key things that we should follow for making the presentation: accuracy, honesty, and actionability. Every number in your deliverable must come from your verified analysis.
+
+Nothing added that changes the meaning of it. Honesty. If your data has limits, like missing county values to your window, say it clearly. Actionability. Findings have to be framed in a way so that the reader knows what to do next. Data alone doesn't do that. Three tasks where AI can really speed up things is building the visualization code, drafting plain language summaries, and generating bias and equity checklists.
+
+As I mentioned, AI can really speed up the chart choices. You can give AI the prompt, giving it the context of the audience and the information that you're trying to explain. Once you have the chart, evaluate it as a communication product. Look at it as if you're the director seeing it for the first time.
+
+Is the title clear without the explanation? Is it readable? Would you actually put this in a board meeting?
+
+Here's an example. Here are three visualizations in a panel. Each of these visualization was chosen because it answers a question the board needs to know. The titles are clear and readable. They have numbers, percentages, and key tick marks that will help the audience know the information that they need to know to make any decision Another thing that I want you to focus on is how the numbers are added to the summaries.
+
+So here's a good rule. For every written summary, the number should come from your computed, from your computed variable, uh, such as that in the curly braces. It's a good practice to follow. Do not add some number that you cannot verify it
+
+The next step is bias and equity, bias and equity checks. AI can really help you and give you a list of the checks that you can do on your data. For example, in the practitioner notebook, we asked AI to generate three questions, not answers. Does the visit frequency differ by insurance status? Are certain conditions overrepresented in the uninsured group?
+
+Does the 30-day return rate vary by county? Here's the part that matters. If a check flags a pattern, you report the observation. Do not let AI explain the cause. Your data shows a rate difference. It does not show why. And finally, four checks that you should do before you share out your deliverable.
+
+Firstly, AI produced a draft, and you produced the deliverable. So trace back all the numbers, make sure you verify it, and remove any information that cannot be verified. Second, remove any causal claims. If AI writes, "Patients face barriers to care," that's an interpretation. Your data shows a pattern, so remove the claim.
+
+Three, evaluate every chart visually. Look at it as the audience would, not the person who built it. Four, report bias findings as observations with unknown case, unknown causes, never as AI-explained conclusions. And finally We are at the, towards the end, towards the last slide. Own your deliverable and make sure every number is traced back, the limits are stated honestly, findings are connected to a decision, and a bias check is done before every final output.
+
+But that's the end of it, and wish you all the best.

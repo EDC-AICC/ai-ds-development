@@ -91,7 +91,54 @@
     });
   }
 
-  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); }
+  /* The recordings have captions burned into the picture, so Vimeo's own
+     caption track would print the same words twice. Turn it off once the
+     player says it is ready, and again on play in case it comes back. */
+  function initVimeoCaptions() {
+    var frames = [].slice.call(document.querySelectorAll("iframe[data-vimeo]"));
+    if (!frames.length) return;
+    var ORIGIN = "https://player.vimeo.com";
+
+    function send(f, method, value) {
+      try { f.contentWindow.postMessage(JSON.stringify({ method: method, value: value }), ORIGIN); } catch (e) {}
+    }
+
+    window.addEventListener("message", function (e) {
+      if (e.origin !== ORIGIN) return;
+      var d = e.data;
+      if (typeof d === "string") { try { d = JSON.parse(d); } catch (err) { return; } }
+      if (!d || (d.event !== "ready" && d.event !== "play")) return;
+      frames.forEach(function (f) {
+        if (f.contentWindow !== e.source) return;
+        if (d.event === "ready") send(f, "addEventListener", "play");
+        send(f, "disableTextTrack");
+      });
+    });
+
+    /* Asking the player to say "ready" covers one that finished loading
+       before the listener above existed. */
+    frames.forEach(function (f) {
+      f.addEventListener("load", function () { send(f, "addEventListener", "ready"); });
+    });
+  }
+
+  function initTranscriptCopy() {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-copy-transcript]");
+      if (!btn) return;
+      var body = btn.closest("details.transcript").querySelector(".transcript-body");
+      var text = [].map.call(body.querySelectorAll("p"), function (p) { return p.textContent; }).join("\n\n");
+      var label = btn.textContent;
+      function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = label; }, 1600); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done("Copied"); }, function () { done("Copy failed"); });
+      } else {
+        done("Copy failed");
+      }
+    });
+  }
+
+  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initTranscriptCopy(); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

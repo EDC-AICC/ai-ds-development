@@ -1,0 +1,17 @@
+Hi, everyone. I am Habeeba Siddiqui. I've been a data practitioner for almost eight years. I've worked as a statistical programmer, as a data analyst, as a data scientist, and as a data lead. And one thing that has remained consistent across the years is how we go about data analysis. So it doesn't start with the code.
+
+It starts much before than that. It starts with making sure you understand the question you're trying to answer. So let's look at an example here. So here's a situation. Imagine a clinic director asks us to look at, uh, who uses the clinic and how often, with special attention to repeat visitors and uninsured patients.
+
+Now, we already have a brief, but before starting the analysis, I talk with the director and learn two important things. First, the clinic is deciding whether to hire a care coordinator, so repeat visits aren't just going to be an interesting pattern. They could help inform a real staffing decision. Second, county funder wants to know how the clinic serves the uninsured patients.
+
+So whatever number we report needs to use a definition that everyone understands the same way. That leaves me with two questions to clarify. What is a repeat visit? When you say repeat visit, do you mean any patient who visited more than once during the two-year period or someone who returned within a specific amount of time, such as thirty days?
+
+These definitions can produce very different results. Someone who visits twice with an eighteen-month gap is very different from someone returning every few weeks. The answer also tells me how to structure the analysis. Here, we are interested in patients, not simply counting visits. A patient with six visits is still one patient.
+
+So one short clarification can change both the calculation and the meaning of the result
+
+The second question, what counts as uninsured? When you say uninsured, do you mean patients with no insurance coverage at all? Or are there other categories you want included, such as self-pay or something else? This matters because different organizations may use different reporting definitions. If I use one reporting definition and the funder uses another, we could calculate different numbers from the same data set.
+
+So clarifying the definition now will help make sure that the result is understood and can be reused later. So here's the key takeaway. I asked just two questions, but those two questions helped me determine who I should count, how important groups should be defined, and how the results connect to the decisions people need to make.
+
+That's the lesson I want you to take with you. The questions you ask before you start analyzing the data are all part of the analysis. A few minutes that you spend on asking the right questions can help you save time and effort for producing a perfect solution to the wrong question.

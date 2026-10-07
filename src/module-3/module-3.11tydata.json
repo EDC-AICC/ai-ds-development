@@ -3,11 +3,11 @@
   "module": {
     "key": "m3",
     "label": "Module 3",
-    "title": "Preparing, Exploring & Analyzing Data with AI",
+    "title": "Understanding, Exploring, Preparing, Analyzing, and Sharing Data with AI",
     "url": "/module-3/",
     "rank": 3,
-    "kicker": "Module 03 \u00b7 draft",
-    "blurb": "Data cleaning, transformation, exploratory analysis and bias detection, done with AI and verified by the student. Six parts, drafted and awaiting review.",
+    "kicker": "Module 03 · draft",
+    "blurb": "Carrying a framed problem into a real, messy dataset: understand, explore, prepare, analyze, and share, with AI writing the code and you verifying every result.",
     "status": "Full draft"
   }
 }
