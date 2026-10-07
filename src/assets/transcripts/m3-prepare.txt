@@ -1,0 +1,35 @@
+Welcome back. We are now on the next step in our data practitioner journey. We are on the transform step. Uh, we've already done, uh, the ask step, the explore step. In the ask step, you figured out exactly what you were trying to answer. In explore step, you looked at the data and figured out what's broken and what's, what needs fixing.
+
+And now in this transform step, we're actually going to clean the data, make it trustworthy before we start to analyze anything Here's a quick recap of what we figured out in the ask and explore step. In the ask step, uh, we decided that our unit of analysis is going to be patients and not visits, and then we defined the repeat visitor as a patient who returns to the clinic within thirty days.
+
+And we decided that self-pay is a separate category and will not be including, uh, in the uninsured category. And then in the explore step, we found out that visit date is stored as a text, and it needs cleaning, needs to be converted to a date type. And then insurance type has seventeen different spelling variants.
+
+Visit type also has some inconsistent, uh, values, spellings, and the county column has a lot of missing data. And then age and copay also have some out of range values that are not possible. But before we actually start writing any code and, uh, cleaning any data, I want you to remember that the brief is the scope.
+
+So we want to prioritize the columns that are relevant for our analysis and not necessarily everything. Secondly, we always want to have a copy of the original data set, so we will work on another copy, um, created from it. So we can always go back to the original data if we have to. So before we actually start to, start writing any prompts or, uh, writing any code, we just want to look at what's present in our data.
+
+And the describe function, value counts, and min and max help us look at the data, uh, well so that we can decide what needs cleaning
+
+So here's an example. Describe tells us, uh, that age has some impossible values like -5, 999, which are biologically not possible, and then county has a lot of missing values, about thirty percent, and copay has negative, uh, values, which is not possible. However, there are some things that describe doesn't really cover.
+
+For example, the different categories in the insurance type, like, uh, Medicaid having different spellings, uh, that is not covered, and that's where value count comes in, and it tells us the exact categories and the counts so we can, uh, address that, uh, spellings. So the first example, uh, column that we're going to look at is the visit date.
+
+This is actually stored as a text in our original datasets, and we want to convert it into date type so that we can know the patients who actually have a repeat visit. Uh, to clean this column, we took a two-pass approach, uh, saying that let's convert this column to a date type and tell us or show us the, uh, the values that didn't actually get converted.
+
+Uh, this is a good, uh, way to prompt and inspect and clean your data so that you know that the values that are actually missing are missing and not necessarily in just some other format. So here we figured out that at the first pass, some of the dates were in ISO standard formats, while some other dates were in American format.
+
+If we hadn't observed the values that came out as missing after the first pass, someone would have actually, uh, actually kept these as missing values in the data set. So it's important to verify after the cleaning has, has completed. So we saved about five forty-one rows, and there are still about four, uh, values that came out as missing, and they might be blanks or typos.
+
+Other column, uh, that we can look at as an example is the insurance type. It has a lot of different, uh, spellings and cases, and... But it generally has four categories. So we strip off the white space, we convert it into the appropriate case, and then recategorize them and look at their values again. Example here, like all the Medicaid values, MCD, Medicaid, uppercase, lowercase, they are all grouped in one category.
+
+So we want to make sure that the counts match and, mm, the before and after are, uh, good and clean. Another example column is the county column. This column has a lot of missing data. Now, someone can actually drop the rows that have missing values, but that might not be the best practice. So we create an additional column called the county flag, where we flag off if the county is known or unknown for that person
+
+Uh, then the next, um, thing that we want to address is handling duplicates. Sometimes you might have exactly duplicate rows in your data set, and at that point it's okay to drop either one. But at times you would have duplicate, uh, identifiers like for example visit ID in our data set, but other columns might not be the same.
+
+So you want to make sure that you retain the row with the correct information and drop the one that is inconsistent So here's a quick recap. We, uh, removed the duplicate, uh, rows. Uh, we created an additional column called county known. We cleaned the visit date column. We cleaned the insurance type and, uh, grouped the categories into the right one.
+
+And then visit type, we cleaned this column as well and grouped them correctly. And we removed the, uh, rows which had age and copay out of range. Now, here's what the transform step actually teaches you. Uh, the brief is your filter, so clean the columns that are relevant for the analysis, prioritize that first.
+
+Uh, look and observe your data before you actually prompt and generate some code and run that. And then once you have clean columns, uh, compare that with your original column and make sure everything looks good. And then document every decision, uh, so that, uh, everybody else that looks at your report or if you want to go back and check, you know exactly, uh, how you transformed the data.
+
+And then, uh, do not drop rows where you can, uh, impute the data or you can just add additional column and flag. Uh, that's an overview of all the transform steps, and I'll see you in the next section, which is analyze. See you there. Bye-bye.

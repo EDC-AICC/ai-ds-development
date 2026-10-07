@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="720" viewBox="0 0 2048 720">
+  <rect width="2048" height="720" fill="#ffffff"/>
+
+  <style>
+    .part  { font-family: Arial, Helvetica, sans-serif; font-size: 26px; font-weight: 700; fill: #4a6a8f; }
+    .title { font-family: Arial, Helvetica, sans-serif; font-size: 32px; font-weight: 700; fill: #0b3568; }
+    .body  { font-family: Arial, Helvetica, sans-serif; font-size: 25px; font-weight: 400; fill: #183f77; }
+    .time  { font-family: Arial, Helvetica, sans-serif; font-size: 24px; font-weight: 700; }
+    .num   { font-family: Arial, Helvetica, sans-serif; font-size: 44px; font-weight: 700; fill: #ffffff; }
+  </style>
+
+  <!-- connector -->
+  <line x1="150" y1="130" x2="1898" y2="130" stroke="#aab8c7" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Part 1 -->
+  <circle cx="150" cy="130" r="58" fill="#2f83bd"/>
+  <text x="150" y="146" text-anchor="middle" class="num">1</text>
+  <text x="150" y="240" text-anchor="middle" class="part">Part 1</text>
+  <text x="150" y="282" text-anchor="middle" class="title">Before You Begin</text>
+  <text x="150" y="350" text-anchor="middle" class="body">
+    <tspan x="150" dy="0">See how numbers</tspan>
+    <tspan x="150" dy="36">go wrong on their</tspan>
+    <tspan x="150" dy="36">way through a</tspan>
+    <tspan x="150" dy="36">data system.</tspan>
+  </text>
+  <rect x="40" y="540" width="220" height="64" rx="32" fill="#d7ecfb"/>
+  <text x="150" y="581" text-anchor="middle" class="time" fill="#1f6da0">~30 minutes</text>
+
+  <!-- Part 2 -->
+  <circle cx="441" cy="130" r="58" fill="#2e9a79"/>
+  <text x="441" y="146" text-anchor="middle" class="num">2</text>
+  <text x="441" y="240" text-anchor="middle" class="part">Part 2</text>
+  <text x="441" y="282" text-anchor="middle" class="title">Understand</text>
+  <text x="441" y="350" text-anchor="middle" class="body">
+    <tspan x="441" dy="0">Turn a vague</tspan>
+    <tspan x="441" dy="36">request into a</tspan>
+    <tspan x="441" dy="36">question the data</tspan>
+    <tspan x="441" dy="36">can answer.</tspan>
+  </text>
+  <rect x="331" y="540" width="220" height="64" rx="32" fill="#dff2e7"/>
+  <text x="441" y="581" text-anchor="middle" class="time" fill="#268a6e">~45 minutes</text>
+
+  <!-- Part 3 -->
+  <circle cx="733" cy="130" r="58" fill="#f08a1a"/>
+  <text x="733" y="146" text-anchor="middle" class="num">3</text>
+  <text x="733" y="240" text-anchor="middle" class="part">Part 3</text>
+  <text x="733" y="282" text-anchor="middle" class="title">Explore</text>
+  <text x="733" y="350" text-anchor="middle" class="body">
+    <tspan x="733" dy="0">Find out what is</tspan>
+    <tspan x="733" dy="36">in the data before</tspan>
+    <tspan x="733" dy="36">changing any of it.</tspan>
+  </text>
+  <rect x="623" y="540" width="220" height="64" rx="32" fill="#fde4c8"/>
+  <text x="733" y="581" text-anchor="middle" class="time" fill="#ca6500">~60 minutes</text>
+
+  <!-- Part 4 -->
+  <circle cx="1024" cy="130" r="58" fill="#7b55bc"/>
+  <text x="1024" y="146" text-anchor="middle" class="num">4</text>
+  <text x="1024" y="240" text-anchor="middle" class="part">Part 4</text>
+  <text x="1024" y="282" text-anchor="middle" class="title">Prepare</text>
+  <text x="1024" y="350" text-anchor="middle" class="body">
+    <tspan x="1024" dy="0">Fix what you found</tspan>
+    <tspan x="1024" dy="36">and build the</tspan>
+    <tspan x="1024" dy="36">columns your</tspan>
+    <tspan x="1024" dy="36">question needs.</tspan>
+  </text>
+  <rect x="914" y="540" width="220" height="64" rx="32" fill="#eadcf7"/>
+  <text x="1024" y="581" text-anchor="middle" class="time" fill="#6d43a6">~75 minutes</text>
+
+  <!-- Part 5 -->
+  <circle cx="1315" cy="130" r="58" fill="#c2455a"/>
+  <text x="1315" y="146" text-anchor="middle" class="num">5</text>
+  <text x="1315" y="240" text-anchor="middle" class="part">Part 5</text>
+  <text x="1315" y="282" text-anchor="middle" class="title">Analyze</text>
+  <text x="1315" y="350" text-anchor="middle" class="body">
+    <tspan x="1315" dy="0">Answer the question</tspan>
+    <tspan x="1315" dy="36">and check who is</tspan>
+    <tspan x="1315" dy="36">missing from</tspan>
+    <tspan x="1315" dy="36">the answer.</tspan>
+  </text>
+  <rect x="1205" y="540" width="220" height="64" rx="32" fill="#f8dde2"/>
+  <text x="1315" y="581" text-anchor="middle" class="time" fill="#a8354a">~60 minutes</text>
+
+  <!-- Part 6 -->
+  <circle cx="1607" cy="130" r="58" fill="#1d8a99"/>
+  <text x="1607" y="146" text-anchor="middle" class="num">6</text>
+  <text x="1607" y="240" text-anchor="middle" class="part">Part 6</text>
+  <text x="1607" y="282" text-anchor="middle" class="title">Share</text>
+  <text x="1607" y="350" text-anchor="middle" class="body">
+    <tspan x="1607" dy="0">Turn verified</tspan>
+    <tspan x="1607" dy="36">findings into</tspan>
+    <tspan x="1607" dy="36">something a decision-</tspan>
+    <tspan x="1607" dy="36">maker can act on.</tspan>
+  </text>
+  <rect x="1497" y="540" width="220" height="64" rx="32" fill="#d6f0f3"/>
+  <text x="1607" y="581" text-anchor="middle" class="time" fill="#157784">~45 minutes</text>
+
+  <!-- Part 7 -->
+  <circle cx="1898" cy="130" r="58" fill="#5a6b7d"/>
+  <text x="1898" y="146" text-anchor="middle" class="num">7</text>
+  <text x="1898" y="240" text-anchor="middle" class="part">Part 7</text>
+  <text x="1898" y="282" text-anchor="middle" class="title">Deliverable</text>
+  <text x="1898" y="350" text-anchor="middle" class="body">
+    <tspan x="1898" dy="0">Run the whole</tspan>
+    <tspan x="1898" dy="36">process on your own</tspan>
+    <tspan x="1898" dy="36">with a new dataset.</tspan>
+  </text>
+  <rect x="1788" y="540" width="220" height="64" rx="32" fill="#e3e8ee"/>
+  <text x="1898" y="581" text-anchor="middle" class="time" fill="#46566a">~2 hours</text>
+
+</svg>

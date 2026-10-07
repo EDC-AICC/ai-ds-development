@@ -1,0 +1,29 @@
+Hello, and welcome to the analyze step. This is where things get really exciting. You've cleaned your data, explored it, transformed it. Now it's time to analyze the data and look at the patterns, with AI helping you every step of the way
+
+So here's our scenario. Our clinic data with about 800 rows, 200... two years of patient visits, and two key decisions on the table. Should the clinic hire a care coordinator? And how the clinic can show the county funder they are serving uninsured patients
+
+Here's where most people go wrong. They open the data and start calculating. That's backward. The very first thing that we did in the practitioner notebook is write a brief for AI. We described the two key decisions and asked what analytical goals should be pursued. Not metrics, not code, just goals. AI came back with seven possible directions, and now your judgment kicks in.
+
+We don't keep all seven goals. We dropped two. One was about ICD diagnosis codes and other about financial patterns. These do not help our decisions. That left us with five goals. Those five goals became our key investigations: quantify the repeat visit pattern, test whether repeat visits are linked to unresolved care, understand the uninsured patient picture, and build a county-by-county comparison, and synthesize all of it into a concrete recommendation
+
+Now, for each of those five goals, you go back to AI and ask, "What should I actually calculate to answer these goals?" For goal one, the repeat visit pattern, AI recommended three metrics: repeat visit rate, 30-day return rate, and follow-up linkage rate. For goal three, the uninsured picture, AI recommended uninsured patient count, what percentage of repeat visitors are uninsured, and visit volume by county.
+
+Every goal now gets its own focused set of metrics, not a generic list, and each metric answers something specific that, that helps the clinic to make the decision
+
+With your goals and metrics defined, you ask AI to write the code. But here's where the prompt really matters. A weak prompt asking to calculate the repeat visitors will give you something that looks good, but might actually end up being wrong. A good prompt would define, would define the repeat visit, like the 30-day window.
+
+A specific prompt will give you code that you can read, check, and defend to your board
+
+Getting AI to write the code is wonderful, but your job doesn't stop there. Three things happen next. First, you verify. You run the code on a small slice and check whether the output matches what you expect for a real patient. Then you spot anomalies. For investigation three, counting uninsured patients, AI's default was to take the mode insurance type per patient.
+
+A patient uninsured on four visits, private on five, gets classified as private. Those four uninsured visits vanish from the funded report. AI didn't do anything wrong. It just didn't know the context. So you apply a guardrail. Flag a patient as uninsured if they had any uninsured visit. One rule change, completely defensible, completely different count.
+
+Verify, spot the anomaly, and apply the guardrail
+
+Once the numbers are right, one step remains, and this one is yours alone. In investigation five, AI built a composite county ranking across three dimensions: repeat visitor rate, uninsured rate, and visits per provider. A county came out to the top, but you're the one who looks at that table, that data, and tells the board, "Start with this county."
+
+AI can rank. AI cannot tell you what that ranking means for your clinic. That interpretation is yours to make So what have we actually practiced here? AI can suggest you what to analyze: goals, metrics, scope. But what matters and what to prioritize, that depends on your context, your decision, and your brief.
+
+Only you can make that call. And don't forget the pitfalls. AI doesn't know your data the way you do. It doesn't know your dataset context. It doesn't know what the funder actually needs to see. So always verify the output, check the method, not just the numbers. And coming up next, how we turn these findings into something the board can actually act on.
+
+Great work getting here.

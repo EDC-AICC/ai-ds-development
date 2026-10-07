@@ -1,0 +1,29 @@
+Hi, everyone. We are in the next section, which is data exploration. You have, uh, already developed a brief, now we are ready to start exploring the data. The first set- the first step is simply to get your data set loaded into the tool that you want to use. You can use Google Colab, uh, VS Code, Jupyter Notebook, uh, any tool of your choice.
+
+The specific tool matters less than, uh, what you want to do, uh, in the next steps. So start by loading the data set with Python, Pandas, and then let me show you a notebook that I have developed, and then we can go over, uh, it together. So let's see. Uh, okay, here we go. I'm sharing my screen, and you can see this Python notebook that I have already developed, and I ran the cell so that we can talk about it, uh, in this video.
+
+So the first thing that... I use ChatGPT, um, here for all the prompts. So the first thing that I did is that I put my base prompt into ChatG- GPT, telling that, um, I'm trying to explore a data set and I want really clean code, and try to have as many comments as possible so that the cos- code is nice and easy to understand.
+
+And if it does not understand anything that I ask, I want it to ask me back questions and not just assume. So tho- that's the base prompt. The next thing that I do is that, uh, I ask it to give me some code so that the data set is loaded and I get, um, I get, uh, I get to know what's in the data set. Just some basic things like column, column names and data types.
+
+So here's the code that it generated, and I copy-pasted it right here. And I glanced at the code. It looks easy to understand. I understand what's going on, what's happening here. Uh, it's not removing any rules or changing any column names. Uh, so it's simple. So I see here that there are eight hundred and twelve rows, about thirteen columns.
+
+And the next thing that I sort of scan through is just the null values across all these different columns. I notice that the county has a lot of null values. Uh, so does age and- Yeah. Age and some other columns that might not be relevant to us, maybe ICD code, ICD description and so on. And then it gives us some sample rows just for us to glance at them.
+
+Uh, so I do see a couple of different variations of gender here. Uh, I see a couple of different variations of visit date here. Uh, I see a couple of different spelling types in the insurance type. So just a quick glance, just absorbing what's in the dataset. All righty. So my next prompt is going to be a little bit, uh, more tailored and much more specific.
+
+Uh, I want AI to, uh, help me understand specific columns that I'm interested in for my clinic analysis. So I just want to check those important columns like, uh, patient ID, visit date, insurance type, county for missing values, any inconsistent values, duplicates, categories. So at, at this point, I do not want it to modify any data, so that's important.
+
+I do write that in the prompt. So this is the prompt that I gave my AI tool. And notice that I say that, "Write readable step-by-step code," uh, "Not chained one-liners," and, "Do not modify the data." And I ask it to run these checks across the column that I'm interested in and the type of checks. So again, it gives me, um, some code here that I went through, uh, to make sure that it's understandable and it's not doing something weird that I don't want to.
+
+It's not deleting or filtering out any records. So it passed. Does this code actually do what I requested? Yes. Is it changing any value or removing records importantly? No, it is not. But I'm understanding what it's doing. So then I go ahead and run this code, this cell, and we look at the output at the end of it.
+
+All righty. So here's the output after running that code. So a quick data quality checks. Uh, I just see that patient ID is okay. Uh, shortest and longest pat-patient ID is about four characters, so that's okay. Uh, no wide spaces as such. Visit dates, I do see earliest and latest, uh, visit dates there. Uh, we s- also see that some dates could not be passed.
+
+In fact, plenty of them, five forty-five, so we need to investigate, investigate that a little bit more deeply. Then looking at the insurance type checks, I do see a lot of different variation of spellings of the same category like Medicaid, Medicare and so on. Then, uh, I also asked it to check some duplicate, uh, records and visit IDs, so it gives me those duplicate, uh, IDs.
+
+So notice that the visit ID is same here, uh, row 293 and 3- 300. Visit ID is same, patient ID is same, visit date is same. So these are some duplicate records that need to be cleaned and filtered out, uh, in our next step. Uh, county has a lot of missing data, about 30%, so we need to check all of that. So towards the end of it, I just paste all of this output into the AI tool and ask it to give me a quick summary.
+
+Um, so, so here's the exact prompt. I say that here are the findings from my data quality checks on the data set, and then I pasted the output, and then I ask it to just put it in a nice, uh, table format so it's easy for me to, um, refer back. So here's the result. So it tells me visit date, so many failed to parse, and this is important for the brief because so and so, because visit date is important.
+
+So here's, uh, how I, I completed the data exploration step. So yeah, so use AI, um, tool, uh, to help you investigate, uh, to help you make decisions. Uh, don't let AI decide for you. Uh, so yes, that's the key takeaway I want you to take with you. Um, use AI in the workflow so that you can, uh, quickly do the steps, quickly do the data exploration, and, uh, make sense of the data and decide, uh, what columns need attention, uh, what next steps could be before, uh, before you actually started manipulating the data.

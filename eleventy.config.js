@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import markdownIt from "markdown-it";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import "prismjs/components/prism-python.js"; /* loaded before init() below extends it */
@@ -9,6 +10,17 @@ const md = markdownIt({ html: true, breaks: false, linkify: true });
    instead of widening the page. */
 md.renderer.rules.table_open = () => '<div class="tablescroll"><table>';
 md.renderer.rules.table_close = () => "</table></div>";
+/* Links that leave the course site (Colab, references, partner sites) open in
+   a new tab so the lesson stays where the student left it. Links between
+   course pages and #anchors stay in the same tab. */
+md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+  const token = tokens[idx];
+  if (/^https?:\/\//i.test(token.attrGet("href") || "")) {
+    token.attrSet("target", "_blank");
+    token.attrSet("rel", "noopener");
+  }
+  return self.renderToken(tokens, idx, options);
+};
 
 const inline = (s) => md.renderInline((s || "").trim());
 const block  = (s) => md.render((s || "").trim());
@@ -86,6 +98,31 @@ export default function (eleventyConfig) {
   </div>
   <iframe src="${src}" title="${attr(label)}" style="height:${attr(height)}" loading="lazy" allowfullscreen></iframe>
 </div>`;
+  });
+
+  /* {% video "1227479005", "Title", "m3-understand.txt" %}: a Vimeo video by
+     its numeric id, kept at 16:9 at any width. The optional third argument is
+     a plain-text transcript in src/assets/transcripts/ (blank line between
+     paragraphs), shown in a collapsed block under the video with buttons to
+     copy it or open the file. Captions are burned into these recordings, so
+     site.js turns Vimeo's own caption track off. */
+  eleventyConfig.addShortcode("video", function (vimeoId, title = "Video", transcript = "") {
+    if (!/^\d+$/.test(String(vimeoId))) {
+      throw new Error(`{% video "${vimeoId}" %} in ${this.page.inputPath} needs a numeric Vimeo id`);
+    }
+    const src = `https://player.vimeo.com/video/${vimeoId}?dnt=1&title=0&byline=0&portrait=0`;
+    const player = `<figure class="video"><div class="video-frame"><iframe src="${src}" title="${attr(title)}" loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen data-vimeo></iframe></div></figure>`;
+    if (!transcript) return player;
+    const text = fs.readFileSync(`src/assets/transcripts/${transcript}`, "utf8");
+    const paras = text.trim().split(/\n\s*\n/)
+      .map((p) => `<p>${attr(p.replace(/\s+/g, " ").trim())}</p>`).join("\n");
+    const href = withPrefix(`assets/transcripts/${transcript}`);
+    return `${player}
+<details class="transcript"><summary>Transcript</summary>
+<div class="transcript-actions"><button type="button" class="transcript-btn" data-copy-transcript>Copy text</button><a class="transcript-btn" href="${href}" target="_blank" rel="noopener">Open as a text file</a></div>
+<div class="transcript-body">
+${paras}
+</div></details>`;
   });
 
   /* {% section "Title", "id" %}. The id names the section in the sidebar
@@ -194,7 +231,7 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPairedShortcode("notebook", function (content, title, notebook = "") {
     const link = notebook
-      ? `<a class="btn-colab" href="${colabUrl(notebook)}">Open in Colab →</a>`
+      ? `<a class="btn-colab" href="${colabUrl(notebook)}" target="_blank" rel="noopener">Open in Colab →</a>`
       : `<a class="btn-colab is-placeholder" href="#" onclick="return false;">Open in Colab →</a>`;
     return `<div class="notebook"><h4>${inline(title)}</h4>\n${block(content)}\n${link}</div>`;
   });
