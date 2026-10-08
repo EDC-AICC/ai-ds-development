@@ -17,10 +17,18 @@ export function saveSyncSettings(s) {
   try { localStorage.setItem(SYNC, JSON.stringify(s)); } catch (e) {}
 }
 
+/* Sync is off unless the site was built with a server (site.json
+   reviewServer). A browser left in sync mode from earlier falls back to
+   local; its comments are all still here. */
+export function syncEnabled() {
+  const meta = document.querySelector('meta[name="review-server"]');
+  return !!(meta && meta.content);
+}
+
 export function openStore({ connect = true } = {}) {
   const local = new LocalStore();
   const s = syncSettings();
-  if (s.mode !== "sync" || !s.server) return local;
+  if (!syncEnabled() || s.mode !== "sync" || !s.server) return local;
   const sync = new SyncStore(local, s);
   if (connect) sync.connect();
   return sync;

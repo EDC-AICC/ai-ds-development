@@ -69,18 +69,20 @@ $("rv-name").addEventListener("input", (e) => {
   nameTimer = setTimeout(() => store.setName(e.target.value), 500);
 });
 
-/* ---- where comments are saved ---- */
-const sync = syncSettings();
-document.querySelector(`input[name=rv-mode][value=${sync.mode}]`).checked = true;
-$("rv-sync").hidden = sync.mode !== "sync";
-$("rv-server").value = sync.server;
-$("rv-passcode").value = sync.passcode;
-/* Settings are read when a page opens its store, so a change reloads this
-   page to switch it over too. */
-function storeSettings(reload) {
-  const mode = document.querySelector("input[name=rv-mode]:checked").value;
-  saveSyncSettings({ mode, server: $("rv-server").value.trim(), passcode: $("rv-passcode").value });
-  if (reload) location.reload();
+/* ---- where comments are saved (only when a sync server is configured) ---- */
+if ($("rv-sync")) initSyncSettings();
+function initSyncSettings() {
+  const sync = syncSettings();
+  document.querySelector(`input[name=rv-mode][value=${sync.mode}]`).checked = true;
+  $("rv-sync").hidden = sync.mode !== "sync";
+  $("rv-server").value = sync.server;
+  $("rv-passcode").value = sync.passcode;
+  /* Settings are read when a page opens its store, so a change reloads this
+     page to switch it over too. */
+  function storeSettings(reload) {
+    const mode = document.querySelector("input[name=rv-mode]:checked").value;
+    saveSyncSettings({ mode, server: $("rv-server").value.trim(), passcode: $("rv-passcode").value });
+    if (reload) location.reload();
 }
 document.querySelectorAll("input[name=rv-mode]").forEach((r) => r.addEventListener("change", () => {
   $("rv-sync").hidden = r.value !== "sync";
@@ -105,6 +107,7 @@ $("rv-test").addEventListener("click", async () => {
     out.textContent = "Couldn't reach that address.";
   }
 });
+}
 $("rv-toggle").addEventListener("click", () => { store.setOn(!store.isOn()); render(); });
 $("rv-download").addEventListener("click", () => {
   const { filename, data } = store.exportFile();

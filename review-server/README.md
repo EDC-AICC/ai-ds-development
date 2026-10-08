@@ -38,8 +38,9 @@ npm run review-server
 ```
 
 The passcode is `review` unless you set `REVIEW_KEY`, and the database goes in `tools/`
-(git-ignored). On the site's `/review/` page, choose **Shared server**, set the address to
-`http://127.0.0.1:8090` and the passcode to `review`.
+(git-ignored). The site only offers sync when it's built with a server address, so set
+`"reviewServer": "http://127.0.0.1:8090"` in `src/_data/site.json` (don't commit that). Then on the
+site's `/review/` page, choose **Shared server** and enter the passcode `review`.
 
 ## Deploying on Ubuntu
 
@@ -109,7 +110,9 @@ The passcode is `review` unless you set `REVIEW_KEY`, and the database goes in `
 
 5. Point the course site at it by setting `reviewServer` in `src/_data/site.json` to
    `https://reviews.kellerflint.com` or `https://courses.kellerflint.com/review-api`, then
-   push. Reviewers then only type the passcode.
+   push. That is also what turns the **Shared server** option on: while `reviewServer` is
+   empty, `/review/` doesn't show it and every browser stays local. Reviewers then only type
+   the passcode.
 
 ## Day to day
 

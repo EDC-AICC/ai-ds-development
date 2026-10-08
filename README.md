@@ -122,8 +122,8 @@ The frame posts `{type: "embed-height", height}` to its parent when its size cha
 
 ## Review mode
 
-Course staff can comment on the site directly. Open `/review/`, enter a name, and turn review mode
-on (or send someone any page link with `?review` added). Then select text on any page to comment
+Course staff can comment on the site directly. Open `/review/` (linked from the home page under
+Instructor resources), enter a name, and turn review mode on (or send someone any page link with `?review` added). Then select text on any page to comment
 or suggest an edit; activities get a "Comment on this activity" button. Students never load any
 of this: it only runs in a browser where review mode is on, and never in `?embed` frames.
 
@@ -132,9 +132,11 @@ Comments are saved in the reviewer's browser. **Download** makes a review file
 and the site version it was made against. **Load** shows any number of those files on the page at
 once, one color per reviewer, without mixing them into your own download.
 
-With the optional sync server, reviewers see each other's comments as they're made instead.
-Run it locally with `npm run review-server` (passcode `review`) and choose **Shared server** on
-`/review/`; `review-server/README.md` covers deploying it.
+With the optional sync server, reviewers see each other's comments as they're made instead. It is
+off until `reviewServer` in `src/_data/site.json` names a server; until then `/review/` doesn't
+offer it. To try it locally, set `reviewServer` to `http://127.0.0.1:8090`, run
+`npm run review-server` (passcode `review`) and choose **Shared server** on `/review/`.
+`review-server/README.md` covers deploying it.
 
 `npm test` runs the tests for the review logic, the stores and the server.
 

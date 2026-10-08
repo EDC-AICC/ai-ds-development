@@ -29,6 +29,9 @@ file and send it to the author.</p>
   </div>
 </section>
 
+{#- Shared-server sync stays hidden until site.json names a server
+    (reviewServer); see review-server/README.md. #}
+{%- if site.reviewServer %}
 <section class="rv-group">
   <h2>Where comments are saved</h2>
   <label class="rv-choice"><input type="radio" name="rv-mode" value="local" checked> This browser only.
@@ -44,6 +47,7 @@ file and send it to the author.</p>
     </div>
   </div>
 </section>
+{%- endif %}
 
 <section class="rv-group">
   <h2>Review files</h2>

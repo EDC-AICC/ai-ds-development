@@ -26,3 +26,15 @@ test("base-layout pages are review roots too", () => {
 test("pages carry the review server meta tag", () => {
   assert.match(read("index.html"), /<meta name="review-server" content="[^"]*">/);
 });
+
+test("the shared-server option is hidden until a review server is configured", () => {
+  const html = read("review/index.html");
+  assert.match(html, /data-review-panel/);
+  assert.doesNotMatch(html, /name="rv-mode"/);
+});
+
+test("the home page links to review mode under instructor resources", () => {
+  const html = read("index.html");
+  assert.match(html, /Instructor resources/);
+  assert.match(html, /href="\/review\/"/);
+});
