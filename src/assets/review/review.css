@@ -59,3 +59,13 @@
 .rv-meta{margin:0; font-size:.82rem; color:var(--slate)}
 .rv-meta b{color:var(--ink)}
 .rv-src{font-family:var(--mono); font-size:.75rem; word-break:break-all}
+
+/* ---------- highlights on lesson pages ---------- */
+mark.rv-mark{background:var(--rv-hl); color:inherit; border-radius:2px; padding:0; cursor:pointer;
+  box-shadow:0 1px 0 var(--rv-dot)}
+mark.rv-mark mark.rv-mark{box-shadow:0 2px 0 var(--rv-dot)} /* overlaps: the inner one shows its own line */
+mark.rv-del{text-decoration:line-through; text-decoration-color:var(--rv-dot)}
+.rv-ins{text-decoration:none; background:var(--rv-hl); border-bottom:2px solid var(--rv-dot);
+  border-radius:2px; margin-left:.2em; padding:0 .15em; cursor:pointer}
+.rv-flash{animation:rv-flash 1s ease-out}
+@keyframes rv-flash{0%{outline:3px solid var(--rv-dot); outline-offset:3px}100%{outline:3px solid transparent; outline-offset:3px}}
