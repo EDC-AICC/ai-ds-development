@@ -1,6 +1,6 @@
 /* Review mode: the /review/ control page. */
 
-import { openStore, pageUrl } from "./open.js";
+import { openStore, pageUrl, saveSyncSettings, syncSettings } from "./open.js";
 import { KIND_LABEL, colorClass, downloadJson, esc, loadMessage, markBody, readFiles, reviewerChips } from "./ui.js";
 
 const store = openStore();
@@ -63,7 +63,48 @@ function renderTable() {
 function render() { renderState(); renderTable(); }
 
 $("rv-name").value = store.me().name;
-$("rv-name").addEventListener("input", (e) => store.setName(e.target.value));
+let nameTimer = 0;
+$("rv-name").addEventListener("input", (e) => {
+  clearTimeout(nameTimer);
+  nameTimer = setTimeout(() => store.setName(e.target.value), 500);
+});
+
+/* ---- where comments are saved ---- */
+const sync = syncSettings();
+document.querySelector(`input[name=rv-mode][value=${sync.mode}]`).checked = true;
+$("rv-sync").hidden = sync.mode !== "sync";
+$("rv-server").value = sync.server;
+$("rv-passcode").value = sync.passcode;
+/* Settings are read when a page opens its store, so a change reloads this
+   page to switch it over too. */
+function storeSettings(reload) {
+  const mode = document.querySelector("input[name=rv-mode]:checked").value;
+  saveSyncSettings({ mode, server: $("rv-server").value.trim(), passcode: $("rv-passcode").value });
+  if (reload) location.reload();
+}
+document.querySelectorAll("input[name=rv-mode]").forEach((r) => r.addEventListener("change", () => {
+  $("rv-sync").hidden = r.value !== "sync";
+  storeSettings($("rv-server").value.trim() !== "" || r.value === "local");
+}));
+$("rv-server").addEventListener("change", () => storeSettings(true));
+$("rv-passcode").addEventListener("change", () => storeSettings(true));
+/* A plain request, so testing never changes what's stored. */
+$("rv-test").addEventListener("click", async () => {
+  const out = $("rv-test-result");
+  const server = $("rv-server").value.trim().replace(/\/+$/, "");
+  out.textContent = "Checking…";
+  try {
+    const res = await fetch(`${server}/marks`, { headers: { "X-Review-Key": $("rv-passcode").value } });
+    if (res.status === 401) out.textContent = "The server rejected the passcode.";
+    else if (!res.ok) out.textContent = `The server answered ${res.status}.`;
+    else {
+      const n = (await res.json()).marks.length;
+      out.textContent = `Connected. The server has ${n} comment${n === 1 ? "" : "s"}.`;
+    }
+  } catch (e) {
+    out.textContent = "Couldn't reach that address.";
+  }
+});
 $("rv-toggle").addEventListener("click", () => { store.setOn(!store.isOn()); render(); });
 $("rv-download").addEventListener("click", () => {
   const { filename, data } = store.exportFile();

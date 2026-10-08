@@ -1,9 +1,29 @@
 /* Review mode: the one place that decides which store a page uses. */
 
 import { LocalStore } from "./store.js";
+import { SyncStore } from "./sync.js";
 
-export function openStore() {
-  return new LocalStore();
+const SYNC = "aids-review-sync";
+
+/* { mode: "local"|"sync", server, passcode }; server defaults to the one the
+   site was built with (site.json → <meta name="review-server">). */
+export function syncSettings() {
+  let s = {};
+  try { s = JSON.parse(localStorage.getItem(SYNC)) || {}; } catch (e) {}
+  const meta = document.querySelector('meta[name="review-server"]');
+  return { mode: s.mode === "sync" ? "sync" : "local", server: s.server || (meta && meta.content) || "", passcode: s.passcode || "" };
+}
+export function saveSyncSettings(s) {
+  try { localStorage.setItem(SYNC, JSON.stringify(s)); } catch (e) {}
+}
+
+export function openStore({ connect = true } = {}) {
+  const local = new LocalStore();
+  const s = syncSettings();
+  if (s.mode !== "sync" || !s.server) return local;
+  const sync = new SyncStore(local, s);
+  if (connect) sync.connect();
+  return sync;
 }
 
 /* Where the site lives (/ locally, /<repo>/ on GitHub Pages) and this page's

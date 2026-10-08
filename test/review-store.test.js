@@ -113,3 +113,12 @@ test("onChange fires after mutations", () => {
   st.save(m); st.remove(m.id); st.clearLoaded();
   assert.equal(n, 3);
 });
+
+test("renaming updates the name on my existing marks", () => {
+  const st = new LocalStore(memory());
+  st.setName("Sma");
+  st.save(newMark(fields, st.me()));
+  st.setName("Sam");
+  assert.equal(st.own()[0].reviewer, "Sam");
+  assert.equal(st.exportFile().data.marks[0].reviewer, "Sam");
+});

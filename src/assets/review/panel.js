@@ -62,6 +62,18 @@ export function mountPanel(theStore, callbacks) {
   });
 }
 
+/* In sync mode: a dot and a word for the connection, before the counts. */
+function syncNote() {
+  const st = store.status(), n = store.pendingCount();
+  const text = {
+    live: "Live",
+    connecting: "Connecting…",
+    offline: `Offline${n ? ` · ${n} not synced` : ""}`,
+    denied: "Passcode rejected",
+  }[st];
+  return `<span class="rv-sync-note rv-sync-${st}"><span class="rv-sync-dot"></span>${text}</span> · `;
+}
+
 function toggleDrawer(show = drawer.hidden) {
   drawer.hidden = !show;
   bar.querySelector("[data-list]").setAttribute("aria-expanded", String(show));
@@ -75,10 +87,10 @@ export function updatePanel({ placed, unplaced, sections, error }) {
   const who = me.name
     ? `Reviewing as <button type="button" class="rv-link" data-rename>${esc(me.name)}</button>`
     : `<button type="button" class="rv-link" data-rename>Set your name</button>`;
-  bar.querySelector(".rv-bar-status").innerHTML = error
+  bar.querySelector(".rv-bar-status").innerHTML = (store.status ? syncNote() : "") + (error
     ? `<span class="rv-bar-error">${esc(error)}</span>`
     : `${who} · ${own} comment${own === 1 ? "" : "s"}` +
-      (todo ? ` · <b>${todo} not downloaded</b>` : own ? " · all downloaded" : "");
+      (todo ? ` · <b>${todo} not downloaded</b>` : own ? " · all downloaded" : ""));
 
   const myId = me.reviewerId;
   const all = [...placed, ...unplaced];

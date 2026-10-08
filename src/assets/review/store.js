@@ -60,8 +60,16 @@ export class LocalStore {
     }
     return me;
   }
+  /* Also renames the reviewer's existing marks, so a fixed typo reaches
+     everything already written. */
   setName(name) {
-    this.write(KEY.me, { ...this.me(), name: String(name).trim() });
+    const clean = String(name).trim();
+    this.write(KEY.me, { ...this.me(), name: clean });
+    const marks = this.ownMap();
+    Object.values(marks).forEach((m) => {
+      if (m.reviewer !== clean) marks[m.id] = { ...m, reviewer: clean, updated: new Date(Date.parse(m.updated) + 1).toISOString() };
+    });
+    this.write(KEY.marks, marks);
     this.changed();
   }
 

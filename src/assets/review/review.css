@@ -146,3 +146,8 @@ body:has(.rv-bar){padding-bottom:5rem} /* keep Continue clear of the bar */
 
 /* section counts in the left sidebar */
 [data-secs] a .rv-badge{margin-left:.4rem; vertical-align:.1em}
+.rv-sync-note{font-weight:600; color:var(--ink)}
+.rv-sync-dot{display:inline-block; width:.5rem; height:.5rem; border-radius:50%; margin-right:.35rem; background:var(--slate); vertical-align:.05em}
+.rv-sync-live .rv-sync-dot{background:var(--good)}
+.rv-sync-offline .rv-sync-dot,.rv-sync-denied .rv-sync-dot{background:var(--warn)}
+.rv-sync-offline,.rv-sync-denied{color:var(--warn)}
