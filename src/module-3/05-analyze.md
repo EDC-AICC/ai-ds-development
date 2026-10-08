@@ -10,9 +10,23 @@ You have a clean dataset and a specific question. Now you answer it. This is the
 
 What does require judgment here is working out who is missing from your answer before anyone acts on it. A finding about follow-up rates across insurance types is only reliable if the insurance type column is complete. A finding about visit patterns by county is only meaningful if county is not missing for 30 percent of the records. Every analysis has a version of this problem, and it is your job to find it before the director's board meeting does.
 
-{% section "Try It: Predict, Then Check", "try-it-predict-then-check" %}
+{% section "Try It: One Question, Many Answers", "try-it-one-question-many-answers" %}
 
-{% slot "activity", "An activity and two check questions, the shape Parts 2 and 3 use. The idea for this part is committing to what you expect before the answer appears, so the gap between the guess and the result is where the student's attention lands.", "200px" %}
+The county funder asks how many uninsured people the clinic serves. It sounds like a lookup. Make the choices that sit underneath it, and watch what happens to the answer.
+
+{% activity "one-question-many-answers.html", "One question, many answers", "1100px" %}
+
+{% check "Think it through before you open the answers." %}
+
+{% q "The file gave you more than a dozen answers to one question, and none of them came from a calculation error. So where did the differences come from?" %}
+From definitions. Each switch decided what counts: a person or a visit, whether Self-Pay is uninsured, whether records without a county stay in. The code computes whatever definition it is handed, and computes it correctly. If your prompt does not say which one you mean, AI picks one for you, and that number arrives looking just as certain as all the others. The definition belongs in the prompt before the code runs, and in the sentence that carries the number afterward.
+{% endq %}
+
+{% q "Keeping only the rows with a known county looked like a harmless setting. The count went down and the percentage went up. What happened?" %}
+The filter dropped 62 of the 200 patients, the ones with no county on any visit, and it did not drop them evenly. Only 2 of those 62 were uninsured, so the uninsured share rose from 9.5% to 12.3%. The filter did not just shrink the file. It changed who was in it. That is the question to ask of every result before anyone acts on it: who is missing from this answer, and does their absence move the number?
+{% endq %}
+
+{% endcheck %}
 
 {% section "Learn: Types of Analysis", "learn-types-of-analysis" %}
 

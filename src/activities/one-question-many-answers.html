@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One question, many answers — interactive activity</title>
+<meta name="description" content="The funder asks how many uninsured people the clinic serves. Flip the definitional choices and watch the answer change, then fill in the one number that matches the report's sentence.">
+<link rel="stylesheet" href="../assets/activity/base.css">
+<style>
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn:disabled{opacity:.45; cursor:default}
+  button.btn.primary:disabled:hover{background:var(--accent)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .on-stephead{display:flex; align-items:center; gap:1rem; margin:0 0 .6rem}
+  .on-stephead .lead{flex:1; min-width:0}
+  .on-step{font-family:var(--mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 .15rem}
+  .on-stepnote{font-size:.85rem; color:var(--slate); margin:0}
+  .on-stephead .btns{display:flex; gap:.5rem; flex:none}
+  @media (max-width:560px){ .on-stephead{flex-wrap:wrap; gap:.5rem} .on-stephead .lead{flex-basis:100%} .on-stephead .btns{margin-left:auto} }
+
+  .on-ask{font-size:.95rem; margin:0 0 .8rem; padding:.5rem .75rem; border-radius:8px;
+    background:var(--chrome); color:var(--ink)}
+  .on-ask .who{font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); display:block}
+
+  /* ---- controls ---- */
+  .on-controls{display:grid; grid-template-columns:auto 1fr; gap:.45rem .8rem; align-items:center; margin:0 0 .9rem}
+  .on-clabel{font-family:var(--mono); font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:var(--slate)}
+  .on-seg{display:inline-flex; flex-wrap:wrap; border:1px solid var(--accent); border-radius:6px; overflow:hidden; justify-self:start; max-width:100%}
+  .on-seg button{
+    font-family:var(--sans); font-size:.8rem; font-weight:600; color:var(--accent); background:var(--card);
+    border:0; border-left:1px solid var(--accent); padding:.3rem .7rem; cursor:pointer; line-height:1.3;
+  }
+  .on-seg button:first-child{border-left:0}
+  .on-seg button:hover{background:var(--accent-soft)}
+  .on-seg button[aria-pressed="true"]{background:var(--accent); color:#fff}
+  .on-seg button:focus-visible{outline:2px solid var(--ink); outline-offset:-3px}
+  .on-seg button:disabled{cursor:default}
+  @media (max-width:400px){
+    .on-controls{grid-template-columns:1fr; gap:.15rem}
+    .on-clabel{margin-top:.35rem}
+  }
+
+  /* ---- headline ---- */
+  .on-head{border:1px solid var(--line); border-radius:8px; padding:.7rem .85rem .8rem; background:#fcfdfe}
+  .on-big{display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; margin:0}
+  .on-num{font-size:2.6rem; font-weight:700; line-height:1.05; color:var(--warn); font-variant-numeric:tabular-nums; min-width:2ch}
+  .on-unit{font-size:.95rem; color:var(--ink); font-weight:600; flex:1; min-width:10rem; line-height:1.35}
+  .on-def{font-size:.8rem; color:var(--slate); margin:.35rem 0 0; line-height:1.45}
+  .on-def b{color:var(--ink); font-weight:600}
+
+  /* ---- waffle ---- */
+  .on-waffle-wrap{margin:.75rem 0 0}
+  .on-waffle{position:relative; margin:0 auto}
+  .on-c{position:absolute; left:0; top:0; border-radius:1.5px; background:#cbd3dc;
+    transform-origin:0 0; transition:transform .7s cubic-bezier(.3,.7,.2,1), background-color .35s, box-shadow .35s, opacity .35s}
+  .on-c.u{background:var(--warn)}
+  .on-c.s{background:var(--warn-soft); box-shadow:inset 0 0 0 1px var(--warn)}
+  /* Dropped by the county filter: an empty outline, whatever the patient's insurance. */
+  .on-c.x{background:transparent; box-shadow:inset 0 0 0 1px #cbd3dc}
+  .on-legend{display:flex; flex-wrap:wrap; gap:.25rem .9rem; margin:.55rem 0 0; font-size:.74rem; color:var(--slate)}
+  .on-legend span{display:inline-flex; align-items:center; gap:.35rem}
+  .on-key{display:inline-block; width:10px; height:10px; border-radius:2px; background:#cbd3dc}
+  .on-key.u{background:var(--warn)}
+  .on-key.s{background:var(--warn-soft); box-shadow:inset 0 0 0 1px var(--warn)}
+  .on-key.x{background:transparent; box-shadow:inset 0 0 0 1px #cbd3dc}
+  .on-wcap{font-size:.74rem; color:var(--slate); margin:.2rem 0 0; font-family:var(--mono)}
+
+  .on-seen{margin:.8rem 0 0; font-size:.8rem; color:var(--slate)}
+  .on-seen .chips{display:flex; flex-wrap:wrap; gap:.4rem; margin:.4rem 0 0}
+  .on-chip{font-family:var(--mono); font-size:.9rem; font-weight:600; border:1px solid var(--line); border-radius:99px;
+    padding:.25rem .8rem; color:var(--slate); background:var(--card); cursor:pointer; font-variant-numeric:tabular-nums}
+  .on-chip:hover{border-color:var(--warn); color:var(--warn)}
+  .on-chip:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .on-chip:disabled{cursor:default}
+  .on-chip:disabled:hover{border-color:var(--line); color:var(--slate)}
+  .on-chip.now, .on-chip.now:disabled:hover{border-color:var(--warn); color:var(--warn); background:var(--warn-soft); font-weight:700}
+
+  /* ---- step 2 ---- */
+  /* Step 2 sits in its own band, full width of the card, so it reads as a new task. */
+  .on-s2{margin:1.4rem -.9rem -1.2rem; padding:1.1rem .9rem 1.2rem; background:var(--chrome);
+    border-top:2px solid var(--line)}
+  .on-num-badge{display:inline-flex; align-items:center; justify-content:center; flex:none;
+    width:1.6rem; height:1.6rem; border-radius:50%; background:var(--accent); color:#fff;
+    font:700 .78rem var(--mono); margin-right:.55rem}
+  .on-steptitle{display:flex; align-items:center; font-size:1rem; font-weight:700; color:var(--ink); margin:0 0 .15rem}
+  .on-fill{font-size:1.05rem; font-weight:600; line-height:1.6; margin:.3rem 0 .75rem; padding:.7rem .85rem;
+    background:var(--card); border:1px solid var(--line); border-radius:8px}
+  .on-blank{display:inline-block; min-width:3.4ch; text-align:center; border-bottom:2px solid var(--slate);
+    color:var(--slate); padding:0 .25rem; font-variant-numeric:tabular-nums; transition:color .2s, border-color .2s}
+  .on-blank.good{color:var(--good); border-color:var(--good)}
+  .on-blank.bad{color:var(--warn); border-color:var(--warn)}
+  .on-q{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.75rem .85rem .85rem}
+  .on-qstem{font-family:var(--mono); font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin:0 0 .35rem}
+  .on-q .on-fill{margin:0 0 .8rem; padding:0; border:0; background:none}
+  .on-choices{display:flex; flex-direction:column; gap:.4rem; margin:0; padding:0; border:0}
+  .on-choice{display:flex; align-items:center; gap:.7rem; padding:.5rem .7rem; border:1px solid var(--line); border-radius:8px;
+    background:#fcfdfe; cursor:pointer}
+  .on-choice:hover{border-color:var(--accent)}
+  .on-choice input{margin:0; width:1.05rem; height:1.05rem; accent-color:var(--accent); flex:none; cursor:pointer}
+  .on-choice input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .on-choice .l{font-family:var(--mono); font-size:.7rem; color:var(--slate); flex:none}
+  .on-choice .n{font:700 1.15rem var(--mono); color:var(--ink); font-variant-numeric:tabular-nums}
+  .on-choice .m{margin-left:auto; font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; text-transform:uppercase}
+  .on-choice.sel{border-color:var(--accent); background:var(--accent-soft)}
+  .on-choice.good{border-color:var(--good); background:var(--good-soft)}
+  .on-choice.good .m{color:var(--good)}
+  .on-choice.bad{border-color:var(--warn); background:var(--warn-soft)}
+  .on-choice.bad .m{color:var(--warn)}
+  .on-choice.done{cursor:default}
+  .on-choice.done input{cursor:default}
+  .on-qfoot{display:flex; justify-content:flex-end; gap:.5rem; margin:.75rem 0 0}
+
+  .on-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
+    padding:.15rem 0 .15rem .7rem; margin:.6rem 0 0; max-width:38rem}
+  .on-verdict b{color:var(--ink)}
+  .on-verdict.good{border-left-color:var(--good)}
+  .on-verdict.warn{border-left-color:var(--warn)}
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="activity" id="on">
+  <div class="activity-instructions">
+    <span class="a-instr">One question has several honest answers in this file. <strong>Make the choices AI would
+    otherwise make for you</strong>, watch the answer move, then fill in the report.</span>
+  </div>
+  <div class="activity-body">
+    <p class="on-ask"><span class="who">The county funder asks</span>How many uninsured people does the clinic serve?</p>
+
+    <div class="on-stephead">
+      <div class="lead">
+        <p class="on-steptitle"><span class="on-num-badge">1</span>Make the choices</p>
+        <p class="on-stepnote">Each switch is a decision a prompt usually leaves to AI.</p>
+      </div>
+    </div>
+
+    <div class="on-controls" id="on-controls">
+      <span class="on-clabel" id="lbl-unit">Count</span>
+      <div class="on-seg" role="group" aria-labelledby="lbl-unit" data-key="unit">
+        <button type="button" data-v="patients" aria-pressed="true">Patients</button><button type="button" data-v="visits" aria-pressed="false">Visits</button>
+      </div>
+      <span class="on-clabel" id="lbl-sp">Self-Pay</span>
+      <div class="on-seg" role="group" aria-labelledby="lbl-sp" data-key="sp">
+        <button type="button" data-v="0" aria-pressed="true">Separate</button><button type="button" data-v="1" aria-pressed="false">Counts as uninsured</button>
+      </div>
+      <span class="on-clabel" id="lbl-as">Report as</span>
+      <div class="on-seg" role="group" aria-labelledby="lbl-as" data-key="pct">
+        <button type="button" data-v="0" aria-pressed="true">Count</button><button type="button" data-v="1" aria-pressed="false">Percent</button>
+      </div>
+      <span class="on-clabel" id="lbl-rows">Rows</span>
+      <div class="on-seg" role="group" aria-labelledby="lbl-rows" data-key="county">
+        <button type="button" data-v="0" aria-pressed="true">All</button><button type="button" data-v="1" aria-pressed="false">Known county only</button>
+      </div>
+    </div>
+
+    <div class="on-head" id="on-head" aria-live="polite">
+      <p class="on-big"><span class="on-num" id="on-num">19</span><span class="on-unit" id="on-unit"></span></p>
+      <p class="on-def" id="on-def"></p>
+      <div class="on-waffle-wrap" aria-hidden="true">
+        <div class="on-waffle" id="on-waffle"></div>
+        <p class="on-wcap" id="on-wcap"></p>
+        <div class="on-legend" id="on-legend"></div>
+      </div>
+    </div>
+
+    <div class="on-seen" id="on-seen"></div>
+
+    <div class="on-s2" id="on-s2">
+      <p class="on-steptitle"><span class="on-num-badge">2</span>Fill in the funder report</p>
+      <p class="on-stepnote">One of the numbers you made fits this sentence exactly. Use the switches above to work out which, then answer.</p>
+      <div class="on-q">
+        <p class="on-qstem">Which number belongs in the blank?</p>
+        <p class="on-fill"><span class="on-blank" id="on-blank">&nbsp;</span> patients had at least one visit recorded as Uninsured in 2022–2023. Self-Pay is reported separately.</p>
+        <fieldset class="on-choices" id="on-picks"><legend class="sr">Number for the blank</legend></fieldset>
+        <p class="on-verdict" id="on-v1" aria-live="polite" hidden></p>
+        <div class="on-qfoot">
+          <button class="btn" id="on-again" type="button" hidden>Try again</button>
+          <button class="btn primary" id="on-check" type="button" disabled>Check answer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* One entry per patient in outpatient_visits_clean.csv (200 patients, 797 visits):
+     insurance code, visits, visits with a known county.
+     U Uninsured, S Self-Pay, M Medicaid, R Medicare, P Private, C Commercial.
+     Every patient carries a single insurance value across all of their visits. */
+  const RAW = "R33M50C40R40R33R20M77P66U50P55M77R88R66P44M33P30P33M77R44M33C33S44S77P20M33R10P33R33M50R55M44R88R44M88M50C30S44R20M55R55R66M60S33R33R20C50M55M11M10R77R66P20M50C33S50M11S55S44M40M55P70S55M22M30M33P30U66C22P30M11C33M50M33M44U44U55R44P11U11M77R22M44P66M44C33R44M11C70M22U22P44M88M10M60P55R77U44U22M33R40M70U66P77U11M33M44P66R22M44M20U55P30R10C40M50M22M30C33M30M20M55R55M66U88R55S33M44U22M60M22M60S60C50P60U11M88P44P77S44R40C44P33R11R88M40U33M22M55R22M77R55P66P77M55R40M10M70M44R11M30P60P22P55M50U33P30M44M33M30U30P30R30P33M33M22R30M33M33P22R11M40M66C55R33M55P44P66C22C66U33R50R40R60U22C30P33S22S11M22R44";
+  const PAT = [];
+  for(let i=0;i<RAW.length;i+=3) PAT.push({ins:RAW[i], n:+RAW[i+1], nk:+RAW[i+2]});
+
+  /* Sort: uninsured, self-pay, everyone else; known county before unknown inside each group. */
+  const GROUP = {U:0, S:1};
+  PAT.forEach((p,i)=>{ p.id=i; p.g = (p.ins in GROUP) ? GROUP[p.ins] : 2; p.known = p.nk>0; });
+  const ORDER = PAT.slice().sort((a,b)=> a.g-b.g || (b.known-a.known) || a.id-b.id);
+  ORDER.forEach((p,k)=>{ p.slot=k; });
+  const VISITS = [];
+  ORDER.forEach(p=>{ for(let v=0; v<p.n; v++) VISITS.push({p, known: v < p.nk}); });
+
+  const st = {unit:"patients", sp:0, pct:0, county:0};
+
+  /* ---- the number for any combination ---- */
+  function compute(s){
+    const isU = (p)=> p.ins==="U" || (s.sp && p.ins==="S");
+    let num=0, den=0;
+    if(s.unit==="patients"){
+      PAT.forEach(p=>{ if(s.county && !p.known) return; den++; if(isU(p)) num++; });
+    } else {
+      PAT.forEach(p=>{ const v = s.county ? p.nk : p.n; den += v; if(isU(p)) num += v; });
+    }
+    return {num, den, pct: num/den*100};
+  }
+  const fmtPct = (x)=> x.toFixed(1)+"%";
+  function display(s){ const r = compute(s); return s.pct ? fmtPct(r.pct) : String(r.num); }
+
+  /* ---- waffle ---- */
+  const waffle = $("on-waffle");
+  const cells = VISITS.map(()=>{ const d=document.createElement("div"); d.className="on-c"; waffle.appendChild(d); return d; });
+  let W = 0;
+  function layout(instant){
+    const avail = Math.min(470, waffle.parentElement.clientWidth);
+    W = Math.floor(avail/40)*40;
+    const c = W/40;                // visit cell; a patient cell is 2c
+    waffle.style.width = W+"px"; waffle.style.height = (c*20)+"px";
+    const gap = c < 9 ? 1 : 1.5;
+    const sz = c - gap, s2 = (2*c - gap*1.5)/sz;
+    VISITS.forEach((v,j)=>{
+      const el = cells[j];
+      el.style.width = sz+"px"; el.style.height = sz+"px";
+      if(instant) el.style.transition = "none";
+      let x,y,sc;
+      if(st.unit==="visits"){ x=(j%40)*c; y=Math.floor(j/40)*c; sc=1; }
+      else { const k=v.p.slot; x=(k%20)*2*c; y=Math.floor(k/20)*2*c; sc=s2; }
+      el.style.transform = `translate(${x}px,${y}px) scale(${sc})`;
+      if(!instant) el.style.transitionDelay = (st.unit==="visits" ? j/VISITS.length*0.35 : (1-j/VISITS.length)*0.35)+"s";
+    });
+    if(instant){ void waffle.offsetWidth; cells.forEach(el=>{ el.style.transition=""; }); }
+  }
+  function paint(){
+    VISITS.forEach((v,j)=>{
+      const p = v.p, el = cells[j];
+      const counted = p.ins==="U" || (st.sp && p.ins==="S");
+      const excl = st.county && (st.unit==="visits" ? !v.known : !p.known);
+      el.className = "on-c" + (counted ? " u" : (p.ins==="S" ? " s" : "")) + (excl ? " x" : "");
+    });
+    const leg = [`<span><i class="on-key u"></i>${st.sp ? "Uninsured or Self-Pay" : "Uninsured"}</span>`];
+    if(!st.sp) leg.push(`<span><i class="on-key s"></i>Self-Pay</span>`);
+    leg.push(`<span><i class="on-key"></i>Insured</span>`);
+    if(st.county) leg.push(`<span><i class="on-key x"></i>No county: dropped</span>`);
+    $("on-legend").innerHTML = leg.join("");
+    $("on-wcap").textContent = st.unit==="visits" ? "Each square is one visit (797)" : "Each square is one patient (200)";
+  }
+
+  /* ---- headline ---- */
+  let shown = 19, anim = null, finT = null;
+  function headline(){
+    const r = compute(st);
+    const target = st.pct ? r.pct : r.num;
+    const from = shown, t0 = performance.now();
+    cancelAnimationFrame(anim);
+    const step = (t)=>{
+      const k = Math.min(1, (t-t0)/450), e = 1-Math.pow(1-k,3);
+      const v = from + (target-from)*e;
+      $("on-num").textContent = st.pct ? fmtPct(v) : Math.round(v);
+      if(k<1) anim = requestAnimationFrame(step); else { shown = target; $("on-num").textContent = display(st); }
+    };
+    anim = requestAnimationFrame(step);
+    clearTimeout(finT);
+    finT = setTimeout(()=>{ cancelAnimationFrame(anim); shown = target; $("on-num").textContent = display(st); }, 520);
+
+    const who = st.sp ? "Uninsured or Self-Pay" : "Uninsured";
+    const unitWord = st.unit==="patients" ? "patients" : "visits";
+    const base = st.unit==="patients" ? (st.county ? "138 patients with a county" : "all 200 patients")
+                                      : (st.county ? "554 visits with a county" : "all 797 visits");
+    if(st.unit==="patients"){
+      $("on-unit").textContent = st.pct ? `of patients had a visit recorded as ${who}` : `patients with a visit recorded as ${who}`;
+    } else {
+      $("on-unit").textContent = st.pct ? `of visits were recorded as ${who}` : `visits recorded as ${who}`;
+    }
+    $("on-def").innerHTML = `<b>${r.num}</b> of <b>${r.den}</b> ${unitWord} · counted from ${base}` +
+      (st.sp ? "" : " · Self-Pay not counted");
+  }
+
+  /* ---- answers seen: each chip is a button that puts its switches back ---- */
+  const seen = new Map();          // answer shown -> the switches that first produced it
+  const keyOf = (s)=> `${s.unit}|${s.sp}|${s.pct}|${s.county}`;
+  function track(){
+    const now = display(st);
+    if(!seen.has(now)) seen.set(now, {...st});
+    const vals = [...seen.keys()];
+    $("on-seen").innerHTML = `Answers you have produced to one question: <b>${vals.length}</b> of 16.` +
+      (vals.length > 1 ? ` Click one to put its switches back.` : "") +
+      `<div class="chips">${vals.map(v=>`<button type="button" class="on-chip ${v===now?"now":""}" data-v="${v}"
+        aria-pressed="${v===now}">${v}</button>`).join("")}</div>`;
+    $("on-seen").querySelectorAll(".on-chip").forEach(b=>b.addEventListener("click", ()=>{
+      const v = b.dataset.v;
+      setState(seen.get(v));
+      const again = $("on-seen").querySelector(`.on-chip[data-v="${v}"]`);
+      if(again) again.focus();
+    }));
+  }
+
+  /* ---- step 2: fill one blank. The sentence is the definition; one number matches it. ---- */
+  const PICKS = [
+    {n:"17", why:"<b>Not quite.</b> 17 leaves out the 62 patients with no county on file. The sentence mentions no filter, so it promises everyone."},
+    {n:"19", good:true, why:"<b>Right.</b> Patients, every record kept, Self-Pay left out: exactly what the sentence says. Without the sentence, any of these numbers could pass for the answer."},
+    {n:"32", why:"<b>Not quite.</b> 32 counts Self-Pay as uninsured. The sentence says Uninsured, and reports Self-Pay separately."},
+    {n:"66", why:"<b>Not quite.</b> 66 counts visits. The sentence counts patients."}
+  ];
+  let pick = null, checked = false;
+  function drawPicks(){
+    $("on-picks").innerHTML = `<legend class="sr">Number for the blank</legend>` + PICKS.map((x,i)=>{
+      let cls = pick===i ? "sel" : "", mark = "";
+      if(checked){
+        cls = "done " + (x.good ? "good" : (pick===i ? "bad" : ""));
+        mark = x.good ? "Correct" : (pick===i ? "Your answer" : "");
+      }
+      return `<label class="on-choice ${cls}"><input type="radio" name="on-pick" value="${i}" ${pick===i?"checked":""} ${checked?"disabled":""}>
+        <span class="l">${"ABCD"[i]}</span><span class="n">${x.n}</span><span class="m">${mark}</span></label>`;
+    }).join("");
+    $("on-picks").querySelectorAll("input").forEach(r=>r.addEventListener("change", ()=>{
+      if(checked) return;
+      pick = +r.value; drawPicks();
+      const blank = $("on-blank"); blank.textContent = PICKS[pick].n; blank.className = "on-blank";
+      $("on-check").disabled = false;
+      $("on-picks").querySelector(`input[value="${pick}"]`).focus();
+    }));
+    const blank = $("on-blank");
+    if(checked) blank.className = "on-blank " + (PICKS[pick].good ? "good" : "bad");
+  }
+  $("on-check").addEventListener("click", ()=>{
+    if(pick===null || checked) return;
+    checked = true; drawPicks();
+    const x = PICKS[pick], v = $("on-v1");
+    v.hidden = false; v.className = "on-verdict " + (x.good ? "good" : "warn");
+    v.innerHTML = x.good ? x.why : `${x.why} The number that fits is 19.`;
+    $("on-check").hidden = true; $("on-again").hidden = false; $("on-again").focus();
+  });
+  $("on-again").addEventListener("click", ()=>{
+    pick = null; checked = false;
+    $("on-blank").innerHTML = "&nbsp;"; $("on-blank").className = "on-blank";
+    $("on-v1").hidden = true;
+    $("on-check").hidden = false; $("on-check").disabled = true; $("on-again").hidden = true;
+    drawPicks();
+    $("on-picks").querySelector("input").focus();
+  });
+
+  /* ---- controls ---- */
+  function setState(next){
+    if(keyOf(next)===keyOf(st)) return;
+    const unitChanged = next.unit!==st.unit, pctChanged = next.pct!==st.pct;
+    Object.assign(st, next);
+    document.querySelectorAll(".on-seg").forEach(seg=>{
+      const cur = String(st[seg.dataset.key]);
+      seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", String(x.dataset.v===cur)));
+    });
+    if(pctChanged) shown = st.pct ? compute(st).pct : compute(st).num;
+    if(unitChanged) layout(false);
+    paint(); headline(); track();
+  }
+  document.querySelectorAll(".on-seg").forEach(seg=>{
+    const key = seg.dataset.key;
+    seg.querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        setState({...st, [key]: key==="unit" ? b.dataset.v : +b.dataset.v});
+      });
+    });
+  });
+
+  let rt; window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(()=>layout(true), 80); });
+  layout(true); paint(); headline(); track(); drawPicks();
+})();
+</script>
+
+<script src="../assets/activity/embed.js"></script>
+
+</body>
+</html>
