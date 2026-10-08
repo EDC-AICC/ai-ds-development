@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "type": "module",
+  "description": "Review mode sync server. No dependencies; see README.md."
+}
