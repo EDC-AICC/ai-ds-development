@@ -1,6 +1,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ title }}{% if not isHome %} — {{ site.name }}{% endif %}</title>
+{# review mode reads this; empty means sync is not set up #}
+<meta name="review-server" content="{{ site.reviewServer }}">
 {% if description %}<meta name="description" content="{{ description }}">{% endif %}
 
 {# no-flash: apply a saved theme choice before first paint #}

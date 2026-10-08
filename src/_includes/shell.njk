@@ -59,7 +59,7 @@
     data-home-url="{{ '/' | url }}">
     <div class="pagecol">
       <div class="parthead"><h1 data-heading>{{ title }}</h1></div>
-      <div class="lesson-body" data-content>
+      <div class="lesson-body" data-content data-review-root data-review-src="{{ page.inputPath }}" data-review-version="{{ build.version }}" data-review-base="{{ '/' | url }}">
 {{ content | safe }}
       </div>
       <nav class="secnav" data-secnav hidden>

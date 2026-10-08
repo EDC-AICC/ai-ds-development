@@ -4,3 +4,6 @@ node_modules/
 
 # Personal Claude Code settings (permission grants etc).
 .claude/settings.local.json
+
+# Local review sync database and other local tools.
+tools/
