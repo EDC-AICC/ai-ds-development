@@ -4,14 +4,33 @@
     {
       "name": "design-concepts",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["http-server", "-p", "8317", "-c-1", "."],
+      "runtimeArgs": [
+        "http-server",
+        "-p",
+        "8317",
+        "-c-1",
+        "."
+      ],
       "port": 8317
     },
     {
       "name": "site",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["@11ty/eleventy", "--serve", "--port=8318"],
+      "runtimeArgs": [
+        "@11ty/eleventy",
+        "--serve",
+        "--port=8318"
+      ],
       "port": 8318
+    },
+    {
+      "name": "review-server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "review-server"
+      ],
+      "port": 8090
     }
   ]
 }

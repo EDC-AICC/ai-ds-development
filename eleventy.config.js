@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { execSync } from "node:child_process";
 import markdownIt from "markdown-it";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import "prismjs/components/prism-python.js"; /* loaded before init() below extends it */
@@ -40,8 +41,22 @@ const GITHUB_REPO = "EDC-AICC/ai-ds-development";
 const colabUrl = (notebook) =>
   `https://colab.research.google.com/github/${GITHUB_REPO}/blob/main/notebooks/${notebook}`;
 
+/* The commit a build came from, stamped into every page so a reviewer's
+   comment records which version of the text they were reading. "-dirty"
+   means the working tree had changes, so no commit matches exactly. */
+function buildVersion() {
+  try {
+    const sha = execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    const dirty = execSync("git status --porcelain", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    return dirty ? `${sha}-dirty` : sha;
+  } catch (e) {
+    return "unknown";
+  }
+}
+
 export default function (eleventyConfig) {
   eleventyConfig.setLibrary("md", md);
+  eleventyConfig.addGlobalData("build", { version: buildVersion() });
 
   /* Fenced code (```python) is highlighted at build time; the colors live in
      style.css so they follow the site's light/dark tokens. */

@@ -16,7 +16,7 @@
 </header>
 
 <main>
-  <div class="col">
+  <div class="col" data-review-root data-review-src="{{ page.inputPath }}" data-review-version="{{ build.version }}" data-review-base="{{ '/' | url }}">
     {{ content | safe }}
   </div>
 </main>

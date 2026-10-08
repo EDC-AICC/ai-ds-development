@@ -22,3 +22,14 @@ description: A six-module course introducing community college students to the r
 {% endfor %}
 </div>
 
+## Instructor resources
+
+<div class="cards">
+<a class="lcard" href="{{ '/review/' | url }}">
+  <p class="num">For course staff</p>
+  <h3>Review mode</h3>
+  <p>Leave comments and suggested edits directly on the course pages, then download your review and send it to the author.</p>
+  <div class="meta"><span><b>Reviewers</b></span></div>
+</a>
+</div>
+

@@ -1,0 +1,153 @@
+/* Review mode. Loaded only for reviewers. Colors come from the site tokens in
+   style.css; each reviewer class sets --rv-hl (highlight fill) and --rv-dot
+   (solid marker), so every piece of review UI colors itself the same way. */
+
+.rv-own{--rv-hl:light-dark(#fde68a,#5c4a12); --rv-dot:light-dark(#b45309,#f0b96d)}
+.rv-c0{--rv-hl:light-dark(#bfdbfe,#1e3a5f); --rv-dot:light-dark(#1d4ed8,#8fb4ff)}
+.rv-c1{--rv-hl:light-dark(#bbf7d0,#163d27); --rv-dot:light-dark(#15803d,#5fd39a)}
+.rv-c2{--rv-hl:light-dark(#ddd6fe,#33285a); --rv-dot:light-dark(#6d28d9,#b79bec)}
+.rv-c3{--rv-hl:light-dark(#fbcfe8,#55203f); --rv-dot:light-dark(#be185d,#f08cc0)}
+.rv-c4{--rv-hl:light-dark(#a5f3fc,#164450); --rv-dot:light-dark(#0e7490,#58bed6)}
+.rv-c5{--rv-hl:light-dark(#fed7aa,#5a3416); --rv-dot:light-dark(#c2410c,#f2a36b)}
+.rv-c6{--rv-hl:light-dark(#fecaca,#5a1f1f); --rv-dot:light-dark(#b91c1c,#f08a8a)}
+.rv-c7{--rv-hl:light-dark(#d9f99d,#35461a); --rv-dot:light-dark(#4d7c0f,#a9d86b)}
+
+.rv-dot{display:inline-block; width:.6rem; height:.6rem; border-radius:50%; background:var(--rv-dot); margin-right:.35rem; vertical-align:.05em}
+
+.rv-btn{
+  display:inline-flex; align-items:center; gap:.4rem; cursor:pointer;
+  font:600 .88rem/1.2 var(--sans); padding:.5rem .85rem; border-radius:6px;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+}
+.rv-btn:hover{border-color:var(--accent); color:var(--accent)}
+.rv-btn.primary{background:var(--accent); border-color:var(--accent); color:var(--paper)}
+.rv-btn.primary:hover{filter:brightness(1.08); color:var(--paper)}
+.rv-btn.danger:hover{border-color:var(--warn); color:var(--warn)}
+.rv-btn:focus-visible,.rv-chip:focus-visible,.rv-file:focus-visible + .rv-btn{outline:2px solid var(--accent); outline-offset:2px}
+.rv-btn[disabled]{opacity:.5; cursor:default}
+
+.rv-help{color:var(--slate); font-size:.88rem}
+.rv-chips{display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 .9rem}
+.rv-chips:empty{display:none}
+.rv-chip{
+  font:600 .8rem/1 var(--sans); padding:.4rem .65rem; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--ink);
+}
+.rv-chip[aria-pressed="false"]{opacity:.45; text-decoration:line-through}
+
+.rv-quote{margin:.25rem 0; font-family:var(--serif)}
+.rv-quote del{color:var(--slate)}
+.rv-quote ins{text-decoration:none; background:var(--good-soft); color:var(--good); padding:0 .15em; border-radius:2px}
+.rv-activity{font-family:var(--mono); font-size:.85rem}
+.rv-comment{margin:.25rem 0; white-space:pre-wrap}
+
+/* ---------- /review/ control page ---------- */
+.rv-panel .rv-group{border-top:1px solid var(--line); padding:.5rem 0 1.25rem}
+.rv-panel h2{font-size:1.3rem; margin:1.25rem 0 .75rem}
+.rv-field{display:flex; flex-direction:column; gap:.3rem; font-size:.9rem; font-weight:600; margin:0 0 .9rem; max-width:24rem}
+.rv-field input{font:400 1rem var(--sans); padding:.5rem .6rem; border:1px solid var(--line); border-radius:6px; background:var(--card); color:var(--ink)}
+.rv-field input:focus{outline:2px solid var(--accent); outline-offset:1px}
+.rv-choice{display:block; margin:0 0 .6rem; font-size:.95rem}
+.rv-choice input{margin-right:.4rem}
+.rv-sync{margin:.75rem 0 0 1.4rem}
+.rv-row{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem .75rem; margin:0 0 .75rem}
+.rv-file{position:absolute; width:1px; height:1px; opacity:0}
+.rv-page{font-size:1rem; margin:1.5rem 0 .25rem; font-family:var(--mono); word-break:break-all}
+.rv-sec{margin:.5rem 0 .25rem; font-family:var(--mono); font-size:.8rem}
+.rv-list{list-style:none; padding:0; margin:0 0 .5rem}
+.rv-item{border-left:3px solid var(--rv-dot); padding:.35rem 0 .35rem .8rem; margin:.4rem 0}
+.rv-meta{margin:0; font-size:.82rem; color:var(--slate)}
+.rv-meta b{color:var(--ink)}
+.rv-src{font-family:var(--mono); font-size:.75rem; word-break:break-all}
+
+/* ---------- highlights on lesson pages ---------- */
+mark.rv-mark{background:var(--rv-hl); color:inherit; border-radius:2px; padding:0; cursor:pointer;
+  box-shadow:0 1px 0 var(--rv-dot)}
+mark.rv-mark mark.rv-mark{box-shadow:0 2px 0 var(--rv-dot)} /* overlaps: the inner one shows its own line */
+mark.rv-del{text-decoration:line-through; text-decoration-color:var(--rv-dot)}
+.rv-ins{text-decoration:none; background:var(--rv-hl); border-bottom:2px solid var(--rv-dot);
+  border-radius:2px; margin-left:.2em; padding:0 .15em; cursor:pointer}
+.rv-flash{animation:rv-flash 1s ease-out}
+@keyframes rv-flash{0%{outline:3px solid var(--rv-dot, var(--accent)); outline-offset:3px}100%{outline:3px solid transparent; outline-offset:3px}}
+
+/* ---------- floating popup, editor, card, toast ---------- */
+.rv-float{
+  position:absolute; z-index:60; background:var(--card); color:var(--ink);
+  border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 28px var(--shadow), 0 1px 3px var(--shadow);
+  font-family:var(--sans); font-size:.92rem; line-height:1.5;
+}
+.rv-pop{display:flex; gap:.35rem; padding:.35rem}
+.rv-pop .rv-btn{padding:.4rem .7rem; font-size:.85rem}
+.rv-editor,.rv-card{width:min(24rem, calc(100vw - 24px)); padding:.9rem 1rem}
+.rv-card{max-height:min(28rem, 70vh); overflow:auto}
+.rv-editor-title{margin:0 0 .4rem; font-weight:700}
+.rv-editor .rv-field{max-width:none}
+.rv-editor textarea,.rv-editor input{font:400 .95rem/1.45 var(--sans); padding:.45rem .55rem; border:1px solid var(--line);
+  border-radius:6px; background:var(--paper); color:var(--ink); resize:vertical; width:100%}
+.rv-editor textarea:focus,.rv-editor input:focus{outline:2px solid var(--accent); outline-offset:1px}
+.rv-editor .rv-row{margin:0}
+.rv-error{color:var(--warn); font-size:.88rem; margin:0 0 .6rem}
+.rv-card .rv-list{margin:0}
+.rv-card .rv-item:first-child{margin-top:0}
+.rv-card .rv-row{margin:.4rem 0 0}
+.rv-card .rv-btn{padding:.3rem .6rem; font-size:.8rem}
+
+.rv-toast{
+  position:fixed; z-index:70; left:50%; bottom:5.5rem; transform:translateX(-50%);
+  max-width:calc(100vw - 32px); padding:.6rem 1rem; border-radius:8px;
+  background:var(--ink); color:var(--paper); font:500 .9rem/1.4 var(--sans); box-shadow:0 6px 20px var(--shadow);
+}
+
+.rv-activity-btn{
+  margin-left:auto; display:inline-flex; align-items:center; gap:.35rem; cursor:pointer;
+  font:600 .75rem/1 var(--sans); padding:.35rem .6rem; border-radius:5px;
+  border:1px dashed var(--rv-dot, var(--accent)); background:transparent; color:var(--accent);
+}
+.rv-activity-btn:hover{background:var(--accent-soft)}
+.rv-activity-btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.rv-badge{display:inline-block; min-width:1.2rem; padding:.15rem .3rem; border-radius:999px;
+  background:var(--accent); color:var(--paper); font:700 .68rem/1 var(--sans); text-align:center}
+.rv-activity-btn{white-space:nowrap}
+@media (max-width:560px){ .rv-activity-btn .rv-long{display:none} }
+
+/* ---------- review bar and comment drawer ---------- */
+body:has(.rv-bar){padding-bottom:5rem} /* keep Continue clear of the bar */
+.rv-bar{
+  position:fixed; z-index:56; right:16px; bottom:16px; max-width:calc(100vw - 32px);
+  display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .9rem; padding:.55rem .6rem .55rem .9rem;
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 8px 28px var(--shadow), 0 1px 3px var(--shadow); font-family:var(--sans);
+}
+.rv-bar-status{margin:0; font-size:.85rem; color:var(--slate)}
+.rv-bar-status b{color:var(--warn)}
+.rv-bar-error{color:var(--warn); font-weight:600}
+.rv-bar-actions{display:flex; gap:.35rem}
+.rv-bar .rv-btn{padding:.38rem .65rem; font-size:.8rem}
+.rv-link{border:0; background:none; padding:0; font:inherit; font-weight:600; color:var(--ink); cursor:pointer;
+  text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
+.rv-link:hover{color:var(--accent)}
+.rv-link:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+
+.rv-drawer{
+  position:fixed; z-index:55; top:0; right:0; bottom:0; width:min(24rem, 100vw);
+  overflow:auto; padding:1rem 1rem 6rem; background:var(--paper);
+  border-left:1px solid var(--line); box-shadow:-8px 0 28px var(--shadow); font-family:var(--sans);
+}
+.rv-drawer[hidden]{display:none}
+.rv-drawer-head{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.75rem}
+.rv-drawer-head p{margin:0}
+.rv-drawer .rv-sec{font-family:var(--sans); font-weight:700; font-size:.82rem; margin:1rem 0 .25rem; color:var(--ink)}
+.rv-goto{display:block; width:100%; text-align:left; border:0; background:none; padding:0; color:inherit;
+  font:inherit; font-size:.9rem; cursor:pointer}
+.rv-goto:hover .rv-quote{color:var(--accent)}
+.rv-goto:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+.rv-goto .rv-meta{display:block}
+@media (min-width:1100px){ body.rv-drawer-open{margin-right:24rem} }
+
+/* section counts in the left sidebar */
+[data-secs] a .rv-badge{margin-left:.4rem; vertical-align:.1em}
+.rv-sync-note{font-weight:600; color:var(--ink)}
+.rv-sync-dot{display:inline-block; width:.5rem; height:.5rem; border-radius:50%; margin-right:.35rem; background:var(--slate); vertical-align:.05em}
+.rv-sync-live .rv-sync-dot{background:var(--good)}
+.rv-sync-offline .rv-sync-dot,.rv-sync-denied .rv-sync-dot{background:var(--warn)}
+.rv-sync-offline,.rv-sync-denied{color:var(--warn)}

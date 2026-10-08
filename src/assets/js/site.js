@@ -3,6 +3,9 @@
 (function () {
   "use strict";
 
+  /* Resolved now: document.currentScript is only set while this file runs. */
+  var SCRIPT_SRC = document.currentScript ? document.currentScript.src : "";
+
   /* The no-flash script in <head> has already set data-theme; wire the button. */
   var THEME_KEY = "aids-theme";
 
@@ -138,7 +141,32 @@
     });
   }
 
-  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initTranscriptCopy(); }
+  /* Review mode for course staff (see /review/). Students never load it: the
+     module is requested only after a reviewer turns review mode on, or opens
+     a link with ?review, and never inside an LMS embed. A module script tag
+     rather than import(), so older browsers can still parse this file. */
+  function initReview() {
+    if (!SCRIPT_SRC || /(^|[?&])embed(=|&|$)/.test(location.search)) return;
+    var on = false;
+    try {
+      if (/(^|[?&])review(=|&|$)/.test(location.search)) {
+        localStorage.setItem("aids-review", '"on"');
+        /* Drop ?review once honoured, or Exit (which reloads) would turn
+           review mode straight back on. */
+        var u = new URL(location.href);
+        u.searchParams.delete("review");
+        history.replaceState(history.state, "", u.pathname + u.search + u.hash);
+      }
+      on = localStorage.getItem("aids-review") === '"on"';
+    } catch (e) {}
+    if (!on) return;
+    var s = document.createElement("script");
+    s.type = "module";
+    s.src = new URL("../review/review.js", SCRIPT_SRC).href;
+    document.body.appendChild(s);
+  }
+
+  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initTranscriptCopy(); initReview(); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
