@@ -69,3 +69,43 @@ mark.rv-del{text-decoration:line-through; text-decoration-color:var(--rv-dot)}
   border-radius:2px; margin-left:.2em; padding:0 .15em; cursor:pointer}
 .rv-flash{animation:rv-flash 1s ease-out}
 @keyframes rv-flash{0%{outline:3px solid var(--rv-dot); outline-offset:3px}100%{outline:3px solid transparent; outline-offset:3px}}
+
+/* ---------- floating popup, editor, card, toast ---------- */
+.rv-float{
+  position:absolute; z-index:60; background:var(--card); color:var(--ink);
+  border:1px solid var(--line); border-radius:10px; box-shadow:0 8px 28px var(--shadow), 0 1px 3px var(--shadow);
+  font-family:var(--sans); font-size:.92rem; line-height:1.5;
+}
+.rv-pop{display:flex; gap:.35rem; padding:.35rem}
+.rv-pop .rv-btn{padding:.4rem .7rem; font-size:.85rem}
+.rv-editor,.rv-card{width:min(24rem, calc(100vw - 24px)); padding:.9rem 1rem}
+.rv-card{max-height:min(28rem, 70vh); overflow:auto}
+.rv-editor-title{margin:0 0 .4rem; font-weight:700}
+.rv-editor .rv-field{max-width:none}
+.rv-editor textarea,.rv-editor input{font:400 .95rem/1.45 var(--sans); padding:.45rem .55rem; border:1px solid var(--line);
+  border-radius:6px; background:var(--paper); color:var(--ink); resize:vertical; width:100%}
+.rv-editor textarea:focus,.rv-editor input:focus{outline:2px solid var(--accent); outline-offset:1px}
+.rv-editor .rv-row{margin:0}
+.rv-error{color:var(--warn); font-size:.88rem; margin:0 0 .6rem}
+.rv-card .rv-list{margin:0}
+.rv-card .rv-item:first-child{margin-top:0}
+.rv-card .rv-row{margin:.4rem 0 0}
+.rv-card .rv-btn{padding:.3rem .6rem; font-size:.8rem}
+
+.rv-toast{
+  position:fixed; z-index:70; left:50%; bottom:5.5rem; transform:translateX(-50%);
+  max-width:calc(100vw - 32px); padding:.6rem 1rem; border-radius:8px;
+  background:var(--ink); color:var(--paper); font:500 .9rem/1.4 var(--sans); box-shadow:0 6px 20px var(--shadow);
+}
+
+.rv-activity-btn{
+  margin-left:auto; display:inline-flex; align-items:center; gap:.35rem; cursor:pointer;
+  font:600 .75rem/1 var(--sans); padding:.35rem .6rem; border-radius:5px;
+  border:1px dashed var(--rv-dot, var(--accent)); background:transparent; color:var(--accent);
+}
+.rv-activity-btn:hover{background:var(--accent-soft)}
+.rv-activity-btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.rv-badge{display:inline-block; min-width:1.2rem; padding:.15rem .3rem; border-radius:999px;
+  background:var(--accent); color:var(--paper); font:700 .68rem/1 var(--sans); text-align:center}
+.rv-activity-btn{white-space:nowrap}
+@media (max-width:560px){ .rv-activity-btn .rv-long{display:none} }
