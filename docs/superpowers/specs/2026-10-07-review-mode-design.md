@@ -56,15 +56,17 @@ in a `<meta name="review-server">`.
 ```
 src/assets/review/
   core.js        pure logic: anchoring, mark records, merge, file format
-  store.js       LocalStore and SyncStore behind one interface
+  store.js       LocalStore
   review.js      on-page UI (selection popup, highlights, cards, panel, bar)
   review.css     review UI styles, using the site's color tokens
-  vendor/pocketbase.es.mjs   PocketBase JS SDK, vendored (no CDN)
+  dom.js         text indexing, wrapping and unwrapping highlights
+  page.js        the /review/ control page
+  sync.js        SyncStore: PocketBase over fetch + EventSource (no SDK)
 src/review.njk   the /review/ control page (unlinked, excluded from collections)
 review-server/
   pb_migrations/ creates the `marks` collection and its API rules
   README.md      local run + Ubuntu deploy (binary, systemd unit, Caddy block)
-test/review-core.test.js   node:test, no new dependencies
+test/                      node:test, no new dependencies
 tools/           git-ignored; holds the local PocketBase binary and pb_data
 ```
 
