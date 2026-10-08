@@ -75,9 +75,19 @@ export function createServer({ key, dbPath, origins = [] }) {
     });
   }
 
+  /* Same rules as isMark in src/assets/review/core.js: every reviewer's page
+     renders these, so a malformed or hostile mark must stop here. */
   function validMark(m, id) {
-    return m && typeof m === "object" && m.id === id &&
-      typeof m.reviewerId === "string" && m.reviewerId && KINDS.includes(m.kind);
+    const str = (v) => typeof v === "string";
+    const optStr = (v) => v == null || str(v);
+    return !!m && typeof m === "object" && m.id === id &&
+      str(m.reviewerId) && m.reviewerId !== "" && KINDS.includes(m.kind) &&
+      str(m.page) && m.page.startsWith("/") && !m.page.startsWith("//") &&
+      str(m.created) && str(m.updated) &&
+      !!m.quote && typeof m.quote === "object" && str(m.quote.exact) &&
+      optStr(m.quote.prefix) && optStr(m.quote.suffix) &&
+      (m.kind === "activity" ? str(m.activity) && m.activity !== "" : m.quote.exact !== "") &&
+      ["reviewer", "src", "section", "activity", "comment", "replacement", "version"].every((k) => optStr(m[k]));
   }
 
   async function handle(req, res) {

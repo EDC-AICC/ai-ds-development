@@ -7,15 +7,27 @@ import { createServer } from "../review-server/server.js";
 
 const KEY = "test-pass";
 const dir = mkdtempSync(join(tmpdir(), "aids-review-"));
-test.after(() => rmSync(dir, { recursive: true, force: true }));
 let n = 0;
+/* Every server is closed at the end even when an assertion fails first,
+   or its open socket keeps the test process alive. */
+const open = new Set();
+test.after(async () => {
+  await Promise.all([...open].map((close) => close()));
+  rmSync(dir, { recursive: true, force: true });
+});
 
 /* A fresh server on a random port; returns { url, close, dbPath }. */
 async function start(dbPath = join(dir, `db-${n++}.sqlite`)) {
   const server = createServer({ key: KEY, dbPath, origins: ["http://localhost:8318"] });
   await new Promise((r) => server.listen(0, "127.0.0.1", r));
   const url = `http://127.0.0.1:${server.address().port}`;
-  return { url, dbPath, close: () => new Promise((r) => { server.closeAllConnections(); server.close(r); }) };
+  const close = () => {
+    if (!open.has(close)) return Promise.resolve();
+    open.delete(close);
+    return new Promise((r) => { server.closeAllConnections(); server.close(r); });
+  };
+  open.add(close);
+  return { url, dbPath, close };
 }
 
 const mark = (over = {}) => ({
@@ -80,6 +92,10 @@ test("bad bodies are refused", async () => {
   assert.equal((await put(s.url, noKind, "owner-a")).status, 400);
   assert.equal((await put(s.url, mark({ comment: "x".repeat(70 * 1024) }), "owner-a")).status, 400);
   assert.equal((await put(s.url, mark(), "")).status, 400);
+  const { quote, ...noQuote } = mark();
+  assert.equal((await put(s.url, noQuote, "owner-a")).status, 400);
+  assert.equal((await put(s.url, mark({ page: "javascript:alert(1)" }), "owner-a")).status, 400);
+  assert.equal((await put(s.url, mark({ page: "//evil.example/" }), "owner-a")).status, 400);
   await s.close();
 });
 

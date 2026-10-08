@@ -137,3 +137,36 @@ test("live events add, update and remove other reviewers' marks", async () => {
   es.emit("delete", { id: other.id });
   assert.equal(sync.all().length, 0);
 });
+
+test("a 5xx keeps the write queued and reports offline", async () => {
+  const { local, sync } = setup(() => ({ status: 502, body: {} }));
+  const m = newMark(fields, local.me());
+  local.save(m);
+  sync.remove(m.id);
+  await sync.flush();
+  assert.equal(sync.pendingCount(), 1);
+  assert.equal(sync.status(), "offline");
+});
+
+test("a mark deleted on the server while this browser was closed is dropped", async () => {
+  const storage = memory();
+  const other = newMark(fields, { reviewerId: "r-other", name: "Keller" });
+  const fileMark = newMark(fields, { reviewerId: "r-file", name: "Pat" });
+  let marks = [other];
+  const fetch = fakeFetch(() => ({ status: 200, body: { marks } }));
+  const first = new SyncStore(new LocalStore(storage), { server: SERVER, passcode: "pw" }, { fetch, EventSource: FakeES });
+  await first.pull();
+  first.addLoaded([fileMark]); /* loaded from a file, not the server */
+  marks = [];
+  const later = new SyncStore(new LocalStore(storage), { server: SERVER, passcode: "pw" }, { fetch, EventSource: FakeES });
+  await later.pull();
+  assert.deepEqual(later.loaded().map((m) => m.id), [fileMark.id]);
+});
+
+test("malformed marks from the server are ignored", async () => {
+  const good = newMark(fields, { reviewerId: "r-other", name: "Keller" });
+  const bad = { id: "x", reviewerId: "r-bad", kind: "comment", page: "/p/" };
+  const { sync } = setup(() => ({ status: 200, body: { marks: [good, bad] } }));
+  await sync.pull();
+  assert.deepEqual(sync.loaded().map((m) => m.id), [good.id]);
+});

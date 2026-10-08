@@ -31,10 +31,12 @@ export function readFiles(fileList) {
   return Promise.all([...fileList].map((f) => f.text().then((text) => ({ name: f.name, text }))));
 }
 
-export function loadMessage({ added, errors }, fileCount) {
+export function loadMessage({ added, restored = 0, errors }, fileCount) {
   const ok = fileCount - errors.length;
-  const head = ok ? `Loaded ${added} comment${added === 1 ? "" : "s"} from ${ok} file${ok === 1 ? "" : "s"}.` : "";
-  return [head, ...errors].filter(Boolean).join(" ");
+  const plural = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+  const head = ok ? `Loaded ${plural(added, "comment")} from ${plural(ok, "file")}.` : "";
+  const back = restored ? `Restored ${plural(restored, "comment")} of your own.` : "";
+  return [head, back, ...errors].filter(Boolean).join(" ");
 }
 
 /* One clickable chip per reviewer present; `hidden` is a Set of reviewerIds. */

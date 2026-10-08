@@ -149,7 +149,14 @@
     if (!SCRIPT_SRC || /(^|[?&])embed(=|&|$)/.test(location.search)) return;
     var on = false;
     try {
-      if (/(^|[?&])review(=|&|$)/.test(location.search)) localStorage.setItem("aids-review", '"on"');
+      if (/(^|[?&])review(=|&|$)/.test(location.search)) {
+        localStorage.setItem("aids-review", '"on"');
+        /* Drop ?review once honoured, or Exit (which reloads) would turn
+           review mode straight back on. */
+        var u = new URL(location.href);
+        u.searchParams.delete("review");
+        history.replaceState(history.state, "", u.pathname + u.search + u.hash);
+      }
       on = localStorage.getItem("aids-review") === '"on"';
     } catch (e) {}
     if (!on) return;

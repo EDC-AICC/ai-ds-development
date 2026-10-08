@@ -4,7 +4,10 @@
    Other reviewers' marks arrive through pull() and the live event stream and
    are kept as loaded marks, read-only, exactly like ones loaded from a file. */
 
+import { isMark } from "./core.js";
+
 const PENDING = "aids-review-pending";
+const FROM_SERVER = "aids-review-server-ids";
 
 export class SyncStore {
   /* deps are injectable for the tests */
@@ -17,7 +20,10 @@ export class SyncStore {
     this.netOk = true;
     this.denied = false;
     this.esOpen = false;
-    this.serverIds = new Set(); /* other reviewers' marks last seen on the server */
+    /* Ids of loaded marks that came from the server (not from files), kept
+       across page loads so marks deleted while this browser was closed can be
+       dropped on the next pull. */
+    this.serverIds = new Set(local.read(FROM_SERVER, []));
     this.flushing = null;
   }
 
@@ -85,9 +91,12 @@ export class SyncStore {
     if (this.status() !== before) this.local.changed();
   }
 
-  /* Sends queued writes in order. Stops at the first network failure or a
-     rejected passcode; anything else the server refuses is dropped, since
-     sending it again would get the same answer. */
+  saveServerIds() { this.local.write(FROM_SERVER, [...this.serverIds]); }
+
+  /* Sends queued writes in order. Stops at the first network failure, server
+     error (5xx, e.g. Caddy's 502 while node is down) or rejected passcode, and
+     tries again later. A 400/403/404 is final, since sending it again would
+     get the same answer, so it is dropped. */
   flush() {
     if (this.flushing) return this.flushing.then(() => this.flush());
     this.flushing = (async () => {
@@ -106,6 +115,7 @@ export class SyncStore {
           this.setState({ netOk: false });
           return;
         }
+        if (res.status >= 500) { this.setState({ netOk: false }); return; }
         if (res.status === 401) { this.setState({ denied: true, netOk: true }); return; }
         this.setState({ netOk: true, denied: false });
         this.dequeue(item);
@@ -135,13 +145,14 @@ export class SyncStore {
       return { error: "The server rejected the passcode." };
     }
     if (!res.ok) return { error: `The server answered ${res.status}.` };
-    const { marks } = await res.json();
+    const marks = ((await res.json()).marks || []).filter(isMark);
     this.setState({ netOk: true, denied: false });
     const myId = this.me().reviewerId;
     const theirs = marks.filter((m) => m.reviewerId !== myId);
     const now = new Set(theirs.map((m) => m.id));
     this.serverIds.forEach((id) => { if (!now.has(id)) this.local.removeLoaded(id); });
     this.serverIds = now;
+    this.saveServerIds();
     this.local.addLoaded(theirs);
     const onServer = new Map(marks.filter((m) => m.reviewerId === myId).map((m) => [m.id, m]));
     this.own().forEach((m) => {
@@ -170,13 +181,15 @@ export class SyncStore {
     });
     es.addEventListener("save", (e) => {
       const { mark } = JSON.parse(e.data);
-      if (mark.reviewerId === this.me().reviewerId) return;
+      if (!isMark(mark) || mark.reviewerId === this.me().reviewerId) return;
       this.serverIds.add(mark.id);
+      this.saveServerIds();
       this.local.addLoaded([mark]);
     });
     es.addEventListener("delete", (e) => {
       const { id } = JSON.parse(e.data);
       this.serverIds.delete(id);
+      this.saveServerIds();
       if (this.local.loaded().some((m) => m.id === id)) this.local.removeLoaded(id);
     });
   }

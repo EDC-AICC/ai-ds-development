@@ -122,3 +122,14 @@ test("renaming updates the name on my existing marks", () => {
   assert.equal(st.own()[0].reviewer, "Sam");
   assert.equal(st.exportFile().data.marks[0].reviewer, "Sam");
 });
+
+test("loading my own download back restores my deleted marks", () => {
+  const st = new LocalStore(memory());
+  st.save(newMark(fields, st.me()));
+  const mine = JSON.stringify(st.exportFile().data);
+  st.clearMine();
+  const r = st.loadFiles([{ name: "mine.json", text: mine }]);
+  assert.equal(r.restored, 1);
+  assert.equal(st.own().length, 1);
+  assert.equal(st.loaded().length, 0);
+});

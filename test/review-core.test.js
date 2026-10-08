@@ -96,3 +96,21 @@ test("colorIndex is stable and in range", () => {
     assert.ok(Number.isInteger(i) && i >= 0 && i < 8);
   }
 });
+
+test("parseImport rejects marks with missing or unsafe fields", () => {
+  const { data } = buildExport(me, [mark()], new Date());
+  const withMark = (m) => JSON.stringify({ ...data, marks: [m] });
+  const { quote, ...noQuote } = mark();
+  assert.ok(parseImport(withMark(noQuote), "q.json").error);
+  assert.ok(parseImport(withMark(mark({ page: "javascript:alert(1)" })), "p.json").error);
+  assert.ok(parseImport(withMark(mark({ page: "//evil.example/" })), "p.json").error);
+  assert.ok(parseImport(withMark(mark({ created: 5 })), "c.json").error);
+  assert.ok(parseImport(withMark(mark({ comment: { x: 1 } })), "c.json").error);
+  assert.equal(parseImport(withMark(mark({ kind: "activity", activity: "a.html", quote: { exact: "", prefix: "", suffix: "" } })), "a.json").error, undefined);
+});
+
+test("parseImport says a file without a version is not a review file", () => {
+  const { data } = buildExport(me, [mark()], new Date());
+  const { formatVersion, ...noVersion } = data;
+  assert.doesNotMatch(parseImport(JSON.stringify(noVersion), "v.json").error, /newer/);
+});

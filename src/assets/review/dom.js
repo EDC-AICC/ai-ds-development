@@ -14,6 +14,8 @@ const SKIP = "[data-rv-ui], .sectionbar, .activity-embed, iframe, script, style,
 const BLOCK = "p, li, dt, dd, h1, h2, h3, h4, h5, h6, div, section, details, summary, " +
   "blockquote, pre, figure, figcaption, table, tr, td, th, ul, ol";
 
+const BREAK = "br, hr";
+
 export function textIndex(root) {
   /* { node, start, offsets[] } — start is the normalized index. A virtual
      space between blocks gets a segment with node null. */
@@ -23,10 +25,18 @@ export function textIndex(root) {
   let lastBlock = null;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
     acceptNode: (n) => n.nodeType === 1
-      ? (n.matches(SKIP) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_SKIP)
+      ? (n.matches(SKIP) ? NodeFilter.FILTER_REJECT : n.matches(BREAK) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP)
       : NodeFilter.FILTER_ACCEPT,
   });
   for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (node.nodeType === 1) { /* <br>, <hr>: a line break reads as a space */
+      if (!lastSpace) {
+        segs.push({ node: null, start: text.length, offsets: [-1] });
+        text += " ";
+        lastSpace = true;
+      }
+      continue;
+    }
     if (!/\S/.test(node.data) && lastSpace) continue;
     const block = node.parentElement.closest(BLOCK);
     if (block !== lastBlock && !lastSpace) {

@@ -86,9 +86,21 @@ export function buildExport(me, marks, now = new Date()) {
   };
 }
 
-function isMark(m) {
-  return m && typeof m === "object" && typeof m.id === "string" && m.id &&
-    typeof m.reviewerId === "string" && m.reviewerId && KINDS.includes(m.kind);
+/* Marks arrive from files and the sync server, so everything the page reads
+   is checked. `page` must be a site path: it becomes a link on /review/, so
+   "javascript:" or "//other.site" must never get through. The same rules are
+   repeated in review-server/server.js, which runs on its own. */
+const str = (v) => typeof v === "string";
+const optStr = (v) => v == null || str(v);
+export function isMark(m) {
+  return !!m && typeof m === "object" &&
+    str(m.id) && m.id !== "" && str(m.reviewerId) && m.reviewerId !== "" && KINDS.includes(m.kind) &&
+    str(m.page) && m.page.startsWith("/") && !m.page.startsWith("//") &&
+    str(m.created) && str(m.updated) &&
+    !!m.quote && typeof m.quote === "object" && str(m.quote.exact) &&
+    optStr(m.quote.prefix) && optStr(m.quote.suffix) &&
+    (m.kind === "activity" ? str(m.activity) && m.activity !== "" : m.quote.exact !== "") &&
+    ["reviewer", "src", "section", "activity", "comment", "replacement", "version"].every((k) => optStr(m[k]));
 }
 
 export function parseImport(json, filename) {
@@ -97,7 +109,8 @@ export function parseImport(json, filename) {
     return { error: `${filename} is not a review file (it isn't valid JSON).` };
   }
   if (!data || data.format !== FORMAT) return { error: `${filename} is not a review file.` };
-  if (!(data.formatVersion <= FORMAT_VERSION)) {
+  if (typeof data.formatVersion !== "number") return { error: `${filename} is not a review file.` };
+  if (data.formatVersion > FORMAT_VERSION) {
     return { error: `${filename} was made by a newer version of review mode. Reload the site and try again.` };
   }
   if (!Array.isArray(data.marks) || !data.marks.every(isMark)) {

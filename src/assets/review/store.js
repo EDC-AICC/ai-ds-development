@@ -117,6 +117,9 @@ export class LocalStore {
     this.changed();
   }
 
+  /* Other people's marks become loaded marks. Marks of mine that this
+     browser no longer has (deleted, or storage cleared) are restored as mine,
+     which is what "download your review so nothing is lost" promises. */
   loadFiles(files) {
     const errors = [], marks = [];
     for (const f of files) {
@@ -124,7 +127,15 @@ export class LocalStore {
       if (r.error) errors.push(r.error);
       else marks.push(...r.marks);
     }
-    return { added: marks.length ? this.addLoaded(marks) : 0, errors };
+    const myId = this.me().reviewerId;
+    const own = this.ownMap();
+    const missing = marks.filter((m) => m.reviewerId === myId && !own[m.id]);
+    missing.forEach((m) => { own[m.id] = m; });
+    if (missing.length) this.write(KEY.marks, own);
+    const theirs = marks.filter((m) => m.reviewerId !== myId);
+    const added = theirs.length ? this.addLoaded(theirs) : 0;
+    if (missing.length && !theirs.length) this.changed();
+    return { added, restored: missing.length, errors };
   }
 
   clearLoaded() { this.write(KEY.loaded, undefined); this.changed(); }

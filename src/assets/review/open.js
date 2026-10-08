@@ -37,6 +37,8 @@ export function pagePath() {
   const path = location.pathname;
   return path.startsWith(base) ? "/" + path.slice(base.length) : path;
 }
+/* Only ever a path on this site: marks come from files and other people. */
 export function pageUrl(page, section) {
-  return siteBase().replace(/\/$/, "") + page + (section ? "#" + section : "");
+  if (typeof page !== "string" || !page.startsWith("/") || page.startsWith("//")) return "#";
+  return siteBase().replace(/\/$/, "") + page + (section ? "#" + encodeURIComponent(section) : "");
 }
