@@ -17,6 +17,7 @@ Serves at <http://localhost:8080>. `npm run build` writes the site to `_site/`.
 src/
   index.md              home page (module cards are generated from unit data)
   teaching-model.md     design notes for course staff (not linked; open /teaching-model/ directly)
+  review.njk            review mode controls for course staff (not linked; open /review/ directly)
   course-details/       one unit: a single page
   module-1/             one unit: overview + parts
   module-2/             one unit: overview + parts
@@ -24,10 +25,13 @@ src/
   activities/           self-contained interactive HTML, one file per activity
                         (see AUTHORING.md there before writing one)
   assets/css, js, img   site styles, scripts, images
+  assets/review/        review mode (loaded only for reviewers)
   data/                 CSVs the notebooks load
   _includes/            layouts and shared partials
   _data/site.json       site name and footer
 notebooks/              Colab notebooks
+review-server/          optional sync server for review mode
+test/                   npm test
 design/embed-demo.html  example of embedding one section in an LMS page
 ```
 
@@ -115,6 +119,24 @@ Add `?embed` to any page URL to get the content without the sidebar and navigati
 ```
 
 The frame posts `{type: "embed-height", height}` to its parent when its size changes; `design/embed-demo.html` shows how a host page can use that to size the iframe.
+
+## Review mode
+
+Course staff can comment on the site directly. Open `/review/`, enter a name, and turn review mode
+on (or send someone any page link with `?review` added). Then select text on any page to comment
+or suggest an edit; activities get a "Comment on this activity" button. Students never load any
+of this: it only runs in a browser where review mode is on, and never in `?embed` frames.
+
+Comments are saved in the reviewer's browser. **Download** makes a review file
+(`review-<name>-<date>.json`) where every comment names its source file, section, quoted text
+and the site version it was made against. **Load** shows any number of those files on the page at
+once, one color per reviewer, without mixing them into your own download.
+
+With the optional sync server, reviewers see each other's comments as they're made instead.
+Run it locally with `npm run review-server` (passcode `review`) and choose **Shared server** on
+`/review/`; `review-server/README.md` covers deploying it.
+
+`npm test` runs the tests for the review logic, the stores and the server.
 
 ## Deployment
 

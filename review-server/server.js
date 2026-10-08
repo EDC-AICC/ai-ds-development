@@ -167,7 +167,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const port = Number(process.env.PORT || 8090);
   const host = process.env.HOST || "127.0.0.1";
   const dbPath = process.env.REVIEW_DB || "./tools/review.db";
-  const origins = (process.env.REVIEW_ORIGINS || "http://localhost:8318,http://localhost:8080")
+  const origins = (process.env.REVIEW_ORIGINS || "http://localhost:8318,http://127.0.0.1:8318,http://localhost:8080")
     .split(",").map((s) => s.trim()).filter(Boolean);
   createServer({ key, dbPath, origins }).listen(port, host, () => {
     console.log(`Review server on http://${host}:${port} (db ${dbPath}; origins ${origins.join(", ")})`);

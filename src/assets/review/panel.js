@@ -69,7 +69,7 @@ function syncNote() {
     live: "Live",
     connecting: "Connecting…",
     offline: `Offline${n ? ` · ${n} not synced` : ""}`,
-    denied: "Passcode rejected",
+    denied: `Passcode rejected${n ? ` · ${n} not synced` : ""}`,
   }[st];
   return `<span class="rv-sync-note rv-sync-${st}"><span class="rv-sync-dot"></span>${text}</span> · `;
 }

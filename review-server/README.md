@@ -29,7 +29,7 @@ stored, so a reviewer can change only their own comments.
 | `PORT` | `8090` | |
 | `HOST` | `127.0.0.1` | keep it local and put Caddy in front |
 | `REVIEW_DB` | `./tools/review.db` | the SQLite file; its folder is created if missing |
-| `REVIEW_ORIGINS` | `http://localhost:8318,http://localhost:8080` | sites allowed to call it, comma-separated |
+| `REVIEW_ORIGINS` | `http://localhost:8318,http://127.0.0.1:8318,http://localhost:8080` | sites allowed to call it, comma-separated |
 
 ## Running it locally
 
