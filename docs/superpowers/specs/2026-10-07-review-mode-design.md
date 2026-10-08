@@ -20,11 +20,14 @@ the channel for students and other outside users.
   reads. Anyone who wants to respond adds their own comment on the same text.
 - **Two storage modes, one data format.** Phase 1 works with no server
   (browser storage + download/load files). Phase 2 adds optional sync to a
-  self-hosted PocketBase so reviewers see each other's comments live. Both
+  small self-hosted sync server so reviewers see each other's comments live. Both
   ship together, and everything is testable on localhost before any DNS work.
 - **Activities are commented on as a whole.** Text inside activity iframes is
   not selectable for review.
 - **Students never load review code.**
+- **We own the sync server.** A single zero-dependency Node file using the
+  built-in `node:sqlite`, chosen over PocketBase so access control is plain
+  code we test ourselves, with nothing to download.
 
 ## Architecture
 
@@ -43,7 +46,7 @@ The Eleventy config adds global data `build`:
 - `build.version`: `git rev-parse --short HEAD`, plus `-dirty` when
   `git status --porcelain` is non-empty. Computed once when Eleventy starts.
   On GitHub Actions the checkout provides the commit.
-- `build.reviewServer`: the PocketBase URL from `site.json` (`reviewServer`),
+- `build.reviewServer`: the sync server URL from `site.json` (`reviewServer`),
   empty if unset.
 
 Both layouts (`shell.njk`, `base.njk`) mark their content container with
@@ -61,17 +64,17 @@ src/assets/review/
   review.css     review UI styles, using the site's color tokens
   dom.js         text indexing, wrapping and unwrapping highlights
   page.js        the /review/ control page
-  sync.js        SyncStore: PocketBase over fetch + EventSource (no SDK)
+  sync.js        SyncStore: talks to the sync server over fetch + EventSource
 src/review.njk   the /review/ control page (unlinked, excluded from collections)
 review-server/
-  pb_migrations/ creates the `marks` collection and its API rules
-  README.md      local run + Ubuntu deploy (binary, systemd unit, Caddy block)
+  server.js      the sync server (node:http + node:sqlite, no dependencies)
+  README.md      local run + Ubuntu deploy (systemd unit, Caddy block)
 test/                      node:test, no new dependencies
-tools/           git-ignored; holds the local PocketBase binary and pb_data
+tools/           git-ignored; holds the local sync database
 ```
 
 New npm scripts: `test` (`node --test`), `review-server` (runs
-`tools/pocketbase serve --http=127.0.0.1:8090 --migrationsDir=review-server/pb_migrations --dir=tools/pb_data`).
+`node review-server/server.js` on 127.0.0.1:8090 with its database in `tools/`).
 A `review-server` entry is added to `.claude/launch.json`.
 
 ## Data
@@ -134,33 +137,37 @@ reviews" empties only the loaded set. Tracks `lastExported` to show
 "N not downloaded" (marks created or updated since the last download).
 
 **SyncStore.** Wraps LocalStore. Every save goes to LocalStore first, then to
-PocketBase; failures stay in a pending queue that is retried on reconnect and
-on page load. Reads merge server marks with local ones. Subscribes to
-PocketBase realtime so other reviewers' marks appear without reloading. The
+the sync server; failures stay in a pending queue that is retried on reconnect and
+on page load. Reads merge server marks with local ones. Listens to the
+server's event stream so other reviewers' marks appear without reloading. The
 bar shows connection state and "N not synced". Download and Load still work in
 sync mode.
 
-## Sync server (PocketBase)
+## Sync server
 
-Collection `marks` with the record's fields plus a hidden `owner_token` field.
-Access is controlled by API rules only, with no custom server code:
+`review-server/server.js`, Node 22.13 or newer, no dependencies. Config by
+environment: `REVIEW_KEY` (passcode), `PORT` (default 8090), `REVIEW_DB`
+(SQLite file path), `REVIEW_ORIGINS` (comma-separated CORS origins).
 
-- All rules require `@request.headers.x_review_key` to equal the review
-  passcode (set in the migration from an env var, changeable in the admin UI).
-- Create also requires the body's `owner_token` to equal
-  `@request.headers.x_review_owner`.
-- Update and delete require `@request.headers.x_review_owner = owner_token`.
-- `owner_token` is hidden, so it is never returned to other reviewers.
+One table: `marks(id TEXT PRIMARY KEY, owner_hash TEXT, data TEXT, updated TEXT)`,
+where `data` is the mark JSON and `owner_hash` is SHA-256 of the creator's
+`ownerToken`. The token itself is never stored or returned.
+
+| Request | Needs | Result |
+|---|---|---|
+| `GET /marks` | `X-Review-Key` | `{ marks: [...] }` |
+| `PUT /marks/:id` | key + `X-Review-Owner` | upsert; 403 if the mark exists with a different owner |
+| `DELETE /marks/:id` | key + `X-Review-Owner` | 204; 403 different owner; 404 absent |
+| `GET /events?key=` | key in query (EventSource cannot send headers) | Server-Sent Events: `save` and `delete` messages, a heartbeat every 25 s |
+| `GET /health` | nothing | `ok` |
+
+Wrong or missing key → 401, so the client can say "passcode rejected". Bodies
+over 64 KB or marks missing `id`/`reviewerId`/`kind`, or whose `id` differs from
+the URL, → 400. Any `ownerToken` field in a body is discarded.
 
 The passcode is typed on the /review/ page and kept in `localStorage`. The
 server URL comes from `site.json`, with an override field on the /review/ page
 for local testing (`http://127.0.0.1:8090`).
-
-To verify while building (fall back if either doesn't hold):
-- Realtime subscriptions honor custom headers for rule checks. Fallback: poll
-  every 20 s and when the tab regains focus.
-- Hidden fields can be referenced in API rules. Fallback: store a hash of the
-  token in a visible field.
 
 Deployment (later, not required to try it): either a `reviews.kellerflint.com`
 A record plus a Caddy site block, or a `/review-api/` reverse-proxy path on the
@@ -220,7 +227,9 @@ sections needs no re-render.
 - UI verified in the in-app browser on the dev server: comment, suggest,
   activity note, highlight across section switches, list navigation, load
   two files, export/import round trip, both themes, phone width.
-- Sync verified against local PocketBase with two browser windows as two
+- Server routes tested with `node --test` against a real instance on a
+  random port and a temp database.
+- Sync verified against the local server with two browser windows as two
   reviewers: live appearance, edit/delete only own, wrong passcode refused,
   offline queue drains on reconnect.
 

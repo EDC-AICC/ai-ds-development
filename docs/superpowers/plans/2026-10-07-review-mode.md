@@ -2,17 +2,17 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Let course staff select text on any page of the course site and leave comments or suggested edits, saved in their browser or synced to a self-hosted PocketBase, exportable to a file that names the exact source file, section and words, and loadable many-at-once by the author.
+**Goal:** Let course staff select text on any page of the course site and leave comments or suggested edits, saved in their browser or synced to a small self-hosted server, exportable to a file that names the exact source file, section and words, and loadable many-at-once by the author.
 
-**Architecture:** Review code is a set of ES modules under `src/assets/review/`, loaded by `site.js` only when review mode is on. Pure logic (`core.js`) and storage (`store.js`, `sync.js`) are DOM-free and unit-tested with `node --test`; DOM work (`dom.js`, `review.js`, `page.js`) is verified in the browser. The layouts stamp each page with its source file and git version at build time. Sync talks to PocketBase over plain `fetch` and `EventSource`, with access enforced by PocketBase API rules.
+**Architecture:** Review code is a set of ES modules under `src/assets/review/`, loaded by `site.js` only when review mode is on. Pure logic (`core.js`) and storage (`store.js`, `sync.js`) are DOM-free and unit-tested with `node --test`; DOM work (`dom.js`, `review.js`, `page.js`) is verified in the browser. The layouts stamp each page with its source file and git version at build time. Sync talks to our own zero-dependency Node server (`node:http` + `node:sqlite`) over `fetch` and `EventSource`.
 
-**Tech Stack:** Eleventy 3, vanilla JS (ES modules), `node:test` (Node 26), PocketBase (latest release, local binary, git-ignored), Caddy for deployment.
+**Tech Stack:** Eleventy 3, vanilla JS (ES modules), `node:test` (Node 26), `node:sqlite` (Node ≥ 22.13), Caddy for deployment.
 
 **Spec:** `docs/superpowers/specs/2026-10-07-review-mode-design.md`
 
 ## Global Constraints
 
-- No new npm dependencies. No CDN or third-party requests from review code; the only network target is the configured PocketBase URL.
+- No new npm dependencies. No CDN or third-party requests from review code; the only network target is the configured sync server URL.
 - Author and example names: only "Keller Flint" (the repo author) or neutral placeholders such as "Sam". No committed file may contain an absolute path under `/Users/`; check `git diff --cached` before every commit.
 - Students never load review code: `site.js` imports it only when `localStorage["aids-review"] === "on"` or the URL has `?review`, and never when the URL has `?embed`.
 - Review modules may use modern JS (const/let, arrows, async). Edits to existing `site.js`/`shell.js` keep their ES5 IIFE style.
@@ -20,7 +20,7 @@
 - Export file: `{ "format": "aids-review", "formatVersion": 1, "reviewer", "reviewerId", "exported", "marks": [...] }`, filename `review-<slugified name>-<YYYY-MM-DD>.json`.
 - Mark fields exactly as the spec's record: `id, reviewerId, reviewer, kind ("comment"|"suggest"|"activity"), page, src, section, quote {exact,prefix,suffix}, activity, comment, replacement, created, updated, version`. `ownerToken` is never in a mark or an export.
 - Quote context length: 32 characters each side, measured on whitespace-collapsed text.
-- PocketBase headers: `X-Review-Key` (passcode), `X-Review-Owner` (ownerToken). In rules: `@request.headers.x_review_key`, `@request.headers.x_review_owner`.
+- Sync headers: `X-Review-Key` (passcode), `X-Review-Owner` (ownerToken). The event stream takes the passcode as `?key=`.
 - All review UI elements carry the attribute `data-rv-ui` and are excluded from text indexing and from selection handling.
 - Review UI uses the site's existing CSS color tokens and must work in light and dark themes and at 375px width.
 
@@ -192,7 +192,7 @@ Behavior:
 - Consumes: `render()` result `{placed, unplaced}` (Task 5); `LocalStore.unexportedCount/exportFile/loadFiles` (Task 3); `colorIndex`.
 
 Behavior:
-- **Bar** (fixed bottom-right, `data-rv-ui`): "Reviewing as <name> · N comments · N not downloaded" (N comments = own marks site-wide). Buttons: List, Download, Load (hidden file input, multiple), Exit (sets off, reloads). When a store call returned `{ok:false}`, the bar shows the error in place of the counts until the next successful save. In sync mode (Task 10) a status slot shows connection state.
+- **Bar** (fixed bottom-right, `data-rv-ui`): "Reviewing as <name> · N comments · N not downloaded" (N comments = own marks site-wide). Buttons: List, Download, Load (hidden file input, multiple), Exit (sets off, reloads). When a store call returned `{ok:false}`, the bar shows the error in place of the counts until the next successful save. In sync mode (Task 9) a status slot shows connection state.
 - **List drawer** (right side): this page's marks grouped by section in page order, then **Unplaced** (shows quote, comment, and "made against <version>"). Reviewer filter chips (one per reviewer present, toggle). Clicking an entry sets `location.hash` to its section, waits a frame, scrolls the first wrapped element into view, and adds a 1s `rv-flash` class.
 - **Sidebar badges:** for each `[data-secs] a[href="#id"]`, append `<span data-rv-ui class="rv-badge">n</span>` with that section's placed-mark count (all reviewers); omitted when 0.
 - Reviewer colors: 8 classes `rv-c0`…`rv-c7` defined with light and dark values; own marks use `rv-own`.
@@ -203,29 +203,32 @@ Behavior:
 
 ---
 
-### Task 8: Local PocketBase and access rules
+### Task 8: Sync server
 
 **Files:**
-- Create: `review-server/pb_migrations/1760000000_create_marks.js`, `review-server/README.md`
+- Create: `review-server/server.js`, `review-server/README.md`, `test/review-server.test.js`
 - Modify: `package.json` (script), `.claude/launch.json` (config)
 
 **Interfaces:**
-- Produces: collection `marks` with text fields `mark_id` (unique index), `reviewer_id`, `reviewer`, `kind`, `page`, `src`, `section`, `activity`, `comment`, `replacement`, `version`, `created_at`, `updated_at`, json field `quote`, text field `owner_token` with `hidden: true`. API rules (with `K` = `$os.getenv("REVIEW_KEY") || "review"` interpolated as a quoted literal at migration time):
-  - list/view: `@request.headers.x_review_key = "K"`
-  - create: `@request.headers.x_review_key = "K" && @request.body.owner_token = @request.headers.x_review_owner`
-  - update/delete: `@request.headers.x_review_key = "K" && owner_token = @request.headers.x_review_owner`
-- npm script `review-server`: `REVIEW_KEY=${REVIEW_KEY:-review} tools/pocketbase serve --http=127.0.0.1:8090 --dir=tools/pb_data --migrationsDir=review-server/pb_migrations`.
-- launch.json entry `review-server` (port 8090).
+- Produces: `export function createServer({key, dbPath, origins: string[]}) -> http.Server` (not listening; caller calls `.listen`), plus a CLI entry when run directly reading `REVIEW_KEY` (required; exit with a message if unset), `PORT` (8090), `HOST` (127.0.0.1), `REVIEW_DB` (`./tools/review.db`), `REVIEW_ORIGINS` (default `http://localhost:8318,http://localhost:8080`).
+- Routes exactly as the spec's table. Responses JSON with `Content-Type: application/json`. CORS: echo `Origin` when it is in `origins`; preflight `OPTIONS` allows methods `GET, PUT, DELETE` and headers `Content-Type, X-Review-Key, X-Review-Owner`.
+- SSE messages: `event: save\ndata: {"mark":{...}}` and `event: delete\ndata: {"id":"..."}`; `: ping` every 25 s.
+- npm script `review-server`: `REVIEW_KEY=${REVIEW_KEY:-review} node review-server/server.js`. launch.json entry `review-server` (port 8090).
 
-- [ ] **Step 1: Ask the user before downloading** the PocketBase macOS arm64 release zip from `github.com/pocketbase/pocketbase/releases/latest` into `tools/` (state file name and size). Unzip; `tools/pocketbase --version` prints a version.
-- [ ] **Step 2: Write the migration and README** (README: local run; Ubuntu deploy with binary in `/opt/pocketbase`, a systemd unit running `serve --http=127.0.0.1:8090 --origins=https://edc-aicc.github.io,http://localhost:8318`, `REVIEW_KEY` in the unit's `Environment=`, and both Caddy options: `reviews.kellerflint.com { reverse_proxy 127.0.0.1:8090 }` or a `handle_path /review-api/*` block inside the existing `courses.kellerflint.com` site; how to change the passcode in the admin UI; creating the superuser with `pocketbase superuser upsert`).
-- [ ] **Step 3: Start it** (`preview_start` name `review-server`) and verify with curl, recording each response code in the task report:
-  - create with key + owner `A` → 200; response JSON has no `owner_token`.
-  - list without key → 200 with `items: []`; with wrong key → `items: []`; with key → 1 item.
-  - update with key + owner `B` → 404; with owner `A` → 200.
-  - delete with owner `B` → 404; with owner `A` → 204.
-  - **If create/update with a hidden `owner_token` does not behave as above**, set `hidden: false`, note "owner_token visible to reviewers" in the README's Security section, and re-run.
-- [ ] **Step 4: Commit** `Review mode: PocketBase migration, local script and deploy notes`.
+- [ ] **Step 1: Write failing tests** in `test/review-server.test.js`, each starting `createServer` on port 0 with a temp db file:
+  - `GET /health` → 200 without a key; `GET /marks` without key → 401, wrong key → 401, right key → `{marks: []}`.
+  - PUT mark (owner A) → 200; GET returns it; response bodies never contain `owner_hash` or `ownerToken`; a body that includes `ownerToken` is stored without it.
+  - PUT same id with owner B → 403; with owner A → 200 and updated.
+  - DELETE with owner B → 403; with owner A → 204; again → 404.
+  - PUT with URL id ≠ body id → 400; missing `kind` → 400; 70 KB body → 400.
+  - CORS: `OPTIONS /marks` with `Origin: http://localhost:8318` → 204 and `Access-Control-Allow-Origin` echoed; unknown origin → no allow header.
+  - Events: open `GET /events?key=right` (read the stream with `fetch`), PUT a mark → stream yields `event: save` containing its id; `?key=wrong` → 401.
+  - Persistence: close server, create a new one on the same db file → mark still listed.
+- [ ] **Step 2: Run `npm test`.** Expected: FAIL.
+- [ ] **Step 3: Implement `server.js`** with `DatabaseSync` from `node:sqlite`, prepared statements, `crypto.createHash("sha256")` for `owner_hash`, an in-memory `Set` of SSE responses.
+- [ ] **Step 4: Run `npm test`.** Expected: PASS.
+- [ ] **Step 5: Write README**: local run (`npm run review-server`); Ubuntu deploy: Node ≥ 22.13, copy `review-server/` to `/opt/aids-review`, systemd unit (`ExecStart=/usr/bin/node /opt/aids-review/server.js`, `Environment=REVIEW_KEY=… REVIEW_DB=/var/lib/aids-review/review.db REVIEW_ORIGINS=https://edc-aicc.github.io`, `StateDirectory=aids-review`, `DynamicUser=yes`, `Restart=on-failure`); both Caddy options (`reviews.kellerflint.com { reverse_proxy 127.0.0.1:8090 }`, or `handle_path /review-api/* { reverse_proxy 127.0.0.1:8090 }` inside the existing `courses.kellerflint.com` block, with `flush_interval -1` for the event stream); changing the passcode (edit the unit, `systemctl restart`); backing up (copy the db file); setting `reviewServer` in `site.json`.
+- [ ] **Step 6: Commit** `Review mode: sync server`.
 
 ---
 
@@ -235,26 +238,24 @@ Behavior:
 - Create: `src/assets/review/sync.js`, `test/review-sync.test.js`
 
 **Interfaces:**
-- Consumes: `LocalStore` (Task 3).
-- Produces: `class SyncStore` with the same public methods as `LocalStore` plus `status() -> "connecting"|"live"|"polling"|"offline"|"denied"` and `pendingCount()`. Constructor `(local: LocalStore, {server, passcode}, deps = {fetch, EventSource, setTimeout})`.
-  - `save`/`remove`: delegate to `local` first, push `{op, id}` to `aids-review-pending`, then `flush()`.
-  - `flush()`: for each pending op in order, upsert (find by `mark_id` filter → PATCH, else POST) or DELETE; drop on 2xx or 404-on-delete; on network error stop and set `offline`; on 403/400 from create with a correct body set `denied`.
-  - `pull()`: GET `/api/collections/marks/records?perPage=500&page=N` until all pages are read, maps to marks, stores them as loaded marks via `mergeLoaded` (own marks stay local-authoritative).
-  - Realtime: `EventSource(server + "/api/realtime")`; on `PB_CONNECT` read `clientId`, POST `/api/realtime` `{clientId, subscriptions: ["marks/*?options=" + encodeURIComponent(JSON.stringify({headers: {"x-review-key": passcode}}))]}`; on `marks` events apply create/update/delete to loaded marks and fire `onChange`. Re-subscribe on every `PB_CONNECT`. If no event arrives for a self-made save within 5s once, switch to polling: `pull()` every 20s and on `visibilitychange` to visible; status `polling`.
-  - Field mapping record↔mark: `mark_id↔id`, `reviewer_id↔reviewerId`, `created_at↔created`, `updated_at↔updated`, rest same name.
-- `review.js`/`page.js` construct `SyncStore` when `aids-review-sync.mode === "sync"`, else `LocalStore`. `page.js` enables the Sync radio and fields (server defaults to the meta tag; "Test connection" button runs `pull()` and reports count or error).
+- Consumes: `LocalStore` (Task 3), `mergeLoaded` (Task 2); server API (Task 8).
+- Produces: `class SyncStore` with the same public methods as `LocalStore` plus `status() -> "connecting"|"live"|"offline"|"denied"` and `pendingCount()`. Constructor `(local: LocalStore, {server, passcode}, deps = {fetch, EventSource})`.
+  - `save`/`remove`: delegate to `local` first, append `{op, id}` to `aids-review-pending` (collapsing repeats of the same id to the latest op), then `flush()`.
+  - `flush()`: in order, `PUT /marks/:id` (body = the own mark) or `DELETE /marks/:id`; drop on 2xx, and on 404 for delete; stop on network error (`offline`) or 401 (`denied`).
+  - `pull()`: `GET /marks`; marks whose `reviewerId` is mine are ignored, the rest replace the loaded set's server-sourced marks via `mergeLoaded`.
+  - Events: `new EventSource(server + "/events?key=" + encodeURIComponent(passcode))`; on `open` → status `live`, `pull()`, `flush()`; on `save`/`delete` events update loaded marks and fire `onChange`; on `error` → `offline` (EventSource reconnects by itself). A 401 is detected by `pull()` failing with 401 → `denied` and the EventSource is closed.
+- `review.js`/`page.js` construct `SyncStore` when `aids-review-sync.mode === "sync"`, else `LocalStore`. `page.js` enables the Sync option and fields (server defaults to the meta tag) and a "Test connection" button that runs `pull()` and reports the count or the error.
 
 - [ ] **Step 1: Write failing tests** with a fake `fetch` and fake `EventSource`:
-  - save while fetch rejects → `pendingCount() === 1`, `status() === "offline"`, `local.own()` contains the mark; next `flush()` with working fetch → POST sent with headers `X-Review-Key` and `X-Review-Owner`, body has `owner_token` and `mark_id`, pending 0.
-  - second save of the same id → PATCH, not POST.
-  - remove → DELETE; 404 response still clears it from pending.
-  - `pull()` maps records to marks and skips my `reviewerId`.
-  - Fake `PB_CONNECT` → POST to `/api/realtime` with subscription containing `x-review-key`; fake `marks` create event → mark appears in `all()` and `onChange` fires.
-  - create response 403 → `status() === "denied"`.
+  - save while fetch rejects → `pendingCount() === 1`, `status() === "offline"`, `local.own()` contains the mark; `flush()` with working fetch → one PUT with headers `X-Review-Key` and `X-Review-Owner`, body without `ownerToken`, pending 0.
+  - save then remove of the same id while offline → pending has one `remove`.
+  - remove → DELETE; 404 still clears it.
+  - `pull()` skips my `reviewerId`; 401 → `status() === "denied"`.
+  - fake EventSource `open` → status `live`; dispatching a `save` event with another reviewer's mark → it appears in `all()` and `onChange` fires; a `delete` event removes it.
 - [ ] **Step 2: Run `npm test`.** Expected: FAIL.
 - [ ] **Step 3: Implement `sync.js` and wire store selection.**
 - [ ] **Step 4: Run `npm test`.** Expected: PASS.
-- [ ] **Step 5: Commit** `Review mode: sync to PocketBase`.
+- [ ] **Step 5: Commit** `Review mode: sync client`.
 
 ---
 
@@ -263,7 +264,7 @@ Behavior:
 **Files:**
 - Modify: `README.md` (short "Review mode" section: `/review/` page, `?review` link, `npm run review-server`, pointer to `review-server/README.md`), spec's file list if anything moved.
 
-- [ ] **Step 1: Two-reviewer check in the browser** with `site` and `review-server` running: window A (Sam) and private window B (Keller) both in Sync with server `http://127.0.0.1:8090`, passcode `review`. A comments → appears in B within ~2s without reload, in A's color. B cannot edit A's mark (no buttons; direct PATCH via console → 404). Wrong passcode in B → bar shows "passcode rejected", B's new comment stays local, fix passcode → it syncs. Stop the server, add a comment in A → "1 not synced"; restart → drains. Record whether status reached `live` or fell back to `polling`.
+- [ ] **Step 1: Two-reviewer check in the browser** with `site` and `review-server` running: window A (Sam) and private window B (Keller) both in Sync with server `http://127.0.0.1:8090`, passcode `review`. A comments → appears in B within ~2s without reload, in A's color. B cannot edit A's mark (no buttons; a direct PUT from B's console → 403). Wrong passcode in B → bar shows "passcode rejected", B's new comment stays local, fix passcode → it syncs. Stop the server, add a comment in A → "1 not synced"; restart → drains.
 - [ ] **Step 2: Run `npm test`** (all pass) and `npm run build` (no errors); confirm `_site/review/index.html` exists and `grep -rl "review/review.js" _site/module-*/` finds no page that loads it statically.
 - [ ] **Step 3: Author and path check:** review `git diff main` for names and paths (see Global Constraints); `grep -rn "/Users/" --exclude-dir=node_modules --exclude-dir=_site --exclude-dir=tools .` prints nothing new.
 - [ ] **Step 4: Commit** `Review mode: docs`.
