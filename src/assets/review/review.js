@@ -5,10 +5,13 @@ import { closeAll, editorOpen, openCard, openEditor, showPopup, toast } from "./
 import { findQuote, makeQuote, newMark } from "./core.js";
 import { offsetsOf, sectionOf, textIndex, unwrapAll, wrap } from "./dom.js";
 import { openStore, pagePath } from "./open.js";
+import { mountPanel, updatePanel } from "./panel.js";
 import { colorClass } from "./ui.js";
 
 const root = document.querySelector("[data-review-root]");
 let store;
+let lastError = null;          /* a failed save, shown in the bar until the next success */
+const hidden = new Set();      /* reviewerIds switched off in the comment list */
 
 function sectionEl(id) {
   return id ? root.querySelector(`section[data-sec="${CSS.escape(id)}"]`) : null;
@@ -27,18 +30,21 @@ export function render() {
   const myId = store.me().reviewerId;
   const here = pagePath();
   const placed = [], unplaced = [];
+  const at = new Map(); /* mark id → the section it was found in */
   const marks = store.all().filter((m) => m.page === here)
     .sort((a, b) => a.created.localeCompare(b.created));
   for (const m of marks) {
     if (m.kind === "activity") {
-      (activityFrame(m.activity) ? placed : unplaced).push(m);
+      const frame = activityFrame(m.activity);
+      if (frame) { placed.push(m); at.set(m.id, sectionOf(frame)); } else unplaced.push(m);
       continue;
     }
+    if (hidden.has(m.reviewerId)) { placed.push(m); at.set(m.id, m.section); continue; }
     let scope = sectionEl(m.section) || root;
-    let at = findQuote(textIndex(scope).text, m.quote);
-    if (!at && scope !== root) { scope = root; at = findQuote(textIndex(root).text, m.quote); }
-    if (!at) { unplaced.push(m); continue; }
-    const els = wrap(scope, at.start, at.end, {
+    let found = findQuote(textIndex(scope).text, m.quote);
+    if (!found && scope !== root) { scope = root; found = findQuote(textIndex(root).text, m.quote); }
+    if (!found) { unplaced.push(m); continue; }
+    const els = wrap(scope, found.start, found.end, {
       className: `rv-mark ${colorClass(m.reviewerId, myId)}${m.kind === "suggest" ? " rv-del" : ""}`,
       dataset: { id: m.id },
     });
@@ -51,9 +57,54 @@ export function render() {
       els[els.length - 1].after(ins);
     }
     placed.push(m);
+    at.set(m.id, sectionOf(els[0]));
   }
   renderActivityButtons(placed);
+  const shown = placed.filter((m) => !hidden.has(m.reviewerId)).map((m) => ({ ...m, section: at.get(m.id) }));
+  renderSectionBadges(shown);
+  updatePanel({ placed: shown.concat(placed.filter((m) => hidden.has(m.reviewerId))), unplaced, sections: sectionList(), error: lastError });
   return { placed, unplaced };
+}
+
+function sectionList() {
+  const secs = [...root.querySelectorAll("section[data-sec]")];
+  return secs.length ? secs.map((s) => ({ id: s.dataset.sec, title: s.dataset.title })) : [{ id: null, title: "This page" }];
+}
+
+/* A count on each section link in the left sidebar. */
+function renderSectionBadges(shown) {
+  document.querySelectorAll("[data-secs] .rv-badge").forEach((b) => b.remove());
+  document.querySelectorAll("[data-secs] a[href^='#']").forEach((a) => {
+    const n = shown.filter((m) => m.section === a.getAttribute("href").slice(1)).length;
+    if (!n) return;
+    const b = document.createElement("span");
+    b.className = "rv-badge";
+    b.setAttribute("data-rv-ui", "");
+    b.setAttribute("aria-label", `${n} comment${n === 1 ? "" : "s"}`);
+    b.textContent = n;
+    a.appendChild(b);
+  });
+}
+
+/* Shows a mark: switches to its section (the shell shows one at a time),
+   opens any collapsed block around it, scrolls to it and flashes it. */
+function goTo(m) {
+  const target = () => m.kind === "activity"
+    ? activityFrame(m.activity)?.closest(".activity-embed").querySelector(".rv-activity-btn")
+    : root.querySelector(`mark[data-id="${CSS.escape(m.id)}"]`);
+  const el = target();
+  if (!el) return;
+  const show = () => requestAnimationFrame(() => {
+    for (let d = el.closest("details"); d; d = d.parentElement.closest("details")) d.open = true;
+    el.scrollIntoView({ block: "center", behavior: "smooth" });
+    const flash = m.kind === "activity" ? [el] : root.querySelectorAll(`mark[data-id="${CSS.escape(m.id)}"]`);
+    flash.forEach((f) => { f.classList.remove("rv-flash"); void f.offsetWidth; f.classList.add("rv-flash"); });
+  });
+  const sec = sectionOf(el);
+  if (sec && location.hash !== "#" + sec) {
+    addEventListener("hashchange", show, { once: true });
+    location.hash = sec;
+  } else show();
 }
 
 /* ---------- making and changing comments ---------- */
@@ -63,8 +114,14 @@ const byId = (id) => store.all().find((m) => m.id === id);
 /* Saves through the store; returns an error message for the editor, or null. */
 function commit(mark, name) {
   if (name) store.setName(name);
-  const r = store.save({ ...mark, reviewer: store.me().name });
-  return r.ok ? null : r.error;
+  return track(store.save({ ...mark, reviewer: store.me().name }));
+}
+/* Remembers a failed write for the bar; returns its message or null. */
+function track(r) {
+  const before = lastError;
+  lastError = r.ok ? null : r.error;
+  if (before !== lastError) render();
+  return lastError;
 }
 
 function edit(m, rect) {
@@ -77,8 +134,8 @@ function edit(m, rect) {
 function remove(m) {
   if (!confirm("Delete this comment?")) return;
   closeAll();
-  const r = store.remove(m.id);
-  if (!r.ok) toast(r.error);
+  const err = track(store.remove(m.id));
+  if (err) toast(err);
 }
 
 function create(rect, fields) {
@@ -187,6 +244,15 @@ export default function start() {
   css.href = new URL("./review.css", import.meta.url).href;
   document.head.appendChild(css);
   store = openStore();
+  mountPanel(store, {
+    hidden,
+    goTo,
+    toggleReviewer: (id) => { hidden.has(id) ? hidden.delete(id) : hidden.add(id); render(); },
+    rename: () => {
+      const name = prompt("Your name, shown next to your comments:", store.me().name);
+      if (name && name.trim()) store.setName(name);
+    },
+  });
   store.onChange(render);
   render();
   document.addEventListener("mouseup", onSelection);

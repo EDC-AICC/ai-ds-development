@@ -68,7 +68,7 @@ mark.rv-del{text-decoration:line-through; text-decoration-color:var(--rv-dot)}
 .rv-ins{text-decoration:none; background:var(--rv-hl); border-bottom:2px solid var(--rv-dot);
   border-radius:2px; margin-left:.2em; padding:0 .15em; cursor:pointer}
 .rv-flash{animation:rv-flash 1s ease-out}
-@keyframes rv-flash{0%{outline:3px solid var(--rv-dot); outline-offset:3px}100%{outline:3px solid transparent; outline-offset:3px}}
+@keyframes rv-flash{0%{outline:3px solid var(--rv-dot, var(--accent)); outline-offset:3px}100%{outline:3px solid transparent; outline-offset:3px}}
 
 /* ---------- floating popup, editor, card, toast ---------- */
 .rv-float{
@@ -109,3 +109,40 @@ mark.rv-del{text-decoration:line-through; text-decoration-color:var(--rv-dot)}
   background:var(--accent); color:var(--paper); font:700 .68rem/1 var(--sans); text-align:center}
 .rv-activity-btn{white-space:nowrap}
 @media (max-width:560px){ .rv-activity-btn .rv-long{display:none} }
+
+/* ---------- review bar and comment drawer ---------- */
+body:has(.rv-bar){padding-bottom:5rem} /* keep Continue clear of the bar */
+.rv-bar{
+  position:fixed; z-index:56; right:16px; bottom:16px; max-width:calc(100vw - 32px);
+  display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .9rem; padding:.55rem .6rem .55rem .9rem;
+  background:var(--card); border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 8px 28px var(--shadow), 0 1px 3px var(--shadow); font-family:var(--sans);
+}
+.rv-bar-status{margin:0; font-size:.85rem; color:var(--slate)}
+.rv-bar-status b{color:var(--warn)}
+.rv-bar-error{color:var(--warn); font-weight:600}
+.rv-bar-actions{display:flex; gap:.35rem}
+.rv-bar .rv-btn{padding:.38rem .65rem; font-size:.8rem}
+.rv-link{border:0; background:none; padding:0; font:inherit; font-weight:600; color:var(--ink); cursor:pointer;
+  text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
+.rv-link:hover{color:var(--accent)}
+.rv-link:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+
+.rv-drawer{
+  position:fixed; z-index:55; top:0; right:0; bottom:0; width:min(24rem, 100vw);
+  overflow:auto; padding:1rem 1rem 6rem; background:var(--paper);
+  border-left:1px solid var(--line); box-shadow:-8px 0 28px var(--shadow); font-family:var(--sans);
+}
+.rv-drawer[hidden]{display:none}
+.rv-drawer-head{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.75rem}
+.rv-drawer-head p{margin:0}
+.rv-drawer .rv-sec{font-family:var(--sans); font-weight:700; font-size:.82rem; margin:1rem 0 .25rem; color:var(--ink)}
+.rv-goto{display:block; width:100%; text-align:left; border:0; background:none; padding:0; color:inherit;
+  font:inherit; font-size:.9rem; cursor:pointer}
+.rv-goto:hover .rv-quote{color:var(--accent)}
+.rv-goto:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+.rv-goto .rv-meta{display:block}
+@media (min-width:1100px){ body.rv-drawer-open{margin-right:24rem} }
+
+/* section counts in the left sidebar */
+[data-secs] a .rv-badge{margin-left:.4rem; vertical-align:.1em}
