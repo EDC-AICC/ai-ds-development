@@ -1,0 +1,75 @@
+---
+layout: base.njk
+permalink: /review/
+eleventyExcludeFromCollections: true
+title: Review mode
+kicker: AI in Data Science · for course staff
+standfirst: >
+  Leave comments and suggested edits directly on the course pages, then send your review
+  file to the author.
+description: Comment on and suggest edits to the course pages.
+---
+<link rel="stylesheet" href="{{ '/assets/review/review.css' | url }}">
+
+<div class="rv-panel" data-review-panel>
+
+<p>Turn review mode on, then read the course as usual. Select any text to leave a comment or
+suggest a rewording. Each activity has a button for comments on the activity as a whole.
+Your comments are saved in this browser as you go. When you're done, download your review
+file and send it to the author.</p>
+
+<section class="rv-group">
+  <h2>You</h2>
+  <label class="rv-field">Your name
+    <input id="rv-name" type="text" autocomplete="name" placeholder="Shown next to your comments">
+  </label>
+  <div class="rv-row">
+    <button id="rv-toggle" class="rv-btn primary" type="button">Turn on review mode</button>
+    <span id="rv-state" class="rv-help"></span>
+  </div>
+</section>
+
+<section class="rv-group">
+  <h2>Where comments are saved</h2>
+  <label class="rv-choice"><input type="radio" name="rv-mode" value="local" checked> This browser only.
+    Download your review file to share it.</label>
+  <label class="rv-choice"><input type="radio" name="rv-mode" value="sync" disabled> Shared server.
+    Everyone with the passcode sees each other's comments as they're made.</label>
+  <div id="rv-sync" class="rv-sync" hidden>
+    <label class="rv-field">Server address <input id="rv-server" type="url" placeholder="https://…"></label>
+    <label class="rv-field">Passcode <input id="rv-passcode" type="password" autocomplete="off"></label>
+    <div class="rv-row">
+      <button id="rv-test" class="rv-btn" type="button">Test connection</button>
+      <span id="rv-test-result" class="rv-help"></span>
+    </div>
+  </div>
+</section>
+
+<section class="rv-group">
+  <h2>Review files</h2>
+  <div class="rv-row">
+    <button id="rv-download" class="rv-btn primary" type="button">Download my review</button>
+    <span id="rv-unexported" class="rv-help"></span>
+  </div>
+  <div class="rv-row">
+    <label class="rv-btn" for="rv-files">Load review files…</label>
+    <input id="rv-files" class="rv-file" type="file" accept=".json,application/json" multiple>
+    <span id="rv-load-result" class="rv-help" role="status"></span>
+  </div>
+  <p class="rv-help">Loading other people's files shows their comments alongside yours, on every
+  page. They're never added to your own download. You can pick several files at once.</p>
+  <div class="rv-row">
+    <button id="rv-clear-loaded" class="rv-btn" type="button">Clear loaded reviews</button>
+    <button id="rv-clear-mine" class="rv-btn danger" type="button">Delete my comments</button>
+  </div>
+</section>
+
+<section class="rv-group">
+  <h2>All comments</h2>
+  <div id="rv-filter" class="rv-chips"></div>
+  <div id="rv-table"></div>
+</section>
+
+</div>
+
+<script type="module" src="{{ '/assets/review/page.js' | url }}"></script>
