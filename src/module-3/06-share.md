@@ -12,9 +12,23 @@ That shift in audience changes almost everything. A table of numbers becomes a c
 
 You ran the code. You checked the numbers. The summary carries your name.
 
-{% section "Try It: Red-Pen the Draft", "try-it-red-pen-the-draft" %}
+{% section "Try It: The Claim Dial", "try-it-the-claim-dial" %}
 
-{% slot "activity", "An activity and two check questions, the shape Parts 2 and 3 use. The idea for this part is red-penning an AI draft whose numbers are all correct, so the student learns to catch the sentence rather than the arithmetic.", "200px" %}
+Your findings are verified. What is left is how much to say about each one. Every finding can be written to claim too little or too much, and the sentence you sign is the one the reader acts on.
+
+{% activity "claim-dial.html", "The claim dial", "760px" %}
+
+{% check "Think it through before you open the answers." %}
+
+{% q "For the funder, the sentence comparing the clinic to the county's uninsured rate sounded modest. Why was it the wrong one to sign?" %}
+Because nothing in the data supports it. The file holds clinic visits, not the county's population, so there is no county rate to compare against. A claim does not have to sound bold to be unsupported. A small, reasonable-sounding comparison is easier to let through than a dramatic one, and the funder will repeat it as fact. Check every comparison in a sentence against the evidence, not just the numbers.
+{% endq %}
+
+{% q "The right setting was different each time: interpret the return rate, report the headcount, recommend a next step on the missing counties. What decided it?" %}
+Two things: what the reader has to decide, and how far the evidence reaches. The board is weighing a hire, so it needs to know what the number bears on, but a return rate cannot show that a coordinator would help. The funder needs a count it can check, and what that count means is the funder's call. The missing counties are a fact about the records themselves, so a next step follows directly. Neither caution nor confidence is the rule. The evidence and the reader set the dial.
+{% endq %}
+
+{% endcheck %}
 
 {% section "Learn: Accurate, Honest, and Actionable", "learn-accurate-honest-actionable" %}
 
