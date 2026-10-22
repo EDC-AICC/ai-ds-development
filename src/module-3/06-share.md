@@ -25,7 +25,7 @@ Up. A request to persuade reads to AI as a request for confidence, so suggestion
 {% endq %}
 
 {% q "Under-claiming feels like the safe choice. What does it cost the reader?" %}
-It leaves them to do the interpreting, with less context than you have. A board that reads "41% of patients had a return visit within 30 days" has to work out on its own whether that bears on the hire, and it may decide wrong, or not decide at all. You saw the data, the definitions, and what is missing. They did not. Hedging until a sentence says nothing does not remove the judgment. It hands it to the person least equipped to make it.
+It leaves them to read the number without what you know about it. A board that reads "41% of patients had a return visit within 30 days" has to work out on its own whether that bears on the hire, and how far it can be trusted. The decision may well be theirs, and their judgment on it may be better than yours. But you are the one who saw the definitions and what is missing from the data, so saying what the number does and does not show is your part of the work. Leaving it out does not make the sentence safer. It makes the decision harder to make well.
 {% endq %}
 
 {% endcheck %}
