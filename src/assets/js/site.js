@@ -147,6 +147,27 @@
     });
   }
 
+  /* The top-bar Feedback button. The form loads on first open, tagged with
+     the section on screen; reopening on the same section keeps a half-typed
+     note, and moving to another section starts a fresh form. */
+  function initFeedback() {
+    var dlg = document.querySelector("dialog[data-feedback]");
+    var btn = document.querySelector("[data-feedback-open]");
+    if (!dlg || !btn) return;
+    if (typeof HTMLDialogElement === "undefined") { btn.hidden = true; return; }
+    var frame = dlg.querySelector("iframe");
+
+    btn.addEventListener("click", function () {
+      var cur = document.querySelector("[data-content] section.current");
+      var title = cur ? cur.dataset.title : "";
+      var src = dlg.getAttribute("data-src") + (title ? "&section=" + encodeURIComponent(title) : "");
+      if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
+      dlg.showModal();
+    });
+    dlg.querySelector("[data-feedback-close]").addEventListener("click", function () { dlg.close(); });
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+  }
+
   /* Review mode for course staff (see /review/). Students never load it: the
      module is requested only after a reviewer turns review mode on, or opens
      a link with ?review, and never inside an LMS embed. A module script tag
@@ -172,7 +193,7 @@
     document.body.appendChild(s);
   }
 
-  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initCopyButtons(); initReview(); }
+  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initCopyButtons(); initFeedback(); initReview(); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

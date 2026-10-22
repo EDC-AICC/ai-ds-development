@@ -54,9 +54,3 @@ You do not need to write Python from scratch. You do need to read the code AI gi
 Here's what you'll explore in Module 3. Parts 2 through 6 follow one piece of work from a vague request to a finished deliverable. Each part hands its result to the next, so do them in order.
 
 {% figure "module3-roadmap.svg", "Module 3 roadmap. Part 1, Before You Begin: see how numbers go wrong on their way through a data system, about 30 minutes. Part 2, Understand: turn a vague request into a question the data can answer, about 45 minutes. Part 3, Explore: find out what is in the data before changing any of it, about 60 minutes. Part 4, Prepare: fix what you found and build the columns your question needs, about 75 minutes. Part 5, Analyze: answer the question and check who is missing from the answer, about 60 minutes. Part 6, Share: turn verified findings into something a decision-maker can act on, about 45 minutes. Part 7, Module Deliverable: run the whole process on your own with a new dataset, about 2 hours." %}
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

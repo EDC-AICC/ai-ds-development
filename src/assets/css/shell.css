@@ -30,6 +30,31 @@ body.shell #theme-toggle{
   position:static; width:2rem; height:2rem; box-shadow:none; flex:none;
 }
 
+/* the Feedback button sits just before the theme toggle; its dialog is
+   white in both themes because the Tally form inside renders light */
+.feedback-btn{
+  flex:none; appearance:none; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--slate);
+  border-radius:7px; padding:.3rem .7rem; font-size:.82rem; font-weight:600;
+}
+.feedback-btn:hover{color:var(--accent); border-color:var(--accent)}
+dialog.feedback-dialog{
+  width:min(32rem, calc(100vw - 2rem)); max-height:calc(100vh - 2rem); padding:0;
+  border:1px solid var(--line); border-radius:12px; background:#fff; color:#1c2733;
+  box-shadow:0 10px 40px rgba(0,0,0,.25);
+}
+dialog.feedback-dialog::backdrop{background:rgba(0,0,0,.45)}
+.feedback-head{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.85rem 1rem .25rem}
+.feedback-title{margin:0; font-weight:700; font-size:1.02rem}
+.feedback-close{
+  appearance:none; border:none; background:none; cursor:pointer;
+  font-size:1.5rem; line-height:1; color:#5d6b7a; padding:0 .2rem;
+}
+.feedback-close:hover{color:#0e7490}
+.feedback-note{margin:0; padding:0 1rem .4rem; font-size:.88rem; color:#5d6b7a}
+.feedback-frame{padding:0 1rem .75rem}
+.feedback-frame iframe{display:block}
+
 /* ---------- sidebar ----------
    Two visual levels only: part rows, and the current part's section list
    indented beneath it. The single accent pill is "where you are". */

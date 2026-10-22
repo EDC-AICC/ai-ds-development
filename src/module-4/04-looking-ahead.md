@@ -114,8 +114,8 @@ Across this course, you have moved through a professional workflow of Understand
 
 As an AI-Enhanced Data Practitioner, your goal is not to use AI everywhere. Your goal is to know when it adds value, how to evaluate what it produces, and when a decision, explanation, or responsibility must remain with people.
 
-{% section "Feedback", "feedback" %}
+{% section "Feedback on This Module", "module-feedback" %}
 
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
+This module is a draft, and what you write here shapes the next revision. Looking back over the whole module, what worked, what confused you, and what would you change? For a thought about one particular page, use the Feedback button at the top of that page.
 
-{% feedback %}
+{% feedback "module" %}

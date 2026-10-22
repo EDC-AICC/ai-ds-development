@@ -47,3 +47,9 @@ What knowledge and judgment do I need to contribute?
 In Module 1, you learned **why context and human judgment matter**. In **Module 2: Framing Data Problems and Understanding Context**, you will learn how to identify and organize that context systematically before you begin analyzing data. You will identify stakeholders and users, clarify the decision your data work needs to support, establish goals and success criteria, distinguish among data that are needed, available, and actually usable, and identify assumptions, constraints, and risks.
 
 By the end of Module 2, you will create a **Problem Framing Brief** that carries this context forward into the next stage of your work. That brief will become the foundation for the hands-on data work you begin in Module 3.
+
+{% section "Feedback on This Module", "module-feedback" %}
+
+This module is a draft, and what you write here shapes the next revision. Looking back over the whole module, what worked, what confused you, and what would you change? For a thought about one particular page, use the Feedback button at the top of that page.
+
+{% feedback "module" %}

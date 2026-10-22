@@ -48,6 +48,7 @@
       {%- endif %}
       <span class="here">{% if order == 0 %}{% if navLabel %}{{ navLabel }}{% else %}Overview{% endif %}{% else %}Part {{ order }} · {{ title }}{% endif %}</span>
     </nav>
+    {% feedbackButton %}
     {% include "theme-toggle.njk" %}
   </div>
   <div class="scrim" data-scrim></div>

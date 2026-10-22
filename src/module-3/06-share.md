@@ -186,9 +186,3 @@ Her charts, the prompts behind them, the written summaries built from computed v
 ### Before You Continue
 
 You have now carried one request all the way from a vague email to a finished deliverable. In Part 7, you will do the whole process again, on your own, with a dataset you have not seen.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

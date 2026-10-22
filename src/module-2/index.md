@@ -32,9 +32,3 @@ In this module, you will practice turning broad workplace questions into clearly
 Here's what you'll explore in Module 2. Each part builds the skills you'll use to create a clear, decision-ready Problem Framing Brief.
 
 {% figure "module2-roadmap.svg", "Module 2 roadmap. Part 1, From a Workplace Request to a Clear Data Problem: turn a broad request into a problem that is specific enough to guide data work, about 45 minutes. Part 2, Stakeholders, Users, Goals, and Success Criteria: identify who will use and be affected by the work and what successful results should accomplish, about 60 minutes. Part 3, Data, Context, Constraints, Assumptions, and Risk: determine what information is actually usable and what boundaries, unknowns, and risks must be addressed, about 60 minutes. Part 4, AI-Assisted Framing and Human Judgment: bring everything together by creating and reviewing a Problem Framing Brief for a realistic workplace scenario, about 45 minutes." %}
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

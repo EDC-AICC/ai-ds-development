@@ -137,9 +137,3 @@ Neither issue is visible by reading the prompt. You find them by running the cod
 ### Before You Continue
 
 Clear communication is necessary, but it is not sufficient. Even an accurate chart or summary can create harm if the data, model, workflow, or use of AI is irresponsible. Part 3 focuses on the responsibilities that remain with people and organizations.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

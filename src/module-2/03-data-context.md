@@ -189,9 +189,3 @@ You now have the major pieces of problem framing:
 - risks.
 
 In the final part of the module, you will bring those pieces together into one complete problem-framing activity.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

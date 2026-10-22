@@ -90,9 +90,3 @@ Because the true part buys trust for the false part. You verify the $70, feel do
 ### Before You Continue
 
 Now you have the habits in mind. In Part 2, a clinic director sends you a request about two years of visit data, and the work begins with working out what she actually needs.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

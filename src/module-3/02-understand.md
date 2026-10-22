@@ -168,9 +168,3 @@ The framing decides the work. An AI will do whatever you ask with equal confiden
 ### Before You Continue
 
 You have a brief and a question. Before you can answer it, you need to know what is actually in the file. In Part 3, you will explore the clinic data and write down every problem you find, without changing anything yet.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}
