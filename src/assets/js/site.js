@@ -125,12 +125,18 @@
     });
   }
 
-  function initTranscriptCopy() {
+  /* Copy buttons: a transcript's paragraphs, or an example code block. */
+  function initCopyButtons() {
     document.addEventListener("click", function (e) {
-      var btn = e.target.closest("[data-copy-transcript]");
+      var btn = e.target.closest("[data-copy-transcript], [data-copy-code]");
       if (!btn) return;
-      var body = btn.closest("details.transcript").querySelector(".transcript-body");
-      var text = [].map.call(body.querySelectorAll("p"), function (p) { return p.textContent; }).join("\n\n");
+      var text;
+      if (btn.hasAttribute("data-copy-code")) {
+        text = btn.closest("details.excode").querySelector("pre code").textContent;
+      } else {
+        var body = btn.closest("details.transcript").querySelector(".transcript-body");
+        text = [].map.call(body.querySelectorAll("p"), function (p) { return p.textContent; }).join("\n\n");
+      }
       var label = btn.textContent;
       function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = label; }, 1600); }
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -166,7 +172,7 @@
     document.body.appendChild(s);
   }
 
-  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initTranscriptCopy(); initReview(); }
+  function init() { initTheme(); initActivityHeights(); initFullscreen(); initLightbox(); initVimeoCaptions(); initCopyButtons(); initReview(); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
