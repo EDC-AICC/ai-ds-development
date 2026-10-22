@@ -12,9 +12,23 @@ That shift in audience changes almost everything. A table of numbers becomes a c
 
 You ran the code. You checked the numbers. The summary carries your name.
 
-{% section "Try It: Red-Pen the Draft", "try-it-red-pen-the-draft" %}
+{% section "Try It: The Claim Dial", "try-it-the-claim-dial" %}
 
-{% slot "activity", "An activity and two check questions, the shape Parts 2 and 3 use. The idea for this part is red-penning an AI draft whose numbers are all correct, so the student learns to catch the sentence rather than the arithmetic.", "200px" %}
+Your findings are verified. What is left is how much to say about each one. Every finding can be written to claim too little or too much, and the sentence you sign is the one the reader acts on.
+
+{% activity "claim-dial.html", "The claim dial", "760px" %}
+
+{% check "Think it through before you open the answers." %}
+
+{% q "Ask AI to make your summary clearer or more persuasive for the board. Which way does the dial move, and what would you check before you send it?" %}
+Up. A request to persuade reads to AI as a request for confidence, so suggestions become conclusions and patterns pick up reasons: *indicating*, *demonstrating*, *driven by*, *because*. The numbers usually come through untouched, which is what makes the change easy to miss. Before you send it, read the verbs and the closing clauses, not just the numbers, and hold each claim against what the data shows. If a sentence now says why something happened, or what the board should do, find the evidence for it or take it back down.
+{% endq %}
+
+{% q "Under-claiming feels like the safe choice. What does it cost the reader?" %}
+It leaves them to read the number without what you know about it. A board that reads "41% of patients had a return visit within 30 days" has to work out on its own whether that bears on the hire, and how far it can be trusted. The decision may well be theirs, and their judgment on it may be better than yours. But you are the one who saw the definitions and what is missing from the data, so saying what the number does and does not show is your part of the work. Leaving it out does not make the sentence safer. It makes the decision harder to make well.
+{% endq %}
+
+{% endcheck %}
 
 {% section "Learn: Accurate, Honest, and Actionable", "learn-accurate-honest-actionable" %}
 
