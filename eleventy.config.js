@@ -140,6 +140,24 @@ ${paras}
 </div></details>`;
   });
 
+  /* {% examplecode "module-4/app.py", "Python (Streamlit)" %}: a complete code
+     file from src/assets/code/, highlighted, in a block that starts closed,
+     with buttons to copy the code or download the file. The code lives in its
+     own file so it is copied exactly and students can download it whole. */
+  eleventyConfig.addShortcode("examplecode", function (file, label = "") {
+    const code = fs.readFileSync(`src/assets/code/${file}`, "utf8").replace(/\s+$/, "");
+    const lang = file.endsWith(".py") ? "python" : "text";
+    /* A blank line would end the HTML block for the markdown pass that runs
+       after this, so each one gets an empty span. */
+    const pre = syntaxHighlight.pairedShortcode(code, lang, "", { lineSeparator: "\n" }).replace(/\n(?=\n)/g, "\n<span></span>");
+    const href = withPrefix(`assets/code/${file}`);
+    const name = file.split("/").pop();
+    const tag = label ? ` <span class="excode-lang">${attr(label)}</span>` : "";
+    return `<details class="excode"><summary>See Example Code${tag}</summary>
+<div class="excode-actions"><button type="button" class="transcript-btn" data-copy-code>Copy code</button><a class="transcript-btn" href="${href}" download="${attr(name)}">Download ${attr(name)}</a></div>
+${pre}</details>`;
+  });
+
   /* {% section "Title", "id" %}. The id names the section in the sidebar
      link, the URL hash, and any embed URL, so it must not change when the
      title is edited. */

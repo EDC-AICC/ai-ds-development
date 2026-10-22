@@ -22,6 +22,7 @@ src/
   module-1/             one unit: overview + parts
   module-2/             one unit: overview + parts
   module-3/             one unit: overview + parts
+  module-4/             one unit: overview + parts
   activities/           self-contained interactive HTML, one file per activity
                         (see AUTHORING.md there before writing one)
   assets/css, js, img   site styles, scripts, images
@@ -90,6 +91,7 @@ Plain HTML is allowed where markdown falls short.
 | `{% activity "file.html", "Title", "600px" %}` | Embed an activity from `src/activities/`. |
 | `{% figure "file.png", "alt text", "caption" %}` | Image from `src/assets/img/`. Caption is optional. |
 | `{% video "1227479005", "Title", "m3-understand.txt" %}` | Vimeo video by its numeric id, kept at 16:9. The optional third argument is a transcript in `src/assets/transcripts/`, shown under the video with Copy and Open buttons. |
+| `{% examplecode "module-4/app.py", "Python (Streamlit)" %}` | A code file from `src/assets/code/`, highlighted, in a block that starts closed, with Copy and Download buttons. |
 | `{% q "Question?" %}…{% endq %}` | Click-to-reveal answer. |
 | `{% check "hint" %}…{% endcheck %}` | Groups several `q` blocks under a "Check yourself" label. |
 | `{% fold "Title" %}…{% endfold %}` | Collapsed block. |

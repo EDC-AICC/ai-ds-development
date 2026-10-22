@@ -180,6 +180,13 @@ details.transcript summary{cursor:pointer; padding:.6rem 1rem; font-weight:600; 
 .transcript-btn:hover{border-color:var(--accent); color:var(--accent)}
 .transcript-body{padding:.9rem 1rem .3rem; border-top:1px dashed var(--line); font-size:.95rem; max-height:28rem; overflow-y:auto}
 
+/* {% examplecode %}: a complete code file, closed until opened */
+details.excode{border:1px solid var(--line); border-radius:8px; background:var(--card); margin:1rem 0 1.5rem}
+details.excode summary{cursor:pointer; padding:.6rem 1rem; font-weight:600; font-size:.95rem}
+.excode-lang{font-family:var(--mono); font-size:.78rem; font-weight:500; color:var(--slate); margin-left:.4rem}
+.excode-actions{display:flex; flex-wrap:wrap; gap:.5rem; padding:.2rem 1rem .8rem}
+details.excode pre{margin:0 1rem 1rem; max-height:32rem}
+
 /* {% slot %}: placeholder for something not built yet */
 .slot{
   background:var(--card); border:1px solid var(--line); border-radius:10px;
