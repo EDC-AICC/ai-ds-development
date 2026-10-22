@@ -20,12 +20,12 @@ Your findings are verified. What is left is how much to say about each one. Ever
 
 {% check "Think it through before you open the answers." %}
 
-{% q "For the funder, the sentence comparing the clinic to the county's uninsured rate sounded modest. Why was it the wrong one to sign?" %}
-Because nothing in the data supports it. The file holds clinic visits, not the county's population, so there is no county rate to compare against. A claim does not have to sound bold to be unsupported. A small, reasonable-sounding comparison is easier to let through than a dramatic one, and the funder will repeat it as fact. Check every comparison in a sentence against the evidence, not just the numbers.
+{% q "Ask AI to make your summary clearer or more persuasive for the board. Which way does the dial move, and what would you check before you send it?" %}
+Up. A request to persuade reads to AI as a request for confidence, so suggestions become conclusions and patterns pick up reasons: *indicating*, *demonstrating*, *driven by*, *because*. The numbers usually come through untouched, which is what makes the change easy to miss. Before you send it, read the verbs and the closing clauses, not just the numbers, and hold each claim against what the data shows. If a sentence now says why something happened, or what the board should do, find the evidence for it or take it back down.
 {% endq %}
 
-{% q "The right setting was different each time: interpret the return rate, report the headcount, recommend a next step on the missing counties. What decided it?" %}
-Two things: what the reader has to decide, and how far the evidence reaches. The board is weighing a hire, so it needs to know what the number bears on, but a return rate cannot show that a coordinator would help. The funder needs a count it can check, and what that count means is the funder's call. The missing counties are a fact about the records themselves, so a next step follows directly. Neither caution nor confidence is the rule. The evidence and the reader set the dial.
+{% q "Under-claiming feels like the safe choice. What does it cost the reader?" %}
+It leaves them to do the interpreting, with less context than you have. A board that reads "41% of patients had a return visit within 30 days" has to work out on its own whether that bears on the hire, and it may decide wrong, or not decide at all. You saw the data, the definitions, and what is missing. They did not. Hedging until a sentence says nothing does not remove the judgment. It hands it to the person least equipped to make it.
 {% endq %}
 
 {% endcheck %}
