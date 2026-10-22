@@ -223,9 +223,3 @@ The notebook from the video: each prompt she gave her AI tool, the code it retur
 ### Before You Continue
 
 You now have a list of what is wrong with the file. In Part 4, you will fix those problems and build the new columns your question needs, and you will find that every fix is a decision.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

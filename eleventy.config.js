@@ -269,24 +269,38 @@ ${pre}</details>`;
     return `<div class="notebook"><h4>${inline(title)}</h4>\n${block(content)}\n${link}</div>`;
   });
 
-  /* {% feedback %} with no arguments. The Tally form's hidden "module" and
-     "part" fields get the unit label and page title, so responses stay
-     readable if numbering ever changes. */
+  /* Student feedback goes to one Tally form. Its hidden "module" and "part"
+     fields get the unit label and page title, so responses stay readable if
+     numbering ever changes; the top-bar dialog also adds "section". */
   const TALLY_FORM = "NpxLEO";
-  eleventyConfig.addShortcode("feedback", function () {
-    const unit = this.ctx.module ? this.ctx.module.label : "";
-    const part = this.ctx.order === 0 ? `${this.ctx.title} (overview)` : this.ctx.title;
-    const q = [
-      "alignLeft=1",
-      "hideTitle=1",
-      "transparentBackground=1",
-      "dynamicHeight=1",
-      `module=${encodeURIComponent(unit)}`,
-      `part=${encodeURIComponent(part)}`,
-    ].join("&");
+  const tallySrc = (ctx, part) => `https://tally.so/embed/${TALLY_FORM}?` + [
+    "alignLeft=1",
+    "hideTitle=1",
+    "transparentBackground=1",
+    "dynamicHeight=1",
+    `module=${encodeURIComponent(ctx.module ? ctx.module.label : "")}`,
+    `part=${encodeURIComponent(part)}`,
+  ].join("&");
+  const pagePart = (ctx) => (ctx.order === 0 ? `${ctx.title} (overview)` : ctx.title);
+
+  /* {% feedback "module" %}: the form inline, for the one closing section at
+     the end of a module. Without "module" it is tagged with the page. */
+  eleventyConfig.addShortcode("feedback", function (scope = "") {
+    const part = scope === "module" ? "Whole module" : pagePart(this.ctx);
     return `<div class="tally-embed-wrapper">
-<iframe data-tally-src="https://tally.so/embed/${TALLY_FORM}?${q}" loading="lazy" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0" title="Course feedback"></iframe>
+<iframe data-tally-src="${tallySrc(this.ctx, part)}" loading="lazy" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0" title="Course feedback"></iframe>
 </div>`;
+  });
+
+  /* {% feedbackButton %}: the top-bar button and the dialog it opens. site.js
+     loads the form on first open and adds the section on screen. */
+  eleventyConfig.addShortcode("feedbackButton", function () {
+    return `<button type="button" class="feedback-btn" data-feedback-open>Feedback</button>
+<dialog class="feedback-dialog" data-feedback data-src="${attr(tallySrc(this.ctx, pagePart(this.ctx)))}" aria-label="Feedback on this page">
+<div class="feedback-head"><p class="feedback-title">Feedback on this page</p><button type="button" class="feedback-close" aria-label="Close" data-feedback-close>×</button></div>
+<p class="feedback-note">What confused you, or what worked? Your note is tagged with this page and the section you are on.</p>
+<div class="feedback-frame"><iframe title="Course feedback" width="100%" height="380" frameborder="0" marginheight="0" marginwidth="0"></iframe></div>
+</dialog>`;
   });
 
   return {

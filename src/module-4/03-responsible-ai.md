@@ -94,9 +94,3 @@ AI does not absorb professional responsibility. Responsible data practice requir
 ### Before You Continue
 
 The rules and technologies will continue to change. That is why the final part of this module focuses on what is changing in data work and which responsibilities remain central even as AI becomes more capable.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

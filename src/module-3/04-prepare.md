@@ -184,9 +184,3 @@ Her decision for each section, the prompt that produced the code, the output, an
 ### Before You Continue
 
 You now have a cleaned dataset and a record of every decision that shaped it. In Part 5, you will use it to answer the question from your brief, and then check who might be missing from the answer.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

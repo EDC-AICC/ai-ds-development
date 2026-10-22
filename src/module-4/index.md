@@ -36,9 +36,3 @@ Finally, you will look ahead through the perspectives of practicing data profess
 Here is what you will explore in Module 4. Each part builds toward a final hands-on lab, Prompt, Polish, Present, and Audit, in which you will create, refine, and evaluate an AI-supported communication product.
 
 {% figure "module4-roadmap.svg", "Module 4 roadmap. Part 1, Creating and Auditing AI-Assisted Visualizations: use AI to create visualizations, then verify that they are accurate, clear, accessible, and faithful to the data, about 60 minutes. Part 2, Communicating Insights for Different Audiences: adapt visualizations, summaries, and dashboards to audience needs without going beyond the evidence, about 60 minutes. Part 3, Responsible AI in Data Practice: examine accountability, privacy, bias, authenticity, intellectual property, regulation, and environmental impacts, about 60 minutes. Part 4, Looking Ahead: What Data Practitioners See Coming: explore practitioner trends, then bring the module together in a final communication and audit activity, about 45 minutes." %}
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

@@ -149,9 +149,3 @@ A useful visualization begins with a communication goal, not a plotting command.
 ### Before You Continue
 
 A chart is only one layer of communication. Next, you will use the same evidence to communicate with people who have different roles, needs, and levels of technical knowledge.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

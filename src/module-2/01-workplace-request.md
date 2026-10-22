@@ -200,9 +200,3 @@ Do not assume AI's priorities are correct. Decide which questions **you** would 
 ### Before You Continue
 
 Framing the problem is an important first step, but you cannot do it well without understanding **the people involved**. Different people may use the results, approve decisions, manage the data, or experience the consequences of what you recommend. Next, you will look more closely at those different roles.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

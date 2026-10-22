@@ -127,9 +127,3 @@ AI should not decide whose access is important enough to protect or what tradeof
 ### Before You Continue
 
 You now have a clearer problem, know who needs to be considered, and have defined what success might look like. The next question is: **Do you actually have the information you need to solve the problem responsibly?** Having data does not automatically mean you have the **right** data, or that you can appropriately use it.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

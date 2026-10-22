@@ -178,9 +178,3 @@ Her five investigations, each with its metrics, the pitfalls she caught in the o
 ### Before You Continue
 
 You now have findings you can defend. In Part 6, you will turn them into something the director and the board can read, understand, and act on.
-
-{% section "Feedback", "feedback" %}
-
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
-
-{% feedback %}

@@ -93,8 +93,8 @@ What knowledge and judgment do I need to contribute?
 
 In Module 3, you carried a problem through the data itself. In **Module 4: Communicating Insights, Responsible AI, and Future Trends**, you will go further with the last stage. You will practice communicating data findings through visualizations, summaries, dashboards, and presentations, thinking about who your audience is and how to avoid presenting data in a misleading way. You will also look at the larger questions that come with using AI in data work, including privacy, bias, accountability, and regulation, and at how data jobs are changing as AI tools evolve.
 
-{% section "Feedback", "feedback" %}
+{% section "Feedback on This Module", "module-feedback" %}
 
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
+This module is a draft, and what you write here shapes the next revision. Looking back over the whole module, what worked, what confused you, and what would you change? For a thought about one particular page, use the Feedback button at the top of that page.
 
-{% feedback %}
+{% feedback "module" %}

@@ -107,7 +107,7 @@ Plain HTML is allowed where markdown falls short.
 | `{% notebook "Title", "file.ipynb" %}…{% endnotebook %}` | Colab link for a notebook in `notebooks/`. |
 | `{% slot "video", "note", "180px" %}` | Placeholder for something not built yet. Kinds: activity, video, notebook, figure, lesson. |
 | `{% todo %}…{% endtodo %}` | Author note, shown muted. |
-| `{% feedback %}` | Feedback form. Fills in the unit and page automatically. |
+| `{% feedback "module" %}` | Feedback form for a module's closing "Feedback on This Module" section, the last section of its last page. Every page also has a Feedback button in the top bar that opens the same form tagged with the module, page and section. |
 
 Snippets are defined in `eleventy.config.js`. Markdown works inside paired snippets.
 

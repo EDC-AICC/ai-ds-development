@@ -257,8 +257,8 @@ Possible categories include:
 | **Most important limitation** | Where was AI too general, incorrect, incomplete, biased, or based on an invented assumption? |
 | **Human decision** | What did you decide, and what evidence or stakeholder input supported your decision? |
 
-{% section "Feedback", "feedback" %}
+{% section "Feedback on This Module", "module-feedback" %}
 
-This module is a draft, and what you write here shapes the next revision. A sentence about what confused you, or what worked, is enough.
+This module is a draft, and what you write here shapes the next revision. Looking back over the whole module, what worked, what confused you, and what would you change? For a thought about one particular page, use the Feedback button at the top of that page.
 
-{% feedback %}
+{% feedback "module" %}
