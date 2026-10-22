@@ -79,9 +79,8 @@
   .cd-notch:disabled{cursor:default}
   .cd-notch.ref{border-color:var(--good); box-shadow:0 0 0 3px var(--good-soft)}
   .cd-notch.ref[aria-checked="false"]{color:var(--good)}
-  .cd-scale{display:grid; grid-template-columns:repeat(5,1fr); margin:.2rem 0 0; font-family:var(--mono); font-size:.6rem;
-    letter-spacing:.04em; text-transform:uppercase; color:var(--slate); text-align:center; line-height:1.3}
-  .cd-scale span{padding:0 .15rem}
+  .cd-ends{display:flex; justify-content:space-between; font-family:var(--mono); font-size:.6rem;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--slate); margin:.15rem 0 0}
 
   /* Feedback */
   .cd-verdict{font-size:.85rem; color:var(--slate); border-left:3px solid var(--accent);
@@ -145,9 +144,9 @@
   "use strict";
   const $ = (id)=>document.getElementById(id);
 
-  /* One scale on every dial: 1 vague, 2 reports, 3 interprets, 4 concludes or recommends,
-     5 claims a cause. Within a finding the sentences share one shape, so the claim sits in the
-     verb or the closing clause. The reference moves with the reader and the evidence. */
+  /* Each dial runs from claiming least (1) to most (5). Within a finding the sentences share
+     one shape, so the claim sits in the verb or the closing clause, not the length. The notches
+     carry no names, and the reference moves with the reader and the evidence. */
   const FINDINGS = [
     {
       name:"30-day returns",
@@ -164,15 +163,15 @@
         "Whether a coordinator would change the rate"
       ],
       notches:[
-        {t:"Repeat visits were common in 2022–2023.", tag:"Vague",
+        {t:"Repeat visits were common in 2022–2023.",
          why:"No number, nothing to check. The board can't weigh \"common\" against the cost of a hire."},
-        {t:"41% of patients (82 of 200) had a return visit within 30 days.", tag:"Reports",
+        {t:"41% of patients (82 of 200) had a return visit within 30 days.",
          why:"It leaves the board's question open: does this bear on the hire?"},
-        {t:"41% of patients had a return visit within 30 days, which suggests care coordination is worth evaluating.", tag:"Interprets",
+        {t:"41% of patients had a return visit within 30 days, which suggests care coordination is worth evaluating.",
          why:"The number and what it means for the board's decision. \"Suggests … worth evaluating\" is as far as a return rate can go."},
-        {t:"41% of patients had a return visit within 30 days, indicating a need for a dedicated care coordinator.", tag:"Concludes",
+        {t:"41% of patients had a return visit within 30 days, indicating a need for a dedicated care coordinator.",
          why:"\"Indicating a need\" makes the board's decision for it. A return rate can't show that a coordinator would change it."},
-        {t:"41% of patients had a return visit within 30 days, driven by gaps in care coordination.", tag:"Claims a cause",
+        {t:"41% of patients had a return visit within 30 days, driven by gaps in care coordination.",
          why:"\"Driven by\" names a cause. The data shows that patients came back, not why."}
       ]
     },
@@ -191,15 +190,15 @@
         "Anyone who never came to the clinic"
       ],
       notches:[
-        {t:"The clinic serves a meaningful number of uninsured patients.", tag:"Vague",
+        {t:"The clinic serves a meaningful number of uninsured patients.",
          why:"\"Meaningful\" can't be checked. The funder needs a count it can verify."},
-        {t:"19 patients (9.5%) had at least one visit recorded as uninsured.", tag:"Reports",
+        {t:"19 patients (9.5%) had at least one visit recorded as uninsured.",
          why:"A count and a share the funder can check against its own records. That answers what they asked."},
-        {t:"19 patients (9.5%) had at least one visit recorded as uninsured, roughly in line with the county's uninsured rate.", tag:"Interprets",
+        {t:"19 patients (9.5%) had at least one visit recorded as uninsured, roughly in line with the county's uninsured rate.",
          why:"It sounds modest, but there is no county rate anywhere in this data. The comparison is made up."},
-        {t:"19 patients (9.5%) had at least one visit recorded as uninsured, demonstrating the clinic's role as a safety net for the county's uninsured.", tag:"Concludes",
+        {t:"19 patients (9.5%) had at least one visit recorded as uninsured, demonstrating the clinic's role as a safety net for the county's uninsured.",
          why:"\"A safety net for the county\" is a claim about everyone uninsured in the county. The data only covers people who came in."},
-        {t:"The clinic is the county's primary source of care for uninsured residents, serving 19 in 2022–2023.", tag:"Claims a certainty",
+        {t:"The clinic is the county's primary source of care for uninsured residents, serving 19 in 2022–2023.",
          why:"\"Primary source\" would need data on every other provider in the county. There is none."}
       ]
     },
@@ -218,21 +217,19 @@
         "Which county needs a coordinator most"
       ],
       notches:[
-        {t:"County data is incomplete.", tag:"Vague",
+        {t:"County data is incomplete.",
          why:"It doesn't say how incomplete, or what that means for placing a coordinator."},
-        {t:"County is missing for 243 of 797 visits (30.5%).", tag:"Reports",
+        {t:"County is missing for 243 of 797 visits (30.5%).",
          why:"The director is deciding where to place someone, and this doesn't say what the gap means for that."},
-        {t:"County is missing for 30.5% of visits (62 patients have none recorded), which suggests county comparisons may not be reliable.", tag:"Interprets",
+        {t:"County is missing for 30.5% of visits (62 patients have none recorded), which suggests county comparisons may not be reliable.",
          why:"Closer, but it ends on a \"may\" and leaves the director without a next step."},
-        {t:"County is missing for 30.5% of visits; we need to understand why before comparing counties.", tag:"Recommends",
+        {t:"County is missing for 30.5% of visits; we need to understand why before comparing counties.",
          why:"The gap is in the records themselves, so understanding it is a next step the data supports. It doesn't guess at a cause, or assume the gap is anyone's to fix."},
-        {t:"County is missing for 30.5% of visits because intake staff skip the field.", tag:"Claims a cause",
+        {t:"County is missing for 30.5% of visits because intake staff skip the field.",
          why:"Nothing in the data says why county is missing. It could be intake, privacy rules, or walk-ins."}
       ]
     }
   ];
-
-  const SCALE = ["Vague","Reports","Interprets","Concludes or recommends","Claims a cause"];
 
   let idx = 0;
   const picks = [0,0,0];
@@ -264,7 +261,7 @@
       <span class="cd-rail" aria-hidden="true"></span>
       ${F.notches.map((n,i)=>`<button class="cd-notch ${done&&i===F.ref?"ref":""}" type="button" role="radio" data-i="${i}"
         aria-checked="${i===p}" tabindex="${i===p?0:-1}" aria-label="Notch ${i+1} of 5" ${done?"disabled":""}>${i+1}</button>`).join("")}
-      </div><div class="cd-scale" aria-hidden="true">${SCALE.map(x=>`<span>${x}</span>`).join("")}</div></div>`;
+      </div><div class="cd-ends"><span>Claims less</span><span>Claims more</span></div></div>`;
 
     if(!done){
       h += `<div class="cd-stephead cd-next"><div class="lead"><p class="cd-stepnote">Try every notch. Then sign the one you would put your name to.</p></div>
@@ -290,7 +287,7 @@
     F.notches.forEach((x,i)=>{
       const isRef = i===F.ref, isMine = i===p;
       h += `<li class="cd-n ${isRef?"ref":""} ${isMine?"mine":""}"><span class="k">${i+1}</span><div>
-        <span class="tg">${x.tag}</span>${isRef?`<span class="mk r">Reference</span>`:""}${isMine?`<span class="mk y">Yours</span>`:""}
+        ${isRef?`<span class="mk r">Reference</span>`:""}${isMine?`<span class="mk y">Yours</span>`:""}
         <p><q>${x.t}</q></p>${isMine?"":`<p>${x.why}</p>`}</div></li>`;
     });
     h += `</ol>`;
@@ -338,7 +335,7 @@
         <p class="cd-stepnote">You set them at ${yours}. The reference is ${refs}.</p>
       </div>${progress()}</div><ul class="cd-sum">`;
     FINDINGS.forEach((F,i)=>{
-      h += `<li class="cd-row"><div class="nm"><b>${F.name}</b><span>${F.notches[picks[i]].tag}${picks[i]===F.ref?"":" · reference: "+F.notches[F.ref].tag.toLowerCase()}</span></div>
+      h += `<li class="cd-row"><div class="nm"><b>${F.name}</b><span>Yours: ${picks[i]+1}${picks[i]===F.ref?", the reference":" · reference: "+(F.ref+1)}</span></div>
         <div class="cd-mini" aria-label="Yours ${picks[i]+1}, reference ${F.ref+1}">${[0,1,2,3,4].map(k=>
           `<i class="${k===picks[i]?"y":""} ${k===F.ref?"r":""}">${k+1}</i>`).join("")}</div></li>`;
     });
