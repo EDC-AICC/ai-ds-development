@@ -10,9 +10,23 @@ Part 3 gave you a list of problems. This part is where you fix them. But cleanin
 
 The second half of this part is building new columns from what you have. A date column becomes a month column and a year column. A visit count per patient becomes a flag for patients who return often. These derived columns are not in the raw file. You create them because the question you settled on in Part 2 cannot be answered without them.
 
-{% section "Try It: Clean One Column", "try-it-clean-one-column" %}
+{% section "Try It: Who Is Left", "try-it-who-is-left" %}
 
-{% slot "activity", "An activity and two check questions, the shape Parts 2 and 3 use. The idea for this part is cleaning one column start to finish, so a fix that quietly drops rows is something the student feels before the notebook asks for one.", "200px" %}
+AI's cleaning script fixes problems the blunt way: any row with a problem goes. Before you make your own cleaning decisions, see what that does to the file.
+
+{% activity "who-is-left.html", "Who is left", "860px" %}
+
+{% check "Think it through before you open the answers." %}
+
+{% q "Dropping the 24 rows with an impossible age or copay removed 3 patients from the file entirely. How can fixing one bad value delete a person?" %}
+Dropping a row removes everything in it, not just the bad value. One patient's age was entered as -5 on all seven of their visits, so every one of those visits had a problem, and all seven went. The visits were real. Only the age was wrong. Blanking the age keeps the patient and their visits, and leaves age missing where it should be. Drop a row when the row itself is wrong. When only a value is wrong, fix or blank the value.
+{% endq %}
+
+{% q "Patient P136 has two rows dated November 12, 2022. Should one of them be removed as a duplicate?" %}
+No. The two rows have different visit IDs, different diagnoses (a general adult exam and acute bronchitis), different providers, and one was in person while the other was telehealth. That is two real visits on the same day. The 15 rows the duplicate switch removes match their originals in every column, including the visit ID, which is what makes them copies. Same patient on the same day is a reason to look, not a reason to delete.
+{% endq %}
+
+{% endcheck %}
 
 {% section "Learn: Cleaning and Feature Engineering", "learn-cleaning-and-feature-engineering" %}
 

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who is left — interactive activity</title>
+<meta name="description" content="AI's cleaning script drops every row with a problem. Choose what each fix does and watch who is left in the clinic file.">
+<link rel="stylesheet" href="../assets/activity/base.css">
+<style>
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.65}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-instructions{
+    display:flex; align-items:center; gap:1rem; padding:.7rem .9rem;
+    font-size:.92rem; color:var(--slate); border-bottom:1px dashed var(--line); background:var(--card);
+  }
+  .a-instr{flex:1; min-width:0}
+  .activity-body{padding:1rem .9rem 1.2rem}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button.btn:disabled{opacity:.45; cursor:default}
+  button.btn.primary:disabled:hover{background:var(--accent)}
+  button.btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .stepnote{font-size:.85rem; color:var(--slate); margin:0 0 .7rem}
+
+  /* ---- switches ---- */
+  .controls{display:grid; grid-template-columns:auto 1fr; gap:.45rem .8rem; align-items:center; margin:0 0 .9rem}
+  .clabel{font-size:.8rem; font-weight:600; color:var(--ink); display:flex; align-items:center; gap:.4rem}
+  .clabel .k{width:10px; height:10px; border-radius:2px; flex:none}
+  .clabel .c{font:400 .7rem var(--mono); color:var(--slate)}
+  .seg{display:inline-flex; flex-wrap:wrap; border:1px solid var(--accent); border-radius:6px; overflow:hidden; justify-self:start; max-width:100%}
+  .seg button{
+    font-family:var(--sans); font-size:.8rem; font-weight:600; color:var(--accent); background:var(--card);
+    border:0; border-left:1px solid var(--accent); padding:.3rem .7rem; cursor:pointer; line-height:1.3;
+  }
+  .seg button:first-child{border-left:0}
+  .seg button:hover{background:var(--accent-soft)}
+  .seg button[aria-pressed="true"]{background:var(--accent); color:#fff}
+  .seg button:focus-visible{outline:2px solid var(--ink); outline-offset:-3px}
+  @media (max-width:430px){
+    .controls{grid-template-columns:1fr; gap:.15rem}
+    .clabel{margin-top:.4rem}
+  }
+
+  /* ---- headline numbers + grid ---- */
+  .head{border:1px solid var(--line); border-radius:8px; padding:.7rem .85rem .8rem; background:#fcfdfe}
+  .stats{display:flex; flex-wrap:wrap; gap:.4rem 1.6rem; margin:0}
+  .stat{display:flex; align-items:baseline; gap:.45rem}
+  .stat .n{font-size:2.3rem; font-weight:700; line-height:1.05; font-variant-numeric:tabular-nums; color:var(--ink)}
+  .stat .of{font-size:.85rem; color:var(--slate); line-height:1.3}
+  .stat .of b{color:var(--ink)}
+  .stat.lost .n{color:var(--warn)}
+  .stat.whole .n{color:var(--good)}
+
+  .grid-wrap{margin:.75rem 0 0}
+  .grid{position:relative; margin:0 auto}
+  .cell{position:absolute; border-radius:1.5px; background:var(--clean);
+    transition:background-color .35s, box-shadow .35s}
+  .cell.dup{background:var(--k-dup)} .cell.bad{background:var(--k-bad)} .cell.noc{background:var(--k-noc)}
+  /* Dropped: an empty outline in the colour of the problem that dropped it. */
+  .cell.x{background:transparent; box-shadow:inset 0 0 0 1px var(--ring)}
+  .legend{display:flex; flex-wrap:wrap; gap:.25rem .9rem; margin:.55rem 0 0; font-size:.74rem; color:var(--slate)}
+  .legend span{display:inline-flex; align-items:center; gap:.35rem}
+  .key{display:inline-block; width:10px; height:10px; border-radius:2px}
+  .key.x{background:transparent; box-shadow:inset 0 0 0 1px #9aa6b2}
+  .cap{font-size:.74rem; color:var(--slate); margin:.2rem 0 0; font-family:var(--mono)}
+  :root{--clean:#cbd3dc; --k-dup:#5d6b7a; --k-bad:var(--warn); --k-noc:var(--accent)}
+
+  .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="activity" id="wl">
+  <div class="activity-instructions">
+    <span class="a-instr">AI's cleaning script drops every row that has a problem. <strong>Decide what each fix
+    should do</strong>, and watch who is left in the file.</span>
+  </div>
+  <div class="activity-body">
+    <p class="stepnote">The switches start where AI's script left them.</p>
+
+    <div class="controls">
+      <span class="clabel" id="l-dup"><i class="k" style="background:var(--k-dup)"></i>Duplicate copies <span class="c">15 rows</span></span>
+      <div class="seg" role="group" aria-labelledby="l-dup" data-key="dup">
+        <button type="button" data-v="1" aria-pressed="true">Remove the copy</button><button type="button" data-v="0" aria-pressed="false">Keep both</button>
+      </div>
+      <span class="clabel" id="l-bad"><i class="k" style="background:var(--k-bad)"></i>Impossible age or copay <span class="c">24 rows</span></span>
+      <div class="seg" role="group" aria-labelledby="l-bad" data-key="bad">
+        <button type="button" data-v="1" aria-pressed="true">Drop the row</button><button type="button" data-v="0" aria-pressed="false">Blank the value</button>
+      </div>
+      <span class="clabel" id="l-noc"><i class="k" style="background:var(--k-noc)"></i>No county <span class="c">248 rows</span></span>
+      <div class="seg" role="group" aria-labelledby="l-noc" data-key="noc">
+        <button type="button" data-v="1" aria-pressed="true">Drop the row</button><button type="button" data-v="0" aria-pressed="false">Keep, flag it</button>
+      </div>
+    </div>
+
+    <div class="head" aria-live="polite">
+      <div class="stats">
+        <p class="stat" id="s-rows"><span class="n" id="n-rows">812</span><span class="of">of <b>812</b><br>rows kept</span></p>
+        <p class="stat" id="s-pats"><span class="n" id="n-pats">200</span><span class="of">of <b>200</b><br>patients still in the file</span></p>
+      </div>
+      <div class="grid-wrap" aria-hidden="true">
+        <div class="grid" id="grid"></div>
+        <p class="cap">Each square is one row of the raw file (812), grouped by problem</p>
+        <div class="legend">
+          <span><i class="key" style="background:var(--k-dup)"></i>Duplicate copy</span>
+          <span><i class="key" style="background:var(--k-bad)"></i>Impossible value</span>
+          <span><i class="key" style="background:var(--k-noc)"></i>No county</span>
+          <span><i class="key" style="background:var(--clean)"></i>No problem</span>
+          <span><i class="key x"></i>Dropped</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (id)=>document.getElementById(id);
+
+  /* One character per row of outpatient_visits.csv, in file order: a bit mask of
+     1 = exact duplicate of an earlier row, 2 = impossible age or negative copay, 4 = no county.
+     PIDS gives each row's patient, two base-62 characters per row. */
+  const CODES = "00044040000400040000040000404040440040000040000000000000400044000040600004004040004040010000460440004000002410000404000005004400040000040004404040004200040454004000440002040000040240040024044000000000000004424000444040040004000400400004040044040400400000004000404000000400400024044040000444444004040010204004000404420040440040004040400040000005000040044042440050000004400200000000000000040000040064000000400000400040040404040404400004440000404240004200040004401444400000000000004400400400000004400120404040000004404044004240400004444000404040040000000240400000400040044044444040044000000040014000001400004040004404004100004440004104000040040460400140000400040000004424404040400400004440000400440000004040000044000000044440400004000000240004400040050444000000400004006440004040000004400000400000000000040400020440";
+  const PIDS = "1M392s130y221v202r1X0V081h1M0C361H0t3a1c1D29300c0w0x0Y0v260R36141p2k1i1X0z0G2X1X0H0c032p0X2g0b2o0U0o0X2V0t2X2V1y2A201M0N2D1p1J2t2d2d111R272B0X0a1c380v2G1Q1x030c0a0k362r2J1Z0b1i1s2c2Z141p1p0o351V1D2x1f1C0V0x2r0w1c2h192p0K092l0a2w1F2P1Y2C2b0c0l362Y2t2z2k1a0d2g02322p1r1b1E2K2j1K0c261v212f1E0P2H2m2C111D3d301k1C2s2z1v192j0E0S1o301I0f1C0u2b0o062t26121s1Z2c0Z2k0m060F1x2n2U322g2h1p0e291S1w1W2l1t2Q0K3b1Y2N150D1x0O1z1N28062A0R00122u362K0v0J0r311P2R1x0d350b1q1a1L1c1e1Q1t1w1k2Y0Y0h2J2p0E1Q080l270K260T0x290H0O2e2Y1x0b2G0Y2d2Z0Z2f0H0S2E0b2q210w2O2L25320s1i2j2p17010b0Q2P0m0P2p1E0b040y290W0W2D2I072s360r1L0r1k072W061h0J2R3d2w1w3114342q0M2v062d230y2Y2U2U2b1t1N2r0Z0h1B1T082M021A1g071C2b141Z2V1T2W1L2E0j0N1h2F0v1n2A012O1C2W0F0s091b1Q1R0D152Q0U2j1N342d0V0b1y0e2n0x0j0C1Y0C1d2C1q0k1W2N321v0V0i0N1m0D2u182r0s0s0A3c1w1E1y1A1B1T1Y0A1h0q0z0x1H2X2D1t071v21050q2L00242H341I280Y371e2G0v28011V1h1j1K1l190h2w06270O2n1m2I201s1Z0x030D0i1t0B2P1k0c2L270B1p221E18091r1j2b1G0h2e071E22292k1h0U1v0X2n1P3d1w1d0h0c3a0v0p0I1l0E092j1n1P1Z2F20190u2W1k0O0l0t340Q10380m2I0Q2Q1b130t1B2S080v1b100N1S0J262u0U1l1x2J0L192q0f0m2W35041I0j0i1M0m0U2h0W2x0z1W2G2B042e0s2e121H2U1d2p2D290E0F1C241v1C1t2z2o0h2f2u3d2C2Y1D2l2d0d270g0m2Q2w2c2M302s1Y2c2F1s0e2a0A020x241G0E1J2438320S0N0w240w1a1G2p32020y28201I0Z1Q2g1k0Y2x2H2c0N16001l110Z2A2A0l36092x0N2D2s0a0A2s162j2T332f1e0R2C0g2t370W1U0i1S0Q1j0S2j1U2S342m1E0F2q1j1I0a01260S1X2V1Z2V0n1K1X2w030G14070C0E0m0J1Z2w39301t2E2R2w1P1D0u091I0O2b2d1U1O0Y081d132t2y2r1y0n33250a0K2Z2s061B0h0u1D2K160t072305300O1S1W1p2A0Q0k0x3c1e1M2Z24142i2n1n1u1A2N0Y0f0I1W0v1Y352b1Q0K1d180G330q0F0y1h2M0a1K39010X0g221x1H0d0C2V2b1t1m2j271z0F1n2q0N2g1Z280J0D";
+  const B62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const ROWS = [];
+  for(let i=0;i<CODES.length;i++){
+    const m = +CODES[i];
+    ROWS.push({m, pid: B62.indexOf(PIDS[2*i])*62 + B62.indexOf(PIDS[2*i+1]),
+      kind: (m&1) ? "dup" : (m&2) ? "bad" : (m&4) ? "noc" : ""});
+  }
+  /* Group the grid by problem: duplicates, impossible values, no county, then clean rows. */
+  const RANK = {dup:0, bad:1, noc:2, "":3};
+  const ORDER = ROWS.map((r,i)=>({r,i})).sort((a,b)=>RANK[a.r.kind]-RANK[b.r.kind] || a.i-b.i).map(x=>x.r);
+
+  const st = {dup:1, bad:1, noc:1};
+  const dropped = (r)=> (st.dup && (r.m&1)) || (st.bad && (r.m&2)) || (st.noc && (r.m&4));
+  /* The problem that drops a row decides its outline colour. */
+  const ringOf = (r)=> (st.dup && (r.m&1)) ? "var(--k-dup)" : (st.bad && (r.m&2)) ? "var(--k-bad)" : "var(--k-noc)";
+
+  const grid = $("grid");
+  const cells = ORDER.map(r=>{ const d=document.createElement("div"); d.className="cell "+r.kind; grid.appendChild(d); return d; });
+  function layout(){
+    const avail = Math.min(470, grid.parentElement.clientWidth);
+    const c = Math.floor(avail/40*100)/100, gap = c < 9 ? 1 : 1.5, sz = c - gap;
+    grid.style.width = (c*40)+"px"; grid.style.height = (c*Math.ceil(ORDER.length/40))+"px";
+    cells.forEach((el,j)=>{
+      el.style.width = sz+"px"; el.style.height = sz+"px";
+      el.style.left = (j%40)*c+"px"; el.style.top = Math.floor(j/40)*c+"px";
+    });
+  }
+
+  function draw(){
+    const kept = new Set(); let rows = 0;
+    ORDER.forEach((r,j)=>{
+      const x = dropped(r);
+      cells[j].classList.toggle("x", !!x);
+      cells[j].style.setProperty("--ring", x ? ringOf(r) : "transparent");
+      if(!x){ rows++; kept.add(r.pid); }
+    });
+    $("n-rows").textContent = rows;
+    $("n-pats").textContent = kept.size;
+    $("s-pats").className = "stat " + (kept.size < 200 ? "lost" : "whole");
+  }
+
+  document.querySelectorAll(".seg").forEach(seg=>{
+    seg.querySelectorAll("button").forEach(b=>b.addEventListener("click", ()=>{
+      st[seg.dataset.key] = +b.dataset.v;
+      seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+      draw();
+    }));
+  });
+
+  let rt; window.addEventListener("resize", ()=>{ clearTimeout(rt); rt = setTimeout(layout, 80); });
+  layout(); draw();
+})();
+</script>
+
+<script src="../assets/activity/embed.js"></script>
+
+</body>
+</html>
