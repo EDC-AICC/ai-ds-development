@@ -19,7 +19,7 @@ AI's cleaning script fixes problems the blunt way: any row with a problem goes. 
 {% check "Think it through before you open the answers." %}
 
 {% q "Blanking the impossible ages and copays keeps those rows, and the patients in them, in the file. What does that cost?" %}
-Those visits now have no age, or no copay, so every calculation that uses those columns runs on fewer values. An average age or a copay breakdown is quietly built from fewer visits than the rest of the analysis, and two patients now have no age on any visit. That is usually the right trade: a gap you can see and explain is better than a patient who disappeared. It is still a cost, though, and it belongs in your decision log and next to any result that leans on those columns.
+Those visits now have no age, or no copay, so every calculation that uses those columns runs on fewer values. An average age or a copay breakdown is built from fewer visits than the rest of the analysis, and two patients now have no age on any visit. That is usually the right trade: a gap you can see and explain is better than a patient who disappeared. It is still a cost, though, and it belongs in your decision log and next to any result that leans on those columns.
 {% endq %}
 
 {% q "Your AI assistant runs a cleaning script. There are no errors, and the data looks clean. How do you know whether anything was lost?" %}
