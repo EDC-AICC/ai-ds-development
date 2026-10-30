@@ -29,9 +29,9 @@ function renderState() {
     : "Review mode is off.";
   const n = store.unexportedCount();
   const total = store.own().length;
-  $("rv-unexported").textContent = total
-    ? `${total} comment${total === 1 ? "" : "s"} of yours` + (n ? `, ${n} not downloaded yet.` : ", all downloaded.")
-    : "You haven't made any comments yet.";
+  $("rv-unexported").textContent = !total ? "You haven't made any comments yet."
+    : `${total} comment${total === 1 ? "" : "s"} of yours` +
+      (store.status ? ", on the shared server." : n ? `, ${n} not downloaded yet.` : ", all downloaded.");
 }
 
 function renderTable() {
