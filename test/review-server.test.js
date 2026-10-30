@@ -138,8 +138,6 @@ test("marks survive a restart", async () => {
   await again.close();
 });
 
-/* Marks imported from review files have no owner secret yet; the browser that
-   made them claims them by sending its reviewerId with its own secret. */
 const reviewFile = (marks, name = "review-sam.json") =>
   ({ name, text: JSON.stringify({ format: "aids-review", formatVersion: 1, reviewer: "Sam", reviewerId: "r-a", marks }) });
 const as = (reviewer) => (url, m, owner, id = m.id) => fetch(`${url}/marks/${id}`, {
@@ -179,7 +177,6 @@ test("an imported mark can be claimed only by its own reviewer", async () => {
   assert.equal((await as("r-b")(s.url, mark({ reviewerId: "r-b", comment: "hijack" }), "owner-b")).status, 403);
   assert.equal((await delAs("r-b")(s.url, "m1", "owner-b")).status, 403);
   assert.equal((await as("r-a")(s.url, mark({ comment: "mine" }), "owner-a")).status, 200);
-  /* claimed: from now on only that browser's secret works */
   assert.equal((await as("r-a")(s.url, mark({ comment: "again" }), "owner-c")).status, 403);
   assert.equal((await put(s.url, mark({ comment: "edited" }), "owner-a")).status, 200);
   assert.equal((await delAs("r-a")(s.url, "m2", "owner-a")).status, 204);

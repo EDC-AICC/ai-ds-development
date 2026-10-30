@@ -8,10 +8,6 @@
    changed or deleted with the secret that created it. Only a SHA-256 of that
    secret is stored, and it is never sent back out.
 
-   Marks imported from review files (node server.js import …) have no secret
-   yet. The browser that made them claims each one on its first write, by
-   sending its own reviewerId (X-Review-Reviewer) with its secret.
-
    Run: REVIEW_KEY=… node server.js   (see README.md for the other settings) */
 
 import http from "node:http";
@@ -24,8 +20,7 @@ import { DatabaseSync } from "node:sqlite";
 const MAX_BODY = 64 * 1024;
 const KINDS = ["comment", "suggest", "activity"];
 const HEARTBEAT_MS = 25000;
-/* The owner_hash of an imported mark. A SHA-256 is 64 hex digits, so no
-   secret ever hashes to this. */
+/* owner_hash of an imported mark; no SHA-256 hex digest equals it */
 const IMPORTED = "imported";
 
 const hash = (s) => createHash("sha256").update(String(s)).digest("hex");
@@ -57,9 +52,7 @@ function validMark(m, id) {
     ["reviewer", "src", "section", "activity", "comment", "replacement", "version"].every((k) => optStr(m[k]));
 }
 
-/* Adds the marks in review files (downloaded from /review/) that the
-   database doesn't have yet. A mark already there is left as it is, since
-   the server's copy is the live one. files: [{ name, text }]. */
+/* Marks already in the database are skipped: the server's copy is the live one. */
 export function importFiles(dbPath, files) {
   const db = openDb(dbPath);
   const has = db.prepare("SELECT 1 FROM marks WHERE id = ?");
@@ -95,8 +88,6 @@ export function createServer({ key, dbPath, origins = [] }) {
   const q = {
     all: db.prepare("SELECT data FROM marks ORDER BY updated"),
     owner: db.prepare("SELECT owner_hash, data FROM marks WHERE id = ?"),
-    /* the owner is checked before this runs, and a claimed import takes the
-       claimant's secret */
     upsert: db.prepare(`INSERT INTO marks (id, owner_hash, data, updated) VALUES (?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET owner_hash = excluded.owner_hash, data = excluded.data, updated = excluded.updated`),
     remove: db.prepare("DELETE FROM marks WHERE id = ?"),
@@ -181,8 +172,8 @@ export function createServer({ key, dbPath, origins = [] }) {
     const owner = req.headers["x-review-owner"];
     if (typeof owner !== "string" || !owner) return send(res, 400, { error: "missing owner" });
     const existing = q.owner.get(id);
-    /* An imported mark belongs to whoever sends its reviewerId; any other
-       mark to the secret that made it. */
+    /* An imported mark has no secret yet, so the first write from its
+       reviewerId claims it. */
     const reviewer = req.headers["x-review-reviewer"];
     const imported = existing && existing.owner_hash === IMPORTED;
     if (imported ? reviewer !== JSON.parse(existing.data).reviewerId : existing && existing.owner_hash !== hash(owner)) {
@@ -221,7 +212,7 @@ export function createServer({ key, dbPath, origins = [] }) {
   return server;
 }
 
-/* Run directly: node server.js, or node server.js import <review files…> */
+/* Run directly: node server.js, or node server.js import <files> */
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href && process.argv[2] === "import") {
   const dbPath = process.env.REVIEW_DB || "./tools/review.db";
   const names = process.argv.slice(3);

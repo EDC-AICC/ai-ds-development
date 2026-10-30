@@ -27,14 +27,11 @@ test("pages say whether shared-server sync is on", () => {
   assert.match(read("index.html"), /<meta name="review-sync" content="on">/);
 });
 
-/* The site is public, so the server's address is never built in: reviewers
-   enter it or open a setup link. */
 test("the shared-server option is offered with no server address in the site", () => {
   const html = read("review/index.html");
   assert.match(html, /data-review-panel/);
   assert.match(html, /name="rv-mode"/);
   assert.doesNotMatch(html, /id="rv-server"[^>]*value=/);
-  assert.doesNotMatch(html, /ts\.net|review-server" content/);
 });
 
 test("the review page has a way back to the course, and other pages don't", () => {

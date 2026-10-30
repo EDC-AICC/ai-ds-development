@@ -31,9 +31,7 @@ you make them. Otherwise, download your review file when you're done and send it
   </div>
 </section>
 
-{#- Shared-server sync shows only when site.json turns it on (reviewSync). The
-    server's address is never in the site: reviewers enter it or open a setup
-    link. See review-server/README.md. #}
+{#- Turned on by reviewSync in site.json; see review-server/README.md. #}
 {%- if site.reviewSync %}
 <section class="rv-group">
   <h2>Where comments are saved</h2>

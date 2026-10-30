@@ -5,9 +5,7 @@ import { SyncStore } from "./sync.js";
 
 const SYNC = "aids-review-sync";
 
-/* { mode: "local"|"sync", server, passcode }. The server's address is never
-   built into the site, which is public: each reviewer enters it on /review/
-   or opens a setup link. */
+/* { mode: "local"|"sync", server, passcode } */
 export function syncSettings() {
   let s = {};
   try { s = JSON.parse(localStorage.getItem(SYNC)) || {}; } catch (e) {}
@@ -17,9 +15,7 @@ export function saveSyncSettings(s) {
   try { localStorage.setItem(SYNC, JSON.stringify(s)); } catch (e) {}
 }
 
-/* A setup link is /review/#server=…&key=…, which sets a reviewer up for the
-   shared server in one click. What follows # never leaves the browser, so
-   the address and passcode stay out of GitHub's logs. */
+/* /review/#server=…&key=…; the part after # never reaches the web server. */
 export function setupLink(pageUrl, { server, passcode }) {
   return pageUrl.split("#")[0] + "#" + new URLSearchParams({ server, key: passcode });
 }
@@ -34,9 +30,8 @@ export function parseSetupLink(hash) {
   return { mode: "sync", server, passcode: p.get("key") || "" };
 }
 
-/* Sync is off unless the site was built with it (site.json reviewSync). A
-   browser left in sync mode from earlier falls back to local; its comments
-   are all still here. */
+/* A browser left in sync mode while the site has sync off falls back to
+   local; its comments are all still here. */
 export function syncEnabled() {
   const meta = document.querySelector('meta[name="review-sync"]');
   return !!(meta && meta.content);

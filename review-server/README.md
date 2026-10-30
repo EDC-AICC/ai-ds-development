@@ -83,24 +83,11 @@ switches that browser to the local server.
    curl http://127.0.0.1:8090/health
    ```
 
-4. Put it behind Caddy. Pick one.
-
-   **Its own subdomain.** Add a DNS A record for `reviews.kellerflint.com` pointing at the
-   server, then add to the Caddyfile:
+4. Put it behind an HTTPS reverse proxy. With Caddy, point a DNS record such as
+   `reviews.example.com` at the server and add to the Caddyfile:
 
    ```
-   reviews.kellerflint.com {
-       reverse_proxy 127.0.0.1:8090 {
-           flush_interval -1
-       }
-   }
-   ```
-
-   **A path on the existing site.** No DNS change. Inside the existing
-   `courses.kellerflint.com { … }` block:
-
-   ```
-   handle_path /review-api/* {
+   reviews.example.com {
        reverse_proxy 127.0.0.1:8090 {
            flush_interval -1
        }
@@ -109,15 +96,6 @@ switches that browser to the local server.
 
    `flush_interval -1` keeps the live stream from being buffered. Reload with
    `sudo systemctl reload caddy`.
-
-   **Tailscale Funnel.** No DNS or Caddy, on a machine in a tailnet that allows Funnel. Pick
-   a Funnel port (443, 8443 or 10000) the machine isn't already funneling:
-
-   ```bash
-   sudo tailscale funnel --bg --https=8443 http://127.0.0.1:8090
-   ```
-
-   The address is `https://<machine>.<tailnet>.ts.net:8443`.
 
 5. Check `reviewSync` is `true` in `src/_data/site.json`; that is what shows the **Shared
    server** option on `/review/`. The server's address never goes in the repo, since the site
