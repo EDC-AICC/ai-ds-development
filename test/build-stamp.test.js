@@ -37,6 +37,11 @@ test("the shared-server option is offered with no server address in the site", (
   assert.doesNotMatch(html, /ts\.net|review-server" content/);
 });
 
+test("the review page has a way back to the course, and other pages don't", () => {
+  assert.match(read("review/index.html"), /class="back-link" href="\/"/);
+  assert.doesNotMatch(read("index.html"), /class="back-link"/);
+});
+
 test("the home page links to review mode under instructor resources", () => {
   const html = read("index.html");
   assert.match(html, /Instructor resources/);

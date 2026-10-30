@@ -1,6 +1,6 @@
 /* Review mode: the /review/ control page. */
 
-import { openStore, pageUrl, parseSetupLink, saveSyncSettings, setupLink, syncSettings } from "./open.js";
+import { openStore, pageUrl, parseSetupLink, saveSyncSettings, setupLink, siteBase, syncSettings } from "./open.js";
 import { KIND_LABEL, colorClass, downloadJson, esc, loadMessage, markBody, readFiles, reviewerChips } from "./ui.js";
 
 /* A setup link switches this browser to the shared server before the store
@@ -11,6 +11,16 @@ if (fromLink) {
   history.replaceState(null, "", location.pathname + location.search);
 }
 const store = openStore();
+
+/* Back to the course page the reviewer came from, if it was one; the link
+   already points at the home page otherwise. */
+const back = document.querySelector("[data-back-link]");
+try {
+  const from = new URL(document.referrer);
+  if (back && from.origin === location.origin && from.pathname.startsWith(siteBase()) && from.pathname !== location.pathname) {
+    back.href = from.pathname + from.search + from.hash;
+  }
+} catch (e) { /* no referrer: stay with the home page */ }
 const $ = (id) => document.getElementById(id);
 const hidden = new Set();
 
