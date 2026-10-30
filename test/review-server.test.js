@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createServer } from "../review-server/server.js";
+import { createServer, importFiles } from "../review-server/server.js";
 
 const KEY = "test-pass";
 const dir = mkdtempSync(join(tmpdir(), "aids-review-"));
@@ -136,4 +136,54 @@ test("marks survive a restart", async () => {
   const again = await start(s.dbPath);
   assert.equal((await (await list(again.url)).json()).marks.length, 1);
   await again.close();
+});
+
+/* Marks imported from review files have no owner secret yet; the browser that
+   made them claims them by sending its reviewerId with its own secret. */
+const reviewFile = (marks, name = "review-sam.json") =>
+  ({ name, text: JSON.stringify({ format: "aids-review", formatVersion: 1, reviewer: "Sam", reviewerId: "r-a", marks }) });
+const as = (reviewer) => (url, m, owner, id = m.id) => fetch(`${url}/marks/${id}`, {
+  method: "PUT",
+  headers: { "Content-Type": "application/json", "X-Review-Key": KEY, "X-Review-Owner": owner, "X-Review-Reviewer": reviewer },
+  body: JSON.stringify(m),
+});
+const delAs = (reviewer) => (url, id, owner) => fetch(`${url}/marks/${id}`, {
+  method: "DELETE", headers: { "X-Review-Key": KEY, "X-Review-Owner": owner, "X-Review-Reviewer": reviewer },
+});
+
+test("importing review files adds new marks and leaves existing ones alone", async () => {
+  const s = await start();
+  await put(s.url, mark({ comment: "live" }), "owner-a");
+  const r = importFiles(s.dbPath, [
+    reviewFile([mark({ comment: "old copy" }), mark({ id: "m2", ownerToken: "secret" })]),
+    { name: "notes.txt", text: "not json" },
+    { name: "other.json", text: JSON.stringify({ format: "something-else" }) },
+    reviewFile([mark({ id: "m3", page: "javascript:x" })], "damaged.json"),
+  ]);
+  assert.equal(r.added, 1);
+  assert.equal(r.skipped, 1);
+  assert.equal(r.errors.length, 3);
+  const text = await (await list(s.url)).text();
+  const marks = JSON.parse(text).marks;
+  assert.deepEqual(marks.map((m) => m.id).sort(), ["m1", "m2"]);
+  assert.equal(marks.find((m) => m.id === "m1").comment, "live");
+  assert.ok(!text.includes("secret"));
+  await s.close();
+});
+
+test("an imported mark can be claimed only by its own reviewer", async () => {
+  const s = await start();
+  importFiles(s.dbPath, [reviewFile([mark(), mark({ id: "m2" })])]);
+  assert.equal((await put(s.url, mark({ comment: "hijack" }), "owner-b")).status, 403);
+  assert.equal((await as("r-b")(s.url, mark({ comment: "hijack" }), "owner-b")).status, 403);
+  assert.equal((await as("r-b")(s.url, mark({ reviewerId: "r-b", comment: "hijack" }), "owner-b")).status, 403);
+  assert.equal((await delAs("r-b")(s.url, "m1", "owner-b")).status, 403);
+  assert.equal((await as("r-a")(s.url, mark({ comment: "mine" }), "owner-a")).status, 200);
+  /* claimed: from now on only that browser's secret works */
+  assert.equal((await as("r-a")(s.url, mark({ comment: "again" }), "owner-c")).status, 403);
+  assert.equal((await put(s.url, mark({ comment: "edited" }), "owner-a")).status, 200);
+  assert.equal((await delAs("r-a")(s.url, "m2", "owner-a")).status, 204);
+  const marks = (await (await list(s.url)).json()).marks;
+  assert.deepEqual(marks.map((m) => [m.id, m.comment]), [["m1", "edited"]]);
+  await s.close();
 });

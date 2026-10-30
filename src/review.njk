@@ -5,8 +5,7 @@ eleventyExcludeFromCollections: true
 title: Review mode
 kicker: AI in Data Science · for course staff
 standfirst: >
-  Leave comments and suggested edits directly on the course pages, then send your review
-  file to the author.
+  Leave comments and suggested edits directly on the course pages.
 description: Comment on and suggest edits to the course pages.
 ---
 <link rel="stylesheet" href="{{ '/assets/review/review.css' | url }}">
@@ -15,8 +14,10 @@ description: Comment on and suggest edits to the course pages.
 
 <p>Turn review mode on, then read the course as usual. Select any text to leave a comment or
 suggest a rewording. Each activity has a button for comments on the activity as a whole.
-Your comments are saved in this browser as you go. When you're done, download your review
-file and send it to the author.</p>
+Your comments are saved in this browser as you go.
+{%- if site.reviewSync %} On the shared server, everyone with the passcode also sees them as
+you make them. Otherwise, download your review file when you're done and send it to the author.
+{%- else %} When you're done, download your review file and send it to the author.{% endif %}</p>
 
 <section class="rv-group">
   <h2>You</h2>
@@ -29,9 +30,10 @@ file and send it to the author.</p>
   </div>
 </section>
 
-{#- Shared-server sync stays hidden until site.json names a server
-    (reviewServer); see review-server/README.md. #}
-{%- if site.reviewServer %}
+{#- Shared-server sync shows only when site.json turns it on (reviewSync). The
+    server's address is never in the site: reviewers enter it or open a setup
+    link. See review-server/README.md. #}
+{%- if site.reviewSync %}
 <section class="rv-group">
   <h2>Where comments are saved</h2>
   <label class="rv-choice"><input type="radio" name="rv-mode" value="local" checked> This browser only.
@@ -39,12 +41,16 @@ file and send it to the author.</p>
   <label class="rv-choice"><input type="radio" name="rv-mode" value="sync"> Shared server.
     Everyone with the passcode sees each other's comments as they're made.</label>
   <div id="rv-sync" class="rv-sync" hidden>
+    <p class="rv-help">The author sends you a setup link that fills these in. You can also
+    paste them yourself.</p>
     <label class="rv-field">Server address <input id="rv-server" type="url" placeholder="https://…"></label>
     <label class="rv-field">Passcode <input id="rv-passcode" type="password" autocomplete="off"></label>
     <div class="rv-row">
       <button id="rv-test" class="rv-btn" type="button">Test connection</button>
-      <span id="rv-test-result" class="rv-help"></span>
+      <button id="rv-copy-link" class="rv-btn" type="button">Copy setup link</button>
+      <span id="rv-test-result" class="rv-help" role="status"></span>
     </div>
+    <p class="rv-help">A setup link includes the passcode, so send it only to reviewers.</p>
   </div>
 </section>
 {%- endif %}

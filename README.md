@@ -134,11 +134,13 @@ Comments are saved in the reviewer's browser. **Download** makes a review file
 and the site version it was made against. **Load** shows any number of those files on the page at
 once, one color per reviewer, without mixing them into your own download.
 
-With the optional sync server, reviewers see each other's comments as they're made instead. It is
-off until `reviewServer` in `src/_data/site.json` names a server; until then `/review/` doesn't
-offer it. To try it locally, set `reviewServer` to `http://127.0.0.1:8090`, run
-`npm run review-server` (passcode `review`) and choose **Shared server** on `/review/`.
-`review-server/README.md` covers deploying it.
+With the optional sync server, reviewers see each other's comments as they're made instead.
+`/review/` offers it while `reviewSync` in `src/_data/site.json` is `true`. The server's address
+is never built into the site, which is public: reviewers enter it with the passcode, or open a
+setup link (`/review/#server=…&key=…`, made with **Copy setup link**) that fills both in. To try
+it locally, run `npm run review-server` (passcode `review`) and open
+`/review/#server=http://127.0.0.1:8090&key=review`. `review-server/README.md` covers deploying
+it and importing review files people downloaded before it existed.
 
 `npm test` runs the tests for the review logic, the stores and the server.
 

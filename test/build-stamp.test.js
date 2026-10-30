@@ -23,14 +23,18 @@ test("base-layout pages are review roots too", () => {
   assert.match(read("index.html"), /data-review-root/);
 });
 
-test("pages carry the review server meta tag", () => {
-  assert.match(read("index.html"), /<meta name="review-server" content="[^"]*">/);
+test("pages say whether shared-server sync is on", () => {
+  assert.match(read("index.html"), /<meta name="review-sync" content="on">/);
 });
 
-test("the shared-server option is hidden until a review server is configured", () => {
+/* The site is public, so the server's address is never built in: reviewers
+   enter it or open a setup link. */
+test("the shared-server option is offered with no server address in the site", () => {
   const html = read("review/index.html");
   assert.match(html, /data-review-panel/);
-  assert.doesNotMatch(html, /name="rv-mode"/);
+  assert.match(html, /name="rv-mode"/);
+  assert.doesNotMatch(html, /id="rv-server"[^>]*value=/);
+  assert.doesNotMatch(html, /ts\.net|review-server" content/);
 });
 
 test("the home page links to review mode under instructor resources", () => {

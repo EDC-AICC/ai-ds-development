@@ -1,8 +1,15 @@
 /* Review mode: the /review/ control page. */
 
-import { openStore, pageUrl, saveSyncSettings, syncSettings } from "./open.js";
+import { openStore, pageUrl, parseSetupLink, saveSyncSettings, setupLink, syncSettings } from "./open.js";
 import { KIND_LABEL, colorClass, downloadJson, esc, loadMessage, markBody, readFiles, reviewerChips } from "./ui.js";
 
+/* A setup link switches this browser to the shared server before the store
+   opens, then is wiped from the address bar and history. */
+const fromLink = parseSetupLink(location.hash);
+if (fromLink) {
+  saveSyncSettings(fromLink);
+  history.replaceState(null, "", location.pathname + location.search);
+}
 const store = openStore();
 const $ = (id) => document.getElementById(id);
 const hidden = new Set();
@@ -91,7 +98,7 @@ document.querySelectorAll("input[name=rv-mode]").forEach((r) => r.addEventListen
 $("rv-server").addEventListener("change", () => storeSettings(true));
 $("rv-passcode").addEventListener("change", () => storeSettings(true));
 /* A plain request, so testing never changes what's stored. */
-$("rv-test").addEventListener("click", async () => {
+async function testConnection() {
   const out = $("rv-test-result");
   const server = $("rv-server").value.trim().replace(/\/+$/, "");
   out.textContent = "Checking…";
@@ -106,7 +113,20 @@ $("rv-test").addEventListener("click", async () => {
   } catch (e) {
     out.textContent = "Couldn't reach that address.";
   }
+}
+$("rv-test").addEventListener("click", testConnection);
+$("rv-copy-link").addEventListener("click", async () => {
+  const out = $("rv-test-result");
+  const server = $("rv-server").value.trim();
+  if (!server) { out.textContent = "Enter the server address first."; return; }
+  try {
+    await navigator.clipboard.writeText(setupLink(location.href, { server, passcode: $("rv-passcode").value }));
+    out.textContent = "Setup link copied.";
+  } catch (e) {
+    out.textContent = "Couldn't copy. Your browser blocked the clipboard.";
+  }
 });
+if (fromLink) testConnection();
 }
 $("rv-toggle").addEventListener("click", () => { store.setOn(!store.isOn()); render(); });
 $("rv-download").addEventListener("click", () => {

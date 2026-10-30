@@ -59,6 +59,7 @@ test("a save while offline stays local and queued, then flushes with both header
   assert.equal(put.path, `/marks/${m.id}`);
   assert.equal(put.headers["X-Review-Key"], "pw");
   assert.equal(put.headers["X-Review-Owner"], local.me().ownerToken);
+  assert.equal(put.headers["X-Review-Reviewer"], local.me().reviewerId);
   assert.ok(!put.body.includes(local.me().ownerToken));
   assert.equal(sync.pendingCount(), 0);
 });
