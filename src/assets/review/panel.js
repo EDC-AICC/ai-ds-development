@@ -90,7 +90,7 @@ export function updatePanel({ placed, unplaced, sections, error }) {
   bar.querySelector(".rv-bar-status").innerHTML = (store.status ? syncNote() : "") + (error
     ? `<span class="rv-bar-error">${esc(error)}</span>`
     : `${who} · ${own} comment${own === 1 ? "" : "s"}` +
-      (todo ? ` · <b>${todo} not downloaded</b>` : own ? " · all downloaded" : ""));
+      (store.status ? "" : todo ? ` · <b>${todo} not downloaded</b>` : own ? " · all downloaded" : ""));
 
   const myId = me.reviewerId;
   const all = [...placed, ...unplaced];
