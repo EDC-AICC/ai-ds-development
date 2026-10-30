@@ -80,7 +80,7 @@ export class SyncStore {
   }
 
   headers(json) {
-    const h = { "X-Review-Key": this.passcode, "X-Review-Owner": this.me().ownerToken };
+    const h = { "X-Review-Key": this.passcode, "X-Review-Owner": this.me().ownerToken, "X-Review-Reviewer": this.me().reviewerId };
     if (json) h["Content-Type"] = "application/json";
     return h;
   }

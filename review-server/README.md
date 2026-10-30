@@ -12,14 +12,16 @@ built in. All comments live in one SQLite file.
 | Request | Needs | Result |
 |---|---|---|
 | `GET /marks` | `X-Review-Key` | every comment |
-| `PUT /marks/:id` | key + `X-Review-Owner` | save; 403 if someone else made it |
-| `DELETE /marks/:id` | key + `X-Review-Owner` | delete; 403 if someone else made it |
+| `PUT /marks/:id` | key + `X-Review-Owner` + `X-Review-Reviewer` | save; 403 if someone else made it |
+| `DELETE /marks/:id` | key + `X-Review-Owner` + `X-Review-Reviewer` | delete; 403 if someone else made it |
 | `GET /events?key=` | key | a live stream of saves and deletes |
 | `GET /health` | nothing | `ok` |
 
 `X-Review-Key` is the shared review passcode. A wrong or missing passcode gets a 401.
 `X-Review-Owner` is a random secret each browser makes for itself. Only a hash of it is
-stored, so a reviewer can change only their own comments.
+stored, so a reviewer can change only their own comments. `X-Review-Reviewer` is the browser's
+reviewer id; it matters only for comments imported from review files (see below), which have no
+secret yet.
 
 ## Settings
 
@@ -38,9 +40,9 @@ npm run review-server
 ```
 
 The passcode is `review` unless you set `REVIEW_KEY`, and the database goes in `tools/`
-(git-ignored). The site only offers sync when it's built with a server address, so set
-`"reviewServer": "http://127.0.0.1:8090"` in `src/_data/site.json` (don't commit that). Then on the
-site's `/review/` page, choose **Shared server** and enter the passcode `review`.
+(git-ignored). With the site running (`npm start`), open
+`http://localhost:8080/review/#server=http://127.0.0.1:8090&key=review`, a setup link that
+switches that browser to the local server.
 
 ## Deploying on Ubuntu
 
@@ -81,24 +83,11 @@ site's `/review/` page, choose **Shared server** and enter the passcode `review`
    curl http://127.0.0.1:8090/health
    ```
 
-4. Put it behind Caddy. Pick one.
-
-   **Its own subdomain.** Add a DNS A record for `reviews.kellerflint.com` pointing at the
-   server, then add to the Caddyfile:
+4. Put it behind an HTTPS reverse proxy. With Caddy, point a DNS record such as
+   `reviews.example.com` at the server and add to the Caddyfile:
 
    ```
-   reviews.kellerflint.com {
-       reverse_proxy 127.0.0.1:8090 {
-           flush_interval -1
-       }
-   }
-   ```
-
-   **A path on the existing site.** No DNS change. Inside the existing
-   `courses.kellerflint.com { … }` block:
-
-   ```
-   handle_path /review-api/* {
+   reviews.example.com {
        reverse_proxy 127.0.0.1:8090 {
            flush_interval -1
        }
@@ -108,11 +97,12 @@ site's `/review/` page, choose **Shared server** and enter the passcode `review`
    `flush_interval -1` keeps the live stream from being buffered. Reload with
    `sudo systemctl reload caddy`.
 
-5. Point the course site at it by setting `reviewServer` in `src/_data/site.json` to
-   `https://reviews.kellerflint.com` or `https://courses.kellerflint.com/review-api`, then
-   push. That is also what turns the **Shared server** option on: while `reviewServer` is
-   empty, `/review/` doesn't show it and every browser stays local. Reviewers then only type
-   the passcode.
+5. Check `reviewSync` is `true` in `src/_data/site.json`; that is what shows the **Shared
+   server** option on `/review/`. The server's address never goes in the repo, since the site
+   is public. On `/review/`, choose **Shared server**, enter the address and passcode, check
+   **Test connection**, then **Copy setup link** and send that link privately to each
+   reviewer. Opening it fills in both and switches their browser over. Comments they already
+   made in that browser upload by themselves.
 
 ## Day to day
 
@@ -123,3 +113,13 @@ site's `/review/` page, choose **Shared server** and enter the passcode `review`
 - **See every comment:** `sqlite3 /var/lib/aids-review/review.db "select data from marks"`,
   or load the site's `/review/` page in sync mode.
 - **Logs:** `journalctl -u aids-review`.
+- **Import review files** that people downloaded before the server existed:
+
+  ```bash
+  sudo REVIEW_DB=/var/lib/aids-review/review.db node /opt/aids-review/server.js import review-*.json
+  ```
+
+  Comments the server already has are skipped, so importing a file twice, or one whose
+  author has since switched over, adds nothing. An imported comment can be changed only
+  from the browser that made it, which takes it over on its first edit; anywhere else it's
+  read-only. Open pages show the new comments after a reload.

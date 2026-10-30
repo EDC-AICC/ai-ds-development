@@ -12,7 +12,7 @@
 
 import http from "node:http";
 import { createHash, timingSafeEqual } from "node:crypto";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 import { DatabaseSync } from "node:sqlite";
@@ -20,6 +20,8 @@ import { DatabaseSync } from "node:sqlite";
 const MAX_BODY = 64 * 1024;
 const KINDS = ["comment", "suggest", "activity"];
 const HEARTBEAT_MS = 25000;
+/* owner_hash of an imported mark; no SHA-256 hex digest equals it */
+const IMPORTED = "imported";
 
 const hash = (s) => createHash("sha256").update(String(s)).digest("hex");
 function sameSecret(a, b) {
@@ -27,16 +29,67 @@ function sameSecret(a, b) {
   return timingSafeEqual(x, y);
 }
 
-export function createServer({ key, dbPath, origins = [] }) {
+function openDb(dbPath) {
   if (dbPath !== ":memory:") mkdirSync(dirname(dbPath), { recursive: true });
   const db = new DatabaseSync(dbPath);
   db.exec(`CREATE TABLE IF NOT EXISTS marks (
     id TEXT PRIMARY KEY, owner_hash TEXT NOT NULL, data TEXT NOT NULL, updated TEXT NOT NULL)`);
+  return db;
+}
+
+/* Same rules as isMark in src/assets/review/core.js: every reviewer's page
+   renders these, so a malformed or hostile mark must stop here. */
+function validMark(m, id) {
+  const str = (v) => typeof v === "string";
+  const optStr = (v) => v == null || str(v);
+  return !!m && typeof m === "object" && str(id) && id !== "" && m.id === id &&
+    str(m.reviewerId) && m.reviewerId !== "" && KINDS.includes(m.kind) &&
+    str(m.page) && m.page.startsWith("/") && !m.page.startsWith("//") &&
+    str(m.created) && str(m.updated) &&
+    !!m.quote && typeof m.quote === "object" && str(m.quote.exact) &&
+    optStr(m.quote.prefix) && optStr(m.quote.suffix) &&
+    (m.kind === "activity" ? str(m.activity) && m.activity !== "" : m.quote.exact !== "") &&
+    ["reviewer", "src", "section", "activity", "comment", "replacement", "version"].every((k) => optStr(m[k]));
+}
+
+/* Marks already in the database are skipped: the server's copy is the live one. */
+export function importFiles(dbPath, files) {
+  const db = openDb(dbPath);
+  const has = db.prepare("SELECT 1 FROM marks WHERE id = ?");
+  const add = db.prepare("INSERT INTO marks (id, owner_hash, data, updated) VALUES (?, ?, ?, ?)");
+  let added = 0, skipped = 0;
+  const errors = [];
+  for (const f of files) {
+    let data;
+    try { data = JSON.parse(f.text); } catch (e) {
+      errors.push(`${f.name}: not valid JSON`);
+      continue;
+    }
+    if (!data || data.format !== "aids-review" || !Array.isArray(data.marks)) {
+      errors.push(`${f.name}: not a review file`);
+      continue;
+    }
+    let damaged = 0;
+    for (const m of data.marks) {
+      if (!validMark(m, m && m.id)) { damaged++; continue; }
+      if (has.get(m.id)) { skipped++; continue; }
+      const { ownerToken, ...clean } = m;
+      add.run(m.id, IMPORTED, JSON.stringify(clean), clean.updated);
+      added++;
+    }
+    if (damaged) errors.push(`${f.name}: ${damaged} damaged comment${damaged === 1 ? "" : "s"} left out`);
+  }
+  db.close();
+  return { added, skipped, errors };
+}
+
+export function createServer({ key, dbPath, origins = [] }) {
+  const db = openDb(dbPath);
   const q = {
     all: db.prepare("SELECT data FROM marks ORDER BY updated"),
-    owner: db.prepare("SELECT owner_hash FROM marks WHERE id = ?"),
+    owner: db.prepare("SELECT owner_hash, data FROM marks WHERE id = ?"),
     upsert: db.prepare(`INSERT INTO marks (id, owner_hash, data, updated) VALUES (?, ?, ?, ?)
-      ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated = excluded.updated`),
+      ON CONFLICT(id) DO UPDATE SET owner_hash = excluded.owner_hash, data = excluded.data, updated = excluded.updated`),
     remove: db.prepare("DELETE FROM marks WHERE id = ?"),
   };
   const listeners = new Set();
@@ -75,21 +128,6 @@ export function createServer({ key, dbPath, origins = [] }) {
     });
   }
 
-  /* Same rules as isMark in src/assets/review/core.js: every reviewer's page
-     renders these, so a malformed or hostile mark must stop here. */
-  function validMark(m, id) {
-    const str = (v) => typeof v === "string";
-    const optStr = (v) => v == null || str(v);
-    return !!m && typeof m === "object" && m.id === id &&
-      str(m.reviewerId) && m.reviewerId !== "" && KINDS.includes(m.kind) &&
-      str(m.page) && m.page.startsWith("/") && !m.page.startsWith("//") &&
-      str(m.created) && str(m.updated) &&
-      !!m.quote && typeof m.quote === "object" && str(m.quote.exact) &&
-      optStr(m.quote.prefix) && optStr(m.quote.suffix) &&
-      (m.kind === "activity" ? str(m.activity) && m.activity !== "" : m.quote.exact !== "") &&
-      ["reviewer", "src", "section", "activity", "comment", "replacement", "version"].every((k) => optStr(m[k]));
-  }
-
   async function handle(req, res) {
     cors(req, res);
     const url = new URL(req.url, "http://localhost");
@@ -98,7 +136,7 @@ export function createServer({ key, dbPath, origins = [] }) {
     if (req.method === "OPTIONS") {
       if (res.hasHeader("Access-Control-Allow-Origin")) {
         res.setHeader("Access-Control-Allow-Methods", "GET, PUT, DELETE");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Review-Key, X-Review-Owner");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Review-Key, X-Review-Owner, X-Review-Reviewer");
         res.setHeader("Access-Control-Max-Age", "86400");
       }
       return send(res, 204);
@@ -134,7 +172,13 @@ export function createServer({ key, dbPath, origins = [] }) {
     const owner = req.headers["x-review-owner"];
     if (typeof owner !== "string" || !owner) return send(res, 400, { error: "missing owner" });
     const existing = q.owner.get(id);
-    if (existing && existing.owner_hash !== hash(owner)) return send(res, 403, { error: "not yours" });
+    /* An imported mark has no secret yet, so the first write from its
+       reviewerId claims it. */
+    const reviewer = req.headers["x-review-reviewer"];
+    const imported = existing && existing.owner_hash === IMPORTED;
+    if (imported ? reviewer !== JSON.parse(existing.data).reviewerId : existing && existing.owner_hash !== hash(owner)) {
+      return send(res, 403, { error: "not yours" });
+    }
 
     if (req.method === "PUT") {
       let mark;
@@ -142,6 +186,7 @@ export function createServer({ key, dbPath, origins = [] }) {
         return send(res, 400, { error: "bad body" });
       }
       if (!validMark(mark, id)) return send(res, 400, { error: "bad mark" });
+      if (imported && mark.reviewerId !== reviewer) return send(res, 403, { error: "not yours" });
       delete mark.ownerToken;
       q.upsert.run(id, hash(owner), JSON.stringify(mark), String(mark.updated || new Date().toISOString()));
       broadcast("save", { mark });
@@ -167,8 +212,20 @@ export function createServer({ key, dbPath, origins = [] }) {
   return server;
 }
 
-/* Run directly: node server.js */
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+/* Run directly: node server.js, or node server.js import <files> */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href && process.argv[2] === "import") {
+  const dbPath = process.env.REVIEW_DB || "./tools/review.db";
+  const names = process.argv.slice(3);
+  if (!names.length) {
+    console.error("Give the review files to import: node server.js import review-sam.json …");
+    process.exit(1);
+  }
+  const { added, skipped, errors } = importFiles(dbPath, names.map((name) => ({ name, text: readFileSync(name, "utf8") })));
+  console.log(`Added ${added}, skipped ${skipped} already on the server (db ${dbPath}).`);
+  errors.forEach((e) => console.error(e));
+  console.log("Open pages show the new comments after a reload.");
+  process.exit(errors.length ? 2 : 0);
+} else if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const key = process.env.REVIEW_KEY;
   if (!key) {
     console.error("Set REVIEW_KEY to the review passcode, e.g. REVIEW_KEY=something node server.js");

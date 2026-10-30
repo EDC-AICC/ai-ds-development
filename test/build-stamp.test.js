@@ -23,14 +23,20 @@ test("base-layout pages are review roots too", () => {
   assert.match(read("index.html"), /data-review-root/);
 });
 
-test("pages carry the review server meta tag", () => {
-  assert.match(read("index.html"), /<meta name="review-server" content="[^"]*">/);
+test("pages say whether shared-server sync is on", () => {
+  assert.match(read("index.html"), /<meta name="review-sync" content="on">/);
 });
 
-test("the shared-server option is hidden until a review server is configured", () => {
+test("the shared-server option is offered with no server address in the site", () => {
   const html = read("review/index.html");
   assert.match(html, /data-review-panel/);
-  assert.doesNotMatch(html, /name="rv-mode"/);
+  assert.match(html, /name="rv-mode"/);
+  assert.doesNotMatch(html, /id="rv-server"[^>]*value=/);
+});
+
+test("the review page has a way back to the course, and other pages don't", () => {
+  assert.match(read("review/index.html"), /class="back-link" href="\/"/);
+  assert.doesNotMatch(read("index.html"), /class="back-link"/);
 });
 
 test("the home page links to review mode under instructor resources", () => {
