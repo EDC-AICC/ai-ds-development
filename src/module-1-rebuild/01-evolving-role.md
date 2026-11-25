@@ -152,7 +152,7 @@ The manager of the subscription service wants one number from the customer expor
     The average monthly fee doesn't use the signup date, so all eight customers belong in it. All three rows came from the old billing system, which may still hold the real dates.
 {% endchoice %}
 
-The AI saw three rows, and the dates in them were all written year first. pandas can read dates written in different ways when the code asks it to, with `format="mixed"`. Nothing in those three rows told the AI that this column needed it.
+The AI saw three rows. Two held dates written year first, and one said N/A. pandas, the Python library this line uses, can read dates written in different ways when the code asks it to, with `format="mixed"`. Nothing in those three rows told the AI that this column needed it.
 
 {% section "Pause and answer", "pause-and-answer" %}
 

@@ -27,7 +27,7 @@ This is the AI's report.
 >
 > Note: Route 42 recorded 0 tap-ins on three Sundays and about 100 on each of the six Sundays after that. All 12 Sundays are included in the average.
 
-The script ran without errors, and the chart that came with the report looks professional.
+The averages are computed correctly from the logs, and the report looks professional.
 
 {% reflect "The report ends with a note about Route 42's tap-ins. What would you ask about that note, and who would you ask?" %}
 I'd ask why a route that has riders recorded 0 tap-ins on three Sundays, and why the count then stayed near 100.
@@ -135,7 +135,7 @@ An audit of an AI-generated result ends in one of three decisions.
 To audit an AI-generated report, use this three-question framework. These are the answers for a transit report in which an AI ranked bus Route 42 lowest for Sunday ridership and recommended ending its Sunday service.
 
 1. **What did the AI generate?** A ranking of Sunday ridership by route, with Route 42 lowest, and a recommendation to end its Sunday service.
-2. **What organizational or user context is missing?** The tap-in logs don't show that card readers were broken on two of the route's three buses, that a storm stopped service for three Sundays, or that the route is the only line to the regional medical center.
+2. **What organizational or user context is missing?** The tap-in logs don't show that card readers were broken on two of the route's three buses, that a storm stopped service for three Sundays, or that the route is the only line to the regional medical center and serves a nursing school with weekend classes.
 3. **What specific human verification step or prompt adjustment is required?** Compare the tap-ins with the maintenance records, ask operations which Sundays the route ran, and find out who relies on the route. Then give the AI the corrected counts and ask for the ranking again.
 
 The third answer has to be specific. "Check the data" doesn't say what to look at, where to find it, or who to ask.
@@ -143,7 +143,7 @@ The third answer has to be specific. "Check the data" doesn't say what to look a
 {% sort "Each of these is a verification step someone proposed for the Route 42 report. Sort it.", "Specific enough to act on", "Too vague" %}
 [2] Have the data team do a thorough review of Route 42's numbers before the report goes out
     It doesn't say what the review should look for or what to compare the numbers with.
-[1] Ask Route 42's drivers how full the buses were in weeks 7 to 12
+[1] Ask Route 42's drivers how full the buses were during the six weeks the card readers were broken
     It names who to ask, which weeks, and what you need to learn.
 [2] Validate Route 42's tap-ins against other sources
     It doesn't say which sources.
