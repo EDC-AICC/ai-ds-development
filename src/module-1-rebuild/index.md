@@ -7,12 +7,13 @@ title: The AI-Enhanced Data Practitioner
 
 AI can now write code, clean data, and draft analyses in seconds. This module is about what that changes in a data practitioner's work, and what stays with you.
 
-There are four parts, and each one works the same way. You start with a piece of AI-generated work and something to check or work out. Then you read what happened and why.
+There are four parts and a final reflection. Each part works the same way. You start with a piece of AI-generated work and something to check or work out. Then you read what happened and why.
 
 1. **The Evolving Role.** An AI writes a script in thirty seconds. You find out what it couldn't have known.
 2. **Context Is King.** Calculations that are correct and still mean the wrong thing, in a hospital, a call center, and a hardware chain.
-3. **When AI Fails.** Three ways AI-generated work goes wrong without an error message.
+3. **When AI Fails.** Three ways AI-generated work goes wrong, most of them without an error message.
 4. **Decision Lab.** You audit an AI's recommendation yourself and decide what to do with it.
+5. **Final Reflection.** Three short questions that you turn in.
 
 Keep one idea in mind throughout the module.
 

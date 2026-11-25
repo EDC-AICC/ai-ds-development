@@ -149,7 +149,7 @@ The table has no `beta_user` column, so the line stops with this error.
 KeyError: 'beta_user'
 ```
 
-The error names the column that pandas couldn't find. The analyst finds the column she needs, `beta_opt_in`, and fixes the name. The line now runs without an error.
+The error names the column that pandas, the Python library the code uses, couldn't find. The analyst finds the column she needs, `beta_opt_in`, and fixes the name. The line now runs without an error.
 
 ```python
 beta = df[df["beta_opt_in"] == True]
