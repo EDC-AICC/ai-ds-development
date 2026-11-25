@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The cleaning script — interactive activity</title>
+<meta name="description" content="Predict which signup dates an AI-written cleaning script will empty, then run it and compare each date before and after.">
+<link rel="stylesheet" href="../assets/activity/base.css">
+<style>
+  body{color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.6}
+  .activity{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    max-width:56rem; margin:0 auto; overflow:hidden; box-shadow:0 1px 3px rgba(28,39,51,.06);
+  }
+  .activity-body{padding:.9rem .9rem 1.1rem}
+  [hidden]{display:none !important}
+  button.btn{
+    font-family:var(--sans); font-size:.88rem; font-weight:600;
+    border:1px solid var(--accent); color:var(--accent); background:var(--card);
+    border-radius:6px; padding:.4rem .85rem; cursor:pointer;
+  }
+  button.btn:hover{background:var(--accent-soft)}
+  button.btn.primary{background:var(--accent); color:#fff}
+  button.btn.primary:hover{background:#0c637c}
+  button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  .cs-head{display:flex; align-items:center; gap:1rem; margin:0 0 .5rem}
+  .cs-step{flex:1; min-width:0; font-family:var(--mono); font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin:0}
+  .cs-lead{margin:0 0 .7rem; font-size:.95rem}
+  .cs-lead code{font-family:var(--mono); font-size:.86em; background:var(--chrome); padding:.05em .3em; border-radius:4px}
+  .cs-code{
+    font-family:var(--mono); font-size:.78rem; line-height:1.5; background:var(--chrome); border:1px solid var(--line);
+    border-radius:6px; padding:.6rem .7rem; margin:0 0 .8rem; white-space:pre-wrap; overflow-wrap:anywhere;
+  }
+  table{border-collapse:collapse; width:100%; font-size:.84rem; margin:0 0 .8rem}
+  th,td{text-align:left; padding:.3rem .4rem; border-bottom:1px solid var(--line); vertical-align:middle}
+  th{font-size:.7rem; letter-spacing:.04em; text-transform:uppercase; color:var(--slate); font-weight:600}
+  td.mono{font-family:var(--mono); font-size:.78rem}
+  th.pick, td.pick{width:1.9rem; padding-left:0; padding-right:.2rem}
+  th.after, td.after{border-left:2px solid var(--line); padding-left:.6rem}
+  button.mark{
+    width:1.45rem; height:1.45rem; padding:0; border:1.5px solid var(--slate); border-radius:4px; background:var(--card);
+    cursor:pointer; font-size:.85rem; line-height:1; color:#fff; display:block;
+  }
+  button.mark[aria-pressed="true"]{background:var(--accent); border-color:var(--accent)}
+  tr.pickable{cursor:pointer}
+  tr.pickable:hover td{background:#f6f9fb}
+  td.waiting{color:#a9b3bd}
+  td.emptied{background:var(--warn-soft); color:var(--warn); font-weight:700}
+  tr.lost td.before{color:var(--warn); font-weight:700}
+  .verdict{font-family:var(--mono); font-size:.8rem; font-weight:700; display:block; text-align:center}
+  .verdict.hit{color:var(--good)}
+  .verdict.miss{color:var(--warn)}
+
+  .cs-msg{border-radius:6px; padding:.6rem .75rem; font-size:.92rem; margin:0; background:var(--warn-soft)}
+  .cs-msg p{margin:0 0 .5rem}
+  .cs-msg p:last-child{margin-bottom:0}
+  .cs-legend{font-size:.8rem; color:var(--slate)}
+  .cs-legend .hit{color:var(--good)}
+  .cs-legend .miss{color:var(--warn)}
+  @media (max-width:420px){
+    .activity-body{padding:.8rem .6rem 1rem}
+    table{font-size:.76rem}
+    td.mono{font-size:.7rem}
+    th,td{padding:.28rem .22rem}
+    th{font-size:.6rem; letter-spacing:0}
+    th.after, td.after{padding-left:.4rem}
+  }
+</style>
+</head>
+<body>
+<div class="activity">
+  <div class="activity-body">
+    <div class="cs-head">
+      <p class="cs-step">Predict, then run</p>
+      <button class="btn" type="button" id="reset">Start over</button>
+    </div>
+    <p class="cs-lead"><code>pd.to_datetime</code> turns the text in the <code>signup_date</code> column into real dates. <code>errors="coerce"</code> tells it to replace any date it can't read with an empty value, shown as <code>NaT</code>, and keep going. Mark each row you think will lose its signup date, then run the script.</p>
+    <pre class="cs-code">df["signup_date"] = pd.to_datetime(df["signup_date"], errors="coerce")</pre>
+
+    <table>
+      <thead><tr><th class="pick"></th><th>ID</th><th>Signup date</th><th class="after">After the script</th><th>Billing</th><th>Fee</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <button class="btn primary" type="button" id="run">Run the script</button>
+    <div class="cs-msg" id="msg" hidden aria-live="polite"></div>
+  </div>
+</div>
+
+<script src="../assets/activity/embed.js"></script>
+<script>
+(function () {
+  "use strict";
+  /* id, signup date as exported, billing system, monthly fee.
+     pandas 2.0 and later reads the date format from the first value in the
+     column, so with errors="coerce" a real date written another way (C-104)
+     is emptied like the placeholders, with no warning. Checked on pandas 3.1. */
+  var DATA = [
+    ["C-101", "2025-03-12", "new", 19],
+    ["C-102", "N/A", "old", 49],
+    ["C-103", "2025-02-28", "new", 19],
+    ["C-104", "03/15/2021", "old", 49],
+    ["C-105", "2025-01-09", "new", 49],
+    ["C-106", "00/00/0000", "old", 49],
+    ["C-107", "2025-04-21", "new", 19],
+    ["C-108", "2025-03-30", "new", 19]
+  ];
+  var readable = function (d) { return /^\d{4}-\d{2}-\d{2}$/.test(d); };
+
+  var ran = false, marks = {};
+  var $ = function (id) { return document.getElementById(id); };
+  var rows = $("rows");
+
+  function cell(text, cls) {
+    var td = document.createElement("td");
+    td.className = cls; td.textContent = text;
+    return td;
+  }
+
+  function paint() {
+    rows.innerHTML = "";
+    var lost = 0, hits = 0, extra = 0;
+    DATA.forEach(function (r, i) {
+      var gone = !readable(r[1]);
+      if (gone) lost++;
+      if (marks[i] && gone) hits++;
+      if (marks[i] && !gone) extra++;
+
+      var tr = document.createElement("tr");
+      var pick = document.createElement("td"); pick.className = "pick";
+      if (!ran) {
+        tr.className = "pickable";
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "mark";
+        b.setAttribute("aria-pressed", marks[i] ? "true" : "false");
+        b.setAttribute("aria-label", "Mark " + r[0] + " as losing its signup date");
+        b.textContent = marks[i] ? "✓" : "";
+        b.addEventListener("click", function (e) { e.stopPropagation(); marks[i] = !marks[i]; paint(); });
+        tr.addEventListener("click", function () { marks[i] = !marks[i]; paint(); });
+        pick.appendChild(b);
+      } else if (marks[i] || gone) {
+        var v = document.createElement("span"), hit = marks[i] && gone;
+        v.className = "verdict " + (hit ? "hit" : "miss");
+        v.textContent = hit ? "✓" : marks[i] ? "✗" : "•";
+        pick.appendChild(v);
+      }
+      if (ran && gone) tr.classList.add("lost");
+      tr.appendChild(pick);
+      tr.appendChild(cell(r[0], "mono"));
+      tr.appendChild(cell(r[1], "mono before"));
+      tr.appendChild(cell(!ran ? "?" : gone ? "NaT" : r[1], "mono after " + (!ran ? "waiting" : gone ? "emptied" : "")));
+      tr.appendChild(cell(r[2], ""));
+      tr.appendChild(cell("$" + r[3], ""));
+      rows.appendChild(tr);
+    });
+
+    $("run").hidden = ran;
+    $("msg").hidden = !ran;
+    if (!ran) return;
+    $("msg").innerHTML = "<p>The script ran with no error and no warning. It emptied " + lost + " signup dates. You marked " + hits + " of the " + lost +
+      (extra ? ", and " + extra + " that kept " + (extra === 1 ? "its" : "their") + " date." : ".") +
+      "</p><p>The date for C-104 was real. It was written month first, as 03/15/2021. The other dates are written year first, so the script read the whole column that way and emptied C-104 along with the two placeholders.</p>" +
+      "<p class=\"cs-legend\"><b class=\"hit\">✓</b> you marked it and it was emptied &nbsp; <b class=\"miss\">✗</b> you marked it and it kept its date &nbsp; <b class=\"miss\">•</b> it was emptied and you didn't mark it</p>";
+  }
+
+  $("run").addEventListener("click", function () { ran = true; paint(); });
+  $("reset").addEventListener("click", function () { ran = false; marks = {}; paint(); });
+  paint();
+})();
+</script>
+</body>
+</html>
