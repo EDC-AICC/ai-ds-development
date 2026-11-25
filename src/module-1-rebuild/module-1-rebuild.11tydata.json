@@ -1,0 +1,13 @@
+{
+  "layout": "shell.njk",
+  "module": {
+    "key": "m1r",
+    "label": "Module 1 (rebuild)",
+    "title": "The AI-Enhanced Data Practitioner (rebuild)",
+    "url": "/module-1-rebuild/",
+    "rank": 1.5,
+    "kicker": "Module 01 \u00b7 rebuild",
+    "blurb": "Module 1 rebuilt so that students work something out first and read the explanation after. For review alongside the current draft.",
+    "status": "Rebuild \u00b7 for review"
+  }
+}

@@ -198,6 +198,139 @@ ${pre}</details>`;
     return `<details class="q"><summary>${inline(question)}</summary><div class="answer">\n${block(content)}\n</div></details>`;
   });
 
+  /* ---------- practice blocks ----------
+     Four blocks an author writes as plain text in a lesson: reflect, choice,
+     answer and sort. Each one renders as ordinary HTML that can be read and
+     opened with no script at all (the feedback sits in <details>);
+     assets/js/blocks.js adds the checking. Deleting a block from a lesson
+     removes it cleanly. The README shows how to write each one. */
+
+  /* No blank lines, so markdown keeps the whole block as one piece of HTML. */
+  const oneBlock = (html) => html.replace(/\n\s*\n/g, "\n");
+
+  /* A line starting "[ ]", "[x]" or "[2]" begins an item; the lines under it,
+     up to the next item, are its feedback. */
+  function parseItems(content, what, page) {
+    const items = [];
+    let cur = null;
+    for (const raw of String(content || "").split("\n")) {
+      const m = /^\s*\[([ xX]|\d+)\]\s+(.*\S)\s*$/.exec(raw);
+      if (m) {
+        cur = { mark: m[1].toLowerCase(), text: m[2], why: [] };
+        items.push(cur);
+      } else if (cur) {
+        cur.why.push(raw.trim());
+      } else if (raw.trim()) {
+        throw new Error(`${what} in ${page}: "${raw.trim()}" comes before the first item. Every item starts with a mark in square brackets.`);
+      }
+    }
+    items.forEach((i) => { i.why = i.why.join("\n").trim(); });
+    return items;
+  }
+
+  /* {% smalltable "Title" %} a markdown table {% endsmalltable %}
+     Tables are given a minimum width so wide ones scroll sideways on a phone.
+     A short table of data that a question depends on should fit the screen
+     instead, with no column out of sight. The title is optional; it becomes
+     the table's <caption>, which is also what a screen reader announces as
+     the table's name. */
+  eleventyConfig.addPairedShortcode("smalltable", function (content, title = "") {
+    let html = md.render(String(content || "").trim());
+    if (!html.includes("<table>")) throw new Error(`{% smalltable %} in ${this.page.inputPath} needs a markdown table inside it.`);
+    if (title) html = html.replace("<table>", `<table><caption>${inline(title)}</caption>`);
+    return oneBlock(`<div class="smalltable">${html}</div>`);
+  });
+
+  /* {% reflect "Question" %}sample answer{% endreflect %}
+     A question to stop and answer. The box saves nothing. */
+  eleventyConfig.addPairedShortcode("reflect", function (content, question) {
+    const sample = (content || "").trim();
+    const reveal = sample
+      ? `<details class="pb-reveal"><summary>Compare with a sample answer</summary><div class="pb-why">${block(sample)}</div></details>`
+      : "";
+    return oneBlock(`<div class="pb pb-reflect"><p class="pb-label">Pause and answer</p><div class="pb-q">${block(question)}</div>
+<textarea class="pb-box" rows="3" aria-label="Your answer" placeholder="Type your answer here if it helps you think. It isn't saved or turned in."></textarea>
+${reveal}</div>`);
+  });
+
+  /* {% choice "Question" %}
+     [ ] A wrong option
+         What picking it gets you.
+     [x] The right option
+         Why it is right.
+     {% endchoice %} */
+  eleventyConfig.addPairedShortcode("choice", function (content, question) {
+    const what = `{% choice "${question}" %}`;
+    const opts = parseItems(content, what, this.page.inputPath);
+    if (opts.length < 2) throw new Error(`${what} in ${this.page.inputPath} needs at least two options, each on a line starting [ ] or [x].`);
+    if (opts.some((o) => o.mark !== " " && o.mark !== "x")) throw new Error(`${what} in ${this.page.inputPath}: options start with [ ] or [x].`);
+    if (opts.filter((o) => o.mark === "x").length !== 1) throw new Error(`${what} in ${this.page.inputPath} needs exactly one option marked [x].`);
+    const html = opts.map((o) =>
+      `<details class="pb-opt"${o.mark === "x" ? " data-right" : ""}><summary><span>${inline(o.text)}</span></summary><div class="pb-why">${block(o.why || (o.mark === "x" ? "Correct." : "Look again."))}</div></details>`
+    ).join("\n");
+    return oneBlock(`<div class="pb pb-choice"><p class="pb-label">Quick check</p><div class="pb-q">${block(question)}</div>
+${html}
+</div>`);
+  });
+
+  /* {% answer "Question", "400" %}
+     Hint: shown after any other wrong answer.
+     If 1840: shown when the student types 1840.
+     Everything else is the explanation, shown once they are right.
+     {% endanswer %}
+     Several right answers: "400 | four hundred". Numbers match whatever the
+     formatting ($400, 400.00). The answer is not hidden from anyone who reads
+     the page source; these checks are for the student, not for a grade. */
+  eleventyConfig.addPairedShortcode("answer", function (content, question, accept) {
+    const what = `{% answer "${question}" %}`;
+    const accepted = String(accept ?? "").split("|").map((s) => s.trim()).filter(Boolean);
+    if (!accepted.length) throw new Error(`${what} in ${this.page.inputPath} needs the right answer as its second argument: {% answer "Question", "400" %}`);
+    const nudges = [];
+    const rest = [];
+    let hint = "";
+    for (const raw of String(content || "").split("\n")) {
+      const line = raw.trim();
+      let m;
+      if ((m = /^If\s+(.{1,30}?):\s+(.+)$/.exec(line))) nudges.push({ when: m[1], say: m[2] });
+      else if ((m = /^Hint:\s+(.+)$/.exec(line))) hint = m[1];
+      else rest.push(line);
+    }
+    const explanation = rest.join("\n").trim();
+    if (!explanation) throw new Error(`${what} in ${this.page.inputPath} needs an explanation that states the answer.`);
+    const nudgeHtml = nudges.map((n) => `<div data-when="${attr(n.when)}">${block(n.say)}</div>`).join("") +
+      (hint ? `<div data-hint>${block(hint)}</div>` : "");
+    return oneBlock(`<div class="pb pb-answer" data-accept="${attr(JSON.stringify(accepted))}"><p class="pb-label">Work it out</p><div class="pb-q">${block(question)}</div>
+<form class="pb-form" hidden><input class="pb-input" type="text" autocomplete="off" aria-label="Your answer"><button class="pb-btn" type="submit">Check</button></form>
+<div class="pb-msg" hidden aria-live="polite"></div>
+<div class="pb-nudges" hidden>${nudgeHtml}</div>
+<details class="pb-reveal"><summary>Show the answer</summary><div class="pb-why">${block(explanation)}</div></details>
+</div>`);
+  });
+
+  /* {% sort "What to do", "First pile", "Second pile" %}
+     [1] Something that belongs in the first pile
+         Why.
+     [2] Something that belongs in the second pile
+         Why.
+     {% endsort %}
+     Two or more piles; the number in brackets is the pile an item belongs in. */
+  eleventyConfig.addPairedShortcode("sort", function (content, prompt, ...piles) {
+    const what = `{% sort "${prompt}" %}`;
+    if (piles.length < 2) throw new Error(`${what} in ${this.page.inputPath} needs at least two pile names after the prompt.`);
+    const items = parseItems(content, what, this.page.inputPath);
+    if (items.length < 2) throw new Error(`${what} in ${this.page.inputPath} needs at least two items, each on a line starting [1], [2] and so on.`);
+    const buttons = piles.map((p, i) => `<button type="button" class="pb-btn" data-v="${i + 1}">${inline(p)}</button>`).join("");
+    const html = items.map((it) => {
+      const n = Number(it.mark);
+      if (!(n >= 1 && n <= piles.length)) throw new Error(`${what} in ${this.page.inputPath}: "${it.text}" needs a pile number from 1 to ${piles.length} in its brackets.`);
+      return `<div class="pb-item" data-b="${n}"><p class="pb-text">${inline(it.text)}</p><div class="pb-btns" hidden>${buttons}</div><details class="pb-reveal"><summary>Show the answer</summary><div class="pb-why">${block(`**${piles[n - 1]}.** ${it.why}`)}</div></details></div>`;
+    }).join("\n");
+    return oneBlock(`<div class="pb pb-sort"><p class="pb-label">Sort it</p><div class="pb-q">${block(prompt)}</div>
+${html}
+<div class="pb-msg" hidden aria-live="polite"></div>
+</div>`);
+  });
+
   /* {% callout %}, {% callout "warn" %}, {% callout "highlight" %} for a
      filled accent box, or {% callout "checkpoint", "Human Judgment Checkpoint" %}
      for a titled box (kinds: checkpoint, takeaways). */

@@ -70,6 +70,8 @@ navLabel: When AI Fails     # optional: shorter name for the sidebar and Next bu
 
 The sidebar, breadcrumb, and Back/Next buttons are generated from `order` and `title`. Adding a page means adding a file. Adding a unit means adding a folder and its data file.
 
+`src/module-1-rebuild/` is a rebuild of Module 1, published beside the current draft in `src/module-1/` so the two can be compared. It uses the practice blocks described below. Once a decision is made, it either replaces `src/module-1/` or is deleted; nothing else depends on it.
+
 ## Writing a page
 
 Content is split into sections. Each section starts with a marker and becomes one screen:
@@ -110,6 +112,54 @@ Plain HTML is allowed where markdown falls short.
 | `{% feedback "module" %}` | Feedback form for a module's closing "Feedback on This Module" section, the last section of its last page. Every page also has a Feedback button in the top bar that opens the same form tagged with the module, page and section. |
 
 Snippets are defined in `eleventy.config.js`. Markdown works inside paired snippets.
+
+## Practice blocks
+
+Four blocks put a question on the page and check it. Each one is written as plain text in the lesson, so changing a question, an option or its feedback is an edit to a sentence. To remove one, delete its lines; the text around it still reads as a lesson. With JavaScript off they still work as click-to-reveal.
+
+**Pause and answer.** A question with a box to type in (nothing is saved) and a sample answer to open.
+
+```
+{% reflect "The script ran without an error. What did it get wrong?" %}
+The sample answer goes here.
+{% endreflect %}
+```
+
+**Multiple choice.** Each option starts with `[ ]`, and the right one with `[x]`. The line under an option is what the student sees when they pick it. Keep the options about the same length, and say what the picked option would do instead of "wrong".
+
+```
+{% choice "Which next step fixes the list?" %}
+[ ] Run the script a second time.
+    A second run adds the same rows and returns the same total.
+[x] Tell the AI which orders count, then rerun it.
+    This puts the shop's rule into the script.
+{% endchoice %}
+```
+
+**Typed answer.** The right answer is the second value; give several as `"400 | four hundred"`. Numbers match however they are typed (`$400`, `400.00`). A line starting `If 1840:` is shown to a student who types 1840. The `Hint:` line is shown for any other wrong answer. Everything else is the explanation, shown once they are right, and it should state the answer.
+
+```
+{% answer "How much has Dana spent, in dollars?", "400" %}
+Hint: Read the status of each order before you add its amount.
+If 1840: $1,840 comes from adding all four rows.
+$400. Two of the four orders were completed.
+{% endanswer %}
+```
+
+**Sort.** The prompt, then the name of each pile. Each item starts with the number of the pile it belongs in, and the line under it is the reason.
+
+```
+{% sort "Decide who can do each one.", "AI can do it", "Needs you" %}
+[1] Write the code that joins the two tables
+    Joins like this are standard code.
+[2] Decide whether a refunded order counts
+    This is a rule about how the shop does business.
+{% endsort %}
+```
+
+`{% smalltable "Dana Whitfield's orders" %}…{% endsmalltable %}` around a markdown table makes a short table fit a phone screen instead of scrolling sideways, and gives it a title. Use it when a question depends on every column being visible. The title is optional; it is shown above the table and is what a screen reader announces as the table's name.
+
+The blocks are defined in `eleventy.config.js` under "practice blocks", styled in `style.css`, and checked by `src/assets/js/blocks.js`. A block written wrongly (no `[x]`, a pile number that doesn't exist) stops the build with a message naming the page.
 
 ## Embedding in an LMS
 
